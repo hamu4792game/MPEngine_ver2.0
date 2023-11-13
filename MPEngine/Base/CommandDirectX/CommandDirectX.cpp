@@ -23,16 +23,16 @@ void CommandDirectX::Initialize(const WinApp* winApp, unsigned int bufferWidth, 
 
 }
 
-void CommandDirectX::PreDraw()
-{
+void CommandDirectX::PreDraw() {
+
 }
 
-void CommandDirectX::PostDraw()
-{
+void CommandDirectX::PostDraw() {
+
 }
 
-void CommandDirectX::Finalize()
-{
+void CommandDirectX::Finalize() {
+
 }
 
 void CommandDirectX::CreateFactry() {
