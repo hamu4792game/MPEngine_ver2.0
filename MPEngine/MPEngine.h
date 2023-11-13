@@ -11,18 +11,23 @@
 class CommandDirectX;
 class WinApp;
 
-
 class MPEngine {
 public:
 	static MPEngine* GetInstance();
 
 	void Initialize(const char* title, int width, int height);
+	void Finalize();
+	static void Run();
 
 public:
-	int windowWidth_;
-	int windowHeight_;
+	int windowWidth_ = 1280;
+	int windowHeight_ = 720;
 
-private:
+private: // メンバ変数
+	WinApp* winApp_ = nullptr;
+	CommandDirectX* comDirect_ = nullptr;
+#ifdef _DEBUG
+private: // デバッグレイヤー
 	class D3DResourceLeakChecker {
 	public:
 		D3DResourceLeakChecker() = default;
@@ -32,5 +37,6 @@ private:
 
 	};
 	static D3DResourceLeakChecker debugLayer_;
+#endif // DEBUG
 };
 

@@ -1,4 +1,7 @@
 #include "MPEngine.h"
+#include "MPEngine/Base/WinApp/WinApp.h"
+#include "MPEngine/Base/CommandDirectX/CommandDirectX.h"
+#include "MPEngine/Base/Log.h"
 
 MPEngine* MPEngine::GetInstance() {
 	static MPEngine instance;
@@ -9,9 +12,18 @@ void MPEngine::Initialize(const char* title, int width, int height) {
 	windowWidth_ = width;
 	windowHeight_ = height;
 
+	// ゲームウィンドウの生成
+	winApp_ = WinApp::GetInstance();
+	winApp_->CreateGameWindow(ConvertString(title).c_str(), windowWidth_, windowHeight_);
+
 #ifdef _DEBUG
 	debugLayer_.EnableDebugLayer();
-#endif
+#endif // debugLayerの有効化
+
+	// DirectXの初期化
+	comDirect_ = CommandDirectX::GetInstance();
+	comDirect_->Initialize(winApp_, windowWidth_, windowHeight_);
+
 
 #ifdef _DEBUG
 	//debugLayer_.ErrorStoped();
@@ -20,7 +32,30 @@ void MPEngine::Initialize(const char* title, int width, int height) {
 
 }
 
+void MPEngine::Finalize() {
+	comDirect_->Finalize();
+	comDirect_ = nullptr;
+	winApp_->DeleteGameWindow();
+	winApp_ = nullptr;
+}
+
+void MPEngine::Run() {
+	auto engine = MPEngine::GetInstance();
+	int32_t windowWidth = 1280; int32_t windowHeight = 720;
+	engine->Initialize("えとせとら", windowWidth, windowHeight);
+
+	//	ウィンドウの×ボタンが押されるまでループ
+	while (!engine->winApp_->ProcessMessage()) {
+		break;
+	}
+
+	engine->Finalize();
+
+}
+
 #ifdef _DEBUG
+MPEngine::D3DResourceLeakChecker MPEngine::debugLayer_;
+
 MPEngine::D3DResourceLeakChecker::~D3DResourceLeakChecker() {
 	//	リソースリークチェック
 	Microsoft::WRL::ComPtr<IDXGIDebug1>debug;

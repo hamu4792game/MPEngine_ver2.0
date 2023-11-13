@@ -23,14 +23,26 @@
     <ClCompile Include="externals\imgui\imgui_widgets.cpp">
       <Filter>imgui</Filter>
     </ClCompile>
-    <ClCompile Include="GlobalVariables\GlobalVariables.cpp">
-      <Filter>GlobalVariables</Filter>
-    </ClCompile>
     <ClCompile Include="MPEngine\MPEngine.cpp">
       <Filter>MPEngine</Filter>
     </ClCompile>
     <ClCompile Include="MPEngine\Base\CommandDirectX\CommandDirectX.cpp">
       <Filter>MPEngine\Base\CommandDirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\math\Matrix4x4.cpp">
+      <Filter>MPEngine\Math\Matrix4x4</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\math\Vector2.cpp">
+      <Filter>MPEngine\Math\Vector2</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\math\Vector3.cpp">
+      <Filter>MPEngine\Math\Vector3</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\math\Vector4.cpp">
+      <Filter>MPEngine\Math\Vector4</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\Base\WinApp\WinApp.cpp">
+      <Filter>MPEngine\Base\WinApp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -59,22 +71,34 @@
       <Filter>imgui</Filter>
     </ClInclude>
     <ClInclude Include="resource.h" />
-    <ClInclude Include="GlobalVariables\GlobalVariables.h">
-      <Filter>GlobalVariables</Filter>
-    </ClInclude>
     <ClInclude Include="MPEngine\MPEngine.h">
       <Filter>MPEngine</Filter>
     </ClInclude>
     <ClInclude Include="MPEngine\Base\CommandDirectX\CommandDirectX.h">
       <Filter>MPEngine\Base\CommandDirectX</Filter>
     </ClInclude>
+    <ClInclude Include="MPEngine\math\Matrix4x4.h">
+      <Filter>MPEngine\Math\Matrix4x4</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\math\Vector2.h">
+      <Filter>MPEngine\Math\Vector2</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\math\Vector3.h">
+      <Filter>MPEngine\Math\Vector3</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\math\Vector4.h">
+      <Filter>MPEngine\Math\Vector4</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Base\WinApp\WinApp.h">
+      <Filter>MPEngine\Base\WinApp</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Base\Log.h">
+      <Filter>MPEngine\Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="imgui">
       <UniqueIdentifier>{1bc5df33-c290-41ee-b4db-b9f6b0d0758c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GlobalVariables">
-      <UniqueIdentifier>{4dab006a-08af-43d5-8cd7-d2caa45b2f43}</UniqueIdentifier>
     </Filter>
     <Filter Include="MPEngine">
       <UniqueIdentifier>{879924de-88d7-4bc4-9058-376dfbbd92d7}</UniqueIdentifier>
@@ -84,6 +108,24 @@
     </Filter>
     <Filter Include="MPEngine\Base\CommandDirectX">
       <UniqueIdentifier>{49001437-d8b5-4fd8-8bb1-f63d3478f1dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Math">
+      <UniqueIdentifier>{8f449e96-ff08-45ab-ae25-a91bb37b44d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Math\Matrix4x4">
+      <UniqueIdentifier>{0f1c9859-9c4d-4796-a6ef-a0f8b18498c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Math\Vector2">
+      <UniqueIdentifier>{e4ebadad-8597-4a3e-862a-6931629894aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Math\Vector3">
+      <UniqueIdentifier>{aca66387-b77b-4f38-839c-2ef359d289f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Math\Vector4">
+      <UniqueIdentifier>{2fecb063-0fa0-4816-9163-9300fb887795}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Base\WinApp">
+      <UniqueIdentifier>{eda8863d-9bf4-4d63-b11d-74fb834ffa2f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
