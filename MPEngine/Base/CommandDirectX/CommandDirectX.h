@@ -10,6 +10,7 @@
 #include <wrl.h>
 
 class WinApp;
+class DeviceManager;
 
 class CommandDirectX
 {
@@ -52,7 +53,7 @@ private:
 	// 使用するアダプタ用の変数
 	Microsoft::WRL::ComPtr<IDXGIAdapter4> useAdapter_;
 	// デバイスの生成
-	Microsoft::WRL::ComPtr<ID3D12Device> device_;
+	const DeviceManager* device_ = nullptr;
 	// GPUに命令を投げるキューの生成
 	Microsoft::WRL::ComPtr<ID3D12CommandQueue> commandQueue_;
 	// 命令保存用メモリ管理機構の生成
@@ -61,7 +62,6 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList_;
 
 public: // ゲッター
-	ID3D12Device* GetDevice() const { return device_.Get(); }
 	ID3D12GraphicsCommandList* GetList() const { return commandList_.Get(); }
 
 };

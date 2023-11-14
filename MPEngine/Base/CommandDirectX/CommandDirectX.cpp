@@ -7,6 +7,9 @@
 #include "externals/imgui/imgui_impl_win32.h"
 #include "MPEngine/Base/Log.h"
 
+#include "MPEngine/Base/Manager/DeviceManager/DeviceManager.h"
+#include "MPEngine/Base/DetailSetting/SwapChain/SwapChain.h"
+
 CommandDirectX* CommandDirectX::GetInstance() {
 	static CommandDirectX instance;
 	return &instance;
@@ -14,12 +17,14 @@ CommandDirectX* CommandDirectX::GetInstance() {
 
 void CommandDirectX::Initialize(const WinApp* winApp, unsigned int bufferWidth, unsigned int bufferHeight) {
 	winApp_ = winApp;
+	device_ = DeviceManager::GetInstance();
 
 	CreateFactry();
 	SelectAdapter();
-	CreateDevice();
+	DeviceManager::GetInstance()->CreateDevice(useAdapter_.Get());
 	CreateCommandQueue();
 	CreateCommandList();
+	SwapChain::GetInstance()->CreateSwapChain(dxgiFactory_.Get(), commandQueue_.Get());
 
 }
 
@@ -71,36 +76,13 @@ void CommandDirectX::SelectAdapter() {
 	assert(useAdapter_ != nullptr);
 }
 
-void CommandDirectX::CreateDevice() {
-	device_ = nullptr;
-	//	機能レベルとログ出力用の文字列
-	D3D_FEATURE_LEVEL featureLevels[] = {
-		D3D_FEATURE_LEVEL_12_2,D3D_FEATURE_LEVEL_12_1,D3D_FEATURE_LEVEL_12_0
-	};
-	const char* featureLevelStrings[] = { "12.2","12.1","12.0" };
-	//	高い順に生成できるか試していく
-	for (size_t i = 0; i < _countof(featureLevels); ++i)
-	{
-		//	採用したアダプタでデバイスを生成
-		HRESULT hr = D3D12CreateDevice(useAdapter_.Get(), featureLevels[i], IID_PPV_ARGS(device_.GetAddressOf()));
-		//	指定した機能レベルでデバイスが生成できたかを確認
-		if (SUCCEEDED(hr))
-		{
-			//	生成できたのでログ出力を行ってループを抜ける
-			Log(std::format("FeatureLevel : {}\n", featureLevelStrings[i]));
-			break;
-		}
-	}
-	//	デバイスの生成がうまくいかなかったので機能できない
-	assert(device_ != nullptr);
-	Log("Complete create D3D12Device!!!\n");	//初期化完了のログを出す
-}
+void CommandDirectX::CreateDevice() {}
 
 void CommandDirectX::CreateCommandQueue() {
 	//	コマンドキューを生成する
 	commandQueue_ = nullptr;
 	D3D12_COMMAND_QUEUE_DESC commandQueueDesc{};
-	HRESULT hr = device_->CreateCommandQueue(&commandQueueDesc, IID_PPV_ARGS(commandQueue_.GetAddressOf()));
+	HRESULT hr = device_->GetDevice()->CreateCommandQueue(&commandQueueDesc, IID_PPV_ARGS(commandQueue_.GetAddressOf()));
 	//	コマンドキューの生成がうまくいかないので起動できない
 	assert(SUCCEEDED(hr));
 }
@@ -108,13 +90,13 @@ void CommandDirectX::CreateCommandQueue() {
 void CommandDirectX::CreateCommandList() {
 	//	コマンドアロケーターを生成する
 	commandAllocator_ = nullptr;
-	HRESULT hr = device_->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(commandAllocator_.GetAddressOf()));
+	HRESULT hr = device_->GetDevice()->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(commandAllocator_.GetAddressOf()));
 	//	コマンドアロケーターの生成がうまくいかないので起動できない
 	assert(SUCCEEDED(hr));
 
 	//	コマンドリストを生成する
 	commandList_ = nullptr;
-	hr = device_->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, commandAllocator_.Get(), nullptr, IID_PPV_ARGS(commandList_.GetAddressOf()));
+	hr = device_->GetDevice()->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, commandAllocator_.Get(), nullptr, IID_PPV_ARGS(commandList_.GetAddressOf()));
 	//	コマンドリストの生成がうまくいかないので起動できない
 	assert(SUCCEEDED(hr));
 }

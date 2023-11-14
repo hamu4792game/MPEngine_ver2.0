@@ -111,6 +111,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="externals\imgui\imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MPEngine\Base\CommandDirectX\CommandDirectX.cpp" />
+    <ClCompile Include="MPEngine\Base\DetailSetting\DescriptorHeap\DescriptorHeap.cpp" />
+    <ClCompile Include="MPEngine\Base\DetailSetting\RenderTarget\RenderTarget.cpp" />
+    <ClCompile Include="MPEngine\Base\DetailSetting\SwapChain\SwapChain.cpp" />
+    <ClCompile Include="MPEngine\Base\Manager\DeviceManager\DeviceManager.cpp" />
     <ClCompile Include="MPEngine\Base\WinApp\WinApp.cpp" />
     <ClCompile Include="MPEngine\math\Matrix4x4.cpp" />
     <ClCompile Include="MPEngine\math\Vector2.cpp" />
@@ -128,7 +132,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="externals\imgui\imstb_textedit.h" />
     <ClInclude Include="externals\imgui\imstb_truetype.h" />
     <ClInclude Include="MPEngine\Base\CommandDirectX\CommandDirectX.h" />
+    <ClInclude Include="MPEngine\Base\DetailSetting\DescriptorHeap\DescriptorHeap.h" />
+    <ClInclude Include="MPEngine\Base\DetailSetting\RenderTarget\RenderTarget.h" />
+    <ClInclude Include="MPEngine\Base\DetailSetting\SwapChain\SwapChain.h" />
     <ClInclude Include="MPEngine\Base\Log.h" />
+    <ClInclude Include="MPEngine\Base\Manager\DeviceManager\DeviceManager.h" />
     <ClInclude Include="MPEngine\Base\WinApp\WinApp.h" />
     <ClInclude Include="MPEngine\math\Matrix4x4.h" />
     <ClInclude Include="MPEngine\math\Vector2.h" />

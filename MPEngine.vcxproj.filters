@@ -44,6 +44,18 @@
     <ClCompile Include="MPEngine\Base\WinApp\WinApp.cpp">
       <Filter>MPEngine\Base\WinApp</Filter>
     </ClCompile>
+    <ClCompile Include="MPEngine\Base\DetailSetting\RenderTarget\RenderTarget.cpp">
+      <Filter>MPEngine\Base\DdetailSetting\RenderTarget</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\Base\DetailSetting\DescriptorHeap\DescriptorHeap.cpp">
+      <Filter>MPEngine\Base\DdetailSetting\DescriptorHeap</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\Base\Manager\DeviceManager\DeviceManager.cpp">
+      <Filter>MPEngine\Base\Manager\DeviceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\Base\DetailSetting\SwapChain\SwapChain.cpp">
+      <Filter>MPEngine\Base\DdetailSetting\SwapChain</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -95,6 +107,18 @@
     <ClInclude Include="MPEngine\Base\Log.h">
       <Filter>MPEngine\Base</Filter>
     </ClInclude>
+    <ClInclude Include="MPEngine\Base\DetailSetting\RenderTarget\RenderTarget.h">
+      <Filter>MPEngine\Base\DdetailSetting\RenderTarget</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Base\DetailSetting\DescriptorHeap\DescriptorHeap.h">
+      <Filter>MPEngine\Base\DdetailSetting\DescriptorHeap</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Base\Manager\DeviceManager\DeviceManager.h">
+      <Filter>MPEngine\Base\Manager\DeviceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Base\DetailSetting\SwapChain\SwapChain.h">
+      <Filter>MPEngine\Base\DdetailSetting\SwapChain</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="imgui">
@@ -126,6 +150,24 @@
     </Filter>
     <Filter Include="MPEngine\Base\WinApp">
       <UniqueIdentifier>{eda8863d-9bf4-4d63-b11d-74fb834ffa2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Base\DdetailSetting">
+      <UniqueIdentifier>{038ce64c-a2c3-442e-9c6b-72392125fe89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Base\DdetailSetting\RenderTarget">
+      <UniqueIdentifier>{105cc852-8ef2-494e-a83a-96c0d37c75a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Base\DdetailSetting\DescriptorHeap">
+      <UniqueIdentifier>{557c217a-dddf-4194-90a7-18d539d5dff4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Base\Manager">
+      <UniqueIdentifier>{614a631a-b924-4e15-a001-0abb2786f472}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Base\Manager\DeviceManager">
+      <UniqueIdentifier>{7be916f5-27c5-48a5-8075-58a4a49dfed2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Base\DdetailSetting\SwapChain">
+      <UniqueIdentifier>{2fae45bb-b385-4688-82c1-22244df5fd17}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
