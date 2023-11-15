@@ -11,6 +11,8 @@
 
 class WinApp;
 class DeviceManager;
+class ListManager;
+class SwapChain;
 
 class CommandDirectX
 {
@@ -21,7 +23,7 @@ public:
 	static CommandDirectX* GetInstance();
 
 	// 初期化
-	void Initialize(const WinApp* winApp, unsigned int bufferWidth, unsigned int bufferHeight);
+	void Initialize(unsigned int bufferWidth, unsigned int bufferHeight);
 
 	// 描画前処理
 	void PreDraw();
@@ -38,12 +40,10 @@ private:
 	void CreateFactry();
 	// 使用するアダプタを決める
 	void SelectAdapter();
-	// デバイスの生成
-	void CreateDevice();
 	// コマンドキューの生成
 	void CreateCommandQueue();
-	// コマンドキューの生成
-	void CreateCommandList();
+	// ImGuiの初期化
+	void ImGuiInitialize();
 
 private:
 	const WinApp* winApp_ = nullptr;
@@ -53,15 +53,14 @@ private:
 	// 使用するアダプタ用の変数
 	Microsoft::WRL::ComPtr<IDXGIAdapter4> useAdapter_;
 	// デバイスの生成
-	const DeviceManager* device_ = nullptr;
+	DeviceManager* device_ = nullptr;
 	// GPUに命令を投げるキューの生成
 	Microsoft::WRL::ComPtr<ID3D12CommandQueue> commandQueue_;
-	// 命令保存用メモリ管理機構の生成
-	Microsoft::WRL::ComPtr<ID3D12CommandAllocator> commandAllocator_;
 	// GPUの命令群の生成
-	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList_;
-
+	ListManager* commandList_ = nullptr;
+	// 
+	SwapChain* swapChain_ = nullptr;
+	
 public: // ゲッター
-	ID3D12GraphicsCommandList* GetList() const { return commandList_.Get(); }
-
+	
 };

@@ -24,6 +24,6 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12Resource> swapChainResources_[2]{ nullptr };
 	
 public: // ゲッター
-	IDXGISwapChain4* GetSwapChain() const { return swapChain_.Get(); }
+	IDXGISwapChain4* const GetSwapChain() { return swapChain_.Get(); }
 
 };

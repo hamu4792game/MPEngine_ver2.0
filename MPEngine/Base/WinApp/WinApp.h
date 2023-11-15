@@ -50,7 +50,7 @@ private:
 
 public:	// ゲッター
 
-	const HWND GetHwnd() { return hwnd; };
-	const WNDCLASS GetWc() { return wc; };
+	const HWND GetHwnd() { return hwnd; }
+	const WNDCLASS GetWc() { return wc; }
 
 };

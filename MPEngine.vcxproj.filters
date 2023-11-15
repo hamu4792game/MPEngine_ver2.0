@@ -56,6 +56,12 @@
     <ClCompile Include="MPEngine\Base\DetailSetting\SwapChain\SwapChain.cpp">
       <Filter>MPEngine\Base\DdetailSetting\SwapChain</Filter>
     </ClCompile>
+    <ClCompile Include="MPEngine\Base\Manager\ResourceManager\ResourceManager.cpp">
+      <Filter>MPEngine\Base\Manager\ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\Base\Manager\ListManager\ListManager.cpp">
+      <Filter>MPEngine\Base\Manager\ListManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -119,6 +125,12 @@
     <ClInclude Include="MPEngine\Base\DetailSetting\SwapChain\SwapChain.h">
       <Filter>MPEngine\Base\DdetailSetting\SwapChain</Filter>
     </ClInclude>
+    <ClInclude Include="MPEngine\Base\Manager\ResourceManager\ResourceManager.h">
+      <Filter>MPEngine\Base\Manager\ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Base\Manager\ListManager\ListManager.h">
+      <Filter>MPEngine\Base\Manager\ListManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="imgui">
@@ -168,6 +180,12 @@
     </Filter>
     <Filter Include="MPEngine\Base\DdetailSetting\SwapChain">
       <UniqueIdentifier>{2fae45bb-b385-4688-82c1-22244df5fd17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Base\Manager\ResourceManager">
+      <UniqueIdentifier>{cb171d00-fb49-41b6-9f5c-1d2d6c968c7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Base\Manager\ListManager">
+      <UniqueIdentifier>{b0606ba4-03a3-4342-8ff7-21e267597abf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

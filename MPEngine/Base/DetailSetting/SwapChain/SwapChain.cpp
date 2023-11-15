@@ -64,10 +64,6 @@ void SwapChain::CreateRenderTargetView() {
 	rtvHandle[1] = rtvNumberHandle;
 	//	2つ目を作る
 	device->GetDevice()->CreateRenderTargetView(swapChainResources_[1].Get(), &rtvDesc, rtvHandle[1]);
-
-	//	swapChaineのbufferCountの取得
-	DXGI_SWAP_CHAIN_DESC1 SCD;
-	swapChain_->GetDesc1(&SCD);
 }
 
 void SwapChain::Present() {

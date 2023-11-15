@@ -22,7 +22,7 @@ void MPEngine::Initialize(const char* title, int width, int height) {
 
 	// DirectXの初期化
 	comDirect_ = CommandDirectX::GetInstance();
-	comDirect_->Initialize(winApp_, windowWidth_, windowHeight_);
+	comDirect_->Initialize(windowWidth_, windowHeight_);
 
 
 #ifdef _DEBUG

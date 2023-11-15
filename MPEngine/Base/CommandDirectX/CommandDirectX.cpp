@@ -8,23 +8,27 @@
 #include "MPEngine/Base/Log.h"
 
 #include "MPEngine/Base/Manager/DeviceManager/DeviceManager.h"
+#include "MPEngine/Base/Manager/ListManager/ListManager.h"
 #include "MPEngine/Base/DetailSetting/SwapChain/SwapChain.h"
+#include "MPEngine/Base/WinApp/WinApp.h"
 
 CommandDirectX* CommandDirectX::GetInstance() {
 	static CommandDirectX instance;
 	return &instance;
 }
 
-void CommandDirectX::Initialize(const WinApp* winApp, unsigned int bufferWidth, unsigned int bufferHeight) {
-	winApp_ = winApp;
+void CommandDirectX::Initialize(unsigned int bufferWidth, unsigned int bufferHeight) {
 	device_ = DeviceManager::GetInstance();
-
+	commandList_ = ListManager::GetInstance();
+	swapChain_ = SwapChain::GetInstance();
+	
 	CreateFactry();
 	SelectAdapter();
-	DeviceManager::GetInstance()->CreateDevice(useAdapter_.Get());
+	device_->CreateDevice(useAdapter_.Get());
 	CreateCommandQueue();
-	CreateCommandList();
-	SwapChain::GetInstance()->CreateSwapChain(dxgiFactory_.Get(), commandQueue_.Get());
+	commandList_->CreateList();
+	swapChain_->CreateSwapChain(dxgiFactory_.Get(), commandQueue_.Get());
+	//ImGuiInitialize();
 
 }
 
@@ -76,8 +80,6 @@ void CommandDirectX::SelectAdapter() {
 	assert(useAdapter_ != nullptr);
 }
 
-void CommandDirectX::CreateDevice() {}
-
 void CommandDirectX::CreateCommandQueue() {
 	//	コマンドキューを生成する
 	commandQueue_ = nullptr;
@@ -87,16 +89,22 @@ void CommandDirectX::CreateCommandQueue() {
 	assert(SUCCEEDED(hr));
 }
 
-void CommandDirectX::CreateCommandList() {
-	//	コマンドアロケーターを生成する
-	commandAllocator_ = nullptr;
-	HRESULT hr = device_->GetDevice()->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(commandAllocator_.GetAddressOf()));
-	//	コマンドアロケーターの生成がうまくいかないので起動できない
-	assert(SUCCEEDED(hr));
+void CommandDirectX::ImGuiInitialize() {
+	auto winApp = WinApp::GetInstance();
+	//	swapChaineのbufferCountの取得
+	DXGI_SWAP_CHAIN_DESC1 SCD;
+	swapChain_->GetSwapChain()->GetDesc1(&SCD);
 
-	//	コマンドリストを生成する
-	commandList_ = nullptr;
-	hr = device_->GetDevice()->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, commandAllocator_.Get(), nullptr, IID_PPV_ARGS(commandList_.GetAddressOf()));
-	//	コマンドリストの生成がうまくいかないので起動できない
-	assert(SUCCEEDED(hr));
+	//	ImGuiの初期化
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGui::StyleColorsDark();
+	ImGui_ImplWin32_Init(winApp->GetHwnd());
+	/*ImGui_ImplDX12_Init(device_->GetDevice(),
+		SCD.BufferCount,
+		DXGI_FORMAT_R8G8B8A8_UNORM_SRGB,
+		srvDescriptorHeap,
+		srvDescriptorHeap->GetCPUDescriptorHandleForHeapStart(),
+		srvDescriptorHeap->GetGPUDescriptorHandleForHeapStart()
+	);*/
 }

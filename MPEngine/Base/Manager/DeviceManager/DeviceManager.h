@@ -22,7 +22,7 @@ public:
 	void CreateDevice(IDXGIAdapter4* useAdapter);
 
 public: // ゲッター
-	ID3D12Device* GetDevice() const { return device_.Get(); };
+	ID3D12Device* const GetDevice() { return device_.Get(); }
 
 };
 
