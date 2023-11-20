@@ -17,7 +17,7 @@ public:
 
 	void Initialize(const char* title, int width, int height);
 	void Finalize();
-	static void Run();
+	void Run();
 
 public:
 	int windowWidth_ = 1280;

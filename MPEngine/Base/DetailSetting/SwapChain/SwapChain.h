@@ -10,6 +10,7 @@ public:
 	~SwapChain() = default;
 
 	static SwapChain* GetInstance();
+	void Finalize();
 
 	void CreateSwapChain(IDXGIFactory7* dxgiFactory, ID3D12CommandQueue* commandQueue);
 

@@ -13,6 +13,7 @@ class WinApp;
 class DeviceManager;
 class ListManager;
 class SwapChain;
+class ResourceManager;
 
 class CommandDirectX
 {
@@ -60,7 +61,8 @@ private:
 	ListManager* commandList_ = nullptr;
 	// 
 	SwapChain* swapChain_ = nullptr;
-	
+	// 
+	ResourceManager* rsManager_ = nullptr;
 public: // ゲッター
 	
 };

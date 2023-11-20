@@ -8,6 +8,11 @@ SwapChain* SwapChain::GetInstance() {
 	return &instance;
 }
 
+void SwapChain::Finalize() {
+	rtvDescriptorHeap_->Release();
+	rtvDescriptorHeap_.release();
+}
+
 void SwapChain::CreateSwapChain(IDXGIFactory7* dxgiFactory, ID3D12CommandQueue* commandQueue) {
 	swapChain_ = nullptr;
 	auto hWnd = WinApp::GetInstance()->GetHwnd();

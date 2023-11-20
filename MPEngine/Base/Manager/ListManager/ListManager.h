@@ -14,11 +14,16 @@ public:
 
 	static ListManager* GetInstance();
 
+	static void Initialize();
+	static void Finalize();
+
 private:
 	// 命令保存用メモリ管理機構の生成
 	Microsoft::WRL::ComPtr<ID3D12CommandAllocator> commandAllocator_;
 	// GPUの命令群の生成
 	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList_;
+
+	static ListManager* instance;
 
 public:
 	void CreateList();

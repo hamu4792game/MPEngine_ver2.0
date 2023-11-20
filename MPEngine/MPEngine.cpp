@@ -2,6 +2,8 @@
 #include "MPEngine/Base/WinApp/WinApp.h"
 #include "MPEngine/Base/CommandDirectX/CommandDirectX.h"
 #include "MPEngine/Base/Log.h"
+#include "MPEngine/Base/Manager/DeviceManager/DeviceManager.h"
+#include "MPEngine/Base/Manager/ResourceManager/ResourceManager.h"
 
 MPEngine* MPEngine::GetInstance() {
 	static MPEngine instance;
@@ -19,6 +21,7 @@ void MPEngine::Initialize(const char* title, int width, int height) {
 #ifdef _DEBUG
 	debugLayer_.EnableDebugLayer();
 #endif // debugLayerの有効化
+	
 
 	// DirectXの初期化
 	comDirect_ = CommandDirectX::GetInstance();
@@ -26,7 +29,7 @@ void MPEngine::Initialize(const char* title, int width, int height) {
 
 
 #ifdef _DEBUG
-	//debugLayer_.ErrorStoped();
+	debugLayer_.ErrorStoped(DeviceManager::GetInstance()->GetDevice());
 #endif
 
 
@@ -34,22 +37,21 @@ void MPEngine::Initialize(const char* title, int width, int height) {
 
 void MPEngine::Finalize() {
 	comDirect_->Finalize();
-	comDirect_ = nullptr;
+	//delete comDirect_;
 	winApp_->DeleteGameWindow();
-	winApp_ = nullptr;
+	//delete winApp_;
 }
 
 void MPEngine::Run() {
-	auto engine = MPEngine::GetInstance();
 	int32_t windowWidth = 1280; int32_t windowHeight = 720;
-	engine->Initialize("えとせとら", windowWidth, windowHeight);
+	Initialize("えとせとら", windowWidth, windowHeight);
 
 	//	ウィンドウの×ボタンが押されるまでループ
-	while (!engine->winApp_->ProcessMessage()) {
+	while (!winApp_->ProcessMessage()) {
 		break;
 	}
 
-	engine->Finalize();
+	Finalize();
 
 }
 

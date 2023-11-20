@@ -11,6 +11,7 @@
 #include "MPEngine/Base/Manager/ListManager/ListManager.h"
 #include "MPEngine/Base/DetailSetting/SwapChain/SwapChain.h"
 #include "MPEngine/Base/WinApp/WinApp.h"
+#include "MPEngine/Base/Manager/ResourceManager/ResourceManager.h"
 
 CommandDirectX* CommandDirectX::GetInstance() {
 	static CommandDirectX instance;
@@ -18,16 +19,21 @@ CommandDirectX* CommandDirectX::GetInstance() {
 }
 
 void CommandDirectX::Initialize(unsigned int bufferWidth, unsigned int bufferHeight) {
+	DeviceManager::Initialize();
 	device_ = DeviceManager::GetInstance();
+	ListManager::Initialize();
 	commandList_ = ListManager::GetInstance();
-	swapChain_ = SwapChain::GetInstance();
+	//swapChain_ = SwapChain::GetInstance();
+	rsManager_ = ResourceManager::GetInstance();
 	
 	CreateFactry();
 	SelectAdapter();
 	device_->CreateDevice(useAdapter_.Get());
 	CreateCommandQueue();
 	commandList_->CreateList();
-	swapChain_->CreateSwapChain(dxgiFactory_.Get(), commandQueue_.Get());
+	//swapChain_->CreateSwapChain(dxgiFactory_.Get(), commandQueue_.Get());
+	rsManager_->Initialize();
+
 	//ImGuiInitialize();
 
 }
@@ -41,7 +47,20 @@ void CommandDirectX::PostDraw() {
 }
 
 void CommandDirectX::Finalize() {
+	////	ImGuiの解放
+	//ImGui_ImplDX12_Shutdown();
+	//ImGui_ImplWin32_Shutdown();
+	//ImGui::DestroyContext();
 
+	rsManager_->Finalize();
+	rsManager_ = nullptr;
+	//delete rsManager_;
+	//swapChain_->Finalize();
+	//swapChain_ = nullptr;
+	ListManager::Finalize();
+	commandList_ = nullptr;
+	DeviceManager::Finalize();
+	device_ = nullptr;
 }
 
 void CommandDirectX::CreateFactry() {
@@ -94,17 +113,18 @@ void CommandDirectX::ImGuiInitialize() {
 	//	swapChaineのbufferCountの取得
 	DXGI_SWAP_CHAIN_DESC1 SCD;
 	swapChain_->GetSwapChain()->GetDesc1(&SCD);
+	auto srvHeap = ResourceManager::GetInstance()->GetSRVHeap();
 
 	//	ImGuiの初期化
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGui::StyleColorsDark();
 	ImGui_ImplWin32_Init(winApp->GetHwnd());
-	/*ImGui_ImplDX12_Init(device_->GetDevice(),
+	ImGui_ImplDX12_Init(device_->GetDevice(),
 		SCD.BufferCount,
 		DXGI_FORMAT_R8G8B8A8_UNORM_SRGB,
-		srvDescriptorHeap,
-		srvDescriptorHeap->GetCPUDescriptorHandleForHeapStart(),
-		srvDescriptorHeap->GetGPUDescriptorHandleForHeapStart()
-	);*/
+		srvHeap,
+		srvHeap->GetCPUDescriptorHandleForHeapStart(),
+		srvHeap->GetGPUDescriptorHandleForHeapStart()
+	);
 }

@@ -18,12 +18,16 @@ public:
 	//	DescriptorHeap作成の関数
 	ID3D12DescriptorHeap* CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE heapType, UINT numDescriptors, bool shaderVisible);
 
-	D3D12_CPU_DESCRIPTOR_HANDLE GetCPUDescriptorHandle(unsigned int index);
-	D3D12_GPU_DESCRIPTOR_HANDLE GetGPUDescriptorHandle(unsigned int index);
-	
+	void Release() { descriptorHeap_->Release(); }
+
 private:
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap_ = nullptr;
 	D3D12_DESCRIPTOR_HEAP_TYPE heapType_;
 
+public:
+	ID3D12DescriptorHeap* const GetDescriptorHeap() { return descriptorHeap_.Get(); }
 
+	D3D12_CPU_DESCRIPTOR_HANDLE GetCPUDescriptorHandle(unsigned int index);
+	D3D12_GPU_DESCRIPTOR_HANDLE GetGPUDescriptorHandle(unsigned int index);
+	
 };

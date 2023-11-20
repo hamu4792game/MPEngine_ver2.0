@@ -14,9 +14,13 @@ public:
 
 	static DeviceManager* GetInstance();
 
+	static void Initialize();
+	static void Finalize();
+
 private:
 	// デバイスの生成
 	Microsoft::WRL::ComPtr<ID3D12Device> device_;
+	static DeviceManager* instance;
 
 public:
 	void CreateDevice(IDXGIAdapter4* useAdapter);
