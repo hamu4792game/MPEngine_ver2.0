@@ -2,18 +2,9 @@
 #include "MPEngine/Base/Log.h"
 #include <cassert>
 
-DeviceManager* DeviceManager::instance = nullptr;
 DeviceManager* DeviceManager::GetInstance() {
-	return instance;
-}
-
-void DeviceManager::Initialize() {
-	instance = new DeviceManager;
-}
-
-void DeviceManager::Finalize() {
-	delete instance;
-	instance = nullptr;
+	static DeviceManager instance;
+	return &instance;
 }
 
 void DeviceManager::CreateDevice(IDXGIAdapter4* useAdapter) {

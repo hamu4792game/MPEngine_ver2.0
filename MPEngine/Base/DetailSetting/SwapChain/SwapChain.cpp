@@ -3,14 +3,14 @@
 #include "MPEngine/Base/WinApp/WinApp.h"
 #include "MPEngine/Base/Manager/DeviceManager/DeviceManager.h"
 
-SwapChain* SwapChain::GetInstance() {
-	static SwapChain instance;
-	return &instance;
+SwapChain::~SwapChain() {
+	Finalize();
 }
 
 void SwapChain::Finalize() {
-	rtvDescriptorHeap_->Release();
-	rtvDescriptorHeap_.release();
+	if (rtvDescriptorHeap_) {
+		rtvDescriptorHeap_->Release();
+	}
 }
 
 void SwapChain::CreateSwapChain(IDXGIFactory7* dxgiFactory, ID3D12CommandQueue* commandQueue) {

@@ -8,6 +8,7 @@
 
 #include <Windows.h>
 #include <wrl.h>
+#include <memory>
 
 class WinApp;
 class DeviceManager;
@@ -60,9 +61,9 @@ private:
 	// GPUの命令群の生成
 	ListManager* commandList_ = nullptr;
 	// 
-	SwapChain* swapChain_ = nullptr;
+	std::unique_ptr<SwapChain> swapChain_;
 	// 
-	ResourceManager* rsManager_ = nullptr;
+	//ResourceManager* rsManager_ = nullptr;
 public: // ゲッター
 	
 };

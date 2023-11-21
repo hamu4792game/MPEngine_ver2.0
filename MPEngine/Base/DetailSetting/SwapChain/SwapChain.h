@@ -7,16 +7,16 @@ class SwapChain
 {
 public:
 	SwapChain() = default;
-	~SwapChain() = default;
+	~SwapChain();
 
-	static SwapChain* GetInstance();
 	void Finalize();
 
 	void CreateSwapChain(IDXGIFactory7* dxgiFactory, ID3D12CommandQueue* commandQueue);
 
-	void CreateRenderTargetView();
 	//	GPUとOSに画面の交換を行うよう通知する
 	void Present();
+private:
+	void CreateRenderTargetView();
 	
 private:
 	Microsoft::WRL::ComPtr<IDXGISwapChain4> swapChain_;

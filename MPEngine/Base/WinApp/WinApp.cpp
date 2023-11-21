@@ -52,7 +52,8 @@ bool WinApp::ProcessMessage() {
 
 void WinApp::CreateGameWindow(const wchar_t* title, int32_t clientWidth, int32_t clientHeight) {
 	//	COMの初期化を行う
-	CoInitializeEx(0, COINIT_MULTITHREADED);
+	HRESULT hr = CoInitializeEx(0, COINIT_MULTITHREADED);
+	assert(SUCCEEDED(hr));
 
 	//	ウィンドウプロシージャ
 	wc.lpfnWndProc = WindowProc;

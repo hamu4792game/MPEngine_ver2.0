@@ -82,8 +82,7 @@ void MPEngine::D3DResourceLeakChecker::EnableDebugLayer() {
 
 void MPEngine::D3DResourceLeakChecker::ErrorStoped(ID3D12Device* device_) {
 	Microsoft::WRL::ComPtr<ID3D12InfoQueue> infoQueue = nullptr;
-	if (SUCCEEDED(device_->QueryInterface(IID_PPV_ARGS(&infoQueue))))
-	{
+	if (SUCCEEDED(device_->QueryInterface(IID_PPV_ARGS(infoQueue.GetAddressOf())))) {
 		//	やばいエラー時に止まる
 		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, true);
 		//	エラー時に止まる
