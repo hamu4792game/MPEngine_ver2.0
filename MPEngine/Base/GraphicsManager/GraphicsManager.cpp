@@ -38,7 +38,7 @@ void GraphicsManager::Initialize(unsigned int bufferWidth, unsigned int bufferHe
 	CreateFence();
 
 #ifdef _DEBUG
-	//ImGuiInitialize();
+	ImGuiInitialize();
 #endif // _DEBUG
 
 
@@ -47,9 +47,9 @@ void GraphicsManager::Initialize(unsigned int bufferWidth, unsigned int bufferHe
 void GraphicsManager::PreDraw() {
 #ifdef _DEBUG
 	// ImGuiにframeの始まりを伝える
-	/*ImGui_ImplDX12_NewFrame();
+	ImGui_ImplDX12_NewFrame();
 	ImGui_ImplWin32_NewFrame();
-	ImGui::NewFrame();*/
+	ImGui::NewFrame();
 
 	// ImGuiデモの表示
 	//ImGui::ShowDemoWindow();
@@ -68,11 +68,11 @@ void GraphicsManager::PreDraw() {
 void GraphicsManager::PostDraw() {
 
 #ifdef _DEBUG
-	/*
+	
 	// ImGuiの内部コマンドを生成
 	ImGui::Render();
-	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), commandList);
-	*/
+	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), commandList_->GetList());
+	
 #endif // DEBUG
 
 	CreateBarrier(swapChain_->GetBackBuffer(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT);
@@ -82,10 +82,11 @@ void GraphicsManager::PostDraw() {
 
 void GraphicsManager::Finalize() {
 	// ImGuiの解放
-	// ImGuiFinalize();
+	ImGuiFinalize();
 
-	swapChain_->Finalize();
+	depthBuffer_->Finalize();
 	rsManager_->Finalize();
+	swapChain_->Finalize();
 }
 
 void GraphicsManager::SetViewPort(uint32_t width, uint32_t height) {

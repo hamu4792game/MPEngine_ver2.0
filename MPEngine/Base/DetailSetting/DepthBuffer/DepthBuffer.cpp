@@ -17,6 +17,12 @@ void DepthBuffer::Initialize(unsigned int width, unsigned int height) {
 	device->GetDevice()->CreateDepthStencilView(depthStencilResource_.Get(), &dsvDesc, dsvDescriptorHeap_->GetCPUDescriptorHandle(0));
 }
 
+void DepthBuffer::Finalize() {
+	if (dsvDescriptorHeap_) {
+		dsvDescriptorHeap_->Release();
+	}
+}
+
 void DepthBuffer::CreateDepthStencilTexture(unsigned int width, unsigned int height) {
 	//	生成するResourceの設定
 	D3D12_RESOURCE_DESC resourceDesc{};

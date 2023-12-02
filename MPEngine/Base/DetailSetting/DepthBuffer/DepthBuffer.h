@@ -8,6 +8,7 @@ public:
 	~DepthBuffer() = default;
 
 	void Initialize(unsigned int width, unsigned int height);
+	void Finalize();
 
 private:
 	// depthStencilResourceの生成
