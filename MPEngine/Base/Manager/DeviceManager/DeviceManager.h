@@ -6,20 +6,17 @@
 #pragma comment(lib,"dxgi.lib")
 #include <wrl.h>
 
-class DeviceManager
-{
+class DeviceManager {
 private:
 	DeviceManager() = default;
 	~DeviceManager() = default;
 public:
 	static DeviceManager* GetInstance();
 
+	void CreateDevice(IDXGIAdapter4* useAdapter);
 private:
 	// デバイスの生成
 	Microsoft::WRL::ComPtr<ID3D12Device> device_;
-
-public:
-	void CreateDevice(IDXGIAdapter4* useAdapter);
 
 public: // ゲッター
 	ID3D12Device* const GetDevice() { return device_.Get(); }

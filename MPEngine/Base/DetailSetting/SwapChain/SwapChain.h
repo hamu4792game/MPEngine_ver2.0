@@ -3,8 +3,7 @@
 #include "MPEngine/Base/DetailSetting/DescriptorHeap/DescriptorHeap.h"
 #include <memory>
 
-class SwapChain
-{
+class SwapChain {
 public:
 	SwapChain() = default;
 	~SwapChain();

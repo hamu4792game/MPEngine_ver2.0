@@ -2,13 +2,14 @@
 #include <Windows.h>
 #include <cstdint>
 
-class WinApp {
+// windowの管理・監視クラス
+class WindowSupervisor {
 public:
-	WinApp() = default;
-	~WinApp() = default;
+	WindowSupervisor() = default;
+	~WindowSupervisor() = default;
 
 public: // 静的メンバ関数
-	static WinApp* GetInstance();
+	static WindowSupervisor* GetInstance();
 
 	/// <summary>
 	/// ウィンドウプロシージャ

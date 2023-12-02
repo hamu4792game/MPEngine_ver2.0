@@ -8,10 +8,13 @@
 #pragma comment(lib,"dxguid.lib")
 
 // 前方宣言
-class CommandDirectX;
-class WinApp;
+class GraphicsManager;
+class WindowSupervisor;
 
 class MPEngine {
+private:
+	MPEngine() = default;
+	~MPEngine() = default;
 public:
 	static MPEngine* GetInstance();
 
@@ -24,8 +27,8 @@ public:
 	int windowHeight_ = 720;
 
 private: // メンバ変数
-	WinApp* winApp_ = nullptr;
-	CommandDirectX* comDirect_ = nullptr;
+	WindowSupervisor* winSv_ = nullptr;
+	GraphicsManager* grapfics_ = nullptr;
 #ifdef _DEBUG
 private: // デバッグレイヤー
 	class D3DResourceLeakChecker {

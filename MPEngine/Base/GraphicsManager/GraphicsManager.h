@@ -10,19 +10,20 @@
 #include <wrl.h>
 #include <memory>
 
-class WinApp;
+class WindowSupervisor;
 class DeviceManager;
 class ListManager;
 class SwapChain;
 class ResourceManager;
 
-class CommandDirectX
-{
-public:
-	CommandDirectX() = default;
-	~CommandDirectX() = default;
+class GraphicsManager {
+private:
+	GraphicsManager() = default;
+	GraphicsManager(GraphicsManager&&) = delete;
+	~GraphicsManager() = default;
 
-	static CommandDirectX* GetInstance();
+public:
+	static GraphicsManager* GetInstance();
 
 	// 初期化
 	void Initialize(unsigned int bufferWidth, unsigned int bufferHeight);
@@ -36,6 +37,9 @@ public:
 	// 解放処理
 	void Finalize();
 
+	// windowSize
+	void SetViewPort(uint32_t width, uint32_t height);
+
 private:
 
 	// DXGIファクトリーの生成
@@ -44,11 +48,23 @@ private:
 	void SelectAdapter();
 	// コマンドキューの生成
 	void CreateCommandQueue();
-	// ImGuiの初期化
+	// フェンスの生成
+	void CreateFence();
+	// ImGuiの初期化・解放
 	void ImGuiInitialize();
+	void ImGuiFinalize();
+
+	// 終了処理
+	void EndProcess();
+
+	// バリアの作成
+	void CreateBarrier(ID3D12Resource* pResource, D3D12_RESOURCE_STATES stateBefore, D3D12_RESOURCE_STATES stateAfter,
+		D3D12_RESOURCE_BARRIER_TYPE type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION, D3D12_RESOURCE_BARRIER_FLAGS flag = D3D12_RESOURCE_BARRIER_FLAG_NONE);
+	// 指定色でクリア
+	void ClearRenderTarget(D3D12_CPU_DESCRIPTOR_HANDLE rtvHeapPointer);
 
 private:
-	const WinApp* winApp_ = nullptr;
+	const WindowSupervisor* winSv_ = nullptr;
 
 	// DXGIファクトリの生成
 	Microsoft::WRL::ComPtr<IDXGIFactory7> dxgiFactory_;
@@ -63,7 +79,17 @@ private:
 	// 
 	std::unique_ptr<SwapChain> swapChain_;
 	// 
-	//ResourceManager* rsManager_ = nullptr;
+	ResourceManager* rsManager_ = nullptr;
+
+	// フェンス関係
+	Microsoft::WRL::ComPtr<ID3D12Fence> fence_;
+	uint32_t fenceValue_ = 0u;
+	HANDLE fenceEvent_;
+
+	// レンダーターゲット用クリアカラー
+	float clearColor_[4] = { 0.1f,0.25f,0.5f,1.0f };	//	青っぽい色、RGBA
+
+
 public: // ゲッター
-	
+
 };

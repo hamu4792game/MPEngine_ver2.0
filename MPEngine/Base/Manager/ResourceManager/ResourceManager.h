@@ -4,14 +4,13 @@
 #include <cmath>
 
 class ResourceManager {
-public:
+private:
 	ResourceManager() = default;
 	~ResourceManager() = default;
 
+public:
 	static ResourceManager* GetInstance();
-
 	void Initialize();
-
 	void Finalize();
 
 private:

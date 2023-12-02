@@ -2,19 +2,9 @@
 #include <cassert>
 #include "MPEngine/Base/Manager/DeviceManager/DeviceManager.h"
 
-ListManager* ListManager::instance = nullptr;
-
 ListManager* ListManager::GetInstance() {
-	return instance;
-}
-
-void ListManager::Initialize() {
-	instance = new ListManager;
-}
-
-void ListManager::Finalize() {
-	delete instance;
-	instance = nullptr;
+	static ListManager instance;
+	return &instance;
 }
 
 void ListManager::CreateList() {

@@ -1,6 +1,6 @@
 #include "SwapChain.h"
 #include <cassert>
-#include "MPEngine/Base/WinApp/WinApp.h"
+#include "MPEngine/Base/WindowSupervisor/WindowSupervisor.h"
 #include "MPEngine/Base/Manager/DeviceManager/DeviceManager.h"
 
 SwapChain::~SwapChain() {
@@ -15,7 +15,7 @@ void SwapChain::Finalize() {
 
 void SwapChain::CreateSwapChain(IDXGIFactory7* dxgiFactory, ID3D12CommandQueue* commandQueue) {
 	swapChain_ = nullptr;
-	auto hWnd = WinApp::GetInstance()->GetHwnd();
+	auto hWnd = WindowSupervisor::GetInstance()->GetHwnd();
 	RECT clientRect{};
 	if (!GetClientRect(hWnd, &clientRect)) {
 		assert(false);

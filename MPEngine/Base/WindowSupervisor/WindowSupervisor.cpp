@@ -1,4 +1,4 @@
-#include "WinApp.h"
+#include "WindowSupervisor.h"
 //	imguiのinclude
 #include "externals/imgui/imgui.h"
 #include "externals/imgui/imgui_impl_dx12.h"
@@ -10,12 +10,12 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 #include "resource.h"
 
 
-WinApp* WinApp::GetInstance() {
-	static WinApp instance;
+WindowSupervisor* WindowSupervisor::GetInstance() {
+	static WindowSupervisor instance;
 	return &instance;
 }
 
-LRESULT WinApp::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
+LRESULT WindowSupervisor::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 #ifdef _DEBUG
 	if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wparam, lparam)) {
 		return true;
@@ -34,7 +34,7 @@ LRESULT WinApp::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 	return DefWindowProc(hwnd, msg, wparam, lparam);
 }
 
-bool WinApp::ProcessMessage() {
+bool WindowSupervisor::ProcessMessage() {
 	MSG msg{};
 	//	ウィンドウにメッセージが来てたら最優先で処理させる
 	if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
@@ -50,7 +50,7 @@ bool WinApp::ProcessMessage() {
 	return false;
 }
 
-void WinApp::CreateGameWindow(const wchar_t* title, int32_t clientWidth, int32_t clientHeight) {
+void WindowSupervisor::CreateGameWindow(const wchar_t* title, int32_t clientWidth, int32_t clientHeight) {
 	//	COMの初期化を行う
 	HRESULT hr = CoInitializeEx(0, COINIT_MULTITHREADED);
 	assert(SUCCEEDED(hr));
@@ -96,7 +96,7 @@ void WinApp::CreateGameWindow(const wchar_t* title, int32_t clientWidth, int32_t
 	ShowWindow(hwnd, SW_SHOW);
 }
 
-void WinApp::DeleteGameWindow() {
+void WindowSupervisor::DeleteGameWindow() {
 	//	登録したクラスの破棄
 	UnregisterClass(wc.lpszClassName, wc.hInstance);
 	//	COMの終了処理

@@ -1,6 +1,6 @@
 #include "MPEngine.h"
-#include "MPEngine/Base/WinApp/WinApp.h"
-#include "MPEngine/Base/CommandDirectX/CommandDirectX.h"
+#include "MPEngine/Base/WindowSupervisor/WindowSupervisor.h"
+#include "MPEngine/Base/GraphicsManager/GraphicsManager.h"
 #include "MPEngine/Base/Log.h"
 #include "MPEngine/Base/Manager/DeviceManager/DeviceManager.h"
 #include "MPEngine/Base/Manager/ResourceManager/ResourceManager.h"
@@ -15,8 +15,8 @@ void MPEngine::Initialize(const char* title, int width, int height) {
 	windowHeight_ = height;
 
 	// ゲームウィンドウの生成
-	winApp_ = WinApp::GetInstance();
-	winApp_->CreateGameWindow(ConvertString(title).c_str(), windowWidth_, windowHeight_);
+	winSv_ = WindowSupervisor::GetInstance();
+	winSv_->CreateGameWindow(ConvertString(title).c_str(), windowWidth_, windowHeight_);
 
 #ifdef _DEBUG
 	debugLayer_.EnableDebugLayer();
@@ -24,8 +24,8 @@ void MPEngine::Initialize(const char* title, int width, int height) {
 	
 
 	// DirectXの初期化
-	comDirect_ = CommandDirectX::GetInstance();
-	comDirect_->Initialize(windowWidth_, windowHeight_);
+	grapfics_ = GraphicsManager::GetInstance();
+	grapfics_->Initialize(windowWidth_, windowHeight_);
 
 
 #ifdef _DEBUG
@@ -36,10 +36,10 @@ void MPEngine::Initialize(const char* title, int width, int height) {
 }
 
 void MPEngine::Finalize() {
-	comDirect_->Finalize();
+	grapfics_->Finalize();
 	//delete comDirect_;
-	winApp_->DeleteGameWindow();
-	//delete winApp_;
+	winSv_->DeleteGameWindow();
+	//delete winSv_;
 }
 
 void MPEngine::Run() {
@@ -47,7 +47,7 @@ void MPEngine::Run() {
 	Initialize("えとせとら", windowWidth, windowHeight);
 
 	//	ウィンドウの×ボタンが押されるまでループ
-	while (!winApp_->ProcessMessage()) {
+	while (!winSv_->ProcessMessage()) {
 		break;
 	}
 
@@ -107,7 +107,7 @@ void MPEngine::D3DResourceLeakChecker::ErrorStoped(ID3D12Device* device_) {
 		infoQueue->PushStorageFilter(&filter);
 
 		//	解放
-		infoQueue->Release();
+		//infoQueue->Release();
 	}
 }
 

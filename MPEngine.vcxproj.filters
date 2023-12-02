@@ -26,9 +26,6 @@
     <ClCompile Include="MPEngine\MPEngine.cpp">
       <Filter>MPEngine</Filter>
     </ClCompile>
-    <ClCompile Include="MPEngine\Base\CommandDirectX\CommandDirectX.cpp">
-      <Filter>MPEngine\Base\CommandDirectX</Filter>
-    </ClCompile>
     <ClCompile Include="MPEngine\math\Matrix4x4.cpp">
       <Filter>MPEngine\Math\Matrix4x4</Filter>
     </ClCompile>
@@ -41,26 +38,38 @@
     <ClCompile Include="MPEngine\math\Vector4.cpp">
       <Filter>MPEngine\Math\Vector4</Filter>
     </ClCompile>
-    <ClCompile Include="MPEngine\Base\WinApp\WinApp.cpp">
-      <Filter>MPEngine\Base\WinApp</Filter>
-    </ClCompile>
     <ClCompile Include="MPEngine\Base\DetailSetting\RenderTarget\RenderTarget.cpp">
-      <Filter>MPEngine\Base\DdetailSetting\RenderTarget</Filter>
+      <Filter>MPEngine\Base\DetailSetting\RenderTarget</Filter>
     </ClCompile>
     <ClCompile Include="MPEngine\Base\DetailSetting\DescriptorHeap\DescriptorHeap.cpp">
-      <Filter>MPEngine\Base\DdetailSetting\DescriptorHeap</Filter>
+      <Filter>MPEngine\Base\DetailSetting\DescriptorHeap</Filter>
     </ClCompile>
     <ClCompile Include="MPEngine\Base\Manager\DeviceManager\DeviceManager.cpp">
       <Filter>MPEngine\Base\Manager\DeviceManager</Filter>
     </ClCompile>
     <ClCompile Include="MPEngine\Base\DetailSetting\SwapChain\SwapChain.cpp">
-      <Filter>MPEngine\Base\DdetailSetting\SwapChain</Filter>
+      <Filter>MPEngine\Base\DetailSetting\SwapChain</Filter>
     </ClCompile>
     <ClCompile Include="MPEngine\Base\Manager\ResourceManager\ResourceManager.cpp">
       <Filter>MPEngine\Base\Manager\ResourceManager</Filter>
     </ClCompile>
     <ClCompile Include="MPEngine\Base\Manager\ListManager\ListManager.cpp">
       <Filter>MPEngine\Base\Manager\ListManager</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\Base\WindowSupervisor\WindowSupervisor.cpp">
+      <Filter>MPEngine\Base\WindowSupervisor</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\Base\GraphicsManager\GraphicsManager.cpp">
+      <Filter>MPEngine\Base\GraphicsManager</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\Input\AudioInput.cpp">
+      <Filter>MPEngine\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\Input\KeyInput.cpp">
+      <Filter>MPEngine\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\Input\PadInput.cpp">
+      <Filter>MPEngine\Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -92,9 +101,6 @@
     <ClInclude Include="MPEngine\MPEngine.h">
       <Filter>MPEngine</Filter>
     </ClInclude>
-    <ClInclude Include="MPEngine\Base\CommandDirectX\CommandDirectX.h">
-      <Filter>MPEngine\Base\CommandDirectX</Filter>
-    </ClInclude>
     <ClInclude Include="MPEngine\math\Matrix4x4.h">
       <Filter>MPEngine\Math\Matrix4x4</Filter>
     </ClInclude>
@@ -107,29 +113,41 @@
     <ClInclude Include="MPEngine\math\Vector4.h">
       <Filter>MPEngine\Math\Vector4</Filter>
     </ClInclude>
-    <ClInclude Include="MPEngine\Base\WinApp\WinApp.h">
-      <Filter>MPEngine\Base\WinApp</Filter>
-    </ClInclude>
     <ClInclude Include="MPEngine\Base\Log.h">
       <Filter>MPEngine\Base</Filter>
     </ClInclude>
     <ClInclude Include="MPEngine\Base\DetailSetting\RenderTarget\RenderTarget.h">
-      <Filter>MPEngine\Base\DdetailSetting\RenderTarget</Filter>
+      <Filter>MPEngine\Base\DetailSetting\RenderTarget</Filter>
     </ClInclude>
     <ClInclude Include="MPEngine\Base\DetailSetting\DescriptorHeap\DescriptorHeap.h">
-      <Filter>MPEngine\Base\DdetailSetting\DescriptorHeap</Filter>
+      <Filter>MPEngine\Base\DetailSetting\DescriptorHeap</Filter>
     </ClInclude>
     <ClInclude Include="MPEngine\Base\Manager\DeviceManager\DeviceManager.h">
       <Filter>MPEngine\Base\Manager\DeviceManager</Filter>
     </ClInclude>
     <ClInclude Include="MPEngine\Base\DetailSetting\SwapChain\SwapChain.h">
-      <Filter>MPEngine\Base\DdetailSetting\SwapChain</Filter>
+      <Filter>MPEngine\Base\DetailSetting\SwapChain</Filter>
     </ClInclude>
     <ClInclude Include="MPEngine\Base\Manager\ResourceManager\ResourceManager.h">
       <Filter>MPEngine\Base\Manager\ResourceManager</Filter>
     </ClInclude>
     <ClInclude Include="MPEngine\Base\Manager\ListManager\ListManager.h">
       <Filter>MPEngine\Base\Manager\ListManager</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Base\WindowSupervisor\WindowSupervisor.h">
+      <Filter>MPEngine\Base\WindowSupervisor</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Base\GraphicsManager\GraphicsManager.h">
+      <Filter>MPEngine\Base\GraphicsManager</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Input\AudioInput.h">
+      <Filter>MPEngine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Input\KeyInput.h">
+      <Filter>MPEngine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Input\PadInput.h">
+      <Filter>MPEngine\Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -141,9 +159,6 @@
     </Filter>
     <Filter Include="MPEngine\Base">
       <UniqueIdentifier>{f667e17e-d6ca-48b9-89b4-0aca0f8918d8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MPEngine\Base\CommandDirectX">
-      <UniqueIdentifier>{49001437-d8b5-4fd8-8bb1-f63d3478f1dd}</UniqueIdentifier>
     </Filter>
     <Filter Include="MPEngine\Math">
       <UniqueIdentifier>{8f449e96-ff08-45ab-ae25-a91bb37b44d0}</UniqueIdentifier>
@@ -160,32 +175,38 @@
     <Filter Include="MPEngine\Math\Vector4">
       <UniqueIdentifier>{2fecb063-0fa0-4816-9163-9300fb887795}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MPEngine\Base\WinApp">
-      <UniqueIdentifier>{eda8863d-9bf4-4d63-b11d-74fb834ffa2f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MPEngine\Base\DdetailSetting">
-      <UniqueIdentifier>{038ce64c-a2c3-442e-9c6b-72392125fe89}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MPEngine\Base\DdetailSetting\RenderTarget">
-      <UniqueIdentifier>{105cc852-8ef2-494e-a83a-96c0d37c75a8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MPEngine\Base\DdetailSetting\DescriptorHeap">
-      <UniqueIdentifier>{557c217a-dddf-4194-90a7-18d539d5dff4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="MPEngine\Base\Manager">
       <UniqueIdentifier>{614a631a-b924-4e15-a001-0abb2786f472}</UniqueIdentifier>
     </Filter>
     <Filter Include="MPEngine\Base\Manager\DeviceManager">
       <UniqueIdentifier>{7be916f5-27c5-48a5-8075-58a4a49dfed2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MPEngine\Base\DdetailSetting\SwapChain">
-      <UniqueIdentifier>{2fae45bb-b385-4688-82c1-22244df5fd17}</UniqueIdentifier>
-    </Filter>
     <Filter Include="MPEngine\Base\Manager\ResourceManager">
       <UniqueIdentifier>{cb171d00-fb49-41b6-9f5c-1d2d6c968c7f}</UniqueIdentifier>
     </Filter>
     <Filter Include="MPEngine\Base\Manager\ListManager">
       <UniqueIdentifier>{b0606ba4-03a3-4342-8ff7-21e267597abf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Base\WindowSupervisor">
+      <UniqueIdentifier>{179189b8-5a8f-48e3-b51b-b0825419ee9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Base\DetailSetting">
+      <UniqueIdentifier>{038ce64c-a2c3-442e-9c6b-72392125fe89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Base\DetailSetting\RenderTarget">
+      <UniqueIdentifier>{105cc852-8ef2-494e-a83a-96c0d37c75a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Base\DetailSetting\DescriptorHeap">
+      <UniqueIdentifier>{557c217a-dddf-4194-90a7-18d539d5dff4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Base\DetailSetting\SwapChain">
+      <UniqueIdentifier>{2fae45bb-b385-4688-82c1-22244df5fd17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Base\GraphicsManager">
+      <UniqueIdentifier>{e10310e5-2aaf-4c14-8d05-3a6992ba67ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Input">
+      <UniqueIdentifier>{0c2083e9-b23d-4a7c-b75a-df6ec4523b98}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
