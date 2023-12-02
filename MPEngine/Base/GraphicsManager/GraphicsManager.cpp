@@ -75,6 +75,8 @@ void GraphicsManager::PostDraw() {
 	*/
 #endif // DEBUG
 
+	CreateBarrier(swapChain_->GetBackBuffer(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT);
+
 	EndProcess();
 }
 
