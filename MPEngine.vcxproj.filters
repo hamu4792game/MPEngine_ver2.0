@@ -62,14 +62,17 @@
     <ClCompile Include="MPEngine\Base\GraphicsManager\GraphicsManager.cpp">
       <Filter>MPEngine\Base\GraphicsManager</Filter>
     </ClCompile>
-    <ClCompile Include="MPEngine\Input\AudioInput.cpp">
-      <Filter>MPEngine\Input</Filter>
-    </ClCompile>
     <ClCompile Include="MPEngine\Input\KeyInput.cpp">
       <Filter>MPEngine\Input</Filter>
     </ClCompile>
     <ClCompile Include="MPEngine\Input\PadInput.cpp">
       <Filter>MPEngine\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\Input\Input.cpp">
+      <Filter>MPEngine\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\Base\DetailSetting\DepthBuffer\DepthBuffer.cpp">
+      <Filter>MPEngine\Base\DetailSetting\DepthBuffer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -140,14 +143,17 @@
     <ClInclude Include="MPEngine\Base\GraphicsManager\GraphicsManager.h">
       <Filter>MPEngine\Base\GraphicsManager</Filter>
     </ClInclude>
-    <ClInclude Include="MPEngine\Input\AudioInput.h">
-      <Filter>MPEngine\Input</Filter>
-    </ClInclude>
     <ClInclude Include="MPEngine\Input\KeyInput.h">
       <Filter>MPEngine\Input</Filter>
     </ClInclude>
     <ClInclude Include="MPEngine\Input\PadInput.h">
       <Filter>MPEngine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Input\Input.h">
+      <Filter>MPEngine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Base\DetailSetting\DepthBuffer\DepthBuffer.h">
+      <Filter>MPEngine\Base\DetailSetting\DepthBuffer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -207,6 +213,9 @@
     </Filter>
     <Filter Include="MPEngine\Input">
       <UniqueIdentifier>{0c2083e9-b23d-4a7c-b75a-df6ec4523b98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Base\DetailSetting\DepthBuffer">
+      <UniqueIdentifier>{a5e3842b-c746-4df1-b2b7-f34af4be53b6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

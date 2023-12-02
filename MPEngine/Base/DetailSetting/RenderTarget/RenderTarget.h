@@ -1,5 +1,4 @@
 #pragma once
-#include "MPEngine/Base/CommandDirectX/CommandDirectX.h"
 #include "MPEngine/Base/DetailSetting/DescriptorHeap/DescriptorHeap.h"
 
 class RenderTarget

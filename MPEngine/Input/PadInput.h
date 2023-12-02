@@ -6,7 +6,7 @@
 #include <Xinput.h>
 #pragma comment(lib, "xinput.lib")
 
-#include "math/Vector2.h"
+#include "MPEngine/Math/Vector2.h"
 
 class PadInput
 {

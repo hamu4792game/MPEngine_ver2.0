@@ -10,6 +10,7 @@
 // 前方宣言
 class GraphicsManager;
 class WindowSupervisor;
+class Input;
 
 class MPEngine {
 private:
@@ -17,18 +18,19 @@ private:
 	~MPEngine() = default;
 public:
 	static MPEngine* GetInstance();
-
-	void Initialize(const char* title, int width, int height);
-	void Finalize();
 	void Run();
-
+private:
+	void Initialize(const char* title, int width, int height);
+	void Update();
+	void Finalize();
 public:
 	int windowWidth_ = 1280;
 	int windowHeight_ = 720;
 
 private: // メンバ変数
 	WindowSupervisor* winSv_ = nullptr;
-	GraphicsManager* grapfics_ = nullptr;
+	GraphicsManager* graphics_ = nullptr;
+	Input* input_ = nullptr;
 #ifdef _DEBUG
 private: // デバッグレイヤー
 	class D3DResourceLeakChecker {

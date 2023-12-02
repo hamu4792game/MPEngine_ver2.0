@@ -4,10 +4,25 @@
 #include "MPEngine/Base/Log.h"
 #include "MPEngine/Base/Manager/DeviceManager/DeviceManager.h"
 #include "MPEngine/Base/Manager/ResourceManager/ResourceManager.h"
+#include "Input/Input.h"
 
 MPEngine* MPEngine::GetInstance() {
 	static MPEngine instance;
 	return &instance;
+}
+
+void MPEngine::Run() {
+	int32_t windowWidth = 1280; int32_t windowHeight = 720;
+	Initialize("えとせとら", windowWidth, windowHeight);
+
+	//	ウィンドウの×ボタンが押されるまでループ
+	while (!winSv_->ProcessMessage()) {
+		Update();
+		break;
+	}
+
+	Finalize();
+
 }
 
 void MPEngine::Initialize(const char* title, int width, int height) {
@@ -22,38 +37,36 @@ void MPEngine::Initialize(const char* title, int width, int height) {
 	debugLayer_.EnableDebugLayer();
 #endif // debugLayerの有効化
 	
-
 	// DirectXの初期化
-	grapfics_ = GraphicsManager::GetInstance();
-	grapfics_->Initialize(windowWidth_, windowHeight_);
-
+	graphics_ = GraphicsManager::GetInstance();
+	graphics_->Initialize(windowWidth_, windowHeight_);
 
 #ifdef _DEBUG
 	debugLayer_.ErrorStoped(DeviceManager::GetInstance()->GetDevice());
 #endif
 
+	// 入力処理の初期化
+	input_ = Input::GetInstance();
+	input_->Initialize();
+
+}
+
+void MPEngine::Update() {
+	graphics_->PreDraw();
+	graphics_->SetViewPort(windowWidth_, windowHeight_);
+	input_->Update();
+	
+	// ゲームシーン処理
+
+	graphics_->PostDraw();
 
 }
 
 void MPEngine::Finalize() {
-	grapfics_->Finalize();
-	//delete comDirect_;
+	graphics_->Finalize();
 	winSv_->DeleteGameWindow();
-	//delete winSv_;
 }
 
-void MPEngine::Run() {
-	int32_t windowWidth = 1280; int32_t windowHeight = 720;
-	Initialize("えとせとら", windowWidth, windowHeight);
-
-	//	ウィンドウの×ボタンが押されるまでループ
-	while (!winSv_->ProcessMessage()) {
-		break;
-	}
-
-	Finalize();
-
-}
 
 #ifdef _DEBUG
 MPEngine::D3DResourceLeakChecker MPEngine::debugLayer_;

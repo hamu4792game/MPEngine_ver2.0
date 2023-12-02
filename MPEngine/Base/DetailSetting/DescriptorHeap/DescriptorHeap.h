@@ -9,8 +9,7 @@
 #include <Windows.h>
 #include <wrl.h>
 
-class DescriptorHeap
-{
+class DescriptorHeap {
 public:
 	DescriptorHeap() = default;
 	~DescriptorHeap() = default;

@@ -1,6 +1,6 @@
 #include "KeyInput.h"
 #include <cassert>
-#include "Engine/Base/WinApp.h"
+#include "MPEngine/Base/WindowSupervisor/WindowSupervisor.h"
 
 KeyInput* KeyInput::GetInstance() {
 	static KeyInput instance;
@@ -11,7 +11,7 @@ void KeyInput::Initialize() {
 	HRESULT result;
 	//	DirectInputの初期化
 	directInput = nullptr;
-	result = DirectInput8Create(WinApp::GetWc().hInstance, DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&directInput, nullptr);
+	result = DirectInput8Create(WindowSupervisor::GetInstance()->GetWc().hInstance, DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&directInput, nullptr);
 	assert(SUCCEEDED(result));
 
 	//	キーボードの生成
@@ -22,7 +22,7 @@ void KeyInput::Initialize() {
 	result = keyboard->SetDataFormat(&c_dfDIKeyboard);	// 標準形式
 	assert(SUCCEEDED(result));
 	//	排他制御レベルのセット
-	result = keyboard->SetCooperativeLevel(WinApp::GetHwnd(),
+	result = keyboard->SetCooperativeLevel(WindowSupervisor::GetInstance()->GetHwnd(),
 		DISCL_FOREGROUND |		/*画面が手前にある場合のみ入力を受け付ける*/
 		DISCL_NONEXCLUSIVE |	/*デバイスをこのアプリだけで専有しない*/
 		DISCL_NOWINKEY);		/*Windowsキーを無効にする*/
@@ -42,13 +42,13 @@ void KeyInput::Update() {
 }
 
 bool KeyInput::PressKey(uint8_t keynumber) {
-	return KeyInput::GetInstance()->key[keynumber];
+	return key[keynumber];
 }
 
 bool KeyInput::TriggerKey(uint8_t keynumber) {
-	return KeyInput::GetInstance()->key[keynumber] && !KeyInput::GetInstance()->oldKey[keynumber];
+	return key[keynumber] && !oldKey[keynumber];
 }
 
 bool KeyInput::ReleaseKey(uint8_t keynumber) {
-	return !KeyInput::GetInstance()->key[keynumber] && KeyInput::GetInstance()->oldKey[keynumber];
+	return !key[keynumber] && oldKey[keynumber];
 }

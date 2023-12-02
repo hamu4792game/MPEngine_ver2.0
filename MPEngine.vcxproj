@@ -110,6 +110,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="externals\imgui\imgui_tables.cpp" />
     <ClCompile Include="externals\imgui\imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MPEngine\Base\DetailSetting\DepthBuffer\DepthBuffer.cpp" />
     <ClCompile Include="MPEngine\Base\DetailSetting\DescriptorHeap\DescriptorHeap.cpp" />
     <ClCompile Include="MPEngine\Base\DetailSetting\RenderTarget\RenderTarget.cpp" />
     <ClCompile Include="MPEngine\Base\DetailSetting\SwapChain\SwapChain.cpp" />
@@ -118,7 +119,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="MPEngine\Base\Manager\ListManager\ListManager.cpp" />
     <ClCompile Include="MPEngine\Base\Manager\ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="MPEngine\Base\WindowSupervisor\WindowSupervisor.cpp" />
-    <ClCompile Include="MPEngine\Input\AudioInput.cpp" />
+    <ClCompile Include="MPEngine\Input\Input.cpp" />
     <ClCompile Include="MPEngine\Input\KeyInput.cpp" />
     <ClCompile Include="MPEngine\Input\PadInput.cpp" />
     <ClCompile Include="MPEngine\math\Matrix4x4.cpp" />
@@ -136,6 +137,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="externals\imgui\imstb_rectpack.h" />
     <ClInclude Include="externals\imgui\imstb_textedit.h" />
     <ClInclude Include="externals\imgui\imstb_truetype.h" />
+    <ClInclude Include="MPEngine\Base\DetailSetting\DepthBuffer\DepthBuffer.h" />
     <ClInclude Include="MPEngine\Base\DetailSetting\DescriptorHeap\DescriptorHeap.h" />
     <ClInclude Include="MPEngine\Base\DetailSetting\RenderTarget\RenderTarget.h" />
     <ClInclude Include="MPEngine\Base\DetailSetting\SwapChain\SwapChain.h" />
@@ -145,7 +147,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="MPEngine\Base\Manager\ListManager\ListManager.h" />
     <ClInclude Include="MPEngine\Base\Manager\ResourceManager\ResourceManager.h" />
     <ClInclude Include="MPEngine\Base\WindowSupervisor\WindowSupervisor.h" />
-    <ClInclude Include="MPEngine\Input\AudioInput.h" />
+    <ClInclude Include="MPEngine\Input\Input.h" />
     <ClInclude Include="MPEngine\Input\KeyInput.h" />
     <ClInclude Include="MPEngine\Input\PadInput.h" />
     <ClInclude Include="MPEngine\math\Matrix4x4.h" />

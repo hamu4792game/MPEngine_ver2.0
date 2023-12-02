@@ -12,6 +12,7 @@
 #include "MPEngine/Base/DetailSetting/SwapChain/SwapChain.h"
 #include "MPEngine/Base/WindowSupervisor/WindowSupervisor.h"
 #include "MPEngine/Base/Manager/ResourceManager/ResourceManager.h"
+#include "MPEngine/Base/DetailSetting/DepthBuffer/DepthBuffer.h"
 
 GraphicsManager* GraphicsManager::GetInstance() {
 	static GraphicsManager instance;
@@ -24,6 +25,7 @@ void GraphicsManager::Initialize(unsigned int bufferWidth, unsigned int bufferHe
 	commandList_ = ListManager::GetInstance();
 	swapChain_ = std::make_unique<SwapChain>();
 	rsManager_ = ResourceManager::GetInstance();
+	depthBuffer_ = std::make_unique<DepthBuffer>();
 
 	CreateFactry();
 	SelectAdapter();
@@ -32,6 +34,8 @@ void GraphicsManager::Initialize(unsigned int bufferWidth, unsigned int bufferHe
 	commandList_->CreateList();
 	swapChain_->CreateSwapChain(dxgiFactory_.Get(), commandQueue_.Get());
 	rsManager_->Initialize();
+	depthBuffer_->Initialize(bufferWidth, bufferHeight);
+	CreateFence();
 
 #ifdef _DEBUG
 	//ImGuiInitialize();
@@ -51,8 +55,14 @@ void GraphicsManager::PreDraw() {
 	//ImGui::ShowDemoWindow();
 #endif // _DEBUG
 
-
-
+	CreateBarrier(swapChain_->GetBackBuffer(), D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
+	auto rtvHandle = swapChain_->GetRTVDesc()->GetCPUDescriptorHandle(0);
+	auto dsvHandle = depthBuffer_->GetDSVDesc()->GetCPUDescriptorHandle(0);
+	commandList_->GetList()->OMSetRenderTargets(1, &rtvHandle, false, &dsvHandle);
+	//	画面クリア
+	ClearRenderTarget(rtvHandle);
+	//	指定した深度で画面全体をクリアする
+	commandList_->GetList()->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 }
 
 void GraphicsManager::PostDraw() {
@@ -65,6 +75,7 @@ void GraphicsManager::PostDraw() {
 	*/
 #endif // DEBUG
 
+	EndProcess();
 }
 
 void GraphicsManager::Finalize() {
@@ -176,6 +187,7 @@ void GraphicsManager::ImGuiInitialize() {
 		srvHeap->GetCPUDescriptorHandleForHeapStart(),
 		srvHeap->GetGPUDescriptorHandleForHeapStart()
 	);
+
 }
 
 void GraphicsManager::ImGuiFinalize() {

@@ -8,8 +8,7 @@
 
 #pragma comment(lib,"dinput8.lib")
 
-class KeyInput
-{
+class KeyInput {
 public:
 	KeyInput() = default;
 	~KeyInput() = default;
