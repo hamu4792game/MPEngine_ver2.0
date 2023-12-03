@@ -74,6 +74,9 @@
     <ClCompile Include="MPEngine\Base\DetailSetting\DepthBuffer\DepthBuffer.cpp">
       <Filter>MPEngine\Base\DetailSetting\DepthBuffer</Filter>
     </ClCompile>
+    <ClCompile Include="MPEngine\TimeBaseLoopExecuter\TimeBaseLoopExecuter.cpp">
+      <Filter>MPEngine\TimeBaseLoopExecuter</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -155,6 +158,9 @@
     <ClInclude Include="MPEngine\Base\DetailSetting\DepthBuffer\DepthBuffer.h">
       <Filter>MPEngine\Base\DetailSetting\DepthBuffer</Filter>
     </ClInclude>
+    <ClInclude Include="MPEngine\TimeBaseLoopExecuter\TimeBaseLoopExecuter.h">
+      <Filter>MPEngine\TimeBaseLoopExecuter</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="imgui">
@@ -216,6 +222,9 @@
     </Filter>
     <Filter Include="MPEngine\Base\DetailSetting\DepthBuffer">
       <UniqueIdentifier>{a5e3842b-c746-4df1-b2b7-f34af4be53b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\TimeBaseLoopExecuter">
+      <UniqueIdentifier>{7763a28f-be97-41ac-84c6-f56c8bb9ca20}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

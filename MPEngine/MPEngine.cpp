@@ -5,6 +5,7 @@
 #include "MPEngine/Base/Manager/DeviceManager/DeviceManager.h"
 #include "MPEngine/Base/Manager/ResourceManager/ResourceManager.h"
 #include "Input/Input.h"
+#include "TimeBaseLoopExecuter/TimeBaseLoopExecuter.h"
 
 MPEngine* MPEngine::GetInstance() {
 	static MPEngine instance;
@@ -17,7 +18,10 @@ void MPEngine::Run() {
 
 	//	ウィンドウの×ボタンが押されるまでループ
 	while (!winSv_->ProcessMessage()) {
+		//	フレームの開始
+		TimeBaseLoopExecuter fpsManager(60);
 		Update();
+		fpsManager.TimeAdjustment();
 		break;
 	}
 

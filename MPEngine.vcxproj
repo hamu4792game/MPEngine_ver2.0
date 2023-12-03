@@ -127,6 +127,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="MPEngine\math\Vector3.cpp" />
     <ClCompile Include="MPEngine\math\Vector4.cpp" />
     <ClCompile Include="MPEngine\MPEngine.cpp" />
+    <ClCompile Include="MPEngine\TimeBaseLoopExecuter\TimeBaseLoopExecuter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h" />
@@ -155,6 +156,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="MPEngine\math\Vector3.h" />
     <ClInclude Include="MPEngine\math\Vector4.h" />
     <ClInclude Include="MPEngine\MPEngine.h" />
+    <ClInclude Include="MPEngine\TimeBaseLoopExecuter\TimeBaseLoopExecuter.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
