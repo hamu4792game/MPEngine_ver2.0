@@ -52,20 +52,25 @@ void GraphicsManager::PreDraw() {
 	ImGui::NewFrame();
 
 	// ImGuiデモの表示
-	//ImGui::ShowDemoWindow();
+	ImGui::ShowDemoWindow();
 #endif // _DEBUG
 
 	CreateBarrier(swapChain_->GetBackBuffer(), D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
-	auto rtvHandle = swapChain_->GetRTVDesc()->GetCPUDescriptorHandle(0);
-	auto dsvHandle = depthBuffer_->GetDSVDesc()->GetCPUDescriptorHandle(0);
+	auto index = swapChain_->GetSwapChain()->GetCurrentBackBufferIndex();
+	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = swapChain_->GetRTVDesc()->GetCPUDescriptorHandle(index);
+		
+	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = depthBuffer_->GetDSVDesc()->GetCPUDescriptorHandle(0);
 	commandList_->GetList()->OMSetRenderTargets(1, &rtvHandle, false, &dsvHandle);
-	//	画面クリア
-	ClearRenderTarget(rtvHandle);
 	//	指定した深度で画面全体をクリアする
 	commandList_->GetList()->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+	//	画面クリア
+	ClearRenderTarget(rtvHandle);
 }
 
 void GraphicsManager::PostDraw() {
+
+	ID3D12DescriptorHeap* descriptorHeap[] = { rsManager_->GetSRVHeap() };
+	commandList_->GetList()->SetDescriptorHeaps(1, descriptorHeap);
 
 #ifdef _DEBUG
 	

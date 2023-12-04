@@ -22,7 +22,7 @@ void MPEngine::Run() {
 		TimeBaseLoopExecuter fpsManager(60);
 		Update();
 		fpsManager.TimeAdjustment();
-		break;
+		//break;
 	}
 
 	Finalize();
