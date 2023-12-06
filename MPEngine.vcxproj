@@ -112,13 +112,16 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MPEngine\Base\DetailSetting\DepthBuffer\DepthBuffer.cpp" />
     <ClCompile Include="MPEngine\Base\DetailSetting\DescriptorHeap\DescriptorHeap.cpp" />
+    <ClCompile Include="MPEngine\Base\DetailSetting\GraphicsPipeline\GraphicsPipeline.cpp" />
     <ClCompile Include="MPEngine\Base\DetailSetting\RenderTarget\RenderTarget.cpp" />
     <ClCompile Include="MPEngine\Base\DetailSetting\SwapChain\SwapChain.cpp" />
     <ClCompile Include="MPEngine\Base\GraphicsManager\GraphicsManager.cpp" />
     <ClCompile Include="MPEngine\Base\Manager\DeviceManager\DeviceManager.cpp" />
     <ClCompile Include="MPEngine\Base\Manager\ListManager\ListManager.cpp" />
     <ClCompile Include="MPEngine\Base\Manager\ResourceManager\ResourceManager.cpp" />
+    <ClCompile Include="MPEngine\Base\Manager\ShaderManager\ShaderManager.cpp" />
     <ClCompile Include="MPEngine\Base\WindowSupervisor\WindowSupervisor.cpp" />
+    <ClCompile Include="MPEngine\Graphics\Texture\Texture.cpp" />
     <ClCompile Include="MPEngine\Input\Input.cpp" />
     <ClCompile Include="MPEngine\Input\KeyInput.cpp" />
     <ClCompile Include="MPEngine\Input\PadInput.cpp" />
@@ -140,6 +143,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="externals\imgui\imstb_truetype.h" />
     <ClInclude Include="MPEngine\Base\DetailSetting\DepthBuffer\DepthBuffer.h" />
     <ClInclude Include="MPEngine\Base\DetailSetting\DescriptorHeap\DescriptorHeap.h" />
+    <ClInclude Include="MPEngine\Base\DetailSetting\GraphicsPipeline\GraphicsPipeline.h" />
     <ClInclude Include="MPEngine\Base\DetailSetting\RenderTarget\RenderTarget.h" />
     <ClInclude Include="MPEngine\Base\DetailSetting\SwapChain\SwapChain.h" />
     <ClInclude Include="MPEngine\Base\GraphicsManager\GraphicsManager.h" />
@@ -147,7 +151,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="MPEngine\Base\Manager\DeviceManager\DeviceManager.h" />
     <ClInclude Include="MPEngine\Base\Manager\ListManager\ListManager.h" />
     <ClInclude Include="MPEngine\Base\Manager\ResourceManager\ResourceManager.h" />
+    <ClInclude Include="MPEngine\Base\Manager\ShaderManager\ShaderManager.h" />
     <ClInclude Include="MPEngine\Base\WindowSupervisor\WindowSupervisor.h" />
+    <ClInclude Include="MPEngine\Graphics\Texture\Texture.h" />
     <ClInclude Include="MPEngine\Input\Input.h" />
     <ClInclude Include="MPEngine\Input\KeyInput.h" />
     <ClInclude Include="MPEngine\Input\PadInput.h" />

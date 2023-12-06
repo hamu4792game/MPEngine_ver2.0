@@ -60,6 +60,7 @@ void GraphicsManager::PreDraw() {
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = swapChain_->GetRTVDesc()->GetCPUDescriptorHandle(index);
 		
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = depthBuffer_->GetDSVDesc()->GetCPUDescriptorHandle(0);
+	// 描画先のRTVとDSVを設定する
 	commandList_->GetList()->OMSetRenderTargets(1, &rtvHandle, false, &dsvHandle);
 	//	指定した深度で画面全体をクリアする
 	commandList_->GetList()->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);

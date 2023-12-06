@@ -77,6 +77,15 @@
     <ClCompile Include="MPEngine\TimeBaseLoopExecuter\TimeBaseLoopExecuter.cpp">
       <Filter>MPEngine\TimeBaseLoopExecuter</Filter>
     </ClCompile>
+    <ClCompile Include="MPEngine\Graphics\Texture\Texture.cpp">
+      <Filter>MPEngine\Graphics\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\Base\DetailSetting\GraphicsPipeline\GraphicsPipeline.cpp">
+      <Filter>MPEngine\Base\DetailSetting\GraphicsPipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\Base\Manager\ShaderManager\ShaderManager.cpp">
+      <Filter>MPEngine\Base\Manager\ShaderManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -161,6 +170,15 @@
     <ClInclude Include="MPEngine\TimeBaseLoopExecuter\TimeBaseLoopExecuter.h">
       <Filter>MPEngine\TimeBaseLoopExecuter</Filter>
     </ClInclude>
+    <ClInclude Include="MPEngine\Base\DetailSetting\GraphicsPipeline\GraphicsPipeline.h">
+      <Filter>MPEngine\Base\DetailSetting\GraphicsPipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Graphics\Texture\Texture.h">
+      <Filter>MPEngine\Graphics\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Base\Manager\ShaderManager\ShaderManager.h">
+      <Filter>MPEngine\Base\Manager\ShaderManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="imgui">
@@ -225,6 +243,18 @@
     </Filter>
     <Filter Include="MPEngine\TimeBaseLoopExecuter">
       <UniqueIdentifier>{7763a28f-be97-41ac-84c6-f56c8bb9ca20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Graphics">
+      <UniqueIdentifier>{86e94afe-dddc-4771-ab3b-8331b6f641a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Graphics\Texture">
+      <UniqueIdentifier>{d5147d06-c76b-43e6-8679-539867ee7b34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Base\DetailSetting\GraphicsPipeline">
+      <UniqueIdentifier>{d4ec419f-9c13-4f55-bceb-6ed06736d998}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Base\Manager\ShaderManager">
+      <UniqueIdentifier>{6453e595-8ac6-4a71-bf38-f573fb447ab4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
