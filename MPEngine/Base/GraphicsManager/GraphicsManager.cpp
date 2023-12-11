@@ -2,11 +2,13 @@
 #include <cassert>
 
 // imguiのinclude
+#ifdef _DEBUG
 #include "externals/imgui/imgui.h"
 #include "externals/imgui/imgui_impl_dx12.h"
 #include "externals/imgui/imgui_impl_win32.h"
-#include "MPEngine/Base/Log.h"
+#endif // _DEBUG
 
+#include "MPEngine/Base/Log.h"
 #include "MPEngine/Base/Manager/DeviceManager/DeviceManager.h"
 #include "MPEngine/Base/Manager/ListManager/ListManager.h"
 #include "MPEngine/Base/DetailSetting/SwapChain/SwapChain.h"
@@ -21,6 +23,7 @@ GraphicsManager* GraphicsManager::GetInstance() {
 
 void GraphicsManager::Initialize(unsigned int bufferWidth, unsigned int bufferHeight) {
 
+#pragma region DirectXの初期化
 	device_ = DeviceManager::GetInstance();
 	commandList_ = ListManager::GetInstance();
 	swapChain_ = std::make_unique<SwapChain>();
@@ -36,10 +39,11 @@ void GraphicsManager::Initialize(unsigned int bufferWidth, unsigned int bufferHe
 	rsManager_->Initialize();
 	depthBuffer_->Initialize(bufferWidth, bufferHeight);
 	CreateFence();
+#pragma endregion
 
 #ifdef _DEBUG
 	ImGuiInitialize();
-#endif // _DEBUG
+#endif // ImGuiの初期化
 
 
 }
@@ -70,7 +74,7 @@ void GraphicsManager::PreDraw() {
 
 void GraphicsManager::PostDraw() {
 
-	ID3D12DescriptorHeap* descriptorHeap[] = { rsManager_->GetSRVHeap() };
+	ID3D12DescriptorHeap* descriptorHeap[] = { rsManager_->GetSRVHeap()->GetDescriptorHeap() };
 	commandList_->GetList()->SetDescriptorHeaps(1, descriptorHeap);
 
 #ifdef _DEBUG
@@ -178,6 +182,7 @@ void GraphicsManager::CreateFence() {
 }
 
 void GraphicsManager::ImGuiInitialize() {
+#ifdef _DEBUG
 	auto winApp = WindowSupervisor::GetInstance();
 	// swapChaineのbufferCountの取得
 	DXGI_SWAP_CHAIN_DESC1 SCD;
@@ -192,17 +197,19 @@ void GraphicsManager::ImGuiInitialize() {
 	ImGui_ImplDX12_Init(device_->GetDevice(),
 		SCD.BufferCount,
 		DXGI_FORMAT_R8G8B8A8_UNORM_SRGB,
-		srvHeap,
-		srvHeap->GetCPUDescriptorHandleForHeapStart(),
-		srvHeap->GetGPUDescriptorHandleForHeapStart()
+		srvHeap->GetDescriptorHeap(),
+		srvHeap->GetCPUDescriptorHandle(0),
+		srvHeap->GetGPUDescriptorHandle(0)
 	);
-
+#endif // _DEBUG
 }
 
 void GraphicsManager::ImGuiFinalize() {
+#ifdef _DEBUG
 	ImGui_ImplDX12_Shutdown();
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
+#endif // _DEBUG
 }
 
 void GraphicsManager::EndProcess() {

@@ -6,6 +6,7 @@
 #include "MPEngine/Base/Manager/ResourceManager/ResourceManager.h"
 #include "Input/Input.h"
 #include "TimeBaseLoopExecuter/TimeBaseLoopExecuter.h"
+#include "MPEngine/Base/Manager/ShaderManager/ShaderManager.h"
 
 MPEngine* MPEngine::GetInstance() {
 	static MPEngine instance;
@@ -40,7 +41,11 @@ void MPEngine::Initialize(const char* title, int width, int height) {
 #ifdef _DEBUG
 	debugLayer_.EnableDebugLayer();
 #endif // debugLayerの有効化
-	
+
+	// シェーダー用の初期化
+	shaderManager_ = ShaderManager::GetInstance();
+	shaderManager_->DXcInitialize();
+
 	// DirectXの初期化
 	graphics_ = GraphicsManager::GetInstance();
 	graphics_->Initialize(windowWidth_, windowHeight_);

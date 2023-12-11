@@ -121,6 +121,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="MPEngine\Base\Manager\ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="MPEngine\Base\Manager\ShaderManager\ShaderManager.cpp" />
     <ClCompile Include="MPEngine\Base\WindowSupervisor\WindowSupervisor.cpp" />
+    <ClCompile Include="MPEngine\Graphics\SpriteRender\SpriteRender.cpp" />
+    <ClCompile Include="MPEngine\Graphics\Sprite\Sprite.cpp" />
     <ClCompile Include="MPEngine\Graphics\Texture\Texture.cpp" />
     <ClCompile Include="MPEngine\Input\Input.cpp" />
     <ClCompile Include="MPEngine\Input\KeyInput.cpp" />
@@ -153,6 +155,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="MPEngine\Base\Manager\ResourceManager\ResourceManager.h" />
     <ClInclude Include="MPEngine\Base\Manager\ShaderManager\ShaderManager.h" />
     <ClInclude Include="MPEngine\Base\WindowSupervisor\WindowSupervisor.h" />
+    <ClInclude Include="MPEngine\Graphics\SpriteRender\SpriteRender.h" />
+    <ClInclude Include="MPEngine\Graphics\Sprite\Sprite.h" />
     <ClInclude Include="MPEngine\Graphics\Texture\Texture.h" />
     <ClInclude Include="MPEngine\Input\Input.h" />
     <ClInclude Include="MPEngine\Input\KeyInput.h" />

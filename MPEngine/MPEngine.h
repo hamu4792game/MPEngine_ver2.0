@@ -11,6 +11,7 @@
 class GraphicsManager;
 class WindowSupervisor;
 class Input;
+class ShaderManager;
 
 class MPEngine {
 private:
@@ -31,6 +32,8 @@ private: // メンバ変数
 	WindowSupervisor* winSv_ = nullptr;
 	GraphicsManager* graphics_ = nullptr;
 	Input* input_ = nullptr;
+	// シェーダーマネージャー
+	ShaderManager* shaderManager_ = nullptr;
 #ifdef _DEBUG
 private: // デバッグレイヤー
 	class D3DResourceLeakChecker {

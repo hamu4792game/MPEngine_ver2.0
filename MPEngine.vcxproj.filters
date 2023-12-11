@@ -86,6 +86,12 @@
     <ClCompile Include="MPEngine\Base\Manager\ShaderManager\ShaderManager.cpp">
       <Filter>MPEngine\Base\Manager\ShaderManager</Filter>
     </ClCompile>
+    <ClCompile Include="MPEngine\Graphics\SpriteRender\SpriteRender.cpp">
+      <Filter>MPEngine\Graphics\SpriteRender</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\Graphics\Sprite\Sprite.cpp">
+      <Filter>MPEngine\Graphics\Sprite</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -179,6 +185,12 @@
     <ClInclude Include="MPEngine\Base\Manager\ShaderManager\ShaderManager.h">
       <Filter>MPEngine\Base\Manager\ShaderManager</Filter>
     </ClInclude>
+    <ClInclude Include="MPEngine\Graphics\SpriteRender\SpriteRender.h">
+      <Filter>MPEngine\Graphics\SpriteRender</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Graphics\Sprite\Sprite.h">
+      <Filter>MPEngine\Graphics\Sprite</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="imgui">
@@ -255,6 +267,12 @@
     </Filter>
     <Filter Include="MPEngine\Base\Manager\ShaderManager">
       <UniqueIdentifier>{6453e595-8ac6-4a71-bf38-f573fb447ab4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Graphics\SpriteRender">
+      <UniqueIdentifier>{e2b5b48c-6d09-4fa7-8499-eedb15b8913b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Graphics\Sprite">
+      <UniqueIdentifier>{62ab4733-f874-428e-8760-ff502c89db88}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
