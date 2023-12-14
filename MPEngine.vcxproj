@@ -109,11 +109,14 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="externals\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="externals\imgui\imgui_tables.cpp" />
     <ClCompile Include="externals\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="GameScene\GameScene.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MPEngine\Base\DetailSetting\DepthBuffer\DepthBuffer.cpp" />
+    <ClCompile Include="MPEngine\Base\DetailSetting\DescriptorHandle\DescriptorHandle.cpp" />
     <ClCompile Include="MPEngine\Base\DetailSetting\DescriptorHeap\DescriptorHeap.cpp" />
     <ClCompile Include="MPEngine\Base\DetailSetting\GraphicsPipeline\GraphicsPipeline.cpp" />
     <ClCompile Include="MPEngine\Base\DetailSetting\RenderTarget\RenderTarget.cpp" />
+    <ClCompile Include="MPEngine\Base\DetailSetting\RootSignature\RootSignature.cpp" />
     <ClCompile Include="MPEngine\Base\DetailSetting\SwapChain\SwapChain.cpp" />
     <ClCompile Include="MPEngine\Base\GraphicsManager\GraphicsManager.cpp" />
     <ClCompile Include="MPEngine\Base\Manager\DeviceManager\DeviceManager.cpp" />
@@ -121,6 +124,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="MPEngine\Base\Manager\ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="MPEngine\Base\Manager\ShaderManager\ShaderManager.cpp" />
     <ClCompile Include="MPEngine\Base\WindowSupervisor\WindowSupervisor.cpp" />
+    <ClCompile Include="MPEngine\Graphics\RenderManager\RenderManager.cpp" />
     <ClCompile Include="MPEngine\Graphics\SpriteRender\SpriteRender.cpp" />
     <ClCompile Include="MPEngine\Graphics\Sprite\Sprite.cpp" />
     <ClCompile Include="MPEngine\Graphics\Texture\Texture.cpp" />
@@ -143,10 +147,14 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="externals\imgui\imstb_rectpack.h" />
     <ClInclude Include="externals\imgui\imstb_textedit.h" />
     <ClInclude Include="externals\imgui\imstb_truetype.h" />
+    <ClInclude Include="GameScene\GameScene.h" />
+    <ClInclude Include="MPEngine\Base\ConstantBuffer.h" />
     <ClInclude Include="MPEngine\Base\DetailSetting\DepthBuffer\DepthBuffer.h" />
+    <ClInclude Include="MPEngine\Base\DetailSetting\DescriptorHandle\DescriptorHandle.h" />
     <ClInclude Include="MPEngine\Base\DetailSetting\DescriptorHeap\DescriptorHeap.h" />
     <ClInclude Include="MPEngine\Base\DetailSetting\GraphicsPipeline\GraphicsPipeline.h" />
     <ClInclude Include="MPEngine\Base\DetailSetting\RenderTarget\RenderTarget.h" />
+    <ClInclude Include="MPEngine\Base\DetailSetting\RootSignature\RootSignature.h" />
     <ClInclude Include="MPEngine\Base\DetailSetting\SwapChain\SwapChain.h" />
     <ClInclude Include="MPEngine\Base\GraphicsManager\GraphicsManager.h" />
     <ClInclude Include="MPEngine\Base\Log.h" />
@@ -155,6 +163,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="MPEngine\Base\Manager\ResourceManager\ResourceManager.h" />
     <ClInclude Include="MPEngine\Base\Manager\ShaderManager\ShaderManager.h" />
     <ClInclude Include="MPEngine\Base\WindowSupervisor\WindowSupervisor.h" />
+    <ClInclude Include="MPEngine\Graphics\RenderManager\RenderManager.h" />
     <ClInclude Include="MPEngine\Graphics\SpriteRender\SpriteRender.h" />
     <ClInclude Include="MPEngine\Graphics\Sprite\Sprite.h" />
     <ClInclude Include="MPEngine\Graphics\Texture\Texture.h" />

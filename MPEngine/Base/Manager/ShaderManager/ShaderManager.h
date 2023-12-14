@@ -18,7 +18,6 @@ public:
 
 	void DXcInitialize();
 
-private:
 	enum ShaderType {
 		Vertex,
 		Pixel,
@@ -26,6 +25,7 @@ private:
 		kMaxNum, // カウント用
 	};
 
+private:
 	Microsoft::WRL::ComPtr<IDxcUtils> dxcUtils_;
 	Microsoft::WRL::ComPtr<IDxcCompiler3> dxcCompiler_;
 	Microsoft::WRL::ComPtr<IDxcIncludeHandler> includeHandler_;
@@ -34,10 +34,11 @@ private:
 
 	const std::string kDirectlyPath = "./Resources/Shader/";
 
-private:
+public:
 	// コンパイル呼び出し
 	Microsoft::WRL::ComPtr<IDxcBlob> CompileShader(const std::string& filePath, ShaderType type);
 
+private:
 	// 実際のシェーダーのコンパイル
 	Microsoft::WRL::ComPtr<IDxcBlob> CompileShader(const std::wstring& filePath, const wchar_t* profile);
 

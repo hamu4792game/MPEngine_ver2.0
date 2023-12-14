@@ -4,17 +4,20 @@
 #include "MPEngine/Base/Manager/DeviceManager/DeviceManager.h"
 
 void Texture::Load(const std::string& filePath) {
-	auto rsManeger = ResourceManager::GetInstance();
+	auto rsManager = ResourceManager::GetInstance();
 	auto device = DeviceManager::GetInstance()->GetDevice();
 
-	DirectX::ScratchImage mipImages = rsManeger->LoadTexture(filePath);
+	DirectX::ScratchImage mipImages = rsManager->LoadTexture(filePath);
 	const DirectX::TexMetadata& metaData = mipImages.GetMetadata();
-	resource_ = rsManeger->CreateTextureResource(device, metaData);
-	rsManeger->UploadTextureData(resource_.Get(), mipImages);
+	resource_ = rsManager->CreateTextureResource(device, metaData);
+	rsManager->UploadTextureData(resource_.Get(), mipImages);
 
 	// 画像サイズの代入
 	textureSize_.x = static_cast<float>(metaData.width);
 	textureSize_.y = static_cast<float>(metaData.height);
+
+	srvHandle_.CreateView(rsManager->GetSRVHeap(), kFirstNumber_ + rsManager->GetCount());
+	auto cpuHandle = srvHandle_.GetCPU();
 
 	// 設定
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
@@ -23,6 +26,6 @@ void Texture::Load(const std::string& filePath) {
 	srvDesc.Texture2D.MipLevels = static_cast<UINT>(metaData.mipLevels);
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	// ビューの生成
-	device->CreateShaderResourceView(resource_.Get(), &srvDesc, rsManeger->GetSRVHeap()->GetCPUDescriptorHandle(0));
+	device->CreateShaderResourceView(resource_.Get(), &srvDesc, /*rsManager->GetSRVHeap()->GetCPUDescriptorHandle(0)*/cpuHandle);
 
 }

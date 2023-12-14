@@ -2,16 +2,14 @@
 #include <wrl.h>
 #include <d3d12.h>
 #pragma comment(lib,"d3d12.lib")
-#include <dxgi1_6.h>
-#pragma comment(lib,"dxgi.lib")
-#include <dxgidebug.h>
-#pragma comment(lib,"dxguid.lib")
 
 // 前方宣言
 class GraphicsManager;
 class WindowSupervisor;
 class Input;
 class ShaderManager;
+#include "MPEngine/Graphics/RenderManager/RenderManager.h"
+#include "GameScene/GameScene.h"
 
 class MPEngine {
 private:
@@ -34,6 +32,14 @@ private: // メンバ変数
 	Input* input_ = nullptr;
 	// シェーダーマネージャー
 	ShaderManager* shaderManager_ = nullptr;
+	// 描画のためのインスタンス
+	RenderManager render;
+
+
+	// ゲームシーン
+	GameScene game;
+
+
 #ifdef _DEBUG
 private: // デバッグレイヤー
 	class D3DResourceLeakChecker {

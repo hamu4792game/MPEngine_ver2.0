@@ -21,21 +21,33 @@ enum class BlendMode {
 };
 
 class GraphicsPipeline {
-private:
+public:
 	GraphicsPipeline() = default;
 	~GraphicsPipeline() = default;
-public:
-	static GraphicsPipeline* GetInstance();
 
 	// 初期化
 	void CreatePipeline();
+
+public: // ゲッター
+	ID3D12PipelineState* GetSpritePipelineState(BlendMode type) const { return spritePipelineState[static_cast<int>(type)].Get(); }
 
 private: // メンバ変数
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> spritePipelineState[static_cast<int>(BlendMode::BlendCount)];
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> modelPipelineState[static_cast<int>(BlendMode::BlendCount)];
 
-private:
+private: // メンバ関数
 	void CreateSpritePipeline(BlendMode blendType);
 	void CreateModelPipeline(BlendMode blendType);
 
 };
+
+class PipelineManager {
+private:
+	PipelineManager() = default;
+	~PipelineManager() = default;
+public:
+	static PipelineManager* GetInstance();
+
+
+};
+

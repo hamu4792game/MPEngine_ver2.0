@@ -92,6 +92,18 @@
     <ClCompile Include="MPEngine\Graphics\Sprite\Sprite.cpp">
       <Filter>MPEngine\Graphics\Sprite</Filter>
     </ClCompile>
+    <ClCompile Include="MPEngine\Base\DetailSetting\RootSignature\RootSignature.cpp">
+      <Filter>MPEngine\Base\DetailSetting\RootSignature</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\Base\DetailSetting\DescriptorHandle\DescriptorHandle.cpp">
+      <Filter>MPEngine\Base\DetailSetting\DescriptorHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\Graphics\RenderManager\RenderManager.cpp">
+      <Filter>MPEngine\Graphics\RenderManager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene\GameScene.cpp">
+      <Filter>GameScene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -191,6 +203,21 @@
     <ClInclude Include="MPEngine\Graphics\Sprite\Sprite.h">
       <Filter>MPEngine\Graphics\Sprite</Filter>
     </ClInclude>
+    <ClInclude Include="MPEngine\Base\DetailSetting\RootSignature\RootSignature.h">
+      <Filter>MPEngine\Base\DetailSetting\RootSignature</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Base\ConstantBuffer.h">
+      <Filter>MPEngine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Base\DetailSetting\DescriptorHandle\DescriptorHandle.h">
+      <Filter>MPEngine\Base\DetailSetting\DescriptorHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Graphics\RenderManager\RenderManager.h">
+      <Filter>MPEngine\Graphics\RenderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene\GameScene.h">
+      <Filter>GameScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="imgui">
@@ -273,6 +300,18 @@
     </Filter>
     <Filter Include="MPEngine\Graphics\Sprite">
       <UniqueIdentifier>{62ab4733-f874-428e-8760-ff502c89db88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Base\DetailSetting\RootSignature">
+      <UniqueIdentifier>{2f1e355a-ce5a-4c4b-8c3e-ae18499ead7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Base\DetailSetting\DescriptorHandle">
+      <UniqueIdentifier>{b52532d6-f6cc-4ad2-9dc9-f604e93a0d09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Graphics\RenderManager">
+      <UniqueIdentifier>{acd41f0a-0343-4bf8-a137-d273c6ccc1ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameScene">
+      <UniqueIdentifier>{1c0b4081-c4c0-447f-b10f-a9e850ce9569}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

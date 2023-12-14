@@ -8,6 +8,11 @@
 #include "TimeBaseLoopExecuter/TimeBaseLoopExecuter.h"
 #include "MPEngine/Base/Manager/ShaderManager/ShaderManager.h"
 
+#include <dxgi1_6.h>
+#pragma comment(lib,"dxgi.lib")
+#include <dxgidebug.h>
+#pragma comment(lib,"dxguid.lib")
+
 MPEngine* MPEngine::GetInstance() {
 	static MPEngine instance;
 	return &instance;
@@ -54,9 +59,15 @@ void MPEngine::Initialize(const char* title, int width, int height) {
 	debugLayer_.ErrorStoped(DeviceManager::GetInstance()->GetDevice());
 #endif
 
+	// 描画オブジェクトのための初期化
+	render.Initialize();
+
 	// 入力処理の初期化
 	input_ = Input::GetInstance();
 	input_->Initialize();
+
+	// ゲーム初期化
+	game.Initialize();
 
 }
 
@@ -66,6 +77,10 @@ void MPEngine::Update() {
 	input_->Update();
 	
 	// ゲームシーン処理
+	game.Draw();
+
+	// 描画処理
+	render.Draw();
 
 	graphics_->PostDraw();
 

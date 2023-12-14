@@ -1,5 +1,7 @@
 #include "ResourceManager.h"
 #include "MPEngine/Base/Log.h"
+#include "MPEngine/Graphics/Texture/Texture.h"
+#include <format>
 
 ResourceManager* ResourceManager::GetInstance() {
 	static ResourceManager instance;
@@ -14,6 +16,15 @@ void ResourceManager::Initialize() {
 
 void ResourceManager::Finalize() {
 	srvDescriptorHeap_->Release();
+}
+
+const unsigned int ResourceManager::GetCount() {
+	return textureCount_++;
+}
+
+void ResourceManager::AddTexture(const std::string& name, const std::shared_ptr<Texture>& texture) {
+	// textureの追加
+	textureContainer_.emplace(std::make_pair(name, texture));
 }
 
 DirectX::ScratchImage ResourceManager::LoadTexture(const std::string& filePath) {

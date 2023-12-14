@@ -1,11 +1,27 @@
 #pragma once
-#include "MPEngine/Base/DetailSetting/DescriptorHeap/DescriptorHeap.h"
-#include <memory>
-#include <cmath>
 //	DirextXtex
 #include "externals/DirectXTex/DirectXTex.h"
 #include "externals/DirectXTex/d3dx12.h"
+
+#include "MPEngine/Base/DetailSetting/DescriptorHeap/DescriptorHeap.h"
+
+#include <memory>
+#include <map>
+#include <cmath>
 #include <string>
+
+#include "MPEngine/Math/Vector2.h"
+#include "MPEngine/Math/Vector3.h"
+#include "MPEngine/Math/Vector4.h"
+
+//	頂点データ構造体
+struct VertexData {
+	Vector4 position;
+	Vector2 texcoord;
+	Vector3 normal;
+};
+
+class Texture;
 
 class ResourceManager {
 private:
@@ -21,8 +37,16 @@ private:
 	std::unique_ptr<DescriptorHeap> srvDescriptorHeap_;
 	const unsigned int kDescriptorHeapSize_ = 4096;
 
-public:
+	std::map<std::string, std::shared_ptr<Texture>> textureContainer_; // textureを纏めたコンテナ
+
+	unsigned int textureCount_ = 0u; // 今のテクスチャが追加された数
+public: // 取得関数
 	DescriptorHeap* const GetSRVHeap() { return srvDescriptorHeap_.get(); }
+	std::shared_ptr<Texture> FindTexture(const std::string& name) const { return textureContainer_.at(name); }
+
+public: // 追加関数
+	void AddTexture(const std::string& name, const std::shared_ptr<Texture>& texture);
+	const unsigned int GetCount(); // 次のtexture番号を割り当て
 
 public:
 	// DirectX12のTextureResourceを作る
