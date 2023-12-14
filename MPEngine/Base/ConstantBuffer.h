@@ -1,6 +1,7 @@
 #pragma once
 #include "MPEngine/Base/Manager/ResourceManager/ResourceManager.h"
 #include "MPEngine/Base/Manager/DeviceManager/DeviceManager.h"
+#include "MPEngine/Base/DetailSetting/DescriptorHandle/DescriptorHandle.h"
 
 //	テンプレート化
 template<class T>
@@ -11,7 +12,8 @@ public:
 		resource = rsManager->CreateBufferResource(DeviceManager::GetInstance()->GetDevice(), (sizeof(T) + 0xff) & ~0xff);
 		cBufferViewDesc.BufferLocation = resource->GetGPUVirtualAddress();
 		cBufferViewDesc.SizeInBytes = UINT(resource->GetDesc().Width);
-		
+		handle.CreateView(rsManager->GetSRVHeap(), rsManager->GetCount());
+
 		resource->Map(0, nullptr, reinterpret_cast<void**>(&pData));
 	}
 	
@@ -37,9 +39,12 @@ public:
 	//	仮想アドレスのget
 	D3D12_GPU_VIRTUAL_ADDRESS GetGPUVirtualAddress() { return resource->GetGPUVirtualAddress(); };
 
+	DescriptorHandle GetHandle() const { return handle; }
+
 private:
 	ID3D12Resource* resource = nullptr;
 	D3D12_CONSTANT_BUFFER_VIEW_DESC cBufferViewDesc{};
+	DescriptorHandle handle;
 	// 転送用
 	T* pData;
 };

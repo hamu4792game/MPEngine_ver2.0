@@ -16,7 +16,7 @@ void Texture::Load(const std::string& filePath) {
 	textureSize_.x = static_cast<float>(metaData.width);
 	textureSize_.y = static_cast<float>(metaData.height);
 
-	srvHandle_.CreateView(rsManager->GetSRVHeap(), kFirstNumber_ + rsManager->GetCount());
+	srvHandle_.CreateView(rsManager->GetSRVHeap(), rsManager->GetCount());
 	auto cpuHandle = srvHandle_.GetCPU();
 
 	// 設定

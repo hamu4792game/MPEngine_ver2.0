@@ -121,6 +121,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="MPEngine\Base\GraphicsManager\GraphicsManager.cpp" />
     <ClCompile Include="MPEngine\Base\Manager\DeviceManager\DeviceManager.cpp" />
     <ClCompile Include="MPEngine\Base\Manager\ListManager\ListManager.cpp" />
+    <ClCompile Include="MPEngine\Base\Manager\PipelineManager\PipelineManager.cpp" />
     <ClCompile Include="MPEngine\Base\Manager\ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="MPEngine\Base\Manager\ShaderManager\ShaderManager.cpp" />
     <ClCompile Include="MPEngine\Base\WindowSupervisor\WindowSupervisor.cpp" />
@@ -160,6 +161,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="MPEngine\Base\Log.h" />
     <ClInclude Include="MPEngine\Base\Manager\DeviceManager\DeviceManager.h" />
     <ClInclude Include="MPEngine\Base\Manager\ListManager\ListManager.h" />
+    <ClInclude Include="MPEngine\Base\Manager\PipelineManager\PipelineManager.h" />
     <ClInclude Include="MPEngine\Base\Manager\ResourceManager\ResourceManager.h" />
     <ClInclude Include="MPEngine\Base\Manager\ShaderManager\ShaderManager.h" />
     <ClInclude Include="MPEngine\Base\WindowSupervisor\WindowSupervisor.h" />

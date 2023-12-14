@@ -2,7 +2,7 @@
 #include <cassert>
 #include "MPEngine/Base/Manager/DeviceManager/DeviceManager.h"
 
-ID3D12DescriptorHeap* DescriptorHeap::CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE heapType, UINT numDescriptors, bool shaderVisible) {
+ID3D12DescriptorHeap* DescriptorHeap::CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE heapType, uint32_t numDescriptors, bool shaderVisible) {
 	heapType_ = heapType;
 	D3D12_DESCRIPTOR_HEAP_DESC descriptorHeapDesc{};
 	descriptorHeapDesc.Type = heapType;
@@ -15,14 +15,14 @@ ID3D12DescriptorHeap* DescriptorHeap::CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP
 	return descriptorHeap_.Get();
 }
 
-D3D12_CPU_DESCRIPTOR_HANDLE DescriptorHeap::GetCPUDescriptorHandle(unsigned int index) {
+D3D12_CPU_DESCRIPTOR_HANDLE DescriptorHeap::GetCPUDescriptorHandle(uint32_t index) {
 	unsigned long long size = ((DeviceManager::GetInstance()->GetDevice()->GetDescriptorHandleIncrementSize(heapType_)) * static_cast<unsigned long long>(index));
 	D3D12_CPU_DESCRIPTOR_HANDLE handleCPU = descriptorHeap_->GetCPUDescriptorHandleForHeapStart();
 	handleCPU.ptr += size;
 	return handleCPU;
 }
 
-D3D12_GPU_DESCRIPTOR_HANDLE DescriptorHeap::GetGPUDescriptorHandle(unsigned int index) {
+D3D12_GPU_DESCRIPTOR_HANDLE DescriptorHeap::GetGPUDescriptorHandle(uint32_t index) {
 	unsigned long long size = (DeviceManager::GetInstance()->GetDevice()->GetDescriptorHandleIncrementSize(heapType_)) * static_cast<unsigned long long>(index);
 	D3D12_GPU_DESCRIPTOR_HANDLE handleGPU = descriptorHeap_->GetGPUDescriptorHandleForHeapStart();
 	handleGPU.ptr += size;

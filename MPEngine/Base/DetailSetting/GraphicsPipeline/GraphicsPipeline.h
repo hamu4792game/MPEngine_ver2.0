@@ -20,34 +20,26 @@ enum class BlendMode {
 	BlendCount,
 };
 
+struct PipelineDesc {
+	D3D12_INPUT_LAYOUT_DESC layoutDesc_;
+	ID3D12RootSignature* signature_;
+	IDxcBlob* vertexShader_;
+	IDxcBlob* pixelShader_;
+};
+
 class GraphicsPipeline {
 public:
 	GraphicsPipeline() = default;
 	~GraphicsPipeline() = default;
 
-	// 初期化
-	void CreatePipeline();
+	// 生成
+	void CreatePipeline(PipelineDesc pipelineDesc, BlendMode type);
 
 public: // ゲッター
-	ID3D12PipelineState* GetSpritePipelineState(BlendMode type) const { return spritePipelineState[static_cast<int>(type)].Get(); }
+	ID3D12PipelineState* GetPipelineState() const { return pipelineState_.Get(); }
 
 private: // メンバ変数
-	Microsoft::WRL::ComPtr<ID3D12PipelineState> spritePipelineState[static_cast<int>(BlendMode::BlendCount)];
-	Microsoft::WRL::ComPtr<ID3D12PipelineState> modelPipelineState[static_cast<int>(BlendMode::BlendCount)];
-
-private: // メンバ関数
-	void CreateSpritePipeline(BlendMode blendType);
-	void CreateModelPipeline(BlendMode blendType);
-
-};
-
-class PipelineManager {
-private:
-	PipelineManager() = default;
-	~PipelineManager() = default;
-public:
-	static PipelineManager* GetInstance();
-
+	Microsoft::WRL::ComPtr<ID3D12PipelineState> pipelineState_;
 
 };
 

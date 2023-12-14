@@ -8,6 +8,7 @@
 
 #include <Windows.h>
 #include <wrl.h>
+#include <cstdint>
 
 class DescriptorHeap {
 public:
@@ -15,7 +16,7 @@ public:
 	~DescriptorHeap() = default;
 
 	//	DescriptorHeap作成の関数
-	ID3D12DescriptorHeap* CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE heapType, UINT numDescriptors, bool shaderVisible);
+	ID3D12DescriptorHeap* CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE heapType, uint32_t numDescriptors, bool shaderVisible);
 
 	void Release() { descriptorHeap_->Release(); }
 
@@ -26,7 +27,7 @@ private:
 public:
 	ID3D12DescriptorHeap* const GetDescriptorHeap() { return descriptorHeap_.Get(); }
 
-	D3D12_CPU_DESCRIPTOR_HANDLE GetCPUDescriptorHandle(unsigned int index);
-	D3D12_GPU_DESCRIPTOR_HANDLE GetGPUDescriptorHandle(unsigned int index);
+	D3D12_CPU_DESCRIPTOR_HANDLE GetCPUDescriptorHandle(uint32_t index);
+	D3D12_GPU_DESCRIPTOR_HANDLE GetGPUDescriptorHandle(uint32_t index);
 	
 };

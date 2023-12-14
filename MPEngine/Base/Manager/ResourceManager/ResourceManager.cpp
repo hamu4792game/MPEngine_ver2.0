@@ -18,8 +18,9 @@ void ResourceManager::Finalize() {
 	srvDescriptorHeap_->Release();
 }
 
-const unsigned int ResourceManager::GetCount() {
-	return textureCount_++;
+const uint32_t ResourceManager::GetCount() {
+	textureCount_++;
+	return textureCount_ - 1u;
 }
 
 void ResourceManager::AddTexture(const std::string& name, const std::shared_ptr<Texture>& texture) {

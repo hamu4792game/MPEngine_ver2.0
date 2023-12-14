@@ -13,5 +13,7 @@ void RenderManager::Draw() {
 	auto srvHeap = rsManager->GetSRVHeap()->GetDescriptorHeap();
 
 	list->SetDescriptorHeaps(1, &srvHeap);
-	spriteRender.DrawCommand(MakeIdentity4x4());
+	auto projectionMatrix = MakeOrthographicMatrix(-float(1280.0f / 2.0f), float(720.0f / 2.0f),
+		float(1280.0f / 2.0f), -float(720.0f / 2.0f), 0.01f, 1000.0f);
+	spriteRender.DrawCommand(projectionMatrix);
 }

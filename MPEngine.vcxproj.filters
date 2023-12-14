@@ -104,6 +104,9 @@
     <ClCompile Include="GameScene\GameScene.cpp">
       <Filter>GameScene</Filter>
     </ClCompile>
+    <ClCompile Include="MPEngine\Base\Manager\PipelineManager\PipelineManager.cpp">
+      <Filter>MPEngine\Base\Manager\PipelineManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -218,6 +221,9 @@
     <ClInclude Include="GameScene\GameScene.h">
       <Filter>GameScene</Filter>
     </ClInclude>
+    <ClInclude Include="MPEngine\Base\Manager\PipelineManager\PipelineManager.h">
+      <Filter>MPEngine\Base\Manager\PipelineManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="imgui">
@@ -312,6 +318,9 @@
     </Filter>
     <Filter Include="GameScene">
       <UniqueIdentifier>{1c0b4081-c4c0-447f-b10f-a9e850ce9569}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Base\Manager\PipelineManager">
+      <UniqueIdentifier>{e8c72f3f-8aee-49f1-8150-e60de2106ad4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

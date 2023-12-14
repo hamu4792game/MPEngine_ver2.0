@@ -94,8 +94,7 @@ void Sprite::CreateVertexResource(AnchorPoint anchor) {
 	indexResource_->Map(0, nullptr, reinterpret_cast<void**>(&indexData));
 
 	// 6.4で作ったものに3のものをコピー
-	for (auto i = 0; i < _countof(indices); i++)
-	{
+	for (auto i = 0; i < _countof(indices); i++) {
 		indexData[i] = indices[i];
 	}
 

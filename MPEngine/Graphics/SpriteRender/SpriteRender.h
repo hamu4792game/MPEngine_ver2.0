@@ -21,6 +21,7 @@ private:
 	Microsoft::WRL::ComPtr<IDxcBlob> vertexShader;
 	Microsoft::WRL::ComPtr<IDxcBlob> pixelShader;
 	std::unique_ptr<RootSignature> rootSignature_;
-	std::unique_ptr<GraphicsPipeline> graphicsPipeline_;
+	//std::unique_ptr<GraphicsPipeline> graphicsPipeline_;
+	std::array<std::unique_ptr<GraphicsPipeline>, static_cast<int>(BlendMode::BlendCount)> graphicsPipeline_;
 
 };

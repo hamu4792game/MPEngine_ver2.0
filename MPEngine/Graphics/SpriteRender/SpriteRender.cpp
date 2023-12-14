@@ -28,7 +28,6 @@ void SpriteRender::Initialize() {
 	D3D12_ROOT_PARAMETER rootParameter[paramIndex] = {};
 	rootParameter[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
 	rootParameter[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
-	rootParameter[0].Descriptor.ShaderRegister = D3D12_SHADER_VISIBILITY_ALL;
 	rootParameter[0].DescriptorTable.pDescriptorRanges = range;
 	rootParameter[0].DescriptorTable.NumDescriptorRanges = _countof(range);
 
@@ -44,8 +43,35 @@ void SpriteRender::Initialize() {
 	rootSignature_ = std::make_unique<RootSignature>();
 	rootSignature_->CreateRootSignature(rootParameter, paramIndex);
 #pragma endregion
-	graphicsPipeline_ = std::make_unique<GraphicsPipeline>();
-	graphicsPipeline_->CreatePipeline();
+
+#pragma region GraphicsPipeline
+	PipelineDesc plDesc;
+
+	// InputLayout
+	D3D12_INPUT_ELEMENT_DESC inputElementDesc[2] = {};
+	inputElementDesc[0].SemanticName = "POSITION";
+	inputElementDesc[0].SemanticIndex = 0;
+	inputElementDesc[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	inputElementDesc[0].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+	inputElementDesc[1].SemanticName = "TEXCOORD";
+	inputElementDesc[1].SemanticIndex = 0;
+	inputElementDesc[1].Format = DXGI_FORMAT_R32G32_FLOAT;
+	inputElementDesc[1].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+	D3D12_INPUT_LAYOUT_DESC layoutDesc{};
+	layoutDesc.pInputElementDescs = inputElementDesc;
+	layoutDesc.NumElements = _countof(inputElementDesc);
+	plDesc.layoutDesc_ = layoutDesc;
+
+	plDesc.signature_ = rootSignature_->GetRootSignature().Get();
+	plDesc.vertexShader_ = vertexShader.Get();
+	plDesc.pixelShader_ = pixelShader.Get();
+
+	for (uint8_t i = 0; i < static_cast<uint8_t>(BlendMode::BlendCount); i++) {
+		graphicsPipeline_.at(i) = std::make_unique<GraphicsPipeline>();
+		graphicsPipeline_.at(i)->CreatePipeline(plDesc, static_cast<BlendMode>(i));
+	}
+
+#pragma endregion
 
 }
 
@@ -70,13 +96,16 @@ void SpriteRender::DrawCommand(const Matrix4x4& viewProjectionMat) {
 		) * viewProjectionMat;
 		sprite->cMaterial->color = sprite->color_;
 
-		auto pipeline = GraphicsPipeline::GetInstance()->GetSpritePipelineState(sprite->blendType_);
-		//list->SetPipelineState(pipeline);
+		//auto pipeline = GraphicsPipeline::GetInstance()->GetSpritePipelineState(sprite->blendType_);
+		list->SetPipelineState(graphicsPipeline_[static_cast<uint32_t>(sprite->blendType_)]->GetPipelineState());
 		list->IASetVertexBuffers(0, 1, &sprite->vertexBufferView_);
 		list->IASetIndexBuffer(&sprite->indexBufferView_);
-		auto s = sprite->texture_->GetHandle().GetGPU();
 		auto rsManager = ResourceManager::GetInstance();
-		list->SetGraphicsRootDescriptorTable(0, /*sprite->texture_->GetHandle().GetGPU()*/rsManager->GetSRVHeap()->GetGPUDescriptorHandle(0));
+		list->SetGraphicsRootDescriptorTable(0, sprite->texture_->GetHandle().GetGPU()); // Texture
+		//list->SetGraphicsRootDescriptorTable(1, sprite->cMat.GetHandle().GetGPU()); // cMat
+		list->SetGraphicsRootConstantBufferView(1, sprite->cMat.GetGPUVirtualAddress());
+		//list->SetGraphicsRootDescriptorTable(2, sprite->cMaterial.GetHandle().GetGPU()); // cMaterial
+		list->SetGraphicsRootConstantBufferView(2, sprite->cMaterial.GetGPUVirtualAddress());
 
 		// 描画
 		list->DrawIndexedInstanced(6, 1, 0, 0, 0);

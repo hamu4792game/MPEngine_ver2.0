@@ -27,6 +27,11 @@ public: // セッター
 	void SetBlend(BlendMode blend) { blendType_ = blend; }
 	void SetAnchorPoint(AnchorPoint anchor);
 	void SetIsActive(const bool& active) { isActive_ = active; }
+	void SetScale(const Vector2& scale) { scale_ = scale; }
+	void SetRotate(const float& rotate) { rotate_ = rotate; }
+	void SetTranslate(const Vector2& translate) { translate_ = translate; }
+	void SetColor(const Vector4 & color) { color_ = color; }
+	void SetUVSize(const Vector2 & uv) { texcoordSize_ = uv; }
 
 public: // ゲッター
 	uint32_t GetLayerNum() const { return layerNumber_; }
@@ -43,7 +48,7 @@ private:
 	bool isActive_ = true; // 描画するか否か
 
 	Vector2 scale_;
-	float rotate_;
+	float rotate_ = 0.0f;
 	Vector2 translate_;
 
 	Vector2 texcoordBase_ = Vector2::zero; // UVの基盤座標。基本左上の(0,0)
