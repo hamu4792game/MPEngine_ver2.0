@@ -94,6 +94,7 @@ void SpriteRender::DrawCommand(const Matrix4x4& viewProjectionMat) {
 			{ 0.0f,0.0f,sprite->rotate_ },
 			{ sprite->translate_.x,sprite->translate_.y,0.5f }
 		) * viewProjectionMat;
+		//sprite->cMaterial->uvMat = Matrix3x3::MakeAffineMatrix(sprite->uvScale_, sprite->uvRotate_, sprite->uvTranslate_);
 		sprite->cMaterial->color = sprite->color_;
 
 		//auto pipeline = GraphicsPipeline::GetInstance()->GetSpritePipelineState(sprite->blendType_);

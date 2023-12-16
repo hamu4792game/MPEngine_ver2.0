@@ -57,7 +57,7 @@ void WindowSupervisor::CreateGameWindow(const wchar_t* title, int32_t clientWidt
 
 	//	ウィンドウプロシージャ
 	wc.lpfnWndProc = WindowProc;
-	//	ウィンドウクラス名（なんでも良い）
+	//	ウィンドウクラス名（なんでも良い
 	wc.lpszClassName = L"CG2WindowClass";
 	//	インスタンスハンドル
 	wc.hInstance = GetModuleHandle(nullptr);

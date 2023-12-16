@@ -11,7 +11,7 @@
 class Texture {
 public:
 	Texture() = default;
-	~Texture() = default;
+	~Texture();
 public:
 	void Load(const std::string& filePath);
 
@@ -23,8 +23,5 @@ private:
 	Vector2 textureSize_;
 	DescriptorHandle srvHandle_;
 	std::string name_; // textureName
-
-	const uint32_t kFirstNumber_ = 20u;
-
 
 };

@@ -107,6 +107,9 @@
     <ClCompile Include="MPEngine\Base\Manager\PipelineManager\PipelineManager.cpp">
       <Filter>MPEngine\Base\Manager\PipelineManager</Filter>
     </ClCompile>
+    <ClCompile Include="MPEngine\Math\Matrix3x3.cpp">
+      <Filter>MPEngine\Math\Matrix3x3</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -224,6 +227,12 @@
     <ClInclude Include="MPEngine\Base\Manager\PipelineManager\PipelineManager.h">
       <Filter>MPEngine\Base\Manager\PipelineManager</Filter>
     </ClInclude>
+    <ClInclude Include="MPEngine\Math\Matrix3x3.h">
+      <Filter>MPEngine\Math\Matrix3x3</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Math\MathUtl.h">
+      <Filter>MPEngine\Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="imgui">
@@ -321,6 +330,9 @@
     </Filter>
     <Filter Include="MPEngine\Base\Manager\PipelineManager">
       <UniqueIdentifier>{e8c72f3f-8aee-49f1-8150-e60de2106ad4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Math\Matrix3x3">
+      <UniqueIdentifier>{2579d68a-7288-4c8a-917d-b7ea6e9a8167}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

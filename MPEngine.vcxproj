@@ -132,6 +132,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="MPEngine\Input\Input.cpp" />
     <ClCompile Include="MPEngine\Input\KeyInput.cpp" />
     <ClCompile Include="MPEngine\Input\PadInput.cpp" />
+    <ClCompile Include="MPEngine\Math\Matrix3x3.cpp" />
     <ClCompile Include="MPEngine\math\Matrix4x4.cpp" />
     <ClCompile Include="MPEngine\math\Vector2.cpp" />
     <ClCompile Include="MPEngine\math\Vector3.cpp" />
@@ -172,6 +173,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="MPEngine\Input\Input.h" />
     <ClInclude Include="MPEngine\Input\KeyInput.h" />
     <ClInclude Include="MPEngine\Input\PadInput.h" />
+    <ClInclude Include="MPEngine\Math\MathUtl.h" />
+    <ClInclude Include="MPEngine\Math\Matrix3x3.h" />
     <ClInclude Include="MPEngine\math\Matrix4x4.h" />
     <ClInclude Include="MPEngine\math\Vector2.h" />
     <ClInclude Include="MPEngine\math\Vector3.h" />

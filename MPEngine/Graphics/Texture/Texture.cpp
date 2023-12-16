@@ -3,6 +3,13 @@
 #include "MPEngine/Base/Manager/ResourceManager/ResourceManager.h"
 #include "MPEngine/Base/Manager/DeviceManager/DeviceManager.h"
 
+Texture::~Texture() {
+	if (resource_) {
+		resource_->Release();
+		resource_.Reset();
+	}
+}
+
 void Texture::Load(const std::string& filePath) {
 	auto rsManager = ResourceManager::GetInstance();
 	auto device = DeviceManager::GetInstance()->GetDevice();

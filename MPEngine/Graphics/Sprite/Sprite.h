@@ -3,9 +3,8 @@
 #include "MPEngine/Graphics/Texture/Texture.h"
 #include "MPEngine/Base/DetailSetting/GraphicsPipeline/GraphicsPipeline.h"
 
-#include "MPEngine/Math/Vector2.h"
 #include "MPEngine/Base/ConstantBuffer.h"
-#include "MPEngine/Math/Matrix4x4.h"
+#include "MPEngine/Math/MathUtl.h"
 
 class Sprite {
 	friend class SpriteRender;
@@ -24,14 +23,14 @@ public:
 public: // セッター
 	// Textureのセット
 	void SetTexture(const std::shared_ptr<Texture>& texture) { texture_ = texture; }
-	void SetBlend(BlendMode blend) { blendType_ = blend; }
+	void SetBlend(BlendMode blend);
 	void SetAnchorPoint(AnchorPoint anchor);
 	void SetIsActive(const bool& active) { isActive_ = active; }
 	void SetScale(const Vector2& scale) { scale_ = scale; }
 	void SetRotate(const float& rotate) { rotate_ = rotate; }
 	void SetTranslate(const Vector2& translate) { translate_ = translate; }
 	void SetColor(const Vector4 & color) { color_ = color; }
-	void SetUVSize(const Vector2 & uv) { texcoordSize_ = uv; }
+	void SetUVSize(const Vector2 & uv) { uvScale_ = uv; }
 
 public: // ゲッター
 	uint32_t GetLayerNum() const { return layerNumber_; }
@@ -51,8 +50,12 @@ private:
 	float rotate_ = 0.0f;
 	Vector2 translate_;
 
-	Vector2 texcoordBase_ = Vector2::zero; // UVの基盤座標。基本左上の(0,0)
-	Vector2 texcoordSize_ = Vector2::zero; // UVサイズ
+public:
+	Vector2 uvScale_ = Vector2::zero; // UVサイズ
+	float uvRotate_ = 0.0f; // UVの回転
+	Vector2 uvTranslate_ = Vector2::zero; // UVの基盤座標
+
+private:
 	Vector4 color_;
 
 	// 描画必要情報
@@ -63,6 +66,7 @@ private:
 
 	struct TransformationMatrix {
 		Matrix4x4 wvp;
+		Matrix3x3 uvMat;
 	};
 	ConstantBuffer<TransformationMatrix> cMat;
 	struct Material	{

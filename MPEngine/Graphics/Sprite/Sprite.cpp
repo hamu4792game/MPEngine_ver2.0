@@ -10,6 +10,22 @@ Sprite::Sprite() {
 
 Sprite::~Sprite() {
 	spriteLists_.remove(this);
+	if (vertexResource_) {
+		vertexResource_->Release();
+		vertexResource_.Reset();
+	}
+	if (indexResource_) {
+		indexResource_->Release();
+		indexResource_.Reset();
+	}
+}
+
+void Sprite::SetBlend(BlendMode blend) {
+	if (blend == BlendMode::BlendCount) {
+		blendType_ = BlendMode::Normal;
+		return;
+	}
+	blendType_ = blend;
 }
 
 void Sprite::SetAnchorPoint(AnchorPoint anchor) {
