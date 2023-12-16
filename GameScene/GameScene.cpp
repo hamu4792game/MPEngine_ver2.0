@@ -18,6 +18,7 @@ void GameScene::Initialize() {
 	sprite->SetScale(Vector2(600.0f, 600.0f));
 	sprite->SetColor(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
 	sprite->SetUVSize(Vector2(1.0f, 1.0f));
+	sprite->SetAnchorPoint(Sprite::AnchorPoint::LeftBottom);
 
 	tex = std::make_shared<Sprite>();
 	a = rs->FindTexture("ABCD");
@@ -33,5 +34,6 @@ void GameScene::Draw() {
 	static Vector2 pos;
 	ImGui::DragFloat2("position", &sprite->uvTranslate_.x, 0.1f);
 	ImGui::DragFloat2("scale", &sprite->uvScale_.x, 0.1f);
+	ImGui::DragFloat("rotate", &sprite->uvRotate_, 0.1f);
 	//sprite->SetTranslate(pos);
 }

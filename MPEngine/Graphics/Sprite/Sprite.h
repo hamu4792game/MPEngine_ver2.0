@@ -36,7 +36,9 @@ public: // ゲッター
 	uint32_t GetLayerNum() const { return layerNumber_; }
 
 private:
-	void CreateVertexResource(AnchorPoint anchor = AnchorPoint::Center);
+	void CreateVertexResource();
+	void CreateIndexResource();
+	void UploadVertexData(AnchorPoint anchor = AnchorPoint::Center);
 
 private:
 	static std::list<Sprite*> spriteLists_;
@@ -66,11 +68,11 @@ private:
 
 	struct TransformationMatrix {
 		Matrix4x4 wvp;
-		Matrix3x3 uvMat;
 	};
 	ConstantBuffer<TransformationMatrix> cMat;
 	struct Material	{
 		Vector4 color;
+		Matrix4x4 uvMat;
 	};
 	ConstantBuffer<Material> cMaterial;
 

@@ -94,6 +94,11 @@ void SpriteRender::DrawCommand(const Matrix4x4& viewProjectionMat) {
 			{ 0.0f,0.0f,sprite->rotate_ },
 			{ sprite->translate_.x,sprite->translate_.y,0.5f }
 		) * viewProjectionMat;
+		sprite->cMaterial->uvMat = MakeAffineMatrix(
+			{ sprite->uvScale_.x,sprite->uvScale_.y,1.0f },
+			{ 0.0f,0.0f,sprite->uvRotate_ },
+			{ sprite->uvTranslate_.x,sprite->uvTranslate_.y,0.5f }
+		);
 		//sprite->cMaterial->uvMat = Matrix3x3::MakeAffineMatrix(sprite->uvScale_, sprite->uvRotate_, sprite->uvTranslate_);
 		sprite->cMaterial->color = sprite->color_;
 

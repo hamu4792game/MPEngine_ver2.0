@@ -6,6 +6,8 @@ decltype(Sprite::spriteLists_) Sprite::spriteLists_;
 Sprite::Sprite() {
 	spriteLists_.emplace_back(this);
 	CreateVertexResource();
+	CreateIndexResource();
+	UploadVertexData();
 }
 
 Sprite::~Sprite() {
@@ -30,10 +32,48 @@ void Sprite::SetBlend(BlendMode blend) {
 
 void Sprite::SetAnchorPoint(AnchorPoint anchor) {
 	anchor_ = anchor;
-	CreateVertexResource(anchor);
+	UploadVertexData(anchor);
 }
 
-void Sprite::CreateVertexResource(AnchorPoint anchor) {
+void Sprite::CreateVertexResource() {
+	// 頂点データ
+	if (!vertexResource_) {
+		vertexResource_ = ResourceManager::GetInstance()->CreateBufferResource(DeviceManager::GetInstance()->GetDevice(), sizeof(VertexData) * 4);
+	}
+
+	vertexBufferView_.BufferLocation = vertexResource_->GetGPUVirtualAddress();
+	vertexBufferView_.SizeInBytes = sizeof(VertexData) * 4;
+	vertexBufferView_.StrideInBytes = sizeof(VertexData);
+}
+
+void Sprite::CreateIndexResource() {
+	// index情報を作る
+	// 1.indexの情報を送るためにmap用のuint16_t型の配列を作る(中身は頂点の組み合わせ、要素番号)
+	uint16_t indices[6] = { 0,1,3,1,2,3 };
+	// 2.Resourceを生成
+	if (!indexResource_) {
+		indexResource_ = ResourceManager::GetInstance()->CreateBufferResource(DeviceManager::GetInstance()->GetDevice(), sizeof(indices));
+	}
+	// 3.indexBufferViewを生成
+	indexBufferView_.BufferLocation = indexResource_->GetGPUVirtualAddress();
+	indexBufferView_.Format = DXGI_FORMAT_R16_UINT;
+	indexBufferView_.SizeInBytes = sizeof(indices);
+
+	// 4.GPUに送るためのMap用のuint16_tポインタを生成
+	uint16_t* indexData = nullptr;
+
+	// 5.resoureceのMap関数を呼んで関連付けさせる
+	indexResource_->Map(0, nullptr, reinterpret_cast<void**>(&indexData));
+
+	// 6.4で作ったものに3のものをコピー
+	for (auto i = 0; i < _countof(indices); i++) {
+		indexData[i] = indices[i];
+	}
+	// 7.Unmapする
+	indexResource_->Unmap(0, nullptr);
+}
+
+void Sprite::UploadVertexData(AnchorPoint anchor) {
 	// 頂点データ
 	VertexData vertices[4];
 	switch (anchor) {
@@ -75,46 +115,12 @@ void Sprite::CreateVertexResource(AnchorPoint anchor) {
 		vertices[i].normal.z = -1.0f;
 	}
 
-	vertexResource_ = ResourceManager::GetInstance()->CreateBufferResource(DeviceManager::GetInstance()->GetDevice(), sizeof(vertices));
-
-	vertexBufferView_.BufferLocation = vertexResource_->GetGPUVirtualAddress();
-	vertexBufferView_.SizeInBytes = sizeof(vertices);
-	vertexBufferView_.StrideInBytes = sizeof(VertexData);
-
-	//	
 	VertexData* mapData = nullptr;
 
 	vertexResource_->Map(0, nullptr, reinterpret_cast<void**>(&mapData));
 	std::copy(std::begin(vertices), std::end(vertices), mapData);
-	//for (auto i = 0; i < _countof(vertices); i++)
-	//{
-	//	mapData[i] = vertices[i];
-	//}
 	// 重要
 	vertexResource_->Unmap(0, nullptr);
 
-	// index情報を作る
-	// 1.indexの情報を送るためにmap用のuint16_t型の配列を作る(中身は頂点の組み合わせ、要素番号)
-	uint16_t indices[6] = { 0,1,3,1,2,3 };
-	// 2.Resourceを生成
-	indexResource_ = ResourceManager::GetInstance()->CreateBufferResource(DeviceManager::GetInstance()->GetDevice(), sizeof(indices));
-	// 3.indexBufferViewを生成
-	indexBufferView_.BufferLocation = indexResource_->GetGPUVirtualAddress();
-	indexBufferView_.Format = DXGI_FORMAT_R16_UINT;
-	indexBufferView_.SizeInBytes = sizeof(indices);
-
-	// 4.GPUに送るためのMap用のuint16_tポインタを生成
-	uint16_t* indexData = nullptr;
-
-	// 5.resoureceのMap関数を呼んで関連付けさせる
-	indexResource_->Map(0, nullptr, reinterpret_cast<void**>(&indexData));
-
-	// 6.4で作ったものに3のものをコピー
-	for (auto i = 0; i < _countof(indices); i++) {
-		indexData[i] = indices[i];
-	}
-
-	// 7.Unmapする
-	indexResource_->Unmap(0, nullptr);
 }
 
