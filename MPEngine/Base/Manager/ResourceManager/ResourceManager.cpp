@@ -25,7 +25,8 @@ const uint32_t ResourceManager::GetCount() {
 
 void ResourceManager::AddTexture(const std::string& name, const std::shared_ptr<Texture>& texture) {
 	// textureの追加
-	textureContainer_.emplace(std::make_pair(name, texture));
+	texture->name_ = name;
+	textureContainer_.emplace(std::make_pair(texture->name_, texture));
 }
 
 DirectX::ScratchImage ResourceManager::LoadTexture(const std::string& filePath) {

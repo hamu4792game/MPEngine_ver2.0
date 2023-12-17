@@ -18,10 +18,10 @@ public:
 	Vector2 GetTextureSize() const { return textureSize_; }
 	DescriptorHandle GetHandle() const { return srvHandle_; }
 
+	std::string name_; // textureName
 private:
 	Microsoft::WRL::ComPtr<ID3D12Resource> resource_;
 	Vector2 textureSize_;
 	DescriptorHandle srvHandle_;
-	std::string name_; // textureName
 
 };
