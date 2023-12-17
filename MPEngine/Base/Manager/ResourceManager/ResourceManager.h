@@ -52,8 +52,7 @@ private:
 	uint32_t textureCount_ = 10u; // 今のテクスチャが追加された数
 public: // 取得関数
 	DescriptorHeap* const GetSRVHeap() { return srvDescriptorHeap_.get(); }
-	std::shared_ptr<Texture> FindTexture(const std::string& name) const { 
-		return textureContainer_.at(name); }
+	std::shared_ptr<Texture> FindTexture(const std::string& name) const { return textureContainer_.at(name); }
 	std::shared_ptr<Object3d> FindObject3d(const std::string& name) const { return object3dContainer_.at(name); }
 
 public: // 追加関数

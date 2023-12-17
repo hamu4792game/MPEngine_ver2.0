@@ -75,7 +75,7 @@ void ModelRender::DrawCommand(const Matrix4x4& viewProjectionMat) {
 	auto list = ListManager::GetInstance()->GetList();
 
 	list->SetGraphicsRootSignature(rootSignature_->GetRootSignature().Get());
-	list->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+	list->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	auto& modelList = Model::modelLists_;
 
