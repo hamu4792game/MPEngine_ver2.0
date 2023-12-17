@@ -110,6 +110,15 @@
     <ClCompile Include="MPEngine\Math\Matrix3x3.cpp">
       <Filter>MPEngine\Math\Matrix3x3</Filter>
     </ClCompile>
+    <ClCompile Include="MPEngine\Graphics\Model\Model.cpp">
+      <Filter>MPEngine\Graphics\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\Graphics\ModelRender\ModelRender.cpp">
+      <Filter>MPEngine\Graphics\ModelRender</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\Graphics\Object3d\Object3d.cpp">
+      <Filter>MPEngine\Graphics\Object3d</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -233,6 +242,15 @@
     <ClInclude Include="MPEngine\Math\MathUtl.h">
       <Filter>MPEngine\Math</Filter>
     </ClInclude>
+    <ClInclude Include="MPEngine\Graphics\Model\Model.h">
+      <Filter>MPEngine\Graphics\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Graphics\ModelRender\ModelRender.h">
+      <Filter>MPEngine\Graphics\ModelRender</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Graphics\Object3d\Object3d.h">
+      <Filter>MPEngine\Graphics\Object3d</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="imgui">
@@ -333,6 +351,15 @@
     </Filter>
     <Filter Include="MPEngine\Math\Matrix3x3">
       <UniqueIdentifier>{2579d68a-7288-4c8a-917d-b7ea6e9a8167}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Graphics\ModelRender">
+      <UniqueIdentifier>{c0eb142f-6032-40b4-ba8d-1e895e6f71b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Graphics\Model">
+      <UniqueIdentifier>{b155d36c-f16f-4218-b581-e3f5cfa73318}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Graphics\Object3d">
+      <UniqueIdentifier>{ced91e57-317f-407b-8a07-2dcd40dd8b09}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

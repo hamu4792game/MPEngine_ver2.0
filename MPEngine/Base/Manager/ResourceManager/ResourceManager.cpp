@@ -2,6 +2,9 @@
 #include "MPEngine/Base/Log.h"
 #include "MPEngine/Graphics/Texture/Texture.h"
 #include <format>
+#include <fstream>
+#include <sstream>
+#include <filesystem>
 
 ResourceManager* ResourceManager::GetInstance() {
 	static ResourceManager instance;
@@ -27,6 +30,11 @@ void ResourceManager::AddTexture(const std::string& name, const std::shared_ptr<
 	// textureの追加
 	texture->name_ = name;
 	textureContainer_.emplace(std::make_pair(texture->name_, texture));
+}
+
+void ResourceManager::AddModel(const std::string& name, const std::shared_ptr<Object3d>& model) {
+	// modelDataの追加
+	object3dContainer_.emplace(std::make_pair(name, model));
 }
 
 DirectX::ScratchImage ResourceManager::LoadTexture(const std::string& filePath) {
@@ -115,4 +123,115 @@ ID3D12Resource* ResourceManager::CreateBufferResource(ID3D12Device* device, size
 	assert(SUCCEEDED(hr));
 	return Resource;
 
+}
+
+ModelData ResourceManager::LoadObjFile(const std::string& filename) {
+	//	必要な変数の宣言
+	ModelData modelData;	// 構築するModelData
+	std::vector<Vector4> positions;	// 位置
+	std::vector<Vector3> normals;	// 法線
+	std::vector<Vector2> texcoords;	// テクスチャ座標
+	std::string line;	// ファイルから読んだ1行を格納するもの
+	/*p5_2 12*/
+	//	ファイルを開く
+	std::ifstream file(filename);
+	assert(file.is_open());
+
+	//	ディレクトリパスの取得
+	std::filesystem::path ps = std::filesystem::path(filename);
+	std::string directryPath = ps.parent_path().string();
+
+	//	ファイルを読み込み、メタデータを構築
+	while (std::getline(file, line)) {
+		std::string identifier;
+		std::istringstream s(line);
+		s >> identifier;	// 先頭の識別子を読む
+
+		//	identifierに応じた処理 v:頂点位置,vt:頂点テクスチャ座標,vn:頂点法線,f:面
+		if (identifier == "v") {
+			Vector4 position{};
+			s >> position.x >> position.y >> position.z;
+			position.w = 1.0f;
+			positions.push_back(position);
+		}
+		else if (identifier == "vt") {
+			Vector2 texcoord{};
+			s >> texcoord.x >> texcoord.y;
+			texcoord.y = 1.0f - texcoord.y;
+			texcoords.push_back(texcoord);
+		}
+		else if (identifier == "vn") {
+			Vector3 normal{};
+			s >> normal.x >> normal.y >> normal.z;
+			normals.push_back(normal);
+		}
+		else if (identifier == "f") {
+			VertexData triangle[3]{};
+			//	面は三角形限定。その他は未対応
+			for (int32_t faceVertex = 0; faceVertex < 3; faceVertex++)
+			{
+				std::string vertexDefinition;
+				s >> vertexDefinition;
+				//	頂点の要素へのIndexは「位置/UV/法線」で格納されているので、分解してIndexを取得する
+				std::istringstream v(vertexDefinition);
+				uint32_t elementIndices[3]{};
+				for (int32_t element = 0; element < 3; element++)
+				{
+					std::string index;
+					//	区切りでインデックスを読んでいく
+					std::getline(v, index, '/');
+					elementIndices[element] = std::stoi(index);
+				}
+				//	要素へのIndexから、実際の要素の値を取得して、頂点を構築していく
+				Vector4 position = positions[static_cast<std::vector<Vector4, std::allocator<Vector4>>::size_type>(elementIndices[0]) - 1];
+				position.x *= -1.0f;
+				Vector2 texcoord = texcoords[static_cast<std::vector<Vector2, std::allocator<Vector2>>::size_type>(elementIndices[1]) - 1];
+				Vector3 normal = normals[static_cast<std::vector<Vector3, std::allocator<Vector3>>::size_type>(elementIndices[2]) - 1];
+				normal.x *= -1.0f;
+				triangle[faceVertex] = { position,texcoord,normal };
+			}
+			//	頂点を逆で登録することで、周り順を逆にする
+			modelData.vertices.push_back(triangle[2]);
+			modelData.vertices.push_back(triangle[1]);
+			modelData.vertices.push_back(triangle[0]);
+		}
+		else if (identifier == "mtllib") {
+			std::string materialFilename;
+			s >> materialFilename;
+
+			//	ディレクトリパスとmtlパスの結合
+			materialFilename = directryPath + "/" + materialFilename;
+
+			//	基本的に
+			modelData.material = LoadMaterialTemplateFile(materialFilename);
+		}
+	}
+	return modelData;
+}
+
+MaterialData ResourceManager::LoadMaterialTemplateFile(const std::string& filename) {
+	MaterialData materialData; // 構築するデータ
+	std::string line;	// ファイルから読んだ1行を格納するもの
+	std::ifstream file(filename);	//ファイルを開く
+	assert(file.is_open());
+
+	// ディレクトリパスの取得
+	std::filesystem::path ps = std::filesystem::path(filename);
+	std::string directryPath = ps.parent_path().string();
+
+	while (std::getline(file, line)) {
+		std::string identifier;
+		std::istringstream s(line);
+		s >> identifier;
+
+		//
+		if (identifier == "map_Kd") {
+			std::string textureFilename;
+			s >> textureFilename;
+			// 連結してファイルパスにする
+			materialData.textureFilePath = directryPath + "/" + textureFilename;
+		}
+	}
+
+	return materialData;
 }

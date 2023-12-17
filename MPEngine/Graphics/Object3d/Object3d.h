@@ -4,24 +4,25 @@
 #include <string>
 #include <memory>
 #include <wrl.h>
-#include "MPEngine/Math/Vector2.h"
 #include "MPEngine/Base/DetailSetting/DescriptorHandle/DescriptorHandle.h"
+#include "MPEngine/Graphics/Texture/Texture.h"
 
 // Textureデータ
-class Texture {
+class Object3d {
 public:
-	Texture() = default;
-	~Texture();
+	Object3d() = default;
+	~Object3d();
 public:
 	void Load(const std::string& filePath);
 
-	Vector2 GetTextureSize() const { return textureSize_; }
 	DescriptorHandle GetHandle() const { return srvHandle_; }
-public:
-	std::string name_; // textureName
+
+	std::string name_; // modelName
 private:
+	// モデルデータ構造体
+	ModelData modelData_;
 	Microsoft::WRL::ComPtr<ID3D12Resource> resource_;
-	Vector2 textureSize_;
 	DescriptorHandle srvHandle_;
+	std::shared_ptr<Texture> texture_;
 
 };
