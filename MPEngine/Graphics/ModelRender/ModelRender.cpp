@@ -2,6 +2,7 @@
 #include <string>
 #include "MPEngine/Base/Manager/ShaderManager/ShaderManager.h"
 #include "MPEngine/Base/Manager/ListManager/ListManager.h"
+#include "MPEngine/Graphics/Model/Model.h"
 
 void ModelRender::Initialize() {
 #pragma region Shader
@@ -76,6 +77,25 @@ void ModelRender::DrawCommand(const Matrix4x4& viewProjectionMat) {
 	list->SetGraphicsRootSignature(rootSignature_->GetRootSignature().Get());
 	list->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
+	auto& modelList = Model::modelLists_;
 
+	for (auto model : modelList) {
+		if (!model->isActive_) { continue; }
+
+		// 定数バッファ用の計算
+		model->cMat->wvp = MakeAffineMatrix(model->scale_,model->rotate_,model->translate_) * viewProjectionMat;
+		model->cMaterial->color = model->color_;
+
+		//auto pipeline = GraphicsPipeline::GetInstance()->GetSpritePipelineState(model->blendType_);
+		list->SetPipelineState(graphicsPipeline_[static_cast<uint32_t>(model->blendType_)]->GetPipelineState());
+		list->IASetVertexBuffers(0, 1, &model->vertexBufferView_);
+		auto rsManager = ResourceManager::GetInstance();
+		list->SetGraphicsRootDescriptorTable(0, model->texture_->GetHandle().GetGPU()); // Texture
+		list->SetGraphicsRootConstantBufferView(1, model->cMat.GetGPUVirtualAddress()); // cMat
+		list->SetGraphicsRootConstantBufferView(2, model->cMaterial.GetGPUVirtualAddress()); // cMaterial
+
+		// 描画
+		list->DrawInstanced(UINT(model->model_->GetModel().vertices.size()), 1, 0, 0);
+	}
 
 }

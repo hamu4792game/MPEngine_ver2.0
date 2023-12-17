@@ -1,5 +1,6 @@
 #pragma once
 #include "MPEngine/Graphics/SpriteRender/SpriteRender.h"
+#include "MPEngine/Graphics/ModelRender/ModelRender.h"
 
 // MPEngineクラスでのみ実体化
 class RenderManager {
@@ -12,6 +13,7 @@ public:
 private:
 
 	SpriteRender spriteRender;
+	ModelRender modelRender;
 
 };
 

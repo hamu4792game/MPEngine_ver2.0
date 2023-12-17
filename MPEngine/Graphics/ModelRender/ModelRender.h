@@ -1,6 +1,5 @@
 #pragma once
 #include <memory>
-#include <dxcapi.h>
 #include <wrl.h>
 #include "MPEngine/Math/MathUtl.h"
 #include "MPEngine/Base/DetailSetting/RootSignature/RootSignature.h"

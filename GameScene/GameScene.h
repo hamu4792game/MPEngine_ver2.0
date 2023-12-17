@@ -1,5 +1,6 @@
 #pragma once
 #include "MPEngine/Graphics/Sprite/Sprite.h"
+#include "MPEngine/Graphics/Model/Model.h"
 
 class GameScene {
 public:
@@ -11,5 +12,5 @@ public:
 
 private:
 	std::shared_ptr<Sprite> sprite;
-	std::shared_ptr<Sprite> tex;
+	std::shared_ptr<Model> model;
 };

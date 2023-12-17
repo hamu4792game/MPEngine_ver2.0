@@ -4,11 +4,12 @@
 #include <string>
 #include <memory>
 #include <wrl.h>
-#include "MPEngine/Math/Vector2.h"
+#include "MPEngine/Math/MathUtl.h"
 #include "MPEngine/Base/DetailSetting/DescriptorHandle/DescriptorHandle.h"
 
 // Textureデータ
 class Texture {
+	friend class Object3d;
 public:
 	Texture() = default;
 	~Texture();

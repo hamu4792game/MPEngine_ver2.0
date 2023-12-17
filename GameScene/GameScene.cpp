@@ -18,22 +18,27 @@ void GameScene::Initialize() {
 	sprite->SetScale(Vector2(600.0f, 600.0f));
 	sprite->SetColor(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
 	sprite->SetUVSize(Vector2(1.0f, 1.0f));
-	sprite->SetAnchorPoint(Sprite::AnchorPoint::LeftBottom);
+	sprite->SetIsActive(false);
 
-	tex = std::make_shared<Sprite>();
-	a = rs->FindTexture("ABCD");
-	tex->SetTexture(a);
+	std::shared_ptr<Object3d> object;
+	object = std::make_shared<Object3d>();
+	object->Load("Box","Resources/box/box.obj");
+	rs->AddModel("Box", object);
 
-	tex->SetScale(Vector2(100.0f, 100.0f));
-	tex->SetColor(Vector4(0.0f, 1.0f, 1.0f, 1.0f));
-	tex->SetUVSize(Vector2(1.0f, 1.0f));
+	model = std::make_shared<Model>();
+	auto b = rs->FindObject3d("Box");
+	model->SetModel(b);
+	model->Initialize();
+
+	model->translate_.z = 10.0f;
+	model->scale_ = Vector3::one;
 
 }
 
 void GameScene::Draw() {
 	static Vector2 pos;
-	ImGui::DragFloat2("position", &sprite->uvTranslate_.x, 0.1f);
-	ImGui::DragFloat2("scale", &sprite->uvScale_.x, 0.1f);
-	ImGui::DragFloat("rotate", &sprite->uvRotate_, 0.1f);
+	ImGui::DragFloat3("position", &model->translate_.x, 0.1f);
+	ImGui::DragFloat3("rotate", &model->rotate_.x, 0.1f);
+	ImGui::DragFloat3("scale", &model->scale_.x, 0.1f);
 	//sprite->SetTranslate(pos);
 }

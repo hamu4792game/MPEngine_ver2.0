@@ -1,6 +1,7 @@
 #include "ResourceManager.h"
 #include "MPEngine/Base/Log.h"
 #include "MPEngine/Graphics/Texture/Texture.h"
+#include "MPEngine/Graphics/Object3d/Object3d.h"
 #include <format>
 #include <fstream>
 #include <sstream>
@@ -34,7 +35,8 @@ void ResourceManager::AddTexture(const std::string& name, const std::shared_ptr<
 
 void ResourceManager::AddModel(const std::string& name, const std::shared_ptr<Object3d>& model) {
 	// modelDataの追加
-	object3dContainer_.emplace(std::make_pair(name, model));
+	model->name_ = name;
+	object3dContainer_.emplace(std::make_pair(model->name_, model));
 }
 
 DirectX::ScratchImage ResourceManager::LoadTexture(const std::string& filePath) {

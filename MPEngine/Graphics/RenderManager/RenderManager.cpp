@@ -5,6 +5,7 @@
 
 void RenderManager::Initialize() {
 	spriteRender.Initialize();
+	modelRender.Initialize();
 }
 
 void RenderManager::Draw() {
@@ -16,4 +17,9 @@ void RenderManager::Draw() {
 	auto projectionMatrix = MakeOrthographicMatrix(-float(1280.0f / 2.0f), float(720.0f / 2.0f),
 		float(1280.0f / 2.0f), -float(720.0f / 2.0f), 0.01f, 1000.0f);
 	spriteRender.DrawCommand(projectionMatrix);
+
+	projectionMatrix = MakePerspectiveFovMatrix(0.45f, 1280.0f / 720.0f, 0.1f, 2000.0f);
+
+	modelRender.DrawCommand(projectionMatrix);
+
 }
