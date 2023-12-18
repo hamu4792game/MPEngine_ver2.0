@@ -119,6 +119,9 @@
     <ClCompile Include="MPEngine\Graphics\Object3d\Object3d.cpp">
       <Filter>MPEngine\Graphics\Object3d</Filter>
     </ClCompile>
+    <ClCompile Include="MPEngine\Utils\WorldTransform\WorldTransform.cpp">
+      <Filter>MPEngine\Utils\WorldTransform</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -251,6 +254,9 @@
     <ClInclude Include="MPEngine\Graphics\Object3d\Object3d.h">
       <Filter>MPEngine\Graphics\Object3d</Filter>
     </ClInclude>
+    <ClInclude Include="MPEngine\Utils\WorldTransform\WorldTransform.h">
+      <Filter>MPEngine\Utils\WorldTransform</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="imgui">
@@ -360,6 +366,12 @@
     </Filter>
     <Filter Include="MPEngine\Graphics\Object3d">
       <UniqueIdentifier>{ced91e57-317f-407b-8a07-2dcd40dd8b09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Utils">
+      <UniqueIdentifier>{0b395792-25a1-452f-85ae-6611112c3e66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Utils\WorldTransform">
+      <UniqueIdentifier>{8a53edfd-ec22-48ff-b6f1-5f65a2eef455}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

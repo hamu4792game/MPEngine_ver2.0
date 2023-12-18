@@ -4,6 +4,7 @@
 #include "MPEngine/Graphics/Object3d/Object3d.h"
 #include "MPEngine/Base/ConstantBuffer.h"
 #include "MPEngine/Base/DetailSetting/GraphicsPipeline/GraphicsPipeline.h"
+#include "Utils/WorldTransform/WorldTransform.h"
 
 // モデル
 class Model {
@@ -22,9 +23,10 @@ private:
 	void UploadVertexData();
 
 public:
-	Vector3 scale_;
-	Vector3 rotate_;
-	Vector3 translate_;
+	WorldTransform transform_;
+	//Vector3 scale_;
+	//Vector3 rotate_;
+	//Vector3 translate_;
 	bool isActive_ = true;
 
 private:

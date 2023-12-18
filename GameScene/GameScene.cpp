@@ -31,15 +31,15 @@ void GameScene::Initialize() {
 	model->Initialize();
 	model->SetTexture(a);
 
-	model->translate_.z = 10.0f;
-	model->scale_ = Vector3::one;
+	model->transform_.translation_.z = 10.0f;
+	model->transform_.scale_ = Vector3::one;
 
 }
 
 void GameScene::Draw() {
 	static Vector2 pos;
-	ImGui::DragFloat3("position", &model->translate_.x, 0.1f);
-	ImGui::DragFloat3("rotate", &model->rotate_.x, 0.1f);
-	ImGui::DragFloat3("scale", &model->scale_.x, 0.1f);
+	ImGui::DragFloat3("position", &model->transform_.translation_.x, 0.1f);
+	ImGui::DragFloat3("rotate", &model->transform_.rotation_.x, 0.1f);
+	ImGui::DragFloat3("scale", &model->transform_.scale_.x, 0.1f);
 	//sprite->SetTranslate(pos);
 }

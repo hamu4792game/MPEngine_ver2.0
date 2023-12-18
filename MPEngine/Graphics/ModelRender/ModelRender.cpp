@@ -42,7 +42,7 @@ void ModelRender::Initialize() {
 #pragma endregion
 
 #pragma region GraphicsPipeline
-	PipelineDesc plDesc;
+	PipelineDesc plDesc{};
 
 	// InputLayout
 	D3D12_INPUT_ELEMENT_DESC inputElementDesc[2] = {};
@@ -83,10 +83,9 @@ void ModelRender::DrawCommand(const Matrix4x4& viewProjectionMat) {
 		if (!model->isActive_) { continue; }
 
 		// 定数バッファ用の計算
-		model->cMat->wvp = MakeAffineMatrix(model->scale_,model->rotate_,model->translate_) * viewProjectionMat;
+		model->cMat->wvp = model->transform_.UpdateMatrix() * viewProjectionMat;
 		model->cMaterial->color = model->color_;
 
-		//auto pipeline = GraphicsPipeline::GetInstance()->GetSpritePipelineState(model->blendType_);
 		list->SetPipelineState(graphicsPipeline_[static_cast<uint32_t>(model->blendType_)]->GetPipelineState());
 		list->IASetVertexBuffers(0, 1, &model->vertexBufferView_);
 		auto rsManager = ResourceManager::GetInstance();
