@@ -29,6 +29,7 @@ void GameScene::Initialize() {
 	auto b = rs->FindObject3d("Box");
 	model->SetModel(b);
 	model->Initialize();
+	model->SetTexture(a);
 
 	model->translate_.z = 10.0f;
 	model->scale_ = Vector3::one;
