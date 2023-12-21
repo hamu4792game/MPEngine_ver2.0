@@ -127,6 +127,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="MPEngine\Base\Manager\ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="MPEngine\Base\Manager\ShaderManager\ShaderManager.cpp" />
     <ClCompile Include="MPEngine\Base\WindowSupervisor\WindowSupervisor.cpp" />
+    <ClCompile Include="MPEngine\Framework\SceneFrame.cpp" />
     <ClCompile Include="MPEngine\Graphics\ModelRender\ModelRender.cpp" />
     <ClCompile Include="MPEngine\Graphics\Model\Model.cpp" />
     <ClCompile Include="MPEngine\Graphics\Object3d\Object3d.cpp" />
@@ -172,6 +173,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="MPEngine\Base\Manager\ResourceManager\ResourceManager.h" />
     <ClInclude Include="MPEngine\Base\Manager\ShaderManager\ShaderManager.h" />
     <ClInclude Include="MPEngine\Base\WindowSupervisor\WindowSupervisor.h" />
+    <ClInclude Include="MPEngine\Framework\GameFrame.h" />
+    <ClInclude Include="MPEngine\Framework\SceneFrame.h" />
     <ClInclude Include="MPEngine\Graphics\ModelRender\ModelRender.h" />
     <ClInclude Include="MPEngine\Graphics\Model\Model.h" />
     <ClInclude Include="MPEngine\Graphics\Object3d\Object3d.h" />

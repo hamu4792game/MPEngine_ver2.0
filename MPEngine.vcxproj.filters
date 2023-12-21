@@ -122,6 +122,9 @@
     <ClCompile Include="MPEngine\Utils\WorldTransform\WorldTransform.cpp">
       <Filter>MPEngine\Utils\WorldTransform</Filter>
     </ClCompile>
+    <ClCompile Include="MPEngine\Framework\SceneFrame.cpp">
+      <Filter>MPEngine\Framework\SceneFrame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -257,6 +260,12 @@
     <ClInclude Include="MPEngine\Utils\WorldTransform\WorldTransform.h">
       <Filter>MPEngine\Utils\WorldTransform</Filter>
     </ClInclude>
+    <ClInclude Include="MPEngine\Framework\GameFrame.h">
+      <Filter>MPEngine\Framework\GameFrame</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Framework\SceneFrame.h">
+      <Filter>MPEngine\Framework\SceneFrame</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="imgui">
@@ -372,6 +381,15 @@
     </Filter>
     <Filter Include="MPEngine\Utils\WorldTransform">
       <UniqueIdentifier>{8a53edfd-ec22-48ff-b6f1-5f65a2eef455}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Framework">
+      <UniqueIdentifier>{41f61a58-ff9a-4946-a755-ed4a4eeafa13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Framework\GameFrame">
+      <UniqueIdentifier>{6b9a1881-63e1-48e1-9eed-843e986d073e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Framework\SceneFrame">
+      <UniqueIdentifier>{de1100bd-74dc-4599-85e7-b3ec77892332}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

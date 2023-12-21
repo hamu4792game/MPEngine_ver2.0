@@ -10,6 +10,7 @@ class Input;
 class ShaderManager;
 #include "MPEngine/Graphics/RenderManager/RenderManager.h"
 #include "GameScene/GameScene.h"
+#include "Framework/GameFrame.h"
 
 class MPEngine {
 private:
@@ -17,7 +18,7 @@ private:
 	~MPEngine() = default;
 public:
 	static MPEngine* GetInstance();
-	void Run();
+	void Run(GameFrame* game = nullptr);
 private:
 	void Initialize(const char* title, int width, int height);
 	void Update();
@@ -37,7 +38,7 @@ private: // メンバ変数
 
 
 	// ゲームシーン
-	GameScene game;
+	GameFrame* game_ = nullptr;
 
 
 #ifdef _DEBUG

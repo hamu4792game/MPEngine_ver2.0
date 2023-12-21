@@ -36,10 +36,10 @@ void GameScene::Initialize() {
 
 }
 
-void GameScene::Draw() {
+void GameScene::Update() {
 	static Vector2 pos;
 	ImGui::DragFloat3("position", &model->transform_.translation_.x, 0.1f);
 	ImGui::DragFloat3("rotate", &model->transform_.rotation_.x, 0.1f);
 	ImGui::DragFloat3("scale", &model->transform_.scale_.x, 0.1f);
-	//sprite->SetTranslate(pos);
 }
+

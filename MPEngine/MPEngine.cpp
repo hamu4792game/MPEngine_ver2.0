@@ -18,7 +18,8 @@ MPEngine* MPEngine::GetInstance() {
 	return &instance;
 }
 
-void MPEngine::Run() {
+void MPEngine::Run(GameFrame* game) {
+	game_ = game;
 	int32_t windowWidth = 1280; int32_t windowHeight = 720;
 	Initialize("えとせとら", windowWidth, windowHeight);
 
@@ -67,7 +68,7 @@ void MPEngine::Initialize(const char* title, int width, int height) {
 	input_->Initialize();
 
 	// ゲーム初期化
-	game.Initialize();
+	game_->Initialize();
 
 }
 
@@ -77,7 +78,7 @@ void MPEngine::Update() {
 	input_->Update();
 	
 	// ゲームシーン処理
-	game.Draw();
+	game_->Update();
 
 	// 描画処理
 	render.Draw();
@@ -87,6 +88,7 @@ void MPEngine::Update() {
 }
 
 void MPEngine::Finalize() {
+	game_->Finalize();
 	graphics_->Finalize();
 	winSv_->DeleteGameWindow();
 }
