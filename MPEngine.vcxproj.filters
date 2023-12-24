@@ -122,8 +122,17 @@
     <ClCompile Include="MPEngine\Utils\WorldTransform\WorldTransform.cpp">
       <Filter>MPEngine\Utils\WorldTransform</Filter>
     </ClCompile>
-    <ClCompile Include="MPEngine\Framework\SceneFrame.cpp">
-      <Filter>MPEngine\Framework\SceneFrame</Filter>
+    <ClCompile Include="Game\Stage\Stage.cpp">
+      <Filter>Game\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\Utils\Camera\Camera.cpp">
+      <Filter>MPEngine\Utils\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Player\Player.cpp">
+      <Filter>Game\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\Utils\Camera\Camera3d.cpp">
+      <Filter>MPEngine\Utils\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -260,11 +269,23 @@
     <ClInclude Include="MPEngine\Utils\WorldTransform\WorldTransform.h">
       <Filter>MPEngine\Utils\WorldTransform</Filter>
     </ClInclude>
-    <ClInclude Include="MPEngine\Framework\GameFrame.h">
-      <Filter>MPEngine\Framework\GameFrame</Filter>
-    </ClInclude>
     <ClInclude Include="MPEngine\Framework\SceneFrame.h">
-      <Filter>MPEngine\Framework\SceneFrame</Filter>
+      <Filter>MPEngine\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Framework\GameFrame.h">
+      <Filter>MPEngine\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Stage\Stage.h">
+      <Filter>Game\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Utils\Camera\Camera.h">
+      <Filter>MPEngine\Utils\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Player\Player.h">
+      <Filter>Game\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Utils\Camera\Camera3d.h">
+      <Filter>MPEngine\Utils\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -385,11 +406,17 @@
     <Filter Include="MPEngine\Framework">
       <UniqueIdentifier>{41f61a58-ff9a-4946-a755-ed4a4eeafa13}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MPEngine\Framework\GameFrame">
-      <UniqueIdentifier>{6b9a1881-63e1-48e1-9eed-843e986d073e}</UniqueIdentifier>
+    <Filter Include="Game">
+      <UniqueIdentifier>{5dff761b-29e4-4c92-865d-911dfc77ea57}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MPEngine\Framework\SceneFrame">
-      <UniqueIdentifier>{de1100bd-74dc-4599-85e7-b3ec77892332}</UniqueIdentifier>
+    <Filter Include="Game\Stage">
+      <UniqueIdentifier>{19ded618-3c76-46d7-879c-a123b4da663f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Utils\Camera">
+      <UniqueIdentifier>{6a5d4110-2738-49e7-ad1e-f8b4293d63a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Player">
+      <UniqueIdentifier>{c89d3320-9a61-4900-8784-20b3563fbe4b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

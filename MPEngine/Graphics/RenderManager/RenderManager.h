@@ -1,6 +1,8 @@
 #pragma once
 #include "MPEngine/Graphics/SpriteRender/SpriteRender.h"
 #include "MPEngine/Graphics/ModelRender/ModelRender.h"
+#include "Utils/Camera/Camera.h"
+#include "MPEngine/Utils/Camera/Camera3d.h"
 
 // MPEngineクラスでのみ実体化
 class RenderManager {
@@ -14,6 +16,7 @@ private:
 
 	SpriteRender spriteRender;
 	ModelRender modelRender;
-
+	std::shared_ptr<Camera> camera;
+	Camera3d* camera3d_ = nullptr;
 };
 

@@ -29,7 +29,7 @@ void GameScene::Initialize() {
 	auto b = rs->FindObject3d("Box");
 	model->SetModel(b);
 	model->Initialize();
-	model->SetTexture(a);
+	
 
 	model->transform_.translation_.z = 10.0f;
 	model->transform_.scale_ = Vector3::one;
@@ -41,5 +41,8 @@ void GameScene::Update() {
 	ImGui::DragFloat3("position", &model->transform_.translation_.x, 0.1f);
 	ImGui::DragFloat3("rotate", &model->transform_.rotation_.x, 0.1f);
 	ImGui::DragFloat3("scale", &model->transform_.scale_.x, 0.1f);
+	if(ImGui::Button("ChangeTexture")) {
+		model->SetTexture(ResourceManager::GetInstance()->FindTexture("ABCD"));
+	}
 }
 
