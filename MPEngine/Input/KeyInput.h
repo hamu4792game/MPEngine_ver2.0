@@ -8,6 +8,7 @@
 
 #pragma comment(lib,"dinput8.lib")
 
+// Inputクラスでのみ生成
 class KeyInput {
 public:
 	KeyInput() = default;

@@ -8,8 +8,8 @@
 
 #include "MPEngine/Math/Vector2.h"
 
-class PadInput
-{
+// Inputクラスでのみ生成
+class PadInput {
 public:
 	PadInput() = default;
 	~PadInput() = default;
