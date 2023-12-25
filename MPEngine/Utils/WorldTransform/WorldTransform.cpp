@@ -11,7 +11,7 @@ WorldTransform::WorldTransform(const WorldTransform& transform) {
 WorldTransform& WorldTransform::operator=(const WorldTransform& trans) {
 	this->translation_ = trans.translation_;
 	this->rotation_ = trans.rotation_;
-	this->scale_ = trans.rotation_;
+	this->scale_ = trans.scale_;
 	this->worldMatrix_ = trans.worldMatrix_;
 	this->parent_ = trans.parent_;
 	return *this;
