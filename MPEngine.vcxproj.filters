@@ -134,6 +134,9 @@
     <ClCompile Include="MPEngine\Utils\Camera\Camera3d.cpp">
       <Filter>MPEngine\Utils\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Scene\BattleScene.cpp">
+      <Filter>Game\Scene\BattleScene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -287,6 +290,9 @@
     <ClInclude Include="MPEngine\Utils\Camera\Camera3d.h">
       <Filter>MPEngine\Utils\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Scene\BattleScene.h">
+      <Filter>Game\Scene\BattleScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="imgui">
@@ -417,6 +423,12 @@
     </Filter>
     <Filter Include="Game\Player">
       <UniqueIdentifier>{c89d3320-9a61-4900-8784-20b3563fbe4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene">
+      <UniqueIdentifier>{7e539c64-4955-448f-9bb9-00a17fae06c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\BattleScene">
+      <UniqueIdentifier>{40b0a4d4-31b6-4441-9dac-890815a56fee}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

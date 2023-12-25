@@ -1,7 +1,6 @@
 #pragma once
-#include "MPEngine/Graphics/Sprite/Sprite.h"
-#include "MPEngine/Graphics/Model/Model.h"
 #include "Framework/GameFrame.h"
+#include "Game/Scene/BattleScene.h"
 
 class GameScene : public GameFrame {
 public:
@@ -9,9 +8,9 @@ public:
 	~GameScene() override = default;
 
 	void Initialize() override;
+	void Finalize() override;
 	void Update() override;
 
 private:
-	std::shared_ptr<Sprite> sprite;
-	std::shared_ptr<Model> model;
+	BattleScene* battleScene = nullptr;
 };

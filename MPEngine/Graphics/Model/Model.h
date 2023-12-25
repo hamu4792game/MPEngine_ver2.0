@@ -12,13 +12,13 @@ class Model {
 public:
 	Model();
 	~Model();
-	void Initialize();
 public:
 	// Textureのセット
 	void SetModel(const std::shared_ptr<Object3d>& model);
 	void SetTexture(const std::shared_ptr<Texture>& texture) { texture_ = texture; }
 
 private:
+	void Initialize();
 	void CreateVertexResource();
 	void UploadVertexData();
 
