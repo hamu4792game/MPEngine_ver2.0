@@ -1,5 +1,4 @@
 #include "BattleScene.h"
-#include "externals/imgui/imgui.h"
 #include "Utils/Camera/Camera3d.h"
 
 void BattleScene::Initialize() {
@@ -7,6 +6,9 @@ void BattleScene::Initialize() {
 	player_->Initialize();
 	cameraTrans_.scale_ = Vector3::one;
 	cameraTrans_.translation_ = Vector3(0.0f, 0.0f, -10.0f);
+	followCamera_ = std::make_shared<FollowCamera>();
+
+	followCamera_->SetTarget(&player_->GetTransform());
 }
 
 void BattleScene::Finalize() {
@@ -17,13 +19,12 @@ void BattleScene::Update() {
 	DrawImGui();
 
 	player_->Update();
-
+	followCamera_->Update();
+	cameraTrans_ = followCamera_->GetTransform();
 	cameraTrans_.UpdateMatrix();
 	Camera3d::GetInstance()->SetTransform(cameraTrans_);
 }
 
 void BattleScene::DrawImGui() {
-	ImGui::DragFloat3("position", &cameraTrans_.translation_.x, 0.1f);
-	ImGui::DragFloat3("rotate", &cameraTrans_.rotation_.x, 0.1f);
-	ImGui::DragFloat3("scale", &cameraTrans_.scale_.x, 0.1f);
+	
 }

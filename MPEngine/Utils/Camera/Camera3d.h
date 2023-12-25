@@ -16,6 +16,7 @@ public:
 	Matrix4x4 GetBillboardMat() const { return camera_.GetBillboardMat(); }
 	// Set
 	void SetTransform(const WorldTransform& transform) { camera_.transform = transform; }
+	const WorldTransform& GetTransform() const { return camera_.transform; }
 private:
 	Camera camera_;
 

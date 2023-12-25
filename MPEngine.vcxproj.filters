@@ -137,6 +137,12 @@
     <ClCompile Include="Game\Scene\BattleScene.cpp">
       <Filter>Game\Scene\BattleScene</Filter>
     </ClCompile>
+    <ClCompile Include="Game\FollowCamera\FollowCamera.cpp">
+      <Filter>Game\FollowCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BoxSky\BoxSky.cpp">
+      <Filter>Game\BoxSky</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -293,6 +299,12 @@
     <ClInclude Include="Game\Scene\BattleScene.h">
       <Filter>Game\Scene\BattleScene</Filter>
     </ClInclude>
+    <ClInclude Include="Game\FollowCamera\FollowCamera.h">
+      <Filter>Game\FollowCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BoxSky\BoxSky.h">
+      <Filter>Game\BoxSky</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="imgui">
@@ -429,6 +441,12 @@
     </Filter>
     <Filter Include="Game\Scene\BattleScene">
       <UniqueIdentifier>{40b0a4d4-31b6-4441-9dac-890815a56fee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\FollowCamera">
+      <UniqueIdentifier>{56fd966c-81bc-448a-9078-89541012064e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BoxSky">
+      <UniqueIdentifier>{b72ac4e9-d6c6-40da-9819-62df1da813c5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

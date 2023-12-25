@@ -112,6 +112,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="externals\imgui\imgui_tables.cpp" />
     <ClCompile Include="externals\imgui\imgui_widgets.cpp" />
     <ClCompile Include="GameScene\GameScene.cpp" />
+    <ClCompile Include="Game\BoxSky\BoxSky.cpp" />
+    <ClCompile Include="Game\FollowCamera\FollowCamera.cpp" />
     <ClCompile Include="Game\Player\Player.cpp" />
     <ClCompile Include="Game\Scene\BattleScene.cpp" />
     <ClCompile Include="Game\Stage\Stage.cpp" />
@@ -161,6 +163,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="externals\imgui\imstb_textedit.h" />
     <ClInclude Include="externals\imgui\imstb_truetype.h" />
     <ClInclude Include="GameScene\GameScene.h" />
+    <ClInclude Include="Game\BoxSky\BoxSky.h" />
+    <ClInclude Include="Game\FollowCamera\FollowCamera.h" />
     <ClInclude Include="Game\Player\Player.h" />
     <ClInclude Include="Game\Scene\BattleScene.h" />
     <ClInclude Include="Game\Stage\Stage.h" />

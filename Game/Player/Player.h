@@ -11,6 +11,8 @@ public:
 	void Initialize();
 	void Update();
 	
+	const WorldTransform& GetTransform() const { return transform_; }
+
 private:
 	void DrawImGui();
 	void Move();

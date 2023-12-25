@@ -1,6 +1,8 @@
 #pragma once
 #include "Framework/GameFrame.h"
 #include "Game/Scene/BattleScene.h"
+#include "Game/BoxSky/BoxSky.h"
+#include <memory>
 
 class GameScene : public GameFrame {
 public:
@@ -13,4 +15,6 @@ public:
 
 private:
 	BattleScene* battleScene = nullptr;
+	std::unique_ptr<BoxSky> boxSky_;
+
 };

@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "externals/imgui/imgui.h"
 #include "Input/input.h"
+#include "Utils/Camera/Camera3d.h"
 
 void Player::Initialize() {
 	auto rsManager = ResourceManager::GetInstance();
@@ -32,6 +33,30 @@ void Player::Move() {
 	auto input = Input::GetInstance();
 	if (input->GetKey()->PressKey(DIK_SPACE)) {
 		model_->SetTexture(ResourceManager::GetInstance()->FindTexture("ABCD"));
+	}
+	Vector3 move;
+
+	const float speed = 0.2f;
+	if (input->GetKey()->PressKey(DIK_W)) {
+		move.z += speed;
+	}
+	if (input->GetKey()->PressKey(DIK_S)) {
+		move.z -= speed;
+	}
+	if (input->GetKey()->PressKey(DIK_A)) {
+		move.x -= speed;
+	}
+	if (input->GetKey()->PressKey(DIK_D)) {
+		move.x += speed;
+	}
+
+	
+	if (move != Vector3::zero) {
+		move = Normalize(move);
+		// 移動ベクトルをカメラの角度だけ回転させる
+		move = TargetOffset(move, Camera3d::GetInstance()->GetTransform().rotation_);
+		move.y = 0.0f;
+		transform_.translation_ += move;
 	}
 
 }
