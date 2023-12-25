@@ -13,7 +13,6 @@ public:
 	KeyInput() = default;
 	~KeyInput() = default;
 
-	static KeyInput* GetInstance();
 	void Initialize();
 	void Update();
 

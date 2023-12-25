@@ -13,6 +13,9 @@ void Player::Initialize() {
 
 void Player::Update() {
 	DrawImGui();
+
+	Move();
+
 	transform_.UpdateMatrix();
 	model_->transform_ = transform_;
 }
@@ -26,5 +29,9 @@ void Player::DrawImGui() {
 }
 
 void Player::Move() {
-	auto input = Input::GetInstance()->GetKey();
+	auto input = Input::GetInstance();
+	if (input->GetKey()->PressKey(DIK_SPACE)) {
+		model_->SetTexture(ResourceManager::GetInstance()->FindTexture("ABCD"));
+	}
+
 }

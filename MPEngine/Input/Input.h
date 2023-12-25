@@ -1,7 +1,7 @@
 #pragma once
-
-class KeyInput;
-class PadInput;
+#include <memory>
+#include "KeyInput.h"
+#include "PadInput.h"
 
 class Input {
 private:
@@ -13,11 +13,11 @@ public:
 	void Initialize();
 	void Update();
 
-	KeyInput* GetKey() { return key; }
-	PadInput* GetPad() { return pad; }
+	KeyInput* GetKey() { return key.get(); }
+	PadInput* GetPad() { return pad.get(); }
 
 private:
-	KeyInput* key = nullptr;
-	PadInput* pad = nullptr;
+	std::unique_ptr<KeyInput> key;
+	std::unique_ptr<PadInput> pad;
 
 };

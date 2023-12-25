@@ -2,11 +2,6 @@
 #include <cassert>
 #include "MPEngine/Base/WindowSupervisor/WindowSupervisor.h"
 
-KeyInput* KeyInput::GetInstance() {
-	static KeyInput instance;
-	return &instance;
-}
-
 void KeyInput::Initialize() {
 	HRESULT result;
 	//	DirectInputの初期化

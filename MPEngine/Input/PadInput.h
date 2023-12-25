@@ -14,7 +14,6 @@ public:
 	PadInput() = default;
 	~PadInput() = default;
 
-	static PadInput* GetInstance();
 	void Initialize();
 	void Update();
 

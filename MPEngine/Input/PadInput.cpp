@@ -1,11 +1,6 @@
 #include "PadInput.h"
 #include <limits>
 
-PadInput* PadInput::GetInstance() {
-	static PadInput instance;
-	return &instance;
-}
-
 void PadInput::Initialize() {
 	//	変数の初期化 指定した分だけ0にするZeroMemory
 	ZeroMemory(&xInputState, sizeof(XINPUT_STATE));
