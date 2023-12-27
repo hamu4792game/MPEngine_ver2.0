@@ -29,7 +29,10 @@ void MPEngine::Run(GameFrame* game) {
 		TimeBaseLoopExecuter fpsManager(60);
 		Update();
 		fpsManager.TimeAdjustment();
-		//break;
+		
+		if (Input::GetInstance()->GetKey()->TriggerKey(DIK_ESCAPE)) {
+			break;
+		}
 	}
 
 	Finalize();

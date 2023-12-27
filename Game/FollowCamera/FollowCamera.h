@@ -5,6 +5,7 @@ class FollowCamera {
 public:
 	FollowCamera() = default;
 	~FollowCamera() = default;
+	void Initialize();
 	void Update();
 	void DrawImGui();
 

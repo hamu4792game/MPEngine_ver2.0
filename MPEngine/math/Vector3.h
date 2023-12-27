@@ -57,11 +57,11 @@ Vector3 NormalizeRad(const Vector3& vec);
 float Lerp(const float& a, const float& b, const float& t);
 Vector3 Lerp(const Vector3& a, const Vector3& b, const float& t);
 
-//	弧度法から度数法へ変換する
+// 度数法から弧度法へ変換する
 float AngleToRadian(float angle);
-
-//	度数法から弧度法へ変換する
+// 弧度法から度数法へ変換する
 float RadianToAngle(float radian);
+
 //	オフセットからの計算
 Vector3 TargetOffset(const Vector3& offset, const Vector3& rotation);
 

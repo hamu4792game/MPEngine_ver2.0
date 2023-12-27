@@ -143,6 +143,12 @@
     <ClCompile Include="Game\BoxSky\BoxSky.cpp">
       <Filter>Game\BoxSky</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Stage\Ground.cpp">
+      <Filter>Game\Stage\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Stage\Tower.cpp">
+      <Filter>Game\Stage\Tower</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -305,6 +311,12 @@
     <ClInclude Include="Game\BoxSky\BoxSky.h">
       <Filter>Game\BoxSky</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Stage\Ground.h">
+      <Filter>Game\Stage\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Stage\Tower.h">
+      <Filter>Game\Stage\Tower</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="imgui">
@@ -447,6 +459,12 @@
     </Filter>
     <Filter Include="Game\BoxSky">
       <UniqueIdentifier>{b72ac4e9-d6c6-40da-9819-62df1da813c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Stage\Ground">
+      <UniqueIdentifier>{879e8b5c-804b-4e24-a645-0089b2ac87e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Stage\Tower">
+      <UniqueIdentifier>{41535bfb-4caa-4678-92e8-39c35c480fbb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
