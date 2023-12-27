@@ -5,8 +5,8 @@
 
 void Player::Initialize() {
 	auto rsManager = ResourceManager::GetInstance();
-	model_ = std::make_shared<Model>();
-	model_->SetModel(rsManager->FindObject3d("Box"));
+	bodyModel_ = std::make_shared<Model>();
+	bodyModel_->SetModel(rsManager->FindObject3d("PlayerBody"));
 
 	transform_.scale_ = Vector3::one;
 	transform_.translation_.y = 1.0f;
@@ -108,7 +108,7 @@ void Player::Jamp() {
 
 void Player::TransformUpdate() {
 	transform_.UpdateMatrix();
-	model_->transform_ = transform_;
+	bodyModel_->transform_ = transform_;
 }
 
 void Player::LimitMoving() {

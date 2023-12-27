@@ -20,6 +20,14 @@ void GameScene::Initialize() {
 	object->Load("BoxSky","Resources/boxSky/boxSky.obj");
 	rs->AddModel("BoxSky", object);
 
+	object = std::make_shared<Object3d>();
+	object->Load("PlayerHead","Resources/Player/Head/head.obj");
+	rs->AddModel("PlayerHead", object);
+	
+	object = std::make_shared<Object3d>();
+	object->Load("PlayerBody","Resources/Player/Body/body.obj");
+	rs->AddModel("PlayerBody", object);
+
 	battleScene = new BattleScene;
 	battleScene->Initialize();
 

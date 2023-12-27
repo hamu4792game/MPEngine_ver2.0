@@ -25,7 +25,7 @@ private:
 
 private:
 	WorldTransform transform_;
-	std::shared_ptr<Model> model_;
+	std::shared_ptr<Model> bodyModel_;
 
 	float acceleration_ = 0.0f; // 落下時の加速度
 	bool isJamped_ = false; // ジャンプ中かのフラグ
