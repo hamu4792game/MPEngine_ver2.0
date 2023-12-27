@@ -18,11 +18,13 @@ void FollowCamera::Update() {
 }
 
 void FollowCamera::DrawImGui() {
+#ifdef _DEBUG
 	ImGui::Begin("camera");
 	ImGui::DragFloat3("position", &transform_.translation_.x, 0.1f);
 	ImGui::DragFloat3("rotate", &transform_.rotation_.x, 0.1f);
 	ImGui::DragFloat3("scale", &transform_.scale_.x, 0.1f);
 	ImGui::End();
+#endif // _DEBUG
 
 
 	auto input = Input::GetInstance()->GetKey();
@@ -31,6 +33,12 @@ void FollowCamera::DrawImGui() {
 	}
 	if (input->PressKey(DIK_RIGHT)) {
 		transform_.rotation_.y += AngleToRadian(1.0f);
+	}
+	if (input->PressKey(DIK_UP)) {
+		transform_.rotation_.x += AngleToRadian(1.0f);
+	}
+	if (input->PressKey(DIK_DOWN)) {
+		transform_.rotation_.x -= AngleToRadian(1.0f);
 	}
 
 

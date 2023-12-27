@@ -19,6 +19,7 @@ void Stage::Initialize() {
 }
 
 void Stage::Update() {
+#ifdef _DEBUG
     ImGui::Begin("Tower");
     for (int i = 0; i < towers_.size(); i++) {
         if (ImGui::TreeNode(("TowerNumber : " + std::to_string(i)).c_str())) {
@@ -27,4 +28,5 @@ void Stage::Update() {
         }
     }
     ImGui::End();
+#endif // _DEBUG
 }

@@ -56,7 +56,7 @@ void GraphicsManager::PreDraw() {
 	ImGui::NewFrame();
 
 	// ImGuiデモの表示
-	ImGui::ShowDemoWindow();
+	//ImGui::ShowDemoWindow();
 #endif // _DEBUG
 
 	CreateBarrier(swapChain_->GetBackBuffer(), D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
