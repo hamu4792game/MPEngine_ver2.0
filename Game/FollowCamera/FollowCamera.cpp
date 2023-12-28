@@ -1,6 +1,7 @@
 #include "FollowCamera.h"
 #include "externals/imgui/imgui.h"
 #include "Input/Input.h"
+#include "Utils/Easing/Easing.h"
 
 void FollowCamera::Initialize() {
 	transform_.rotation_.x = AngleToRadian(5.0f);
@@ -9,10 +10,15 @@ void FollowCamera::Initialize() {
 void FollowCamera::Update() {
 	DrawImGui();
 	if (target_) {
-		Vector3 offset = Vector3(0.0f, 4.0f, -30.0f);
+		Vector3 offset = Vector3(0.0f, 4.0f, -20.0f);
+		float T = Easing::EaseOutSine(0.2f);
+
+		Vector3 b = target_->worldMatrix_ * offset;
+
+		preTranslate_ = Lerp(preTranslate_, b, 0.2f);
 		offset = TargetOffset(offset, transform_.rotation_);
 
-		transform_.translation_ = offset + target_->translation_;
+		transform_.translation_ = offset + preTranslate_;
 	}
 	transform_.UpdateMatrix();
 }

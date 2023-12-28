@@ -25,6 +25,8 @@ public:
 	Matrix4x4& operator*=(const Matrix4x4& mat);
 	//	行列の代入
 	Matrix4x4& operator=(const Matrix4x4& mat);
+
+	Vector3 operator*(const Vector3& vec) const;
 	
 };
 

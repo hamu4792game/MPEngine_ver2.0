@@ -14,5 +14,5 @@ public:
 private:
 	WorldTransform transform_;
 	const WorldTransform* target_ = nullptr;
-
+	Vector3 preTranslate_;
 };

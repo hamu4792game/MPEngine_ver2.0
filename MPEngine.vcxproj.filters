@@ -149,6 +149,9 @@
     <ClCompile Include="Game\Stage\Tower.cpp">
       <Filter>Game\Stage\Tower</Filter>
     </ClCompile>
+    <ClCompile Include="MPEngine\Utils\Easing\Ease.cpp">
+      <Filter>MPEngine\Utils\Easing</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -317,6 +320,12 @@
     <ClInclude Include="Game\Stage\Tower.h">
       <Filter>Game\Stage\Tower</Filter>
     </ClInclude>
+    <ClInclude Include="MPEngine\Utils\Easing\Ease.h">
+      <Filter>MPEngine\Utils\Easing</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Utils\Easing\Easing.h">
+      <Filter>MPEngine\Utils\Easing</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="imgui">
@@ -465,6 +474,9 @@
     </Filter>
     <Filter Include="Game\Stage\Tower">
       <UniqueIdentifier>{41535bfb-4caa-4678-92e8-39c35c480fbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Utils\Easing">
+      <UniqueIdentifier>{037e1ca9-35f1-4998-a1e5-cec27fcd2c75}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

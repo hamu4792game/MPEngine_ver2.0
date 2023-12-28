@@ -69,6 +69,13 @@ Matrix4x4& Matrix4x4::operator=(const Matrix4x4& mat)
 	this->m = mat.m;
 	return *this;
 }
+Vector3 Matrix4x4::operator*(const Vector3& vec) const {
+	Vector3 result;
+	result.x = vec.x * this->m[0][0] + vec.y * this->m[1][0] + vec.z * this->m[2][0] + this->m[3][0];
+	result.y = vec.x * this->m[0][1] + vec.y * this->m[1][1] + vec.z * this->m[2][1] + this->m[3][1];
+	result.z = vec.x * this->m[0][2] + vec.y * this->m[1][2] + vec.z * this->m[2][2] + this->m[3][2];
+	return result;
+}
 //	逆行列
 Matrix4x4 Inverse(const Matrix4x4& m) {
 	Matrix4x4 result;
