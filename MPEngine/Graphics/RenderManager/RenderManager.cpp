@@ -15,14 +15,14 @@ void RenderManager::Draw() {
 	auto list = ListManager::GetInstance()->GetList();
 	auto rsManager = ResourceManager::GetInstance();
 	auto srvHeap = rsManager->GetSRVHeap()->GetDescriptorHeap();
+	Matrix4x4 projectionMatrix;
 
 	list->SetDescriptorHeaps(1, &srvHeap);
-	auto projectionMatrix = camera->GetViewProMat();
-	spriteRender.DrawCommand(projectionMatrix);
 
-	projectionMatrix = //MakePerspectiveFovMatrix(0.45f, 1280.0f / 720.0f, 0.1f, 2000.0f);
-	camera3d_->GetViewProMat();
-
+	projectionMatrix = camera3d_->GetViewProMat();
 	modelRender.DrawCommand(projectionMatrix);
+
+	projectionMatrix = camera->GetViewProMat();
+	spriteRender.DrawCommand(projectionMatrix);
 
 }

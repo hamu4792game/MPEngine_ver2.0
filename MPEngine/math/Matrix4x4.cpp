@@ -267,6 +267,7 @@ Vector3 Transform(const Vector3& vector, const Matrix4x4& matrix)
 	resultVec.z = vector.x * matrix.m[0][2] + vector.y * matrix.m[1][2] + vector.z * matrix.m[2][2] + 1.0f * matrix.m[3][2];
 	float w = vector.x * matrix.m[0][3] + vector.y * matrix.m[1][3] + vector.z * matrix.m[2][3] + 1.0f * matrix.m[3][3];
 	assert(w != 0);
+	//if (w != 0) { return Vector3::zero; }
 	resultVec.x /= w;
 	resultVec.y /= w;
 	resultVec.z /= w;

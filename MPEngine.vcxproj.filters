@@ -152,6 +152,15 @@
     <ClCompile Include="MPEngine\Utils\Easing\Ease.cpp">
       <Filter>MPEngine\Utils\Easing</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Target\Target.cpp">
+      <Filter>Game\Target</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\LockOn\LockOn.cpp">
+      <Filter>Game\LockOn</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\Utils\GlobalVariables\GlobalVariables.cpp">
+      <Filter>MPEngine\Utils\GlobalVariables</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -326,6 +335,15 @@
     <ClInclude Include="MPEngine\Utils\Easing\Easing.h">
       <Filter>MPEngine\Utils\Easing</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Target\Target.h">
+      <Filter>Game\Target</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\LockOn\LockOn.h">
+      <Filter>Game\LockOn</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Utils\GlobalVariables\GlobalVariables.h">
+      <Filter>MPEngine\Utils\GlobalVariables</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="imgui">
@@ -477,6 +495,15 @@
     </Filter>
     <Filter Include="MPEngine\Utils\Easing">
       <UniqueIdentifier>{037e1ca9-35f1-4998-a1e5-cec27fcd2c75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Target">
+      <UniqueIdentifier>{90eb1c6e-7ab8-4268-aeab-388900a8c167}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\LockOn">
+      <UniqueIdentifier>{7609e7b7-185c-40c8-a2f0-384ec00bdf2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Utils\GlobalVariables">
+      <UniqueIdentifier>{4f0eb38c-9d2c-4fbc-8c61-70ef7c8b1183}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

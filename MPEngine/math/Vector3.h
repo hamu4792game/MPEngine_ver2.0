@@ -81,3 +81,5 @@ Vector3 FindVector(const Vector3& vec1, const Vector3& vec2);
 /// <returns>指定した範囲の乱数</returns>
 int RandNum(int min, int max);
 float RandNum(float min, float max);
+
+float FindAngle(const Vector3& vecA, const Vector3& vecB);

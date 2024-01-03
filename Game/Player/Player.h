@@ -14,6 +14,8 @@ public:
 	
 	const WorldTransform& GetTransform() const { return transform_; }
 
+	void SetTargetTrans(const WorldTransform& transform) { targetTransform_ = transform; }
+
 private:
 	void DrawImGui();
 	void Move();
@@ -22,6 +24,8 @@ private:
 	void LimitMoving(); // 移動制限用
 
 	void BehaviorRootUpdate();
+	void BehaviorAttackUpdate();
+	void DoWireMoving(); // ワイヤー移動
 
 private:
 	WorldTransform transform_;
@@ -39,5 +43,7 @@ private:
 	Behavior behavior_ = Behavior::kRoot;
 	// 次の振る舞いリクエスト
 	std::optional<Behavior> behaviorRequest_ = std::nullopt;
+
+	WorldTransform targetTransform_;
 
 };

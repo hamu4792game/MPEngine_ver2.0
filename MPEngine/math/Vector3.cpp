@@ -191,3 +191,14 @@ float RandNum(float min, float max) {
 
 	return static_cast<float>(dist(randNum));
 }
+
+float FindAngle(const Vector3& vecA, const Vector3& vecB) {
+	float dot = Dot(vecA, vecB);
+	float a = Length(vecA);
+	float b = Length(vecB);
+	float result = std::acosf(dot / (a * b));
+	if (vecA.x < 0) {
+		result = -result;
+	}
+	return result;
+}

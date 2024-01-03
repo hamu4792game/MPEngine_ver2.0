@@ -22,7 +22,7 @@ public:
 
 public: // セッター
 	// Textureのセット
-	void SetTexture(const std::shared_ptr<Texture>& texture) { texture_ = texture; }
+	void SetTexture(const std::shared_ptr<Texture>& texture);
 	void SetBlend(BlendMode blend);
 	void SetAnchorPoint(AnchorPoint anchor);
 	void SetIsActive(const bool& active) { isActive_ = active; }
@@ -53,12 +53,12 @@ private:
 	Vector2 translate_;
 
 public:
-	Vector2 uvScale_ = Vector2::zero; // UVサイズ
+	Vector2 uvScale_ = Vector2::one; // UVサイズ
 	float uvRotate_ = 0.0f; // UVの回転
 	Vector2 uvTranslate_ = Vector2::zero; // UVの基盤座標
 
 private:
-	Vector4 color_;
+	Vector4 color_ = Vector4::one;
 
 	// 描画必要情報
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_{};

@@ -17,6 +17,7 @@ public:
 	// Set
 	void SetTransform(const WorldTransform& transform) { camera_.transform = transform; }
 	const WorldTransform& GetTransform() const { return camera_.transform; }
+	const Camera& GetCamera() const { return camera_; }
 private:
 	Camera camera_;
 

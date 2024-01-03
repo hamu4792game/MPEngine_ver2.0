@@ -4,6 +4,9 @@
 #include "Game/Player/Player.h"
 #include "Game/FollowCamera/FollowCamera.h"
 #include "Game/Stage/Stage.h"
+#include "Game/Target/Target.h"
+#include <vector>
+#include "Game/LockOn/LockOn.h"
 
 class BattleScene : public SceneFrame {
 public:
@@ -19,5 +22,7 @@ private:
 	std::unique_ptr<Player> player_;
 	std::shared_ptr<FollowCamera> followCamera_;
 	std::unique_ptr<Stage> stage_;
+	std::vector<std::shared_ptr<Target>> targets_;
+	std::unique_ptr<LockOn> lockOn_;
 
 };

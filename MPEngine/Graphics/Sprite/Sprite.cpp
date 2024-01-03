@@ -22,6 +22,11 @@ Sprite::~Sprite() {
 	}
 }
 
+void Sprite::SetTexture(const std::shared_ptr<Texture>& texture) {
+	texture_ = texture;
+	uvScale_ = Vector2(1.0f,1.0f);
+}
+
 void Sprite::SetBlend(BlendMode blend) {
 	if (blend == BlendMode::BlendCount) {
 		blendType_ = BlendMode::Normal;

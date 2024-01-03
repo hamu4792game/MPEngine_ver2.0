@@ -16,7 +16,9 @@ public:
 	float y;
 	float z;
 	float w;
-
+public: // 定数
+	static const Vector4 zero;
+	static const Vector4 one;
 };
 
 Vector4 ChangeColor(uint32_t color);

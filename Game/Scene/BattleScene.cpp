@@ -14,6 +14,19 @@ void BattleScene::Initialize() {
 
 	stage_ = std::make_unique<Stage>();
 	stage_->Initialize();
+
+	const uint32_t kMaxTargetNum = 3u;
+	Vector3 targetIniPos[kMaxTargetNum]{
+		Vector3(0.0f,10.0f,0.0f),
+		Vector3(40.0f,15.0f,-20.0f),
+		Vector3(-20.0f,15.0f,20.0f),
+	};
+	for (uint32_t index = 0; index < kMaxTargetNum; index++) {
+		targets_.emplace_back(std::make_shared<Target>())->Initialize(targetIniPos[index]);
+	}
+
+	lockOn_ = std::make_unique<LockOn>();
+	lockOn_->Initialize();
 }
 
 void BattleScene::Finalize() {
@@ -23,8 +36,15 @@ void BattleScene::Finalize() {
 void BattleScene::Update() {
 	DrawImGui();
 	stage_->Update();
+	std::list<std::shared_ptr<Target>> listData(targets_.begin(), targets_.end());
+	lockOn_->Update(listData);
+	player_->SetTargetTrans(lockOn_->GetTargetTrans());
+
 
 	player_->Update();
+
+
+
 	followCamera_->Update();
 	cameraTrans_ = followCamera_->GetTransform();
 	cameraTrans_.UpdateMatrix();

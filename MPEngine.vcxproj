@@ -114,11 +114,13 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="GameScene\GameScene.cpp" />
     <ClCompile Include="Game\BoxSky\BoxSky.cpp" />
     <ClCompile Include="Game\FollowCamera\FollowCamera.cpp" />
+    <ClCompile Include="Game\LockOn\LockOn.cpp" />
     <ClCompile Include="Game\Player\Player.cpp" />
     <ClCompile Include="Game\Scene\BattleScene.cpp" />
     <ClCompile Include="Game\Stage\Ground.cpp" />
     <ClCompile Include="Game\Stage\Stage.cpp" />
     <ClCompile Include="Game\Stage\Tower.cpp" />
+    <ClCompile Include="Game\Target\Target.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MPEngine\Base\DetailSetting\DepthBuffer\DepthBuffer.cpp" />
     <ClCompile Include="MPEngine\Base\DetailSetting\DescriptorHandle\DescriptorHandle.cpp" />
@@ -154,6 +156,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="MPEngine\Utils\Camera\Camera.cpp" />
     <ClCompile Include="MPEngine\Utils\Camera\Camera3d.cpp" />
     <ClCompile Include="MPEngine\Utils\Easing\Ease.cpp" />
+    <ClCompile Include="MPEngine\Utils\GlobalVariables\GlobalVariables.cpp" />
     <ClCompile Include="MPEngine\Utils\WorldTransform\WorldTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -168,11 +171,13 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="GameScene\GameScene.h" />
     <ClInclude Include="Game\BoxSky\BoxSky.h" />
     <ClInclude Include="Game\FollowCamera\FollowCamera.h" />
+    <ClInclude Include="Game\LockOn\LockOn.h" />
     <ClInclude Include="Game\Player\Player.h" />
     <ClInclude Include="Game\Scene\BattleScene.h" />
     <ClInclude Include="Game\Stage\Ground.h" />
     <ClInclude Include="Game\Stage\Stage.h" />
     <ClInclude Include="Game\Stage\Tower.h" />
+    <ClInclude Include="Game\Target\Target.h" />
     <ClInclude Include="MPEngine\Base\ConstantBuffer.h" />
     <ClInclude Include="MPEngine\Base\DetailSetting\DepthBuffer\DepthBuffer.h" />
     <ClInclude Include="MPEngine\Base\DetailSetting\DescriptorHandle\DescriptorHandle.h" />
@@ -213,6 +218,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="MPEngine\Utils\Camera\Camera3d.h" />
     <ClInclude Include="MPEngine\Utils\Easing\Ease.h" />
     <ClInclude Include="MPEngine\Utils\Easing\Easing.h" />
+    <ClInclude Include="MPEngine\Utils\GlobalVariables\GlobalVariables.h" />
     <ClInclude Include="MPEngine\Utils\WorldTransform\WorldTransform.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>

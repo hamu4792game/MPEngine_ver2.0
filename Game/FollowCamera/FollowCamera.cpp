@@ -10,13 +10,13 @@ void FollowCamera::Initialize() {
 void FollowCamera::Update() {
 	DrawImGui();
 	if (target_) {
-		Vector3 offset = Vector3(0.0f, 4.0f, -20.0f);
-		float T = Easing::EaseOutSine(0.2f);
+		Vector3 offset = Vector3(0.0f, 2.0f, -20.0f);
+		offset = TargetOffset(offset, transform_.rotation_);
+		float T = Easing::EaseInSine(0.5f);
 
 		Vector3 b = target_->worldMatrix_ * offset;
 
-		preTranslate_ = Lerp(preTranslate_, b, 0.2f);
-		offset = TargetOffset(offset, transform_.rotation_);
+		preTranslate_ = Lerp(preTranslate_, b, T);
 
 		transform_.translation_ = offset + preTranslate_;
 	}
@@ -32,7 +32,6 @@ void FollowCamera::DrawImGui() {
 	ImGui::End();
 #endif // _DEBUG
 
-
 	auto input = Input::GetInstance()->GetKey();
 	if (input->PressKey(DIK_LEFT)) {
 		transform_.rotation_.y -= AngleToRadian(1.0f);
@@ -46,6 +45,5 @@ void FollowCamera::DrawImGui() {
 	if (input->PressKey(DIK_DOWN)) {
 		transform_.rotation_.x -= AngleToRadian(1.0f);
 	}
-
 
 }

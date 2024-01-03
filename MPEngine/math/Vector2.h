@@ -13,6 +13,7 @@ public:
 	float y;
 
 	static Vector2 zero;
+	static Vector2 one;
 public:
 	Vector2 operator+(const Vector2& num) const;
 	Vector2 operator-(const Vector2& num) const;

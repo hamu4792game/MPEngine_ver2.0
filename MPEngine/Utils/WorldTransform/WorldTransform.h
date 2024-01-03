@@ -27,4 +27,6 @@ public:
 	// リセット
 	void Reset();
 
+	Vector3 GetPosition() const { return Vector3(worldMatrix_.m[3][0], worldMatrix_.m[3][1], worldMatrix_.m[3][2]); }
+
 };

@@ -2,6 +2,7 @@
 #include "externals/imgui/imgui.h"
 #include "Input/input.h"
 #include "Utils/Camera/Camera3d.h"
+#include "Utils/Easing/Easing.h"
 
 void Player::Initialize() {
 	auto rsManager = ResourceManager::GetInstance();
@@ -101,9 +102,8 @@ void Player::Jamp() {
 		const float gravity_ = 0.1f;
 		// 重力を足していく
 		acceleration_ -= gravity_;
+		transform_.translation_.y += acceleration_;
 	}
-	transform_.translation_.y += acceleration_;
-
 }
 
 void Player::TransformUpdate() {
@@ -120,5 +120,51 @@ void Player::LimitMoving() {
 
 void Player::BehaviorRootUpdate() {
 	Move();
+	DoWireMoving();
 	Jamp();
+}
+
+void Player::BehaviorAttackUpdate() {
+
+}
+
+void Player::DoWireMoving() {
+	auto input = Input::GetInstance();
+	static bool flag = false;
+	static Vector3 vec;
+	static Vector3 prePosition;
+	static float num = 0.0f;
+	if (input->GetKey()->TriggerKey(DIK_B) && flag == false) {
+		//vec = FindVector(transform_.translation_, targetTransform_.translation_);
+		//vec = Normalize(vec);
+		vec = targetTransform_.translation_;
+		if (vec == Vector3::zero) { return; } // 早期リターン
+		prePosition = transform_.translation_;
+		num = 0.0f;
+		flag = true;
+		isJamped_ = false;
+		acceleration_ = 2.0f;
+	}
+	// 一番近くのターゲットのベクトルを取得して加速度を上げた移動をさせたい
+	// イージング使う方が良さそうなので打診
+	if (flag) {
+		/*const float resistanceValue = 0.05f;
+		acceleration_ -= resistanceValue;
+		transform_.translation_ += vec * acceleration_;
+		if (acceleration_ <= 0.0f) {
+			acceleration_ = 0.0f;
+			flag = false;
+		}*/
+		float T = Easing::EaseOutQuart(num);
+		T = std::clamp(T, 0.0f, 1.0f);
+		transform_.translation_ = Lerp(prePosition, vec, T);
+		if (T >= 1.0f) {
+			flag = false;
+			isJamped_ = true;
+			acceleration_ = 0.0f;
+		}
+		else {
+			num += 1.0f / 60.0f;
+		}
+	}
 }
