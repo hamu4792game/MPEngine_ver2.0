@@ -92,6 +92,16 @@ void Player::Update() {
 	TransformUpdate();
 }
 
+void Player::OnCollision(const AABB* aabb) {
+	bool iscoll = collision_->IsCollision(aabb);
+	if (iscoll) {
+		collision_->boxModel_->SetColor(0x000000ff);
+	}
+	else {
+		collision_->boxModel_->SetColor(0xffffffff);
+	}
+}
+
 void Player::DrawImGui() {
 #ifdef _DEBUG
 	ImGui::Begin("Player",nullptr,ImGuiWindowFlags_MenuBar);
@@ -126,7 +136,7 @@ void Player::DrawImGui() {
 		if (ImGui::BeginMenu("Adjustment")) {
 			if (ImGui::TreeNode("Transform")) {
 				ImGui::DragFloat3("position", &transform_.translation_.x, 0.1f);
-				ImGui::DragFloat3("rotate", &transform_.rotation_.x, 0.1f);
+				ImGui::DragFloat3("rotate", &transform_.rotation_.x, AngleToRadian(1.0f));
 				ImGui::DragFloat3("scale", &transform_.scale_.x, 0.1f);
 				ImGui::TreePop();
 			}

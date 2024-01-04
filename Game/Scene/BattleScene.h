@@ -7,6 +7,7 @@
 #include "Game/Target/Target.h"
 #include <vector>
 #include "Game/LockOn/LockOn.h"
+#include "Game/Enemy/Enemy.h"
 
 class BattleScene : public SceneFrame {
 public:
@@ -24,5 +25,5 @@ private:
 	std::unique_ptr<Stage> stage_;
 	std::vector<std::shared_ptr<Target>> targets_;
 	std::unique_ptr<LockOn> lockOn_;
-
+	std::unique_ptr<Enemy> enemy_;
 };

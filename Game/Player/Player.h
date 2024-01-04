@@ -19,6 +19,8 @@ public:
 
 	void SetTargetTrans(const WorldTransform& transform) { targetTransform_ = transform; }
 
+	void OnCollision(const AABB* aabb);
+
 private:
 	void DrawImGui();
 	void Move();

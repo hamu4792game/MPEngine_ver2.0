@@ -13,7 +13,7 @@ void AABB::Update(const WorldTransform& transform) {
 	//	座標 - scale * size
 	this->min = Vector3(transform.GetPosition() - Vector3(transform.scale_.x * size.x, transform.scale_.y * size.y, transform.scale_.z * size.z));
 	this->max = Vector3(transform.GetPosition() + Vector3(transform.scale_.x * size.x, transform.scale_.y * size.y, transform.scale_.z * size.z));
-	boxModel_->transform_.scale_ = transform.scale_ * (1.0f / 2.0f);
+	boxModel_->transform_.scale_ = transform.scale_;
 	boxModel_->transform_.translation_ = transform.GetPosition();
 }
 

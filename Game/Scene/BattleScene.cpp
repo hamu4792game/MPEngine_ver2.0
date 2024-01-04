@@ -15,6 +15,9 @@ void BattleScene::Initialize() {
 	stage_ = std::make_unique<Stage>();
 	stage_->Initialize();
 
+	enemy_ = std::make_unique<Enemy>();
+	enemy_->Initialize();
+
 	const uint32_t kMaxTargetNum = 3u;
 	Vector3 targetIniPos[kMaxTargetNum]{
 		Vector3(0.0f,10.0f,0.0f),
@@ -42,6 +45,8 @@ void BattleScene::Update() {
 
 
 	player_->Update();
+	enemy_->Update();
+	player_->OnCollision(enemy_->GetCollision());
 
 
 
