@@ -32,6 +32,18 @@ void GameScene::Initialize() {
 	object->Load("PlayerBody","Resources/Player/Body/body.obj");
 	rs->AddModel("PlayerBody", object);
 
+	object = std::make_shared<Object3d>();
+	object->Load("PlayerLeftArm","Resources/Player/LArm/LArm.obj");
+	rs->AddModel("PlayerLeftArm", object);
+	
+	object = std::make_shared<Object3d>();
+	object->Load("PlayerRightArm","Resources/Player/RArm/RArm.obj");
+	rs->AddModel("PlayerRightArm", object);
+
+	object = std::make_shared<Object3d>();
+	object->Load("PlayerRightArm","Resources/Player/Legs/limbs.obj");
+	rs->AddModel("PlayerLegs", object);
+
 	battleScene = new BattleScene;
 	battleScene->Initialize();
 

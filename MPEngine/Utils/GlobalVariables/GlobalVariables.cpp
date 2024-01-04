@@ -132,8 +132,9 @@ void GlobalVariables::AddItem(const std::string& groupName, const std::string& k
 
 int32_t GlobalVariables::GetIntValue(const std::string& groupName, const std::string& key) const {
 
-	assert(datas_.find(groupName) != datas_.end());
-
+	if (datas_.find(groupName) == datas_.end()) {
+		GlobalVariables::GetInstance()->CreateGroup(groupName);
+	}
 	const Group& group = datas_.at(groupName);
 
 	//assert(group.find(key) != group.end());
@@ -146,8 +147,9 @@ int32_t GlobalVariables::GetIntValue(const std::string& groupName, const std::st
 
 float GlobalVariables::GetFloatValue(const std::string& groupName, const std::string& key) const {
 
-	assert(datas_.find(groupName) != datas_.end());
-
+	if (datas_.find(groupName) == datas_.end()) {
+		GlobalVariables::GetInstance()->CreateGroup(groupName);
+	}
 	const Group& group = datas_.at(groupName);
 
 	//assert(group.find(key) != group.end());
@@ -160,8 +162,9 @@ float GlobalVariables::GetFloatValue(const std::string& groupName, const std::st
 
 Vector2 GlobalVariables::GetVector2Value(const std::string& groupName, const std::string& key) const {
 
-	assert(datas_.find(groupName) != datas_.end());
-
+	if (datas_.find(groupName) == datas_.end()) {
+		GlobalVariables::GetInstance()->CreateGroup(groupName);
+	}
 	const Group& group = datas_.at(groupName);
 
 	//assert(group.find(key) != group.end());
@@ -174,8 +177,9 @@ Vector2 GlobalVariables::GetVector2Value(const std::string& groupName, const std
 
 Vector3 GlobalVariables::GetVector3Value(const std::string& groupName, const std::string& key) const {
 
-	assert(datas_.find(groupName) != datas_.end());
-
+	if (datas_.find(groupName) == datas_.end()) {
+		GlobalVariables::GetInstance()->CreateGroup(groupName);
+	}
 	const Group& group = datas_.at(groupName);
 
 	//assert(group.find(key) != group.end());
@@ -200,8 +204,9 @@ Vector3 GlobalVariables::GetVector3Value(const std::string& groupName, const std
 //}
 
 std::string GlobalVariables::GetStringValue(const std::string& groupName, const std::string& key) const {
-	assert(datas_.find(groupName) != datas_.end());
-
+	if (datas_.find(groupName) == datas_.end()) {
+		GlobalVariables::GetInstance()->CreateGroup(groupName);
+	}
 	const Group& group = datas_.at(groupName);
 
 	//assert(group.find(key) != group.end());
@@ -368,7 +373,7 @@ void GlobalVariables::LoadFile(const std::string& groupName) {
 		}
 	}
 #ifdef _DEBUG
-	//LoadMessage(groupName);
+	LoadMessage(groupName);
 #endif // _DEBUG
 }
 

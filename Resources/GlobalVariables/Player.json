@@ -1,24 +1,94 @@
 {
-    "Player": {
-        "Body Translation": [
-            0.0,
-            -1.2999999523162842,
-            0.0
-        ],
-        "Head Translation": [
-            0.0,
-            1.5,
-            0.0
-        ],
-        "Larm Translation": [
-            0.20000000298023224,
-            1.7000000476837158,
-            0.0
-        ],
-        "Rarm Translation": [
-            -0.20000000298023224,
-            1.7000000476837158,
-            0.0
-        ]
-    }
+     "Player": {
+          "PartsTrans : rotate0": [
+               0.0,
+               0.0,
+               0.0
+          ],
+          "PartsTrans : rotate1": [
+               0.0,
+               0.0,
+               0.0
+          ],
+          "PartsTrans : rotate2": [
+               0.0,
+               0.0,
+               0.0
+          ],
+          "PartsTrans : rotate3": [
+               0.0,
+               0.0,
+               0.0
+          ],
+          "PartsTrans : rotate4": [
+               0.0,
+               0.0,
+               0.0
+          ],
+          "PartsTrans : rotate5": [
+               0.0,
+               0.0,
+               0.0
+          ],
+          "PartsTrans : scale0": [
+               1.0,
+               1.0,
+               1.0
+          ],
+          "PartsTrans : scale1": [
+               1.0,
+               1.0,
+               1.0
+          ],
+          "PartsTrans : scale2": [
+               1.0,
+               1.0,
+               1.0
+          ],
+          "PartsTrans : scale3": [
+               1.0,
+               1.0,
+               1.0
+          ],
+          "PartsTrans : scale4": [
+               1.0,
+               1.0,
+               1.0
+          ],
+          "PartsTrans : scale5": [
+               1.0,
+               1.0,
+               1.0
+          ],
+          "PartsTrans : translate0": [
+               0.0,
+               0.800000011920929,
+               0.0
+          ],
+          "PartsTrans : translate1": [
+               0.0,
+               2.0,
+               0.0
+          ],
+          "PartsTrans : translate2": [
+               0.800000011920929,
+               1.0,
+               0.0
+          ],
+          "PartsTrans : translate3": [
+               -0.800000011920929,
+               1.0,
+               0.0
+          ],
+          "PartsTrans : translate4": [
+               0.5,
+               0.20000000298023224,
+               0.0
+          ],
+          "PartsTrans : translate5": [
+               -0.5,
+               0.20000000298023224,
+               0.0
+          ]
+     }
 }
