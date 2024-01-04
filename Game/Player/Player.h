@@ -5,6 +5,7 @@
 #include <optional>
 #include <vector>
 #include <string>
+#include "Math/AABB.h"
 
 class Player {
 public:
@@ -87,5 +88,7 @@ private:
 	static const int kComboNum = 3; // 最大コンボ定数
 	// コンボ定数表
 	static const std::array<ConstAttack, kComboNum> kConstAttacks_;
+
+	std::shared_ptr<AABB> collision_;
 
 };

@@ -161,6 +161,12 @@
     <ClCompile Include="MPEngine\Utils\GlobalVariables\GlobalVariables.cpp">
       <Filter>MPEngine\Utils\GlobalVariables</Filter>
     </ClCompile>
+    <ClCompile Include="MPEngine\Math\AABB.cpp">
+      <Filter>MPEngine\Math\AABB</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Enemy\Enemy.cpp">
+      <Filter>Game\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -344,6 +350,12 @@
     <ClInclude Include="MPEngine\Utils\GlobalVariables\GlobalVariables.h">
       <Filter>MPEngine\Utils\GlobalVariables</Filter>
     </ClInclude>
+    <ClInclude Include="MPEngine\Math\AABB.h">
+      <Filter>MPEngine\Math\AABB</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Enemy\Enemy.h">
+      <Filter>Game\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="imgui">
@@ -504,6 +516,15 @@
     </Filter>
     <Filter Include="MPEngine\Utils\GlobalVariables">
       <UniqueIdentifier>{4f0eb38c-9d2c-4fbc-8c61-70ef7c8b1183}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Math\AABB">
+      <UniqueIdentifier>{e2687454-65e6-4df4-9e1a-810bf1ad59dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Math\Sphere">
+      <UniqueIdentifier>{cac44694-94ad-46e5-b9ce-3aa4a00e7f3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Enemy">
+      <UniqueIdentifier>{530e4a2c-0909-4f5f-9bbb-53cc7252e6d8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

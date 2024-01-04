@@ -16,7 +16,8 @@ public:
 	// Textureのセット
 	void SetModel(const std::shared_ptr<Object3d>& model);
 	void SetTexture(const std::shared_ptr<Texture>& texture) { texture_ = texture; }
-
+	void SetColor(const Vector4& color) { color_ = color; }
+	void SetColor(const uint32_t& color) { color_ = ChangeColor(color); }
 private:
 	void Initialize();
 	void CreateVertexResource();
@@ -24,9 +25,6 @@ private:
 
 public:
 	WorldTransform transform_;
-	//Vector3 scale_;
-	//Vector3 rotate_;
-	//Vector3 translate_;
 	bool isActive_ = true;
 
 private:
@@ -48,6 +46,5 @@ private:
 		Vector4 color;
 	};
 	ConstantBuffer<Material> cMaterial;
-
 
 };

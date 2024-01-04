@@ -113,6 +113,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="externals\imgui\imgui_widgets.cpp" />
     <ClCompile Include="GameScene\GameScene.cpp" />
     <ClCompile Include="Game\BoxSky\BoxSky.cpp" />
+    <ClCompile Include="Game\Enemy\Enemy.cpp" />
     <ClCompile Include="Game\FollowCamera\FollowCamera.cpp" />
     <ClCompile Include="Game\LockOn\LockOn.cpp" />
     <ClCompile Include="Game\Player\Player.cpp" />
@@ -146,6 +147,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="MPEngine\Input\Input.cpp" />
     <ClCompile Include="MPEngine\Input\KeyInput.cpp" />
     <ClCompile Include="MPEngine\Input\PadInput.cpp" />
+    <ClCompile Include="MPEngine\Math\AABB.cpp" />
     <ClCompile Include="MPEngine\Math\Matrix3x3.cpp" />
     <ClCompile Include="MPEngine\math\Matrix4x4.cpp" />
     <ClCompile Include="MPEngine\math\Vector2.cpp" />
@@ -170,6 +172,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="externals\imgui\imstb_truetype.h" />
     <ClInclude Include="GameScene\GameScene.h" />
     <ClInclude Include="Game\BoxSky\BoxSky.h" />
+    <ClInclude Include="Game\Enemy\Enemy.h" />
     <ClInclude Include="Game\FollowCamera\FollowCamera.h" />
     <ClInclude Include="Game\LockOn\LockOn.h" />
     <ClInclude Include="Game\Player\Player.h" />
@@ -206,6 +209,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="MPEngine\Input\Input.h" />
     <ClInclude Include="MPEngine\Input\KeyInput.h" />
     <ClInclude Include="MPEngine\Input\PadInput.h" />
+    <ClInclude Include="MPEngine\Math\AABB.h" />
     <ClInclude Include="MPEngine\Math\MathUtl.h" />
     <ClInclude Include="MPEngine\Math\Matrix3x3.h" />
     <ClInclude Include="MPEngine\math\Matrix4x4.h" />

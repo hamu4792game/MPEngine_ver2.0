@@ -49,6 +49,7 @@ void Player::Initialize() {
 	transform_.scale_ = Vector3::one;
 	transform_.translation_.y = 1.0f;
 
+	collision_ = std::make_shared<AABB>();
 	TransformUpdate();
 
 }
@@ -201,6 +202,7 @@ void Player::TransformUpdate() {
 	for (uint32_t index = 0u; index < Parts::kMaxParts; index++) {
 		models_.at(index)->transform_ = partsTrans_.at(index);
 	}
+	collision_->Update(transform_);
 }
 
 void Player::LimitMoving() {
