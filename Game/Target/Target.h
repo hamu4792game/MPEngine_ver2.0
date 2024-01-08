@@ -7,8 +7,10 @@ public:
 	~Target() = default;
 
 	void Initialize(const Vector3& translate);
+	void DrawImGui();
 	
 	const WorldTransform& GetTransform() const { return transform_; }
+
 private:
 	std::shared_ptr<Model> model_;
 	WorldTransform transform_;

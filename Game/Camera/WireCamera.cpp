@@ -10,6 +10,7 @@ void WireCamera::Initialize(const WorldTransform& transform) {
 	offset_ = Vector3(0.0f, 2.0f, -20.0f);
 	preTranslate_ = target_->worldMatrix_ * TargetOffset(offset_, transform_.rotation_);
 	easeNum_ = 0.0f;
+	delay_ = 0.95f;
 }
 
 void WireCamera::Update() {
@@ -19,7 +20,7 @@ void WireCamera::Update() {
 		
 		Vector3 end = target_->worldMatrix_ * lOffset;
 
-		preTranslate_ = Lerp(preTranslate_, end, 1.0f - 0.95f);
+		preTranslate_ = Lerp(preTranslate_, end, 1.0f - delay_);
 
 		transform_.translation_ = lOffset + preTranslate_;
 	}
@@ -56,7 +57,7 @@ void WireCamera::CameraMove() {
 
 	easeNum_ += 1.0f / 20.0f;
 	easeNum_ = std::clamp(easeNum_, 0.0f, 1.0f);
-	float T = Easing::EaseOutSine(easeNum_);
+	float T = Easing::EaseOutCubic(easeNum_);
 	T = std::clamp(T, 0.0f, 1.0f);
 	const Vector3 kStartOffset(0.0f, 2.0f, -20.0f);
 	const Vector3 kEndOffset(1.0f, 1.0f, -10.0f);
@@ -66,6 +67,10 @@ void WireCamera::CameraMove() {
 	}
 	else {
 		offset_ = Lerp(kEndOffset, kStartOffset, T);
+		if (offset_ == kStartOffset) {
+			delay_ -= 0.05f;
+			delay_ = std::clamp(delay_, 0.0f, 0.95f);
+		}
 	}
 
 }

@@ -1,0 +1,81 @@
+{
+     "Stage": {
+          "BoxConfirmation": 4,
+          "BoxNumber : 0 : Rotate": [
+               0.0,
+               0.0,
+               0.0
+          ],
+          "BoxNumber : 0 : Scale": [
+               100.0,
+               30.0,
+               100.0
+          ],
+          "BoxNumber : 0 : Translate": [
+               0.0,
+               -30.0,
+               0.0
+          ],
+          "BoxNumber : 1 : Rotate": [
+               0.0,
+               0.0,
+               0.0
+          ],
+          "BoxNumber : 1 : Scale": [
+               1.0,
+               1.0,
+               1.0
+          ],
+          "BoxNumber : 1 : Translate": [
+               -90.0,
+               30.0,
+               -90.0
+          ],
+          "BoxNumber : 2 : Rotate": [
+               0.0,
+               0.0,
+               0.0
+          ],
+          "BoxNumber : 2 : Scale": [
+               1.0,
+               1.0,
+               1.0
+          ],
+          "BoxNumber : 2 : Translate": [
+               -90.0,
+               30.0,
+               90.0
+          ],
+          "BoxNumber : 3 : Rotate": [
+               0.0,
+               0.0,
+               0.0
+          ],
+          "BoxNumber : 3 : Scale": [
+               1.0,
+               1.0,
+               1.0
+          ],
+          "BoxNumber : 3 : Translate": [
+               90.0,
+               30.0,
+               -90.0
+          ],
+          "TargetConfirmation": 3,
+          "TargetNumber : 0 : Translate": [
+               0.0,
+               19.5,
+               0.0
+          ],
+          "TargetNumber : 1 : Translate": [
+               0.0,
+               8.699999809265137,
+               10.5
+          ],
+          "TargetNumber : 2 : Translate": [
+               -40.099998474121094,
+               8.0,
+               15.800000190734863
+          ]
+     }
+}

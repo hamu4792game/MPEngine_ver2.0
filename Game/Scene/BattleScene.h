@@ -21,7 +21,7 @@ private:
 	WorldTransform cameraTrans_;
 	std::unique_ptr<Player> player_;
 	std::unique_ptr<Stage> stage_;
-	std::vector<std::shared_ptr<Target>> targets_;
+	//std::vector<std::shared_ptr<Target>> targets_;
 	std::unique_ptr<LockOn> lockOn_;
 	std::unique_ptr<Enemy> enemy_;
 };

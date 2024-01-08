@@ -561,10 +561,11 @@ void Player::DoWireMoving() {
 
 		// 減速する処理
 		if (flag) {
+			num += 1.0f / 20.0f;
 			fallParam_.acceleration_ -= a;
 			fallParam_.acceleration_ = std::clamp(fallParam_.acceleration_, 0.0f, kMaxResistanceValue);
 			// 切替わり処理
-			if (fallParam_.acceleration_ <= 0.0f) {
+			if (num >= 1.0f) {
 				wireInitialize_ = true;
 				wireMove_ = false;
 				InitializeFall();
@@ -587,6 +588,7 @@ void Player::DoWireMoving() {
 				// 距離が6以下の時にフラグを建てる
 				if (distance < std::fabs(6.0f * kMaxResistanceValue)) {
 					flag = true;
+					num = 0.0f;
 					a = (1.0f / 5.0f) * fallParam_.acceleration_;
 				}
 			}

@@ -1,6 +1,7 @@
 #include "BattleScene.h"
 #include "Utils/Camera/Camera3d.h"
 #include "Input/Input.h"
+#include "externals/imgui/imgui.h"
 
 void BattleScene::Initialize() {
 	player_ = std::make_unique<Player>();
@@ -14,16 +15,6 @@ void BattleScene::Initialize() {
 	enemy_ = std::make_unique<Enemy>();
 	enemy_->Initialize();
 
-	const uint32_t kMaxTargetNum = 3u;
-	Vector3 targetIniPos[kMaxTargetNum]{
-		Vector3(0.0f,10.0f,0.0f),
-		Vector3(40.0f,15.0f,-20.0f),
-		Vector3(-20.0f,15.0f,20.0f),
-	};
-	for (uint32_t index = 0; index < kMaxTargetNum; index++) {
-		targets_.emplace_back(std::make_shared<Target>())->Initialize(targetIniPos[index]);
-	}
-
 	lockOn_ = std::make_unique<LockOn>();
 	lockOn_->Initialize();
 }
@@ -35,7 +26,8 @@ void BattleScene::Finalize() {
 void BattleScene::Update() {
 	DrawImGui();
 	stage_->Update();
-	std::list<std::shared_ptr<Target>> listData(targets_.begin(), targets_.end());
+	std::list<std::shared_ptr<Target>> listData(stage_->GetTargets());
+
 	lockOn_->Update(listData);
 	player_->SetTargetTrans(lockOn_->GetTargetTrans());
 
@@ -43,7 +35,9 @@ void BattleScene::Update() {
 	player_->Update();
 	enemy_->Update();
 	player_->OnCollisionStage(enemy_->GetCollision());
-	player_->OnCollisionStage(stage_->GetCollision());
+	for (auto coll : stage_->GetCollision()) {
+		player_->OnCollisionStage(coll);
+	}
 
 	Camera3d::GetInstance()->SetTransform(player_->PostUpdate());
 

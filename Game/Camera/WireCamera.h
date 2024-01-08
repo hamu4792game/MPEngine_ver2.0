@@ -20,4 +20,5 @@ private:
 	Vector3 offset_;
 	bool changeFlag_ = false;
 	float easeNum_ = 0.0f;
+	float delay_ = 0.95f;
 };
