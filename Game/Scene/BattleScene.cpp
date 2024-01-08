@@ -46,7 +46,8 @@ void BattleScene::Update() {
 
 	player_->Update();
 	enemy_->Update();
-	player_->OnCollision(enemy_->GetCollision());
+	//player_->OnCollision(enemy_->GetCollision());
+	player_->OnCollisionStage(stage_->GetCollision());
 
 
 

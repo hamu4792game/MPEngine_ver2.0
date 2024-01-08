@@ -18,7 +18,7 @@ void LockOn::Initialize() {
 	frame_->SetScale(Vector2(300.0f, 300.0f));
 	framePos_ = Vector2(-150.0f, -150.0f);
 	frame_->SetColor(Vector4(0.0f, 0.0f, 0.0f, 0.5f));
-	//frame_->SetIsActive(false);
+	frame_->SetIsActive(false);
 }
 
 void LockOn::Update(const std::list<std::shared_ptr<Target>>& targets) {

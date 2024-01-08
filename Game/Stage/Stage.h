@@ -4,6 +4,7 @@
 #include "Game/Stage/Ground.h"
 #include "Game/Stage/Tower.h"
 #include <vector>
+#include "Math/AABB.h"
 
 class Stage {
 public:
@@ -12,6 +13,8 @@ public:
 
 	void Initialize();
 	void Update();
+
+	AABB* GetCollision() const { return ground_->GetCollision(); }
 
 private:
 	std::shared_ptr<Ground> ground_;

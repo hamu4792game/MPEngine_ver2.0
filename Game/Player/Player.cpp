@@ -4,6 +4,8 @@
 #include "Utils/Camera/Camera3d.h"
 #include "Utils/Easing/Easing.h"
 #include "Utils/GlobalVariables/GlobalVariables.h"
+#undef min
+#undef max
 
 // コンボ定数表
 const std::array<Player::ConstAttack, Player::kComboNum> Player::kConstAttacks_ = {
@@ -47,10 +49,13 @@ void Player::Initialize() {
 
 
 	transform_.scale_ = Vector3::one;
-	transform_.translation_.y = 1.0f;
+	transform_.translation_.z = -5.0f;
+	transform_.translation_.y = 2.4f;
 
 	collision_ = std::make_shared<AABB>();
+	collision_->size = Vector3(1.0f, 2.4f, 1.0f);
 	TransformUpdate();
+	InitializeFall();
 
 }
 
@@ -93,12 +98,154 @@ void Player::Update() {
 }
 
 void Player::OnCollision(const AABB* aabb) {
+	// ローカル変数にrつけてるだけ
 	bool iscoll = collision_->IsCollision(aabb);
+	// 床との衝突判定
 	if (iscoll) {
-		collision_->boxModel_->SetColor(0x000000ff);
+		Vector3 extrusionVector;
+		collision_->boxModel_->SetColor(0x000000aa);
+		// 地面と当たっているので初期化
+		InitializeFall();
+
+		Vector3 boxPositions[8]{
+			Vector3(collision_->min.x,collision_->min.y,collision_->min.z), // 左下手前
+			Vector3(collision_->min.x,collision_->min.y,collision_->max.z), // 左下奥
+			Vector3(collision_->max.x,collision_->min.y,collision_->min.z), // 右下手前
+			Vector3(collision_->min.x,collision_->min.y,collision_->max.z), // 右下奥
+
+			Vector3(collision_->min.x,collision_->max.y,collision_->min.z), // 左上手前
+			Vector3(collision_->min.x,collision_->max.y,collision_->max.z), // 左上奥
+			Vector3(collision_->max.x,collision_->max.y,collision_->min.z), // 右上手前
+			Vector3(collision_->max.x,collision_->max.y,collision_->max.z)  // 右下奥
+		};
+
+		// 最近接点を求める
+		Vector3 crossPoint = Vector3(
+			crossPoint.x = std::clamp(collision_->GetCenter().x, aabb->min.x, aabb->max.x),
+			crossPoint.y = std::clamp(collision_->GetCenter().y, aabb->min.y, aabb->max.y),
+			crossPoint.z = std::clamp(collision_->GetCenter().z, aabb->min.z, aabb->max.z)
+		);
+		
+		for (auto& position : boxPositions) {
+			if (collision_->IsCollision(position)) {
+				extrusionVector = FindVector(crossPoint, position);
+				extrusionVector = Vector3(std::fabs(extrusionVector.x), std::fabs(extrusionVector.y), std::fabs(extrusionVector.z));
+				// ベクトルを求める
+				float minDistance = std::min(extrusionVector.x, std::min(extrusionVector.y, extrusionVector.z));
+				if (minDistance == extrusionVector.x) { extrusionVector = Vector3(extrusionVector.x, 0.0f, 0.0f); }
+				else if (minDistance == extrusionVector.y) { extrusionVector = Vector3(0.0f, extrusionVector.y, 0.0f); }
+				else if (minDistance == extrusionVector.z) { extrusionVector = Vector3(0.0f, 0.0f, extrusionVector.z); }
+
+				Vector3 vec = FindVector(collision_->GetCenter(), aabb->GetCenter());
+				if (vec * Vector3::one >= 0.0f) {
+					transform_.translation_ += extrusionVector;
+				}
+				else {
+					transform_.translation_ -= extrusionVector;
+				}
+				TransformUpdate();
+
+			}
+		}
+
+		//extrusionVector = Normalize(extrusionVector);
+		
+		//// size同士
+		//Vector3 rScale = collision_->boxModel_->transform_.scale_ + aabb->boxModel_->transform_.scale_;
+		//// 距離 playerからboxの距離
+		//Vector3 rPosA = collision_->boxModel_->transform_.GetPosition();
+		//Vector3 rPosB = aabb->boxModel_->transform_.GetPosition();
+		//Vector3 rDistance = rPosA - rPosB;
+		//// 距離がsizeよりちいさかったらめり込んでいる 当たっている時点で通るがおまじない
+		//// y軸
+		//if (std::fabs(rScale.y) > std::fabs(rDistance.y)) {
+		//	// size - 距離の差分を求めて指定の向きに足す
+		//	float dis = std::fabs(rScale.y) - std::fabs(rDistance.y);
+		//	// playerがboxよりも下にあったら
+		//	if (rPosA.y <= rPosB.y) {
+		//		extrusionVector.y -= dis;
+		//	}
+		//	// playerがboxよりも上にあったら
+		//	else if (rPosA.y > rPosB.y) {
+		//		extrusionVector.y += dis;
+		//	}
+		//}
+		//// x軸
+		//if (std::fabs(rScale.x) > std::fabs(rDistance.x)) {
+		//	// size - 距離の差分を求めて指定の向きに足す
+		//	float dis = std::fabs(rScale.x) - std::fabs(rDistance.x);
+		//	// plaxerがboxよりも左にあったら
+		//	if (rPosA.x <= rPosB.x) {
+		//		extrusionVector.x -= dis;
+		//	}
+		//	// plaxerがboxよりも右にあったら
+		//	else if (rPosA.x > rPosB.x) {
+		//		extrusionVector.x += dis;
+		//	}
+		//}
+		//// z軸
+		//if (std::fabs(rScale.z) > std::fabs(rDistance.z)) {
+		//	// size - 距離の差分を求めて指定の向きに足す
+		//	float dis = std::fabs(rScale.z) - std::fabs(rDistance.z);
+		//	// plazerがbozよりも下にあったら
+		//	if (rPosA.z <= rPosB.z) {
+		//		extrusionVector.z -= dis;
+		//	}
+		//	// plazerがbozよりも上にあったら
+		//	else if (rPosA.z > rPosB.z) {
+		//		extrusionVector.z += dis;
+		//	}
+		//}
+
+		//float min = std::min(extrusionVector.x, std::min(extrusionVector.y, extrusionVector.z));
+		//if (min == extrusionVector.x) { extrusionVector = Vector3(extrusionVector.x, 0.0f, 0.0f); }
+		//else if (min == extrusionVector.y) { extrusionVector = Vector3(0.0f, extrusionVector.y, 0.0f); }
+		//else if (min == extrusionVector.z) { extrusionVector = Vector3(0.0f, 0.0f, extrusionVector.z); }
+
+		//transform_.translation_ += extrusionVector;
+		//TransformUpdate();
 	}
 	else {
-		collision_->boxModel_->SetColor(0xffffffff);
+		collision_->boxModel_->SetColor(0xffffffaa);
+	}
+
+}
+
+void Player::OnCollisionStage(const AABB* aabb) {
+	// ローカル変数にrつけてるだけ
+	bool iscoll = collision_->IsCollision(aabb);
+	// 床との衝突判定
+	if (iscoll) {
+		Vector3 extrusionVector;
+		collision_->boxModel_->SetColor(0x000000aa);
+		// 地面と当たっているので初期化
+		InitializeFall();
+		// size同士
+		Vector3 rScale = collision_->boxModel_->transform_.scale_ + aabb->boxModel_->transform_.scale_;
+		// 距離 playerからboxの距離
+		Vector3 rPosA = collision_->boxModel_->transform_.GetPosition();
+		Vector3 rPosB = aabb->boxModel_->transform_.GetPosition();
+		Vector3 rDistance = rPosA - rPosB;
+		// 距離がsizeよりちいさかったらめり込んでいる 当たっている時点で通るがおまじない
+		// y軸
+		if (std::fabs(rScale.y) > std::fabs(rDistance.y)) {
+			// size - 距離の差分を求めて指定の向きに足す
+			float dis = std::fabs(rScale.y) - std::fabs(rDistance.y);
+			// playerがboxよりも下にあったら
+			if (rPosA.y <= rPosB.y) {
+				extrusionVector.y -= dis;
+			}
+			// playerがboxよりも上にあったら
+			else if (rPosA.y > rPosB.y) {
+				extrusionVector.y += dis;
+			}
+		}
+		
+		transform_.translation_ += extrusionVector;
+		TransformUpdate();
+	}
+	else {
+		collision_->boxModel_->SetColor(0xffffffaa);
 	}
 }
 
@@ -138,6 +285,10 @@ void Player::DrawImGui() {
 				ImGui::DragFloat3("position", &transform_.translation_.x, 0.1f);
 				ImGui::DragFloat3("rotate", &transform_.rotation_.x, AngleToRadian(1.0f));
 				ImGui::DragFloat3("scale", &transform_.scale_.x, 0.1f);
+				ImGui::TreePop();
+			}
+			if (ImGui::TreeNode("Collision")) {
+				ImGui::DragFloat3("size", &collision_->size.x, 0.1f);
 				ImGui::TreePop();
 			}
 
@@ -188,20 +339,19 @@ void Player::Move() {
 }
 
 void Player::Jamp() {
-	if (Input::GetInstance()->GetKey()->TriggerKey(DIK_SPACE) && !isJamped_) {
+	if (Input::GetInstance()->GetKey()->TriggerKey(DIK_SPACE) && fallParam_.isJumpable_ && !fallParam_.isFalled_) {
 		// 初速度を与える
-		isJamped_ = true;
-		acceleration_ = 1.0f;
+		fallParam_.isJumpable_ = false;
+		fallParam_.acceleration_ = 1.0f;
+		fallParam_.isFalled_ = true;
 	}
+	// 落下更新処理
+	// 重力
+	const float gravity_ = 0.1f;
+	// 重力を足していく
+	fallParam_.acceleration_ -= gravity_;
+	transform_.translation_.y += fallParam_.acceleration_;
 
-	if (isJamped_) {
-		// ジャンプ更新処理
-		// 重力
-		const float gravity_ = 0.1f;
-		// 重力を足していく
-		acceleration_ -= gravity_;
-		transform_.translation_.y += acceleration_;
-	}
 }
 
 void Player::TransformUpdate() {
@@ -216,9 +366,9 @@ void Player::TransformUpdate() {
 }
 
 void Player::LimitMoving() {
-	if (transform_.translation_.y < 1.0f) {
-		transform_.translation_.y = 1.0f;
-		isJamped_ = false;
+	if (transform_.translation_.y < 2.4f) {
+		//transform_.translation_.y = 2.4f;
+		//isJamped_ = false;
 	}
 }
 
@@ -232,13 +382,25 @@ void Player::InitializeAttack() {
 
 }
 
+void Player::InitializeFall() {
+	fallParam_.isJumpable_ = true;
+	fallParam_.isFalled_ = false;
+	fallParam_.acceleration_ = 0.0f;
+
+}
+
 void Player::BehaviorRootUpdate() {
 	auto input = Input::GetInstance();
-	if (input->GetKey()->TriggerKey(DIK_V)) { behaviorRequest_ = Behavior::kAttack; }
+	if (input->GetKey()->TriggerKey(DIK_V) && wireMove_) { behaviorRequest_ = Behavior::kAttack; }
+	if (input->GetKey()->TriggerKey(DIK_B) && !wireMove_) { wireMove_ = true; }
 
 	Move();
-	DoWireMoving();
-	Jamp();
+	if (wireMove_) {
+		DoWireMoving();
+	}
+	else {
+		Jamp();
+	}
 }
 
 void Player::BehaviorAttackUpdate() {
@@ -340,41 +502,61 @@ void Player::GetPhase() {
 
 void Player::DoWireMoving() {
 	auto input = Input::GetInstance();
-	static bool flag = false;
-	static Vector3 vec;
-	static Vector3 prePosition;
+	static Vector3 rVec;
 	static float num = 0.0f;
-	if (input->GetKey()->TriggerKey(DIK_B) && flag == false) {
-		//vec = FindVector(transform_.translation_, targetTransform_.translation_);
-		//vec = Normalize(vec);
-		vec = targetTransform_.translation_;
-		if (vec == Vector3::zero) { return; } // 早期リターン
-		prePosition = transform_.translation_;
+	static bool flag = false;
+	static float a = 0.0f;
+	static Vector3 rTarget;
+	if (wireInitialize_) {
+		rVec = Normalize(FindVector(transform_.GetPosition(), targetTransform_.GetPosition()));
+		// targetがいない場合は0を返すので早期リターン
+		if (targetTransform_.GetPosition() == Vector3::zero) {
+			wireMove_ = false;
+			return;
+		}
 		num = 0.0f;
-		flag = true;
-		isJamped_ = false;
-		acceleration_ = 2.0f;
+		rTarget = targetTransform_.GetPosition();
+		wireInitialize_ = false;
+		fallParam_.isJumpable_ = false;
+		fallParam_.acceleration_ = 0.0f;
+		fallParam_.isFalled_ = false;
+		flag = false;
 	}
 	// 一番近くのターゲットのベクトルを取得して加速度を上げた移動をさせたい
 	// イージング使う方が良さそうなので打診
-	if (flag) {
-		/*const float resistanceValue = 0.05f;
-		acceleration_ -= resistanceValue;
-		transform_.translation_ += vec * acceleration_;
-		if (acceleration_ <= 0.0f) {
-			acceleration_ = 0.0f;
-			flag = false;
-		}*/
-		float T = Easing::EaseOutQuart(num);
-		T = std::clamp(T, 0.0f, 1.0f);
-		transform_.translation_ = Lerp(prePosition, vec, T);
-		if (T >= 1.0f) {
-			flag = false;
-			isJamped_ = true;
-			acceleration_ = 0.0f;
+	if (!wireInitialize_) {
+		const float kMaxResistanceValue = 5.0f;
+
+		// 減速する処理
+		if (flag) {
+			fallParam_.acceleration_ -= a;
+			fallParam_.acceleration_ = std::clamp(fallParam_.acceleration_, 0.0f, kMaxResistanceValue);
+			if (fallParam_.acceleration_ <= 0.0f) {
+				wireInitialize_ = true;
+				wireMove_ = false;
+				InitializeFall();
+			}
 		}
 		else {
 			num += 1.0f / 60.0f;
+			// 2秒以上で加速開始
+			if (num >= 1.0f) {
+				if (num == 1.0f) {
+					fallParam_.acceleration_ = 1.0f;
+				}
+				const float kResistanceValue = 0.5f;
+				fallParam_.acceleration_ += kResistanceValue;
+				fallParam_.acceleration_ = std::clamp(fallParam_.acceleration_, 0.0f, kMaxResistanceValue);
+				float distance = Distance(transform_.GetPosition(), rTarget);
+				ImGui::Text("distance :%f", distance);
+				// 距離が5以下の時にフラグを建てる
+				if (distance < std::fabs(4.0f * kMaxResistanceValue)) {
+					flag = true;
+					a = (1.0f / 10.0f) * fallParam_.acceleration_;
+				}
+			}
 		}
+
+		transform_.translation_ += rVec * fallParam_.acceleration_;
 	}
 }

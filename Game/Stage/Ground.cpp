@@ -9,4 +9,6 @@ void Ground::Initialize() {
 	transform_.UpdateMatrix();
 
 	model_->transform_ = transform_;
+	collision_ = std::make_shared<AABB>();
+	collision_->Update(transform_);
 }

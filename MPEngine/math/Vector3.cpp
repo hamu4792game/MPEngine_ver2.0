@@ -36,6 +36,10 @@ Vector3 Vector3::operator-(const Vector3& num) const {
 	return result;
 }
 
+Vector3 Vector3::operator-() const {
+	return Vector3(-this->x, -this->y, -this->z);
+}
+
 Vector3& Vector3::operator+=(const Vector3& num) {
 	*this = *this + num;
 

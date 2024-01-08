@@ -20,6 +20,7 @@ public:
 	void SetTargetTrans(const WorldTransform& transform) { targetTransform_ = transform; }
 
 	void OnCollision(const AABB* aabb);
+	void OnCollisionStage(const AABB* aabb);
 
 private:
 	void DrawImGui();
@@ -29,6 +30,7 @@ private:
 	void LimitMoving(); // 移動制限用
 
 	void InitializeAttack();
+	void InitializeFall(); // 落下の初期化
 
 	void BehaviorRootUpdate();
 	void BehaviorAttackUpdate();
@@ -52,8 +54,16 @@ private:
 	std::vector<WorldTransform> partsTrans_;
 	std::vector<std::shared_ptr<Model>> models_;
 
-	float acceleration_ = 0.0f; // 落下時の加速度
-	bool isJamped_ = false; // ジャンプ中かのフラグ
+	// 落下用ステータス ジャンプも含む
+	struct FallParam {
+		float acceleration_ = 0.0f; // 落下時の加速度
+		bool isJumpable_ = true; // ジャンプ可能かのフラグ
+		bool isFalled_ = false; // 落下中かのフラグ true:落ちている/false:落ちていない
+	};
+	FallParam fallParam_;
+
+	bool wireMove_ = false;
+	bool wireInitialize_ = true;
 
 	// 振る舞い
 	enum class Behavior {

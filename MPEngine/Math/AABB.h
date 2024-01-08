@@ -13,14 +13,27 @@ public:
 	Vector3 min;	// 最小点
 	Vector3 max;	// 最大点
 	Vector3 size{ 1.0f,1.0f,1.0f };
-
+	
 	std::shared_ptr<Model> boxModel_;
-
+private:
+	Vector3 center_; // 中点
+	struct Direction {
+		Vector3 upper; // 上
+		Vector3 lower; // 下
+		Vector3 left; // 左
+		Vector3 right; // 右
+	};
+	Direction direction_;
 public:
 	void Update(const WorldTransform& transform);
 	//	AABBと球の衝突判定
 	bool IsCollision(class Sphere* sphere) const;
 	//	AABB同士の衝突判定
 	bool IsCollision(const AABB* aabb2) const;
+	// AABBと点の衝突判定
+	bool IsCollision(const Vector3& vector) const;
+
+	static float CalculatePushBackVector(const AABB* aabb1, const AABB* aabb2);
+	const Vector3& GetCenter() const { return center_; }
 
 };

@@ -373,7 +373,7 @@ void GlobalVariables::LoadFile(const std::string& groupName) {
 		}
 	}
 #ifdef _DEBUG
-	LoadMessage(groupName);
+	//LoadMessage(groupName);
 #endif // _DEBUG
 }
 
