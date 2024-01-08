@@ -137,9 +137,6 @@
     <ClCompile Include="Game\Scene\BattleScene.cpp">
       <Filter>Game\Scene\BattleScene</Filter>
     </ClCompile>
-    <ClCompile Include="Game\FollowCamera\FollowCamera.cpp">
-      <Filter>Game\FollowCamera</Filter>
-    </ClCompile>
     <ClCompile Include="Game\BoxSky\BoxSky.cpp">
       <Filter>Game\BoxSky</Filter>
     </ClCompile>
@@ -166,6 +163,12 @@
     </ClCompile>
     <ClCompile Include="Game\Enemy\Enemy.cpp">
       <Filter>Game\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Camera\FollowCamera.cpp">
+      <Filter>Game\Camera\FollowCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Camera\WireCamera.cpp">
+      <Filter>Game\Camera\WireCamera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -323,9 +326,6 @@
     <ClInclude Include="Game\Scene\BattleScene.h">
       <Filter>Game\Scene\BattleScene</Filter>
     </ClInclude>
-    <ClInclude Include="Game\FollowCamera\FollowCamera.h">
-      <Filter>Game\FollowCamera</Filter>
-    </ClInclude>
     <ClInclude Include="Game\BoxSky\BoxSky.h">
       <Filter>Game\BoxSky</Filter>
     </ClInclude>
@@ -355,6 +355,12 @@
     </ClInclude>
     <ClInclude Include="Game\Enemy\Enemy.h">
       <Filter>Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Camera\FollowCamera.h">
+      <Filter>Game\Camera\FollowCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Camera\WireCamera.h">
+      <Filter>Game\Camera\WireCamera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -525,6 +531,15 @@
     </Filter>
     <Filter Include="Game\Enemy">
       <UniqueIdentifier>{530e4a2c-0909-4f5f-9bbb-53cc7252e6d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Camera">
+      <UniqueIdentifier>{7e92d690-1ee2-48cd-ab80-409382813429}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Camera\FollowCamera">
+      <UniqueIdentifier>{f0b0910d-fffd-4fa1-8b25-c139f70bb91d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Camera\WireCamera">
+      <UniqueIdentifier>{4464f6e6-169e-4157-b584-73a0da5cae25}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

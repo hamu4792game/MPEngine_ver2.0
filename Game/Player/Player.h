@@ -6,6 +6,8 @@
 #include <vector>
 #include <string>
 #include "Math/AABB.h"
+#include "Game/Camera/FollowCamera.h"
+#include "Game/Camera/WireCamera.h"
 
 class Player {
 public:
@@ -14,6 +16,7 @@ public:
 
 	void Initialize();
 	void Update();
+	WorldTransform PostUpdate();
 	
 	const WorldTransform& GetTransform() const { return transform_; }
 
@@ -102,5 +105,10 @@ private:
 	static const std::array<ConstAttack, kComboNum> kConstAttacks_;
 
 	std::shared_ptr<AABB> collision_;
+
+	// カメラ関係
+	std::shared_ptr<FollowCamera> followCamera_;
+	std::shared_ptr<WireCamera> wireCamera_;
+
 
 };

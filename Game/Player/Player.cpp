@@ -51,12 +51,21 @@ void Player::Initialize() {
 	transform_.scale_ = Vector3::one;
 	transform_.translation_.z = -5.0f;
 	transform_.translation_.y = 2.4f;
+	transform_.UpdateMatrix();
 
 	collision_ = std::make_shared<AABB>();
 	collision_->size = Vector3(1.0f, 2.4f, 1.0f);
-	TransformUpdate();
 	InitializeFall();
 
+	followCamera_ = std::make_shared<FollowCamera>();
+	followCamera_->SetTarget(&transform_);
+	followCamera_->Initialize();
+	
+	wireCamera_ = std::make_shared<WireCamera>();
+	wireCamera_->SetTarget(&transform_);
+	wireCamera_->Initialize(followCamera_->GetTransform());
+
+	TransformUpdate();
 }
 
 void Player::Update() {
@@ -94,7 +103,28 @@ void Player::Update() {
 	}
 
 	LimitMoving();
+	if (wireMove_) {
+		wireCamera_->CameraMove();
+	}
+	else {
+		followCamera_->CameraMove();
+	}
 	TransformUpdate();
+}
+
+WorldTransform Player::PostUpdate() {
+	// カメラアップデート
+	
+	WorldTransform cameraTrans;
+	if (wireMove_) {
+		wireCamera_->Update();
+		cameraTrans = wireCamera_->GetTransform();
+	}
+	else {
+		followCamera_->Update();
+		cameraTrans = followCamera_->GetTransform();
+	}
+	return cameraTrans;
 }
 
 void Player::OnCollision(const AABB* aabb) {
@@ -347,7 +377,7 @@ void Player::Jamp() {
 	}
 	// 落下更新処理
 	// 重力
-	const float gravity_ = 0.1f;
+	const float gravity_ = 0.05f;
 	// 重力を足していく
 	fallParam_.acceleration_ -= gravity_;
 	transform_.translation_.y += fallParam_.acceleration_;
@@ -521,6 +551,8 @@ void Player::DoWireMoving() {
 		fallParam_.acceleration_ = 0.0f;
 		fallParam_.isFalled_ = false;
 		flag = false;
+		wireCamera_->Initialize(followCamera_->GetTransform());
+		wireCamera_->SetChangeFlag(true);
 	}
 	// 一番近くのターゲットのベクトルを取得して加速度を上げた移動をさせたい
 	// イージング使う方が良さそうなので打診
@@ -531,28 +563,31 @@ void Player::DoWireMoving() {
 		if (flag) {
 			fallParam_.acceleration_ -= a;
 			fallParam_.acceleration_ = std::clamp(fallParam_.acceleration_, 0.0f, kMaxResistanceValue);
+			// 切替わり処理
 			if (fallParam_.acceleration_ <= 0.0f) {
 				wireInitialize_ = true;
 				wireMove_ = false;
 				InitializeFall();
+				followCamera_->Initialize(wireCamera_->GetTransform());
 			}
 		}
 		else {
 			num += 1.0f / 60.0f;
 			// 2秒以上で加速開始
 			if (num >= 1.0f) {
-				if (num == 1.0f) {
+				if (num <= 1.1f) {
 					fallParam_.acceleration_ = 1.0f;
+					wireCamera_->SetChangeFlag(false);
 				}
 				const float kResistanceValue = 0.5f;
 				fallParam_.acceleration_ += kResistanceValue;
 				fallParam_.acceleration_ = std::clamp(fallParam_.acceleration_, 0.0f, kMaxResistanceValue);
 				float distance = Distance(transform_.GetPosition(), rTarget);
 				ImGui::Text("distance :%f", distance);
-				// 距離が5以下の時にフラグを建てる
-				if (distance < std::fabs(4.0f * kMaxResistanceValue)) {
+				// 距離が6以下の時にフラグを建てる
+				if (distance < std::fabs(6.0f * kMaxResistanceValue)) {
 					flag = true;
-					a = (1.0f / 10.0f) * fallParam_.acceleration_;
+					a = (1.0f / 5.0f) * fallParam_.acceleration_;
 				}
 			}
 		}

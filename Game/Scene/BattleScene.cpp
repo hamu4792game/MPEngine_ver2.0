@@ -7,11 +7,7 @@ void BattleScene::Initialize() {
 	player_->Initialize();
 	cameraTrans_.scale_ = Vector3::one;
 	cameraTrans_.translation_ = Vector3(0.0f, 0.0f, -10.0f);
-	followCamera_ = std::make_shared<FollowCamera>();
-
-	followCamera_->SetTarget(&player_->GetTransform());
-	followCamera_->Initialize();
-
+	
 	stage_ = std::make_unique<Stage>();
 	stage_->Initialize();
 
@@ -46,15 +42,10 @@ void BattleScene::Update() {
 
 	player_->Update();
 	enemy_->Update();
-	//player_->OnCollision(enemy_->GetCollision());
+	player_->OnCollisionStage(enemy_->GetCollision());
 	player_->OnCollisionStage(stage_->GetCollision());
 
-
-
-	followCamera_->Update();
-	cameraTrans_ = followCamera_->GetTransform();
-	cameraTrans_.UpdateMatrix();
-	Camera3d::GetInstance()->SetTransform(cameraTrans_);
+	Camera3d::GetInstance()->SetTransform(player_->PostUpdate());
 
 }
 
