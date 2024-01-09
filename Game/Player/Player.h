@@ -8,6 +8,7 @@
 #include "Math/AABB.h"
 #include "Game/Camera/FollowCamera.h"
 #include "Game/Camera/WireCamera.h"
+#include "Game/Player/PlayerParticle.h"
 #include "Graphics/Particle/Particle.h"
 
 class Player {
@@ -112,6 +113,7 @@ private:
 	std::shared_ptr<WireCamera> wireCamera_;
 
 	// パーティクル
+	std::shared_ptr<PlayerParticle> playerParticle_;
 	std::shared_ptr<Particle> dustParticle_;
 
 

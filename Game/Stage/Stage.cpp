@@ -4,9 +4,6 @@
 #include "Utils/GlobalVariables/GlobalVariables.h"
 
 void Stage::Initialize() {
-	ground_ = std::make_shared<Ground>();
-	ground_->Initialize(Vector3(100.0f, 30.0f, 100.0f), Vector3::zero, Vector3(0.0f, -30.0f, 0.0f));
-
 	auto global = GlobalVariables::GetInstance();
 	global->LoadFile("Stage");
 	boxes_.clear();

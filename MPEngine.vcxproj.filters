@@ -176,6 +176,9 @@
     <ClCompile Include="MPEngine\Graphics\ParticleRender\ParticleRender.cpp">
       <Filter>MPEngine\Graphics\ParticleRender</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Player\PlayerParticle.cpp">
+      <Filter>Game\Player\PlayerParticle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -374,6 +377,9 @@
     <ClInclude Include="MPEngine\Graphics\ParticleRender\ParticleRender.h">
       <Filter>MPEngine\Graphics\ParticleRender</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Player\PlayerParticle.h">
+      <Filter>Game\Player\PlayerParticle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="imgui">
@@ -558,6 +564,9 @@
     </Filter>
     <Filter Include="MPEngine\Graphics\ParticleRender">
       <UniqueIdentifier>{bb7ce54e-8604-4341-a908-0b036284391a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Player\PlayerParticle">
+      <UniqueIdentifier>{3ea22ed4-54d6-4b64-8b02-d7513003109f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

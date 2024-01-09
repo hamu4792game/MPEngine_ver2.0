@@ -16,6 +16,15 @@ public:
 	float y;
 	float z;
 	float w;
+
+public:
+	Vector4 operator+(const Vector4& num) const;
+	Vector4 operator-(const Vector4& num) const;
+	Vector4 operator-() const;
+	Vector4& operator+=(const Vector4& num);
+	Vector4& operator-=(const Vector4& num);
+	Vector4& operator=(const Vector4& num);
+
 public: // 定数
 	static const Vector4 zero;
 	static const Vector4 one;

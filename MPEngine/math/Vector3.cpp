@@ -196,6 +196,14 @@ float RandNum(float min, float max) {
 	return static_cast<float>(dist(randNum));
 }
 
+Vector3 RandNum(Vector3 min, Vector3 max) {
+	Vector3 result;
+	result.x = RandNum(min.x, max.x);
+	result.y = RandNum(min.y, max.y);
+	result.z = RandNum(min.z, max.z);
+	return result;
+}
+
 float FindAngle(const Vector3& vecA, const Vector3& vecB) {
 	float dot = Dot(vecA, vecB);
 	float a = Length(vecA);

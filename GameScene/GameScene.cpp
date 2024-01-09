@@ -15,6 +15,10 @@ void GameScene::Initialize() {
 	text->Load("Resources/hud/target.png");
 	rs->AddTexture("Target", text);
 
+	text = std::make_shared<Texture>();
+	text->Load("Resources/Texture/particle.png");
+	rs->AddTexture("Circle", text);
+
 	std::shared_ptr<Object3d> object;
 	object = std::make_shared<Object3d>();
 	object->Load("Box","Resources/box/box.obj");

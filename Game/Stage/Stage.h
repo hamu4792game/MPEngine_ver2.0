@@ -22,7 +22,6 @@ public:
 
 
 private:
-	std::shared_ptr<Ground> ground_;
 	std::vector<std::shared_ptr<Ground>> boxes_;
 	std::vector<std::shared_ptr<Target>> targets_;
 	std::string itemName_ = "Stage";

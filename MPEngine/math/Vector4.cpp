@@ -11,6 +11,48 @@ Vector4::Vector4(const float& X, const float& Y, const float& Z, const float& W)
 	x = X, y = Y, z = Z, w = W;
 }
 
+Vector4 Vector4::operator+(const Vector4& num) const {
+	Vector4 result;
+	result.x = this->x + num.x;
+	result.y = this->y + num.y;
+	result.z = this->z + num.z;
+	result.w = this->w + num.w;
+	return result;
+}
+
+Vector4 Vector4::operator-(const Vector4& num) const {
+	Vector4 result;
+	result.x = this->x - num.x;
+	result.y = this->y - num.y;
+	result.z = this->z - num.z;
+	result.w = this->w - num.w;
+	return result;
+}
+
+Vector4 Vector4::operator-() const {
+	return Vector4(-this->x, -this->y, -this->z, -this->w);
+}
+
+Vector4& Vector4::operator+=(const Vector4& num) {
+	*this = *this + num;
+
+	return *this;
+}
+
+Vector4& Vector4::operator-=(const Vector4& num) {
+	*this = *this - num;
+
+	return *this;
+}
+
+Vector4& Vector4::operator=(const Vector4& num) {
+	this->x = num.x;
+	this->y = num.y;
+	this->z = num.z;
+	this->w = num.w;
+	return *this;
+}
+
 Vector4 ChangeColor(uint32_t color)
 {
 	static const float nNum = 1.0f / 255.0f;

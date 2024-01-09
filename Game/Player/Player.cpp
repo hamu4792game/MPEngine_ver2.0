@@ -59,11 +59,13 @@ void Player::Initialize() {
 		dust = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
+	playerParticle_ = std::make_shared<PlayerParticle>();
+
 #pragma endregion
 
 
 	transform_.scale_ = Vector3::one;
-	transform_.translation_.z = -5.0f;
+	transform_.translation_ = Vector3(0.0f, 22.0f, -100.0f);
 	transform_.translation_.y = 2.4f;
 	transform_.UpdateMatrix();
 
@@ -116,6 +118,8 @@ void Player::Update() {
 		break;
 	}
 
+	playerParticle_->Update(transform_.GetPosition());
+	
 	LimitMoving();
 	if (wireMove_) {
 		wireCamera_->CameraMove();
@@ -414,6 +418,11 @@ void Player::LimitMoving() {
 		//transform_.translation_.y = 2.4f;
 		//isJamped_ = false;
 	}
+
+	if (transform_.translation_.x > 0.0f) {
+
+	}
+
 }
 
 void Player::InitializeAttack() {
