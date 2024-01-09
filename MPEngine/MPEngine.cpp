@@ -21,7 +21,7 @@ MPEngine* MPEngine::GetInstance() {
 void MPEngine::Run(GameFrame* game) {
 	game_ = game;
 	int32_t windowWidth = 1280; int32_t windowHeight = 720;
-	Initialize("AL4_冬の3Dゲーム", windowWidth, windowHeight);
+	Initialize("LE2A_20_マツイ_ユウセイ", windowWidth, windowHeight);
 
 	//	ウィンドウの×ボタンが押されるまでループ
 	while (!winSv_->ProcessMessage()) {
