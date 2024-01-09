@@ -14,7 +14,7 @@ public:
 	// 初期化
 	void Initialize();
 	// particleの描画
-	void DrawCommand(const Matrix4x4& viewProjectionMat);
+	void DrawCommand(const Matrix4x4& viewProjectionMat, const Matrix4x4& billboardMat);
 
 private:
 	Microsoft::WRL::ComPtr<IDxcBlob> vertexShader;

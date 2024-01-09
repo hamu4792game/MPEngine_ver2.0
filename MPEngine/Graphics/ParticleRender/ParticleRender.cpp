@@ -69,7 +69,7 @@ void ParticleRender::Initialize() {
 #pragma endregion
 }
 
-void ParticleRender::DrawCommand(const Matrix4x4& viewProjectionMat) {
+void ParticleRender::DrawCommand(const Matrix4x4& viewProjectionMat, const Matrix4x4& billboardMat) {
 	auto list = ListManager::GetInstance()->GetList();
 
 	list->SetGraphicsRootSignature(rootSignature_->GetRootSignature().Get());
@@ -81,7 +81,7 @@ void ParticleRender::DrawCommand(const Matrix4x4& viewProjectionMat) {
 		if (!particle->isActive_) { continue; }
 
 		// 定数バッファ用の計算
-		particle->UploadInstancingData(viewProjectionMat, particle->transform_.data(), particle->color_.data());
+		particle->UploadInstancingData(viewProjectionMat, billboardMat, particle->transform_.data(), particle->color_.data());
 
 		list->SetPipelineState(graphicsPipeline_[static_cast<uint32_t>(particle->blendType_)]->GetPipelineState());
 		list->IASetVertexBuffers(0, 1, &particle->vertexBufferView_);

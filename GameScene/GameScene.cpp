@@ -21,6 +21,10 @@ void GameScene::Initialize() {
 	rs->AddModel("Box", object);
 
 	object = std::make_shared<Object3d>();
+	object->Load("Plane","Resources/plane/plane.obj");
+	rs->AddModel("Plane", object);
+
+	object = std::make_shared<Object3d>();
 	object->Load("BoxSky","Resources/boxSky/boxSky.obj");
 	rs->AddModel("BoxSky", object);
 

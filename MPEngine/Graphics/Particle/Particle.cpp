@@ -32,7 +32,7 @@ void Particle::Initialize() {
 	UploadVertexData();
 	CreateInstancingResource();
 	CreateInstancingSRV();
-	UploadInstancingData(MakeIdentity4x4());
+	UploadInstancingData(MakeIdentity4x4(), MakeIdentity4x4());
 }
 
 void Particle::CreateVertexResource() {
@@ -81,7 +81,7 @@ void Particle::UploadVertexData() {
 	vertexResource_->Unmap(0, nullptr);
 }
 
-void Particle::UploadInstancingData(const Matrix4x4& viewProjectionMat, WorldTransform* transform, Vector4* color) {
+void Particle::UploadInstancingData(const Matrix4x4& viewProjectionMat, const Matrix4x4& billboardMat, WorldTransform* transform, Vector4* color) {
 	//	書き込むためのアドレスを取得
 	InstancingStruct* instancingData = nullptr;
 	instancingResource_->Map(0, nullptr, reinterpret_cast<void**>(&instancingData));
@@ -89,7 +89,8 @@ void Particle::UploadInstancingData(const Matrix4x4& viewProjectionMat, WorldTra
 	for (uint32_t i = 0u; i < kNumInstance; i++) {
 		Matrix4x4 wMat = MakeIdentity4x4();
 		if (transform) {
-			wMat = transform[i].UpdateMatrix();
+			//wMat = transform[i].UpdateMatrix();
+			wMat = MakeScaleMatrix(transform[i].scale_) * billboardMat * MakeTranslateMatrix(transform[i].translation_);
 		}
 		Matrix4x4 wvpMat = wMat * viewProjectionMat;
 		instancingData[i].wvp = wvpMat;

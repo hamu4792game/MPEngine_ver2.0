@@ -46,7 +46,7 @@ void Player::Initialize() {
 	}
 
 	dustParticle_ = std::make_shared<Particle>();
-	dustParticle_->SetModel(rsManager->FindObject3d("PlayerBody"), 10u);
+	dustParticle_->SetModel(rsManager->FindObject3d("Plane"), 10u);
 	float lIndex = 0.0f;
 	dustParticle_->transform_.resize(10u);
 	for (auto& dust : dustParticle_->transform_) {

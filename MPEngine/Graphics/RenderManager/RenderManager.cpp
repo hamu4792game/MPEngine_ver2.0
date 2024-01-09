@@ -23,7 +23,8 @@ void RenderManager::Draw() {
 	projectionMatrix = camera3d_->GetViewProMat();
 	modelRender.DrawCommand(projectionMatrix);
 	
-	particleRender.DrawCommand(projectionMatrix);
+	Matrix4x4 billboardMat = camera3d_->GetBillboardMat();
+	particleRender.DrawCommand(projectionMatrix, billboardMat);
 
 	projectionMatrix = camera->GetViewProMat();
 	spriteRender.DrawCommand(projectionMatrix);

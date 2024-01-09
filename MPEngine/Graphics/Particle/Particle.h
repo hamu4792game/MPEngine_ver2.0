@@ -24,7 +24,7 @@ private:
 	void CreateInstancingResource();
 	void CreateInstancingSRV();
 	void UploadVertexData();
-	void UploadInstancingData(const Matrix4x4& viewProjectionMat, WorldTransform* transform = nullptr, Vector4* color = nullptr);
+	void UploadInstancingData(const Matrix4x4& viewProjectionMat, const Matrix4x4& billboardMat, WorldTransform* transform = nullptr, Vector4* color = nullptr);
 
 public:
 	std::vector<WorldTransform> transform_;
