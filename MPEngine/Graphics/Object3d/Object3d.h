@@ -27,7 +27,6 @@ public:
 private:
 	// モデルデータ構造体
 	ModelData modelData_;
-	Microsoft::WRL::ComPtr<ID3D12Resource> resource_;
 	DescriptorHandle srvHandle_;
 	std::shared_ptr<Texture> texture_;
 

@@ -45,6 +45,20 @@ void Player::Initialize() {
 		partsTrans_.at(index).translation_ = global->GetVector3Value(itemName_, ("PartsTrans : translate" + std::to_string(index)).c_str());
 	}
 
+	dustParticle_ = std::make_shared<Particle>();
+	dustParticle_->SetModel(rsManager->FindObject3d("PlayerBody"), 10u);
+	float lIndex = 0.0f;
+	dustParticle_->transform_.resize(10u);
+	for (auto& dust : dustParticle_->transform_) {
+		lIndex += 2.0f;
+		dust.translation_.x += lIndex;
+		dust.scale_ = Vector3(2.0f, 2.0f, 2.0f);
+		dust.UpdateMatrix();
+	}
+	for (auto& dust : dustParticle_->color_) {
+		dust = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	}
+
 #pragma endregion
 
 

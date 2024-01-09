@@ -6,6 +6,7 @@
 void RenderManager::Initialize() {
 	spriteRender.Initialize();
 	modelRender.Initialize();
+	particleRender.Initialize();
 	camera = std::make_shared<Camera>();
 	camera3d_ = Camera3d::GetInstance();
 	camera3d_->Initialize(2000.0f);
@@ -21,6 +22,8 @@ void RenderManager::Draw() {
 
 	projectionMatrix = camera3d_->GetViewProMat();
 	modelRender.DrawCommand(projectionMatrix);
+	
+	particleRender.DrawCommand(projectionMatrix);
 
 	projectionMatrix = camera->GetViewProMat();
 	spriteRender.DrawCommand(projectionMatrix);
