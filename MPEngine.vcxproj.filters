@@ -179,6 +179,15 @@
     <ClCompile Include="Game\Player\PlayerParticle.cpp">
       <Filter>Game\Player\PlayerParticle</Filter>
     </ClCompile>
+    <ClCompile Include="Game\GameUI\GameUI.cpp">
+      <Filter>Game\GameUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Scene\TitleScene.cpp">
+      <Filter>Game\Scene\TitleScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TitleUI\TitleUI.cpp">
+      <Filter>Game\GameUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -380,6 +389,15 @@
     <ClInclude Include="Game\Player\PlayerParticle.h">
       <Filter>Game\Player\PlayerParticle</Filter>
     </ClInclude>
+    <ClInclude Include="Game\GameUI\GameUI.h">
+      <Filter>Game\GameUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Scene\TitleScene.h">
+      <Filter>Game\Scene\TitleScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TitleUI\TitleUI.h">
+      <Filter>Game\GameUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="imgui">
@@ -567,6 +585,12 @@
     </Filter>
     <Filter Include="Game\Player\PlayerParticle">
       <UniqueIdentifier>{3ea22ed4-54d6-4b64-8b02-d7513003109f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameUI">
+      <UniqueIdentifier>{c561571a-482f-4f8b-9b68-705ec675c708}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\TitleScene">
+      <UniqueIdentifier>{fa18a743-c9c5-4b66-90c3-9f057ed671f3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

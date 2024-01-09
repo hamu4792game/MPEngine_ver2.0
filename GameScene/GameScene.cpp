@@ -4,6 +4,18 @@
 #include "MPEngine/Graphics/Object3d/Object3d.h"
 #include "externals/imgui/imgui.h"
 
+void (GameScene::* GameScene::SceneUpdateTable[])() = {
+	&GameScene::TitleUpdate,
+	&GameScene::BattleUpdate,
+	&GameScene::ResultUpdate,
+};
+
+void (GameScene::* GameScene::SceneInitializeTable[])() = {
+	&GameScene::TitleInitialize,
+	&GameScene::BattleInitialize,
+	&GameScene::ResultInitialize,
+};
+
 void GameScene::Initialize() {
 	auto rs = ResourceManager::GetInstance();
 	std::shared_ptr<Texture> text;
@@ -18,6 +30,23 @@ void GameScene::Initialize() {
 	text = std::make_shared<Texture>();
 	text->Load("Resources/Texture/particle.png");
 	rs->AddTexture("Circle", text);
+	
+	text = std::make_shared<Texture>();
+	text->Load("Resources/Texture/ground.png");
+	rs->AddTexture("Ground", text);
+
+	text = std::make_shared<Texture>();
+	text->Load("Resources/hud/titleText.png");
+	rs->AddTexture("TitleText", text);
+
+	text = std::make_shared<Texture>();
+	text->Load("Resources/hud/pushText.png");
+	rs->AddTexture("PushText", text);
+
+	text = std::make_shared<Texture>();
+	text->Load("Resources/hud/AB.png");
+	rs->AddTexture("ABText", text);
+
 
 	std::shared_ptr<Object3d> object;
 	object = std::make_shared<Object3d>();
@@ -52,20 +81,62 @@ void GameScene::Initialize() {
 	object->Load("PlayerRightArm","Resources/Player/Legs/limbs.obj");
 	rs->AddModel("PlayerLegs", object);
 
-	battleScene = new BattleScene;
-	battleScene->Initialize();
-
 	boxSky_ = std::make_unique<BoxSky>();
 	boxSky_->Initialize();
-
+	sceneRequest_ = Scene::TITLE;
 }
 
 void GameScene::Finalize() {
-	battleScene->Finalize();
-	delete battleScene;
+	if (titleScene) { delete titleScene; }
+	if (battleScene) { delete battleScene; }
 }
 
 void GameScene::Update() {
+
+	//Scene初期化
+	if (sceneRequest_) {
+		scene_ = sceneRequest_.value();
+		(this->*SceneInitializeTable[static_cast<size_t>(scene_)])();
+		sceneRequest_ = std::nullopt;
+	}
+	//SceneUpdate
+	(this->*SceneUpdateTable[static_cast<size_t>(scene_)])();
+
+}
+
+void GameScene::TitleInitialize() {
+	titleScene = new TitleScene;
+	titleScene->Initialize();
+}
+
+void GameScene::BattleInitialize() {
+	battleScene = new BattleScene;
+	battleScene->Initialize();
+}
+
+void GameScene::ResultInitialize() {
+
+}
+
+void GameScene::TitleUpdate() {
+	titleScene->Update();
+	if (titleScene->IsEndRequest()) {
+		sceneRequest_ = Scene::BATTLE;
+		titleScene->Finalize();
+		delete titleScene;
+	}
+}
+
+void GameScene::BattleUpdate() {
 	battleScene->Update();
+	if (battleScene->IsEndRequest()) {
+		sceneRequest_ = Scene::TITLE;
+		battleScene->Finalize();
+		delete battleScene;
+	}
+}
+
+void GameScene::ResultUpdate() {
+
 }
 

@@ -1,8 +1,11 @@
 #pragma once
 #include "Framework/GameFrame.h"
+#include "Game/Scene/TitleScene.h"
 #include "Game/Scene/BattleScene.h"
 #include "Game/BoxSky/BoxSky.h"
 #include <memory>
+#include <optional>
+
 
 class GameScene : public GameFrame {
 public:
@@ -14,7 +17,30 @@ public:
 	void Update() override;
 
 private:
+	TitleScene* titleScene = nullptr;
 	BattleScene* battleScene = nullptr;
 	std::unique_ptr<BoxSky> boxSky_;
+
+	//Scene
+	enum class Scene {
+		TITLE,
+		BATTLE,
+		RESULT,
+
+		kSceneNum
+	};
+
+	Scene scene_ = Scene::TITLE;
+	Scene nextScene = Scene::BATTLE;
+	static void (GameScene::* SceneInitializeTable[])();
+	static void (GameScene::* SceneUpdateTable[])();
+	std::optional<Scene> sceneRequest_ = std::nullopt;
+
+	void TitleInitialize();
+	void BattleInitialize();
+	void ResultInitialize();
+	void TitleUpdate();
+	void BattleUpdate();
+	void ResultUpdate();
 
 };

@@ -45,24 +45,9 @@ void Player::Initialize() {
 		partsTrans_.at(index).translation_ = global->GetVector3Value(itemName_, ("PartsTrans : translate" + std::to_string(index)).c_str());
 	}
 
-	dustParticle_ = std::make_shared<Particle>();
-	dustParticle_->SetModel(rsManager->FindObject3d("Plane"), 10u);
-	float lIndex = 0.0f;
-	dustParticle_->transform_.resize(10u);
-	for (auto& dust : dustParticle_->transform_) {
-		lIndex += 2.0f;
-		dust.translation_.x += lIndex;
-		dust.scale_ = Vector3(2.0f, 2.0f, 2.0f);
-		dust.UpdateMatrix();
-	}
-	for (auto& dust : dustParticle_->color_) {
-		dust = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-	}
-
 	playerParticle_ = std::make_shared<PlayerParticle>();
 
 #pragma endregion
-
 
 	transform_.scale_ = Vector3::one;
 	transform_.translation_ = Vector3(0.0f, 22.0f, -100.0f);
@@ -118,7 +103,8 @@ void Player::Update() {
 		break;
 	}
 
-	playerParticle_->Update(transform_.GetPosition());
+	Vector3 pos = transform_.GetPosition();
+	playerParticle_->Update(Vector3(pos.x, pos.y - transform_.scale_.y, pos.z));
 	
 	LimitMoving();
 	if (wireMove_) {
@@ -145,9 +131,10 @@ WorldTransform Player::PostUpdate() {
 	return cameraTrans;
 }
 
-void Player::OnCollision(const AABB* aabb) {
+bool Player::OnCollision(const AABB* aabb) {
 	// ローカル変数にrつけてるだけ
 	bool iscoll = collision_->IsCollision(aabb);
+	return iscoll;
 	// 床との衝突判定
 	if (iscoll) {
 		Vector3 extrusionVector;
@@ -473,19 +460,30 @@ void Player::BehaviorRootUpdate() {
 	if (input->GetKey()->TriggerKey(DIK_V)) {
 		attackFlag = true;
 	}
-
 	if (attackFlag && wireMove_) { behaviorRequest_ = Behavior::kAttack; }
 
-	if (input->GetKey()->TriggerKey(DIK_B) && !wireMove_) { wireMove_ = true; }
-	//if (input->GetKey()->TriggerKey(DIK_B) && !wireMove_) { behaviorRequest_ = Behavior::kDash; }
+	bool wireFlag = false;
+	if (input->GetKey()->TriggerKey(DIK_B)) {
+		wireFlag = true;
+	}
+	if (input->GetPad()->GetPadConnect()) {
+		if (input->GetPad()->GetPadButtonDown(XINPUT_GAMEPAD_B)) {
+			wireFlag = true;
+		}
+	}
 
-	Move();
+	if (wireFlag && !wireMove_) { 
+		wireMove_ = true;
+	}
+
 	if (wireMove_) {
 		DoWireMoving();
 	}
 	else {
+		Move();
 		Jamp();
 	}
+
 }
 
 void Player::BehaviorAttackUpdate() {
@@ -563,7 +561,7 @@ void Player::BehaviorAttackUpdate() {
 }
 
 void Player::BehaviorDashUpdate() {
-	DoWireMoving();
+
 }
 
 void Player::GetPhase() {

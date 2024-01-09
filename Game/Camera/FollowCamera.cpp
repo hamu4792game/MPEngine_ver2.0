@@ -38,19 +38,40 @@ void FollowCamera::DrawImGui() {
 
 void FollowCamera::CameraMove() {
 	DrawImGui();
-	auto input = Input::GetInstance()->GetKey();
-	if (input->PressKey(DIK_LEFT)) {
-		transform_.rotation_.y -= AngleToRadian(1.0f);
+	auto input = Input::GetInstance();
+	Vector2 move;
+	if (input->GetKey()->PressKey(DIK_LEFT)) {
+		move.y -= AngleToRadian(1.0f);
 	}
-	if (input->PressKey(DIK_RIGHT)) {
-		transform_.rotation_.y += AngleToRadian(1.0f);
+	if (input->GetKey()->PressKey(DIK_RIGHT)) {
+		move.y += AngleToRadian(1.0f);
 	}
-	if (input->PressKey(DIK_UP)) {
-		transform_.rotation_.x += AngleToRadian(1.0f);
+	if (input->GetKey()->PressKey(DIK_UP)) {
+		move.x += AngleToRadian(1.0f);
 	}
-	if (input->PressKey(DIK_DOWN)) {
-		transform_.rotation_.x -= AngleToRadian(1.0f);
+	if (input->GetKey()->PressKey(DIK_DOWN)) {
+		move.x -= AngleToRadian(1.0f);
 	}
+
+	if (input->GetPad()->GetPadConnect()) {
+		Vector2 pMove(0.0f, 0.0f);
+		pMove = input->GetPad()->GetPadRStick();
+		//	移動があれば代入する
+		if (pMove.x < -0.5f) {
+			move.y -= AngleToRadian(1.0f);
+		}
+		else if (pMove.x > 0.5f) {
+			move.y += AngleToRadian(1.0f);
+		}
+		if (pMove.y < -0.5f) {
+			move.x -= AngleToRadian(1.0f);
+		}
+		else if (pMove.y > 0.5f) {
+			move.x += AngleToRadian(1.0f);
+		}
+	}
+	transform_.rotation_.x += move.x;
+	transform_.rotation_.y += move.y;
 
 	transform_.rotation_.x = std::clamp(transform_.rotation_.x, AngleToRadian(-8.0f), AngleToRadian(75.0f));
 }

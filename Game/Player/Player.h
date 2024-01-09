@@ -9,7 +9,6 @@
 #include "Game/Camera/FollowCamera.h"
 #include "Game/Camera/WireCamera.h"
 #include "Game/Player/PlayerParticle.h"
-#include "Graphics/Particle/Particle.h"
 
 class Player {
 public:
@@ -24,7 +23,7 @@ public:
 
 	void SetTargetTrans(const WorldTransform& transform) { targetTransform_ = transform; }
 
-	void OnCollision(const AABB* aabb);
+	bool OnCollision(const AABB* aabb);
 	void OnCollisionStage(const AABB* aabb);
 
 private:
@@ -115,7 +114,6 @@ private:
 
 	// パーティクル
 	std::shared_ptr<PlayerParticle> playerParticle_;
-	std::shared_ptr<Particle> dustParticle_;
 
 
 };

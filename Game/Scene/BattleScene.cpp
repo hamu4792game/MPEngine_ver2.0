@@ -3,6 +3,7 @@
 #include "Input/Input.h"
 #include "externals/imgui/imgui.h"
 
+
 void BattleScene::Initialize() {
 	player_ = std::make_unique<Player>();
 	player_->Initialize();
@@ -17,6 +18,10 @@ void BattleScene::Initialize() {
 
 	lockOn_ = std::make_unique<LockOn>();
 	lockOn_->Initialize();
+
+	gameUI_ = std::make_unique<GameUI>();
+	gameUI_->Initialize();
+
 }
 
 void BattleScene::Finalize() {
@@ -35,9 +40,14 @@ void BattleScene::Update() {
 	player_->Update();
 	enemy_->Update();
 	player_->OnCollisionStage(enemy_->GetCollision());
+	if (player_->OnCollision(enemy_->GetCollision())) {
+		endRequest_ = true;
+	}
+
 	for (auto coll : stage_->GetCollision()) {
 		player_->OnCollisionStage(coll);
 	}
+	gameUI_->Update();
 
 	Camera3d::GetInstance()->SetTransform(player_->PostUpdate());
 

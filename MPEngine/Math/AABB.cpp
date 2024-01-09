@@ -20,7 +20,11 @@ void AABB::Update(const WorldTransform& transform) {
 	boxModel_->transform_.scale_ = Vector3(transform.scale_.x * size.x, transform.scale_.y * size.y, transform.scale_.z * size.z);
 	boxModel_->transform_.translation_ = center_;
 	boxModel_->transform_.UpdateMatrix();
-	//boxModel_->isActive_ = false;
+	boxModel_->isActive_ = false;
+#ifdef _DEBUG
+	//boxModel_->isActive_ = true;
+#endif // _DEBUG
+
 	direction_.upper.y = boxModel_->transform_.translation_.y + (boxModel_->transform_.scale_.y);
 	direction_.lower.y = boxModel_->transform_.translation_.y - (boxModel_->transform_.scale_.y);
 

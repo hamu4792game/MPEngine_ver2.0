@@ -17,7 +17,7 @@
 void Ground::Initialize(const Vector3& scale, const Vector3& rotate, const Vector3& translate) {
 	model_ = std::make_shared<Model>();
 	model_->SetModel(ResourceManager::GetInstance()->FindObject3d("Box"));
-	model_->SetTexture(ResourceManager::GetInstance()->FindTexture("ABCD"));
+	model_->SetTexture(ResourceManager::GetInstance()->FindTexture("Ground"));
 	transform_.scale_ = scale;
 	transform_.rotation_ = rotate;
 	transform_.translation_ = translate;

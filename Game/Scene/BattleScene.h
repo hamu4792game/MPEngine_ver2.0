@@ -7,6 +7,7 @@
 #include <vector>
 #include "Game/LockOn/LockOn.h"
 #include "Game/Enemy/Enemy.h"
+#include "Game/GameUI/GameUI.h"
 
 class BattleScene : public SceneFrame {
 public:
@@ -17,6 +18,7 @@ public:
 	void Finalize() override;
 	void Update() override;
 	void DrawImGui();
+
 private:
 	WorldTransform cameraTrans_;
 	std::unique_ptr<Player> player_;
@@ -24,4 +26,5 @@ private:
 	//std::vector<std::shared_ptr<Target>> targets_;
 	std::unique_ptr<LockOn> lockOn_;
 	std::unique_ptr<Enemy> enemy_;
+	std::unique_ptr<GameUI> gameUI_;
 };
