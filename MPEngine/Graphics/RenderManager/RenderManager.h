@@ -1,6 +1,7 @@
 #pragma once
 #include "MPEngine/Graphics/SpriteRender/SpriteRender.h"
 #include "MPEngine/Graphics/ModelRender/ModelRender.h"
+#include "MPEngine/Graphics/ParticleRender/ParticleRender.h"
 #include "Utils/Camera/Camera.h"
 #include "MPEngine/Utils/Camera/Camera3d.h"
 
@@ -16,6 +17,7 @@ private:
 
 	SpriteRender spriteRender;
 	ModelRender modelRender;
+	ParticleRender particleRender;
 	std::shared_ptr<Camera> camera;
 	Camera3d* camera3d_ = nullptr;
 };

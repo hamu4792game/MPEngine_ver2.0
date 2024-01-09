@@ -4,10 +4,7 @@
 #include "MPEngine/Graphics/Texture/Texture.h"
 
 Object3d::~Object3d() {
-	if (resource_) {
-		resource_->Release();
-		resource_.Reset();
-	}
+
 }
 
 void Object3d::Load(const std::string& name, const std::string& filePath) {
