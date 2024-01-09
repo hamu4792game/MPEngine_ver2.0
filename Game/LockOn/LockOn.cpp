@@ -32,6 +32,8 @@ void LockOn::Update(const std::list<std::shared_ptr<Target>>& targets) {
 		Vector2 positionScreen;
 		positionScreen = ChangeScreen(positionWorld);
 		lockOnMark_->SetTranslate(positionScreen);
+		static float rot = 0.0f;
+		lockOnMark_->SetRotate(rot += 0.05f);
 		lockOnMark_->SetIsActive(true);
 	}
 	else {
@@ -78,7 +80,7 @@ void LockOn::Search(const std::list<std::shared_ptr<Target>>& targets) {
 
 		float frame = 30.0f; // x軸
 		float yFrame = 30.0f; // y軸
-		Vector2 distance(45.0f,300.0f); // 最小・最大距離
+		Vector2 distance(50.0f,300.0f); // 最小・最大距離
 		// 距離条件チェック
 		if (-frame <= positionView.x && positionView.x <= frame) {
 			if (-yFrame <= positionView.y && positionView.y <= yFrame) {

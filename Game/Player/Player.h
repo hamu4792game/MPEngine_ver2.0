@@ -39,6 +39,7 @@ private:
 
 	void BehaviorRootUpdate();
 	void BehaviorAttackUpdate();
+	void BehaviorDashUpdate();
 
 	void GetPhase();
 	void DoWireMoving(); // ワイヤー移動

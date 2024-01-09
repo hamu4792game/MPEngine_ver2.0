@@ -114,6 +114,7 @@ void Player::Update() {
 		BehaviorAttackUpdate();
 		break;
 	case Behavior::kDash:
+		BehaviorDashUpdate();
 		break;
 	}
 
@@ -391,7 +392,7 @@ void Player::Move() {
 		move = TargetOffset(move, Camera3d::GetInstance()->GetTransform().rotation_);
 		move.y = 0.0f;
 		transform_.translation_ += move;
-		transform_.rotation_.y = FindAngle(move, Vector3(0.0f, 0.0f, 1.0f));
+		partsTrans_[Parts::Body].rotation_.y = FindAngle(move, Vector3(0.0f, 0.0f, 1.0f));
 	}
 
 }
@@ -476,6 +477,7 @@ void Player::BehaviorRootUpdate() {
 	if (attackFlag && wireMove_) { behaviorRequest_ = Behavior::kAttack; }
 
 	if (input->GetKey()->TriggerKey(DIK_B) && !wireMove_) { wireMove_ = true; }
+	//if (input->GetKey()->TriggerKey(DIK_B) && !wireMove_) { behaviorRequest_ = Behavior::kDash; }
 
 	Move();
 	if (wireMove_) {
@@ -560,6 +562,10 @@ void Player::BehaviorAttackUpdate() {
 	}
 }
 
+void Player::BehaviorDashUpdate() {
+	DoWireMoving();
+}
+
 void Player::GetPhase() {
 	uint32_t totalTime = kConstAttacks_[workAttack_.comboIndex_].anticipationTime;
 	if (workAttack_.attackParameter_ < totalTime) {
@@ -584,7 +590,6 @@ void Player::GetPhase() {
 }
 
 void Player::DoWireMoving() {
-	auto input = Input::GetInstance();
 	static Vector3 rVec;
 	static float num = 0.0f;
 	static bool flag = false;
@@ -623,6 +628,7 @@ void Player::DoWireMoving() {
 				wireMove_ = false;
 				InitializeFall();
 				followCamera_->Initialize(wireCamera_->GetTransform());
+				behaviorRequest_ = Behavior::kRoot;
 			}
 		}
 		else {
