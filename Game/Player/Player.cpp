@@ -66,7 +66,6 @@ void Player::Initialize() {
 
 	transform_.scale_ = Vector3::one;
 	transform_.translation_ = Vector3(0.0f, 22.0f, -100.0f);
-	transform_.translation_.y = 2.4f;
 	transform_.UpdateMatrix();
 
 	collision_ = std::make_shared<AABB>();
@@ -375,6 +374,16 @@ void Player::Move() {
 		move.x += speed;
 	}
 
+	if (input->GetPad()->GetPadConnect()) {
+		Vector2 pMove(0.0f, 0.0f);
+		pMove = input->GetPad()->GetPadLStick();
+		//	移動があれば代入する
+		if (pMove.x != 0.0f || pMove.y != 0.0f)
+		{
+			move.x = pMove.x;
+			move.z = pMove.y;
+		}
+	}
 	
 	if (move != Vector3::zero) {
 		move = Normalize(move);
@@ -382,12 +391,25 @@ void Player::Move() {
 		move = TargetOffset(move, Camera3d::GetInstance()->GetTransform().rotation_);
 		move.y = 0.0f;
 		transform_.translation_ += move;
+		transform_.rotation_.y = FindAngle(move, Vector3(0.0f, 0.0f, 1.0f));
 	}
 
 }
 
 void Player::Jamp() {
-	if (Input::GetInstance()->GetKey()->TriggerKey(DIK_SPACE) && fallParam_.isJumpable_ && !fallParam_.isFalled_) {
+	bool flag = false;
+	auto input = Input::GetInstance();
+	if (input->GetKey()->TriggerKey(DIK_SPACE)) {
+		flag = true;
+	}
+	if (input->GetPad()->GetPadConnect()) {
+		if (input->GetPad()->GetPadButtonDown(XINPUT_GAMEPAD_A)) {
+			flag = true;
+		}
+	}
+	
+
+	if (flag && fallParam_.isJumpable_ && !fallParam_.isFalled_) {
 		// 初速度を与える
 		fallParam_.isJumpable_ = false;
 		fallParam_.acceleration_ = 1.0f;
@@ -414,13 +436,8 @@ void Player::TransformUpdate() {
 }
 
 void Player::LimitMoving() {
-	if (transform_.translation_.y < 2.4f) {
-		//transform_.translation_.y = 2.4f;
-		//isJamped_ = false;
-	}
-
-	if (transform_.translation_.x > 0.0f) {
-
+	if (transform_.translation_.y < 15.0f) {
+		transform_.translation_ = Vector3(0.0f, 22.0f, -100.0f);
 	}
 
 }
@@ -444,7 +461,20 @@ void Player::InitializeFall() {
 
 void Player::BehaviorRootUpdate() {
 	auto input = Input::GetInstance();
-	if (input->GetKey()->TriggerKey(DIK_V) && wireMove_) { behaviorRequest_ = Behavior::kAttack; }
+
+	// 攻撃入力
+	bool attackFlag = false;
+	if (input->GetPad()->GetPadConnect()) {
+		if (input->GetPad()->GetPadButtonDown(XINPUT_GAMEPAD_X)) {
+			attackFlag = true;
+		}
+	}
+	if (input->GetKey()->TriggerKey(DIK_V)) {
+		attackFlag = true;
+	}
+
+	if (attackFlag && wireMove_) { behaviorRequest_ = Behavior::kAttack; }
+
 	if (input->GetKey()->TriggerKey(DIK_B) && !wireMove_) { wireMove_ = true; }
 
 	Move();
@@ -607,7 +637,6 @@ void Player::DoWireMoving() {
 				fallParam_.acceleration_ += kResistanceValue;
 				fallParam_.acceleration_ = std::clamp(fallParam_.acceleration_, 0.0f, kMaxResistanceValue);
 				float distance = Distance(transform_.GetPosition(), rTarget);
-				ImGui::Text("distance :%f", distance);
 				// 距離が6以下の時にフラグを建てる
 				if (distance < std::fabs(6.0f * kMaxResistanceValue)) {
 					flag = true;

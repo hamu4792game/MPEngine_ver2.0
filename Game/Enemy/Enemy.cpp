@@ -23,6 +23,7 @@ void Enemy::Update() {
 }
 
 void Enemy::DrawImGui() {
+#ifdef _DEBUG
 	ImGui::Begin("Enemy");
 	if (ImGui::TreeNode("Transform")) {
 		ImGui::DragFloat3("position", &transform_.translation_.x, 0.1f);
@@ -31,6 +32,7 @@ void Enemy::DrawImGui() {
 		ImGui::TreePop();
 	}
 	ImGui::End();
+#endif // _DEBUG
 }
 
 void Enemy::TransformUpdate() {

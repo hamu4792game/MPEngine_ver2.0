@@ -31,13 +31,11 @@ void PlayerParticle::Update(const Vector3& emitter) {
 		}
 	}
 
-	int count = 0;
 	// 更新
 	for (uint32_t index = 0u; index < kNumCount_; index++) {
 		if (!particleparam_.at(index).isAlive_) {
 			continue;
 		}
-		count++;
 		particleparam_.at(index).transform_.translation_ += particleparam_.at(index).velocity_ * particleparam_.at(index).speed_;
 		particleparam_.at(index).color_ -= Vector4(0.0f, 0.0f, 0.0f, 0.01f);
 		if (particleparam_.at(index).color_.w <= 0.0f) {
@@ -48,7 +46,6 @@ void PlayerParticle::Update(const Vector3& emitter) {
 		particle_->transform_.at(index) = particleparam_.at(index).transform_;
 		particle_->color_.at(index) = particleparam_.at(index).color_;
 	}
-	ImGui::Text("%d", count);
 
 }
 

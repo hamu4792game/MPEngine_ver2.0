@@ -2,7 +2,6 @@
 #include "Base/Manager/ResourceManager/ResourceManager.h"
 #include "Utils/Camera/Camera3d.h"
 #include "MPEngine/MPEngine.h"
-#include "externals/imgui/imgui.h"
 
 LockOn::LockOn() {
 	
@@ -77,8 +76,7 @@ void LockOn::Search(const std::list<std::shared_ptr<Target>>& targets) {
 		Matrix4x4 view = Camera3d::GetInstance()->GetCamera().GetViewMat();
 		Vector3 positionView = Transform(positionWorld, view);
 
-		ImGui::DragFloat3("View", &positionView.x, 0.1f);
-		float frame = 10.0f; // x軸
+		float frame = 30.0f; // x軸
 		float yFrame = 30.0f; // y軸
 		Vector2 distance(45.0f,300.0f); // 最小・最大距離
 		// 距離条件チェック
