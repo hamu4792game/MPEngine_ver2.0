@@ -1,10 +1,15 @@
 #include "TitleScene.h"
 #include "Utils/Camera/Camera3d.h"
 #include "Input/Input.h"
+#include "Base/Manager/ResourceManager/ResourceManager.h"
+#include "Input/Audio.h"
 
 void TitleScene::Initialize() {
 	titleUI_ = std::make_unique<TitleUI>();
 	titleUI_->Initialize();
+	auto rs = ResourceManager::GetInstance();
+	std::shared_ptr<Audio> titleAudio = rs->FindAudio("Title");
+	titleAudio->SoundPlayWave(true);
 }
 
 void TitleScene::Finalize() {

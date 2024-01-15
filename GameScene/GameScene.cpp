@@ -2,6 +2,7 @@
 #include "MPEngine/Base/Manager/ResourceManager/ResourceManager.h"
 #include "MPEngine/Graphics/Texture/Texture.h"
 #include "MPEngine/Graphics/Object3d/Object3d.h"
+#include "MPEngine/Input/Audio.h"
 #include "externals/imgui/imgui.h"
 
 void (GameScene::* GameScene::SceneUpdateTable[])() = {
@@ -80,6 +81,11 @@ void GameScene::Initialize() {
 	object = std::make_shared<Object3d>();
 	object->Load("PlayerRightArm","Resources/Player/Legs/limbs.obj");
 	rs->AddModel("PlayerLegs", object);
+
+	std::shared_ptr<Audio> audio;
+	audio = std::make_shared<Audio>();
+	audio->SoundLoadWave("./Resources/Sound/w006.wav");
+	rs->AddAudio("Title", audio);
 
 	boxSky_ = std::make_unique<BoxSky>();
 	boxSky_->Initialize();

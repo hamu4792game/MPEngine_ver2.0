@@ -13,6 +13,7 @@
 
 #include "MPEngine/Math/MathUtl.h"
 
+
 // 頂点データ構造体
 struct VertexData {
 	Vector4 position;
@@ -31,6 +32,7 @@ struct ModelData {
 
 class Texture;
 class Object3d;
+class Audio;
 
 class ResourceManager {
 private:
@@ -48,16 +50,19 @@ private:
 
 	std::unordered_map<std::string, std::shared_ptr<Texture>> textureContainer_; // textureを纏めたコンテナ
 	std::unordered_map<std::string, std::shared_ptr<Object3d>> object3dContainer_; // modelDataを纏めたコンテナ
+	std::unordered_map<std::string, std::shared_ptr<Audio>> audioContainer_; // audioを纏めたコンテナ
 
 	uint32_t textureCount_ = 10u; // 今のテクスチャが追加された数
 public: // 取得関数
 	DescriptorHeap* const GetSRVHeap() { return srvDescriptorHeap_.get(); }
 	std::shared_ptr<Texture> FindTexture(const std::string& name) const { return textureContainer_.at(name); }
 	std::shared_ptr<Object3d> FindObject3d(const std::string& name) const { return object3dContainer_.at(name); }
+	std::shared_ptr<Audio> FindAudio(const std::string& name) const { return audioContainer_.at(name); }
 
 public: // 追加関数
 	void AddTexture(const std::string& name, const std::shared_ptr<Texture>& texture);
 	void AddModel(const std::string& name, const std::shared_ptr<Object3d>& model);
+	void AddAudio(const std::string& name, const std::shared_ptr<Audio>& audio);
 
 	const uint32_t GetCount(); // 次のtexture番号を割り当て
 

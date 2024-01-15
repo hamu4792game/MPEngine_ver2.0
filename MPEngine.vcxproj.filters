@@ -188,6 +188,9 @@
     <ClCompile Include="Game\TitleUI\TitleUI.cpp">
       <Filter>Game\GameUI</Filter>
     </ClCompile>
+    <ClCompile Include="MPEngine\Input\Audio.cpp">
+      <Filter>MPEngine\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -397,6 +400,9 @@
     </ClInclude>
     <ClInclude Include="Game\TitleUI\TitleUI.h">
       <Filter>Game\GameUI</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Input\Audio.h">
+      <Filter>MPEngine\Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

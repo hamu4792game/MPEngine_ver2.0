@@ -151,6 +151,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="MPEngine\Graphics\SpriteRender\SpriteRender.cpp" />
     <ClCompile Include="MPEngine\Graphics\Sprite\Sprite.cpp" />
     <ClCompile Include="MPEngine\Graphics\Texture\Texture.cpp" />
+    <ClCompile Include="MPEngine\Input\Audio.cpp" />
     <ClCompile Include="MPEngine\Input\Input.cpp" />
     <ClCompile Include="MPEngine\Input\KeyInput.cpp" />
     <ClCompile Include="MPEngine\Input\PadInput.cpp" />
@@ -220,6 +221,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="MPEngine\Graphics\SpriteRender\SpriteRender.h" />
     <ClInclude Include="MPEngine\Graphics\Sprite\Sprite.h" />
     <ClInclude Include="MPEngine\Graphics\Texture\Texture.h" />
+    <ClInclude Include="MPEngine\Input\Audio.h" />
     <ClInclude Include="MPEngine\Input\Input.h" />
     <ClInclude Include="MPEngine\Input\KeyInput.h" />
     <ClInclude Include="MPEngine\Input\PadInput.h" />

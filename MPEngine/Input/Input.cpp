@@ -1,4 +1,5 @@
 #include "Input.h"
+#include "Audio.h"
 
 Input* Input::GetInstance() {
 	static Input instance;
@@ -11,6 +12,7 @@ void Input::Initialize() {
 
 	key->Initialize();
 	pad->Initialize();
+	MasterAudio::GetInstance()->Intialize();
 }
 
 void Input::Update() {

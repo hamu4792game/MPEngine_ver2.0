@@ -2,6 +2,7 @@
 #include "MPEngine/Base/Log.h"
 #include "MPEngine/Graphics/Texture/Texture.h"
 #include "MPEngine/Graphics/Object3d/Object3d.h"
+#include "MPEngine/Input/Audio.h"
 #include <format>
 #include <fstream>
 #include <sstream>
@@ -37,6 +38,10 @@ void ResourceManager::AddModel(const std::string& name, const std::shared_ptr<Ob
 	// modelDataの追加
 	model->name_ = name;
 	object3dContainer_.emplace(std::make_pair(model->name_, model));
+}
+
+void ResourceManager::AddAudio(const std::string& name, const std::shared_ptr<Audio>& audio) {
+	audioContainer_.emplace(std::make_pair(name, audio));
 }
 
 DirectX::ScratchImage ResourceManager::LoadTexture(const std::string& filePath) {
