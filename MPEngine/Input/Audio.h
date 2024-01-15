@@ -8,7 +8,7 @@
 class MasterAudio {
 private:
 	MasterAudio() = default;
-	~MasterAudio() = default;
+	~MasterAudio();
 public:
 	static MasterAudio* GetInstance();
 	void Intialize();
@@ -25,7 +25,7 @@ private:
 class Audio {
 public:
 	Audio() = default;
-	~Audio() = default;
+	~Audio();
 
 private:
 	// チャンクヘッダ

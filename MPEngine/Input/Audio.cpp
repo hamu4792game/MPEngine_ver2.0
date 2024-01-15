@@ -2,6 +2,12 @@
 #include <cassert>
 
 
+MasterAudio::~MasterAudio() {
+	if (xAudio2_) {
+		xAudio2_.Reset();
+	}
+}
+
 MasterAudio* MasterAudio::GetInstance() {
 	static MasterAudio instance;
 	return &instance;
@@ -13,6 +19,10 @@ void MasterAudio::Intialize() {
 	result = XAudio2Create(&xAudio2_, 0, XAUDIO2_DEFAULT_PROCESSOR);
 	// マスターボイスの生成
 	result = xAudio2_->CreateMasteringVoice(&masterVoice_);
+}
+
+Audio::~Audio() {
+	SoundUnload(&soundData);
 }
 
 void Audio::SoundLoadWave(const std::string fileName) {
