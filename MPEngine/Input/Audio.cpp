@@ -39,9 +39,17 @@ void Audio::SoundLoadWave(const std::string fileName) {
 	// フォーマットチャンクの読み込み
 	FormatChunk format{};
 	// チャンクヘッダーの確認
+	uint32_t nowRead = 0u;
 	file.read((char*)&format, sizeof(ChunkHeader));
-	if (strncmp(format.chunk.id.data(), "fmt ", 4) != 0) {
-		assert(0);
+	while (strncmp(format.chunk.id.data(), "fmt ", 4) != 0) {
+		// 現在位置からfmtチャンクまで移動
+		file.seekg(nowRead, std::ios_base::beg);
+		if (file.eof()) {
+			assert(0);
+		}
+		nowRead++;
+		// 再読み込み
+		file.read((char*)&format, sizeof(ChunkHeader));
 	}
 	// チャンク本体の読み込み
 	assert(format.chunk.size <= sizeof(format.fmt));
@@ -49,13 +57,7 @@ void Audio::SoundLoadWave(const std::string fileName) {
 	// データチャンクの読み込み
 	ChunkHeader data;
 	file.read((char*)&data, sizeof(data));
-	// JUNKチャンクの読み込み
-	while (strncmp(data.id.data(), "JUNK", 4) != 0) {
-		// 読み取り位置をJUNKチャンクの終わりまで進める
-		file.seekg(data.size, std::ios_base::cur);
-		// 再読み込み
-		file.read((char*)&data, sizeof(data));
-	}
+	
 	// dataの読み込み
 	while (strncmp(data.id.data(), "data", 4) != 0) {
 		// 読み取り位置をdataまで進める
