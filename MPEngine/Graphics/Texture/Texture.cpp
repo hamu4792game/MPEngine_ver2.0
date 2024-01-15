@@ -10,7 +10,8 @@ Texture::~Texture() {
 	}
 }
 
-void Texture::Load(const std::string& filePath) {
+void Texture::Load(const std::string& name, const std::string& filePath) {
+	name_ = name;
 	auto rsManager = ResourceManager::GetInstance();
 	auto device = DeviceManager::GetInstance()->GetDevice();
 

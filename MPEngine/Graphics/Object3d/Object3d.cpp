@@ -14,8 +14,9 @@ void Object3d::Load(const std::string& name, const std::string& filePath) {
 	// モデル読み込み
 	modelData_ = rsManager->LoadObjFile(filePath);
 
-	texture_ = std::make_shared<Texture>();
-	texture_->Load(modelData_.material.textureFilePath);
-	rsManager->AddTexture(name_ + "Texture", texture_);
+	//texture_ = std::make_shared<Texture>();
+	//texture_->Load(modelData_.material.textureFilePath);
+	rsManager->AddTexture(name_ + "Texture", modelData_.material.textureFilePath);
+	texture_ = rsManager->FindTexture(name_ + "Texture");
 
 }

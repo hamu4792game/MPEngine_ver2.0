@@ -14,7 +14,7 @@ public:
 	Texture() = default;
 	~Texture();
 public:
-	void Load(const std::string& filePath);
+	void Load(const std::string& name, const std::string& filePath);
 
 	Vector2 GetTextureSize() const { return textureSize_; }
 	DescriptorHandle GetHandle() const { return srvHandle_; }

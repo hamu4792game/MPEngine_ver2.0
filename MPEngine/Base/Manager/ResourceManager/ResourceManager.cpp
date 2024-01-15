@@ -28,20 +28,24 @@ const uint32_t ResourceManager::GetCount() {
 	return textureCount_ - 1u;
 }
 
-void ResourceManager::AddTexture(const std::string& name, const std::shared_ptr<Texture>& texture) {
+void ResourceManager::AddTexture(const std::string& name, const std::string& fileName) {
 	// textureの追加
-	texture->name_ = name;
-	textureContainer_.emplace(std::make_pair(texture->name_, texture));
+	std::shared_ptr<Texture> instance = std::make_shared<Texture>();
+	instance->Load(name, fileName);
+	textureContainer_.emplace(std::make_pair(instance->name_, instance));
 }
 
-void ResourceManager::AddModel(const std::string& name, const std::shared_ptr<Object3d>& model) {
+void ResourceManager::AddModel(const std::string& name, const std::string& fileName) {
 	// modelDataの追加
-	model->name_ = name;
-	object3dContainer_.emplace(std::make_pair(model->name_, model));
+	std::shared_ptr<Object3d> instance = std::make_shared<Object3d>();
+	instance->Load(name, fileName);
+	object3dContainer_.emplace(std::make_pair(instance->name_, instance));
 }
 
-void ResourceManager::AddAudio(const std::string& name, const std::shared_ptr<Audio>& audio) {
-	audioContainer_.emplace(std::make_pair(name, audio));
+void ResourceManager::AddAudio(const std::string& name, const std::string& fileName) {
+	std::shared_ptr<Audio> instance = std::make_shared<Audio>();
+	instance->SoundLoadWave(fileName);
+	audioContainer_.emplace(std::make_pair(name, instance));
 }
 
 DirectX::ScratchImage ResourceManager::LoadTexture(const std::string& filePath) {

@@ -60,9 +60,9 @@ public: // 取得関数
 	std::shared_ptr<Audio> FindAudio(const std::string& name) const { return audioContainer_.at(name); }
 
 public: // 追加関数
-	void AddTexture(const std::string& name, const std::shared_ptr<Texture>& texture);
-	void AddModel(const std::string& name, const std::shared_ptr<Object3d>& model);
-	void AddAudio(const std::string& name, const std::shared_ptr<Audio>& audio);
+	void AddTexture(const std::string& name, const std::string& fileName);
+	void AddModel(const std::string& name, const std::string& fileName);
+	void AddAudio(const std::string& name, const std::string& fileName);
 
 	const uint32_t GetCount(); // 次のtexture番号を割り当て
 

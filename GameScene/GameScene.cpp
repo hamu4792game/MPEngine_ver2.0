@@ -19,73 +19,26 @@ void (GameScene::* GameScene::SceneInitializeTable[])() = {
 
 void GameScene::Initialize() {
 	auto rs = ResourceManager::GetInstance();
-	std::shared_ptr<Texture> text;
-	text = std::make_shared<Texture>();
-	text->Load("Resources/uvChecker.png");
-	rs->AddTexture("ABCD", text);
-
-	text = std::make_shared<Texture>();
-	text->Load("Resources/hud/target.png");
-	rs->AddTexture("Target", text);
-
-	text = std::make_shared<Texture>();
-	text->Load("Resources/Texture/particle.png");
-	rs->AddTexture("Circle", text);
-	
-	text = std::make_shared<Texture>();
-	text->Load("Resources/Texture/ground.png");
-	rs->AddTexture("Ground", text);
-
-	text = std::make_shared<Texture>();
-	text->Load("Resources/hud/titleText.png");
-	rs->AddTexture("TitleText", text);
-
-	text = std::make_shared<Texture>();
-	text->Load("Resources/hud/pushText.png");
-	rs->AddTexture("PushText", text);
-
-	text = std::make_shared<Texture>();
-	text->Load("Resources/hud/AB.png");
-	rs->AddTexture("ABText", text);
+	rs->AddTexture("TitleText", "Resources/hud/titleText.png");
+	rs->AddTexture("PushText", "Resources/hud/pushText.png");
+	rs->AddTexture("ABCD", "Resources/uvChecker.png");
+	rs->AddTexture("Target", "Resources/hud/target.png");
+	rs->AddTexture("Circle", "Resources/Texture/particle.png");
+	rs->AddTexture("Ground", "Resources/Texture/ground.png");
+	rs->AddTexture("ABText", "Resources/hud/AB.png");
 
 
-	std::shared_ptr<Object3d> object;
-	object = std::make_shared<Object3d>();
-	object->Load("Box","Resources/box/box.obj");
-	rs->AddModel("Box", object);
+	rs->AddModel("Box", "Resources/box/box.obj");
+	rs->AddModel("Plane", "Resources/plane/plane.obj");
+	rs->AddModel("BoxSky", "Resources/boxSky/boxSky.obj");
+	rs->AddModel("PlayerHead", "Resources/Player/Head/head.obj");
+	rs->AddModel("PlayerBody", "Resources/Player/Body/body.obj");
+	rs->AddModel("PlayerLeftArm", "Resources/Player/LArm/LArm.obj");
+	rs->AddModel("PlayerRightArm", "Resources/Player/RArm/RArm.obj");
+	rs->AddModel("PlayerLegs", "Resources/Player/Legs/limbs.obj");
 
-	object = std::make_shared<Object3d>();
-	object->Load("Plane","Resources/plane/plane.obj");
-	rs->AddModel("Plane", object);
+	rs->AddAudio("Title", "./Resources/Sound/w006.wav");
 
-	object = std::make_shared<Object3d>();
-	object->Load("BoxSky","Resources/boxSky/boxSky.obj");
-	rs->AddModel("BoxSky", object);
-
-	object = std::make_shared<Object3d>();
-	object->Load("PlayerHead","Resources/Player/Head/head.obj");
-	rs->AddModel("PlayerHead", object);
-	
-	object = std::make_shared<Object3d>();
-	object->Load("PlayerBody","Resources/Player/Body/body.obj");
-	rs->AddModel("PlayerBody", object);
-
-	object = std::make_shared<Object3d>();
-	object->Load("PlayerLeftArm","Resources/Player/LArm/LArm.obj");
-	rs->AddModel("PlayerLeftArm", object);
-	
-	object = std::make_shared<Object3d>();
-	object->Load("PlayerRightArm","Resources/Player/RArm/RArm.obj");
-	rs->AddModel("PlayerRightArm", object);
-
-	object = std::make_shared<Object3d>();
-	object->Load("PlayerRightArm","Resources/Player/Legs/limbs.obj");
-	rs->AddModel("PlayerLegs", object);
-
-	std::shared_ptr<Audio> audio;
-	audio = std::make_shared<Audio>();
-	audio->SoundLoadWave("./Resources/Sound/w006.wav");
-	rs->AddAudio("Title", audio);
 
 	boxSky_ = std::make_unique<BoxSky>();
 	boxSky_->Initialize();
