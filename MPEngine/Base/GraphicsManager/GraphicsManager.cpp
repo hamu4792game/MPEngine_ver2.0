@@ -3,9 +3,7 @@
 
 // imguiのinclude
 #ifdef _DEBUG
-#include "externals/imgui/imgui.h"
-#include "externals/imgui/imgui_impl_dx12.h"
-#include "externals/imgui/imgui_impl_win32.h"
+#include "MPEngine/Base/Manager/ImGuiManager/ImGuiManager.h"
 #endif // _DEBUG
 
 #include "MPEngine/Base/Log.h"
@@ -29,6 +27,7 @@ void GraphicsManager::Initialize(unsigned int bufferWidth, unsigned int bufferHe
 	swapChain_ = std::make_unique<SwapChain>();
 	rsManager_ = ResourceManager::GetInstance();
 	depthBuffer_ = std::make_unique<DepthBuffer>();
+	imguiManager_ = ImGuiManager::GetInstance();
 
 	CreateFactry();
 	SelectAdapter();
@@ -50,10 +49,8 @@ void GraphicsManager::Initialize(unsigned int bufferWidth, unsigned int bufferHe
 
 void GraphicsManager::PreDraw() {
 #ifdef _DEBUG
-	// ImGuiにframeの始まりを伝える
-	ImGui_ImplDX12_NewFrame();
-	ImGui_ImplWin32_NewFrame();
-	ImGui::NewFrame();
+	
+	imguiManager_->Begin();
 
 	// ImGuiデモの表示
 	//ImGui::ShowDemoWindow();
@@ -75,14 +72,12 @@ void GraphicsManager::PreDraw() {
 void GraphicsManager::PostDraw() {
 
 	ID3D12DescriptorHeap* descriptorHeap[] = { rsManager_->GetSRVHeap()->GetDescriptorHeap() };
-	commandList_->GetList()->SetDescriptorHeaps(1, descriptorHeap);
+	commandList_->GetList()->SetDescriptorHeaps(_countof(descriptorHeap), descriptorHeap);
 
 #ifdef _DEBUG
+	imguiManager_->End();
 	
-	// ImGuiの内部コマンドを生成
-	ImGui::Render();
-	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), commandList_->GetList());
-	
+	imguiManager_->Draw(commandList_->GetList());
 #endif // DEBUG
 
 	CreateBarrier(swapChain_->GetBackBuffer(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT);
@@ -183,32 +178,19 @@ void GraphicsManager::CreateFence() {
 
 void GraphicsManager::ImGuiInitialize() {
 #ifdef _DEBUG
-	auto winApp = WindowSupervisor::GetInstance();
 	// swapChaineのbufferCountの取得
 	DXGI_SWAP_CHAIN_DESC1 SCD;
 	swapChain_->GetSwapChain()->GetDesc1(&SCD);
-	auto srvHeap = ResourceManager::GetInstance()->GetSRVHeap();
-
+	
 	// ImGuiの初期化
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGui::StyleColorsDark();
-	ImGui_ImplWin32_Init(winApp->GetHwnd());
-	ImGui_ImplDX12_Init(device_->GetDevice(),
-		SCD.BufferCount,
-		DXGI_FORMAT_R8G8B8A8_UNORM_SRGB,
-		srvHeap->GetDescriptorHeap(),
-		srvHeap->GetCPUDescriptorHandle(0),
-		srvHeap->GetGPUDescriptorHandle(0)
-	);
+	imguiManager_->Initialize(SCD.BufferCount);
+
 #endif // _DEBUG
 }
 
 void GraphicsManager::ImGuiFinalize() {
 #ifdef _DEBUG
-	ImGui_ImplDX12_Shutdown();
-	ImGui_ImplWin32_Shutdown();
-	ImGui::DestroyContext();
+	imguiManager_->Finalize();
 #endif // _DEBUG
 }
 

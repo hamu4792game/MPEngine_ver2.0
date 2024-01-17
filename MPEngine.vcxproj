@@ -64,7 +64,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)MPEngine;$(SolutionDir)imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)MPEngine;$(ProjectDir)MPEngine\Base\Manager</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -88,7 +88,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)MPEngine;$(SolutionDir)imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)MPEngine;$(ProjectDir)MPEngine\Base\Manager</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -137,6 +137,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="MPEngine\Base\DetailSetting\SwapChain\SwapChain.cpp" />
     <ClCompile Include="MPEngine\Base\GraphicsManager\GraphicsManager.cpp" />
     <ClCompile Include="MPEngine\Base\Manager\DeviceManager\DeviceManager.cpp" />
+    <ClCompile Include="MPEngine\Base\Manager\ImGuiManager\ImGuiManager.cpp" />
     <ClCompile Include="MPEngine\Base\Manager\ListManager\ListManager.cpp" />
     <ClCompile Include="MPEngine\Base\Manager\PipelineManager\PipelineManager.cpp" />
     <ClCompile Include="MPEngine\Base\Manager\ResourceManager\ResourceManager.cpp" />
@@ -205,6 +206,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="MPEngine\Base\GraphicsManager\GraphicsManager.h" />
     <ClInclude Include="MPEngine\Base\Log.h" />
     <ClInclude Include="MPEngine\Base\Manager\DeviceManager\DeviceManager.h" />
+    <ClInclude Include="MPEngine\Base\Manager\ImGuiManager\ImGuiManager.h" />
     <ClInclude Include="MPEngine\Base\Manager\ListManager\ListManager.h" />
     <ClInclude Include="MPEngine\Base\Manager\PipelineManager\PipelineManager.h" />
     <ClInclude Include="MPEngine\Base\Manager\ResourceManager\ResourceManager.h" />
@@ -248,6 +250,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   <ItemGroup>
     <ProjectReference Include="externals\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
       <Project>{371b9fa9-4c90-4ac6-a123-aced756d6c77}</Project>
+    </ProjectReference>
+    <ProjectReference Include="externals\imgui\imgui.vcxproj">
+      <Project>{dd281ae5-d779-44f3-a809-369d9f3dbe47}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

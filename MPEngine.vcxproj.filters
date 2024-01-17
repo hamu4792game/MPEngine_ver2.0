@@ -191,6 +191,9 @@
     <ClCompile Include="MPEngine\Input\Audio.cpp">
       <Filter>MPEngine\Input</Filter>
     </ClCompile>
+    <ClCompile Include="MPEngine\Base\Manager\ImGuiManager\ImGuiManager.cpp">
+      <Filter>MPEngine\Base\Manager\ImGuiManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -404,6 +407,9 @@
     <ClInclude Include="MPEngine\Input\Audio.h">
       <Filter>MPEngine\Input</Filter>
     </ClInclude>
+    <ClInclude Include="MPEngine\Base\Manager\ImGuiManager\ImGuiManager.h">
+      <Filter>MPEngine\Base\Manager\ImGuiManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="imgui">
@@ -597,6 +603,9 @@
     </Filter>
     <Filter Include="Game\Scene\TitleScene">
       <UniqueIdentifier>{fa18a743-c9c5-4b66-90c3-9f057ed671f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Base\Manager\ImGuiManager">
+      <UniqueIdentifier>{f3054bbb-72fb-4162-9c74-8ae5737f8800}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

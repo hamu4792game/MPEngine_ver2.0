@@ -16,6 +16,7 @@ class ListManager;
 class SwapChain;
 class ResourceManager;
 class DepthBuffer;
+class ImGuiManager;
 
 class GraphicsManager {
 private:
@@ -83,6 +84,8 @@ private:
 	ResourceManager* rsManager_ = nullptr;
 	//
 	std::unique_ptr<DepthBuffer> depthBuffer_;
+	// imgui用
+	ImGuiManager* imguiManager_ = nullptr;
 
 	// フェンス関係
 	Microsoft::WRL::ComPtr<ID3D12Fence> fence_;

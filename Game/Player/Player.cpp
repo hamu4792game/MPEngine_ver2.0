@@ -1,5 +1,5 @@
 #include "Player.h"
-#include "externals/imgui/imgui.h"
+#include "ImGuiManager/ImGuiManager.h"
 #include "Input/input.h"
 #include "Utils/Camera/Camera3d.h"
 #include "Utils/Easing/Easing.h"
