@@ -66,6 +66,8 @@ void SpriteRender::Initialize() {
 	plDesc.vertexShader_ = vertexShader.Get();
 	plDesc.pixelShader_ = pixelShader.Get();
 
+	plDesc.depthStencilDesc_.DepthEnable = false;
+
 	for (uint8_t i = 0; i < static_cast<uint8_t>(BlendMode::BlendCount); i++) {
 		graphicsPipeline_.at(i) = std::make_unique<GraphicsPipeline>();
 		graphicsPipeline_.at(i)->CreatePipeline(plDesc, static_cast<BlendMode>(i));

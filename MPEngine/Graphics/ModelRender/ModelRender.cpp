@@ -63,6 +63,13 @@ void ModelRender::Initialize() {
 	plDesc.vertexShader_ = vertexShader.Get();
 	plDesc.pixelShader_ = pixelShader.Get();
 
+	//	Depthの機能を有効化する
+	plDesc.depthStencilDesc_.DepthEnable = true;
+	//	書き込みします
+	plDesc.depthStencilDesc_.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+	//	比較関数はLessEqual。つまり、近ければ描画される
+	plDesc.depthStencilDesc_.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
+
 	for (uint8_t i = 0; i < static_cast<uint8_t>(BlendMode::BlendCount); i++) {
 		graphicsPipeline_.at(i) = std::make_unique<GraphicsPipeline>();
 		graphicsPipeline_.at(i)->CreatePipeline(plDesc, static_cast<BlendMode>(i));

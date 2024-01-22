@@ -21,10 +21,11 @@ enum class BlendMode {
 };
 
 struct PipelineDesc {
-	D3D12_INPUT_LAYOUT_DESC layoutDesc_;
+	D3D12_INPUT_LAYOUT_DESC layoutDesc_{};
 	ID3D12RootSignature* signature_;
 	IDxcBlob* vertexShader_;
 	IDxcBlob* pixelShader_;
+	D3D12_DEPTH_STENCIL_DESC depthStencilDesc_{};
 };
 
 class GraphicsPipeline {
