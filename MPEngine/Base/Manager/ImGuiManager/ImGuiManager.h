@@ -2,8 +2,8 @@
 
 #ifdef _DEBUG
 #include "externals/imgui/imgui.h"
-#include "d3d12.h"
 #endif // _DEBUG
+#include "d3d12.h"
 
 class ImGuiManager {
 private:

@@ -132,6 +132,6 @@ private:
 
 	// アニメーション
 	std::unique_ptr<PlayerAnimation> animation_;
-	bool isAnime_ = false;
+	bool isAnime_ = true;
 
 };

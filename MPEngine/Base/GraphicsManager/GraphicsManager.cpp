@@ -1,11 +1,6 @@
 #include "GraphicsManager.h"
 #include <cassert>
 
-// imguiのinclude
-#ifdef _DEBUG
-#include "MPEngine/Base/Manager/ImGuiManager/ImGuiManager.h"
-#endif // _DEBUG
-
 #include "MPEngine/Base/Log.h"
 #include "MPEngine/Base/Manager/DeviceManager/DeviceManager.h"
 #include "MPEngine/Base/Manager/ListManager/ListManager.h"
@@ -13,6 +8,8 @@
 #include "MPEngine/Base/WindowSupervisor/WindowSupervisor.h"
 #include "MPEngine/Base/Manager/ResourceManager/ResourceManager.h"
 #include "MPEngine/Base/DetailSetting/DepthBuffer/DepthBuffer.h"
+#include "MPEngine/Base/Manager/ImGuiManager/ImGuiManager.h"
+
 
 GraphicsManager* GraphicsManager::GetInstance() {
 	static GraphicsManager instance;
