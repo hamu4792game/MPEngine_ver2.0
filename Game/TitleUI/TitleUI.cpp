@@ -13,11 +13,29 @@ void TitleUI::Initialize() {
 	pushText_->SetTexture(rsManager->FindTexture("PushText"));
 	pushText_->SetTranslate(Vector2(0.0f,-250.0f));
 	pushText_->SetScale(Vector2(900.0f, 80.0f));
-
+	color_ = Vector4::one;
 }
 
 void TitleUI::Update() {
 	DrawImGui();
+
+	const float speed = 0.05f;
+	if (isInOut_) {
+		color_.w += speed;
+		if (color_.w >= 1.0f) {
+			color_.w = 1.0f;
+			isInOut_ = false;
+		}
+	}
+	else {
+		color_.w -= speed;
+		if (color_.w <= 0.0f) {
+			color_.w = 0.0f;
+			isInOut_ = true;
+		}
+	}
+	pushText_->SetColor(color_);
+
 }
 
 void TitleUI::DrawImGui() {

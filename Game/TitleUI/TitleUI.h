@@ -14,5 +14,7 @@ public:
 private:
 	std::shared_ptr<Sprite> titleText_;
 	std::shared_ptr<Sprite> pushText_;
+	Vector4 color_;
+	bool isInOut_ = false;
 
 };

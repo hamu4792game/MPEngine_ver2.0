@@ -29,6 +29,10 @@ void Player::Initialize() {
 	models_.at(Parts::R_Arm)->SetModel(rsManager->FindObject3d("PlayerRightArm"));
 	models_.at(Parts::L_Legs)->SetModel(rsManager->FindObject3d("PlayerLegs"));
 	models_.at(Parts::R_Legs)->SetModel(rsManager->FindObject3d("PlayerLegs"));
+	models_.at(Parts::Weapon)->SetModel(rsManager->FindObject3d("Box"));
+	models_.at(Parts::Tracking1)->SetModel(rsManager->FindObject3d("PlayerLegs"));
+	models_.at(Parts::Tracking2)->SetModel(rsManager->FindObject3d("PlayerLegs"));
+	models_.at(Parts::Tracking3)->SetModel(rsManager->FindObject3d("PlayerLegs"));
 
 	partsTrans_.at(Parts::Body).parent_ = &transform_;
 	partsTrans_.at(Parts::Head).parent_ = &partsTrans_.at(Parts::Body);
@@ -36,6 +40,10 @@ void Player::Initialize() {
 	partsTrans_.at(Parts::R_Arm).parent_ = &partsTrans_.at(Parts::Body);
 	partsTrans_.at(Parts::L_Legs).parent_ = &partsTrans_.at(Parts::Body);
 	partsTrans_.at(Parts::R_Legs).parent_ = &partsTrans_.at(Parts::Body);
+
+	for (uint32_t index = Parts::Tracking1; index <= Parts::Tracking3; index++) {
+
+	}
 
 	auto global = GlobalVariables::GetInstance();
 	global->LoadFile(itemName_);
@@ -46,6 +54,10 @@ void Player::Initialize() {
 	}
 
 	playerParticle_ = std::make_shared<PlayerParticle>();
+
+	animation_ = std::make_unique<PlayerAnimation>();
+	animation_->SetPartsPtr(partsTrans_.data());
+	animation_->Request(AnimationType::Normal);
 
 #pragma endregion
 
@@ -112,6 +124,10 @@ void Player::Update() {
 	}
 	else {
 		followCamera_->CameraMove();
+	}
+	TransformUpdate();
+	if (isAnime_) {
+		animation_->Update();
 	}
 	TransformUpdate();
 }
@@ -337,7 +353,14 @@ void Player::DrawImGui() {
 			}
 			ImGui::EndMenu();
 		}
+		if (ImGui::BeginMenu("Animation")) {
+			if (ImGui::Button("Animation")) {
+				isAnime_ = !isAnime_;
+			}
+			ImGui::EndMenu();
+		}
 		ImGui::EndMenuBar();
+
 	}
 	
 	ImGui::End();

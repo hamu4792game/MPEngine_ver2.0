@@ -8,10 +8,27 @@ public:
 	PlayerAnimation() = default;
 	~PlayerAnimation() = default;
 public:
-	void SetPartsPtr(std::vector<WorldTransform> parts);
+	void SetPartsPtr(WorldTransform* parts);
 
+	void Request(uint32_t type); // 初期化処理やる
+	
+	void Update();
 
 private:
-	std::vector<WorldTransform> partsTrans_;
+	void Initialize();
+private:
+	uint32_t type_;
+
+	// 通常アニメーション
+	struct NormalParameter {
+		std::vector<Vector3> offsets;
+		std::vector<Vector3> prePositions;
+	};
+	NormalParameter normal_;
+	void NormalInitialize();
+	void NormalUpdate();
+
+private:
+	WorldTransform* partsTrans_;
 
 };

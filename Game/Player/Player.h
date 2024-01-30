@@ -9,6 +9,8 @@
 #include "Game/Camera/FollowCamera.h"
 #include "Game/Camera/WireCamera.h"
 #include "Game/Player/PlayerParticle.h"
+#include "PlayerAnimation.h"
+
 
 class Player {
 public:
@@ -46,16 +48,27 @@ private:
 private:
 	std::string itemName_ = "Player";
 public:
-	enum class Parts {
+	enum Parts {
 		Body,
 		Head,
 		L_Arm,
 		R_Arm,
 		L_Legs,
 		R_Legs,
+		Weapon,
+		Tracking1,
+		Tracking2,
+		Tracking3,
 
 		kMaxParts,
 	};
+
+	enum AnimationType {
+		Normal,
+
+		kMaxNum
+	};
+
 private:
 	WorldTransform transform_;
 	std::vector<WorldTransform> partsTrans_;
@@ -117,5 +130,8 @@ private:
 	// パーティクル
 	std::shared_ptr<PlayerParticle> playerParticle_;
 
+	// アニメーション
+	std::unique_ptr<PlayerAnimation> animation_;
+	bool isAnime_ = false;
 
 };

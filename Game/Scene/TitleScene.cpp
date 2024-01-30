@@ -13,7 +13,9 @@ void TitleScene::Initialize() {
 }
 
 void TitleScene::Finalize() {
-
+	auto rs = ResourceManager::GetInstance();
+	std::shared_ptr<Audio> titleAudio = rs->FindAudio("Title");
+	titleAudio->SoundStop();
 }
 
 void TitleScene::Update() {

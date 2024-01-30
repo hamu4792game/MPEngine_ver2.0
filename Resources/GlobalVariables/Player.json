@@ -30,6 +30,26 @@
                0.0,
                0.0
           ],
+          "PartsTrans : rotate6": [
+               0.0,
+               0.0,
+               0.0
+          ],
+          "PartsTrans : rotate7": [
+               0.0,
+               0.7155621647834778,
+               0.0
+          ],
+          "PartsTrans : rotate8": [
+               0.0,
+               2.809953212738037,
+               0.0
+          ],
+          "PartsTrans : rotate9": [
+               0.0,
+               4.904348373413086,
+               0.0
+          ],
           "PartsTrans : scale0": [
                1.0,
                1.0,
@@ -60,9 +80,29 @@
                1.0,
                1.0
           ],
+          "PartsTrans : scale6": [
+               0.0,
+               0.0,
+               0.0
+          ],
+          "PartsTrans : scale7": [
+               2.0,
+               2.0,
+               2.0
+          ],
+          "PartsTrans : scale8": [
+               2.0,
+               2.0,
+               2.0
+          ],
+          "PartsTrans : scale9": [
+               2.0,
+               2.0,
+               2.0
+          ],
           "PartsTrans : translate0": [
                0.0,
-               -0.8999999761581421,
+               -1.0,
                0.0
           ],
           "PartsTrans : translate1": [
@@ -82,12 +122,32 @@
           ],
           "PartsTrans : translate4": [
                0.5,
-               0.20000000298023224,
+               0.30000001192092896,
                0.0
           ],
           "PartsTrans : translate5": [
                -0.5,
-               0.20000000298023224,
+               0.30000001192092896,
+               0.0
+          ],
+          "PartsTrans : translate6": [
+               0.0,
+               0.0,
+               0.0
+          ],
+          "PartsTrans : translate7": [
+               2.5,
+               2.5,
+               0.0
+          ],
+          "PartsTrans : translate8": [
+               2.5,
+               2.5,
+               0.0
+          ],
+          "PartsTrans : translate9": [
+               2.5,
+               2.5,
                0.0
           ]
      }

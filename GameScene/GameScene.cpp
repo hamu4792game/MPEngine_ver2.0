@@ -38,7 +38,7 @@ void GameScene::Initialize() {
 	rs->AddModel("PlayerRightArm", "Resources/Player/RArm/RArm.obj");
 	rs->AddModel("PlayerLegs", "Resources/Player/Legs/limbs.obj");
 
-	rs->AddAudio("Title", "./Resources/Sound/a001.wav");
+	rs->AddAudio("Title", "./Resources/Sound/w006.wav");
 
 
 	boxSky_ = std::make_unique<BoxSky>();
