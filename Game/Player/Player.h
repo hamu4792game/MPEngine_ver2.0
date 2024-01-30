@@ -45,7 +45,8 @@ private:
 
 private:
 	std::string itemName_ = "Player";
-	enum Parts {
+public:
+	enum class Parts {
 		Body,
 		Head,
 		L_Arm,
@@ -55,6 +56,7 @@ private:
 
 		kMaxParts,
 	};
+private:
 	WorldTransform transform_;
 	std::vector<WorldTransform> partsTrans_;
 	std::vector<std::shared_ptr<Model>> models_;

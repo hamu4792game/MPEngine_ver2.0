@@ -51,6 +51,10 @@ void BattleScene::Update() {
 
 	Camera3d::GetInstance()->SetTransform(player_->PostUpdate());
 
+	if (Input::GetInstance()->GetKey()->PressKey(DIK_P)) {
+		endRequest_ = true;
+	}
+
 }
 
 void BattleScene::DrawImGui() {

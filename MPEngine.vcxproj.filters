@@ -173,6 +173,12 @@
     <ClCompile Include="MPEngine\Base\Manager\ImGuiManager\ImGuiManager.cpp">
       <Filter>MPEngine\Base\Manager\ImGuiManager</Filter>
     </ClCompile>
+    <ClCompile Include="GameScene\Transition.cpp">
+      <Filter>GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Player\PlayerAnimation.cpp">
+      <Filter>Game\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -365,6 +371,12 @@
     <ClInclude Include="MPEngine\Base\Manager\ImGuiManager\ImGuiManager.h">
       <Filter>MPEngine\Base\Manager\ImGuiManager</Filter>
     </ClInclude>
+    <ClInclude Include="GameScene\Transition.h">
+      <Filter>GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Player\PlayerAnimation.h">
+      <Filter>Game\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="MPEngine">
@@ -498,9 +510,6 @@
     </Filter>
     <Filter Include="Game\Scene\BattleScene">
       <UniqueIdentifier>{40b0a4d4-31b6-4441-9dac-890815a56fee}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\FollowCamera">
-      <UniqueIdentifier>{56fd966c-81bc-448a-9078-89541012064e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\BoxSky">
       <UniqueIdentifier>{b72ac4e9-d6c6-40da-9819-62df1da813c5}</UniqueIdentifier>

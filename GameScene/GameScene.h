@@ -5,6 +5,7 @@
 #include "Game/BoxSky/BoxSky.h"
 #include <memory>
 #include <optional>
+#include "Transition.h"
 
 
 class GameScene : public GameFrame {
@@ -17,9 +18,10 @@ public:
 	void Update() override;
 
 private:
-	TitleScene* titleScene = nullptr;
-	BattleScene* battleScene = nullptr;
+	std::unique_ptr<TitleScene> titleScene_;
+	std::unique_ptr<BattleScene> battleScene_;
 	std::unique_ptr<BoxSky> boxSky_;
+	std::unique_ptr<Transition> transition_;
 
 	//Scene
 	enum class Scene {

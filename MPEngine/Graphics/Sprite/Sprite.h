@@ -31,6 +31,7 @@ public: // セッター
 	void SetTranslate(const Vector2& translate) { translate_ = translate; }
 	void SetColor(const Vector4 & color) { color_ = color; }
 	void SetUVSize(const Vector2 & uv) { uvScale_ = uv; }
+	void SetLayerNum(const uint32_t& num) { layerNumber_ = num; }
 
 public: // ゲッター
 	uint32_t GetLayerNum() const { return layerNumber_; }

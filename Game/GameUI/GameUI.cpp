@@ -15,9 +15,9 @@ void GameUI::Update() {
 #ifdef _DEBUG
 	static Vector2 titlepos;
 	static Vector2 scale = Vector2::one;
-	ImGui::Begin("Title");
-	ImGui::DragFloat2("titleTrans", &titlepos.x, 1.0f);
-	ImGui::DragFloat2("titleScale", &scale.x, 1.0f);
+	ImGui::Begin("UI");
+	ImGui::DragFloat2("uiTrans", &titlepos.x, 1.0f);
+	ImGui::DragFloat2("uiScale", &scale.x, 1.0f);
 	ImGui::End();
 
 #endif // _DEBUG

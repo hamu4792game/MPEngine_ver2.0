@@ -26,6 +26,7 @@ void GameScene::Initialize() {
 	rs->AddTexture("Circle", "Resources/Texture/particle.png");
 	rs->AddTexture("Ground", "Resources/Texture/ground.png");
 	rs->AddTexture("ABText", "Resources/hud/AB.png");
+	rs->AddTexture("Block", "Resources/Texture/block.png");
 
 
 	rs->AddModel("Box", "Resources/box/box.obj");
@@ -43,11 +44,16 @@ void GameScene::Initialize() {
 	boxSky_ = std::make_unique<BoxSky>();
 	boxSky_->Initialize();
 	sceneRequest_ = Scene::TITLE;
+	transition_ = std::make_unique<Transition>();
 }
 
 void GameScene::Finalize() {
-	if (titleScene) { delete titleScene; }
-	if (battleScene) { delete battleScene; }
+	if (titleScene_) {
+		titleScene_->Finalize();
+	}
+	if (battleScene_) {
+		battleScene_->Finalize();
+	}
 }
 
 void GameScene::Update() {
@@ -64,13 +70,13 @@ void GameScene::Update() {
 }
 
 void GameScene::TitleInitialize() {
-	titleScene = new TitleScene;
-	titleScene->Initialize();
+	titleScene_.reset(new TitleScene);
+	titleScene_->Initialize();
 }
 
 void GameScene::BattleInitialize() {
-	battleScene = new BattleScene;
-	battleScene->Initialize();
+	battleScene_.reset(new BattleScene);
+	battleScene_->Initialize();
 }
 
 void GameScene::ResultInitialize() {
@@ -78,21 +84,34 @@ void GameScene::ResultInitialize() {
 }
 
 void GameScene::TitleUpdate() {
-	titleScene->Update();
-	if (titleScene->IsEndRequest()) {
+	if (titleScene_->IsEndRequest()) {
+		transition_->StartTransition(Transition::Type::BlackOut);
+	}
+	else {
+		titleScene_->Update();
+	}
+
+	if (transition_->Update()) {
 		sceneRequest_ = Scene::BATTLE;
-		titleScene->Finalize();
-		delete titleScene;
+		titleScene_->Finalize();
+		titleScene_.reset();
 	}
 }
 
 void GameScene::BattleUpdate() {
-	battleScene->Update();
-	if (battleScene->IsEndRequest()) {
-		sceneRequest_ = Scene::TITLE;
-		battleScene->Finalize();
-		delete battleScene;
+	if (battleScene_->IsEndRequest()) {
+		transition_->StartTransition(Transition::Type::Spin);
 	}
+	else {
+		battleScene_->Update();
+	}
+
+	if (transition_->Update()) {
+		sceneRequest_ = Scene::TITLE;
+		battleScene_->Finalize();
+		battleScene_.reset();
+	}
+
 }
 
 void GameScene::ResultUpdate() {
