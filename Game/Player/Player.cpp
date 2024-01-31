@@ -132,6 +132,18 @@ void Player::Update() {
 	TransformUpdate();
 }
 
+void Player::TitleUpdate() {
+	DrawImGui();
+	TitleMove();
+	Vector3 pos = transform_.GetPosition();
+	playerParticle_->Update(Vector3(pos.x, pos.y - transform_.scale_.y, pos.z));
+
+	LimitMoving();
+	TransformUpdate();
+	animation_->Update();
+	TransformUpdate();
+}
+
 WorldTransform Player::PostUpdate() {
 	// カメラアップデート
 	
@@ -404,6 +416,37 @@ void Player::Move() {
 		transform_.translation_ += move;
 		partsTrans_[Parts::Body].rotation_.y = FindAngle(move, Vector3(0.0f, 0.0f, 1.0f));
 	}
+
+}
+
+void Player::TitleMove() {
+	Vector3 move;
+
+	const float speed = 0.2f;
+	if (moveVecFlag_  == 0) {
+		move.z += speed;
+	}
+	if (moveVecFlag_  == 2) {
+		move.z -= speed;
+	}
+	if (moveVecFlag_  == 1) {
+		move.x -= speed;
+	}
+	if (moveVecFlag_  == 3) {
+		move.x += speed;
+	}
+
+	transform_.translation_ += move * 3.0f;
+	if (transform_.translation_.x > 50.0f || transform_.translation_.x < -50.0f || transform_.translation_.z > 0.0f || transform_.translation_.z < -100.0f) {
+		moveVecFlag_ ++;
+		if (moveVecFlag_  >= 4) {
+			moveVecFlag_  = 0;
+		}
+		transform_.translation_.x = std::clamp(transform_.translation_.x, -50.0f, 50.0f);
+		transform_.translation_.z = std::clamp(transform_.translation_.z, -100.0f, 0.0f);
+	}
+
+	partsTrans_[Parts::Body].rotation_.y = FindAngle(move, Vector3(0.0f, 0.0f, 1.0f));
 
 }
 

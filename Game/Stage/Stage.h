@@ -13,7 +13,7 @@ public:
 	Stage() = default;
 	~Stage() = default;
 
-	void Initialize();
+	void Initialize(std::string fileName);
 	void Update();
 	void DrawImGui();
 

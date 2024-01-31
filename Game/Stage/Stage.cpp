@@ -3,9 +3,10 @@
 #include <string>
 #include "Utils/GlobalVariables/GlobalVariables.h"
 
-void Stage::Initialize() {
+void Stage::Initialize(std::string fileName) {
 	auto global = GlobalVariables::GetInstance();
-	global->LoadFile("Stage");
+	global->LoadFile(fileName);
+	itemName_ = fileName;
 	boxes_.clear();
 	int num = global->GetIntValue(itemName_, "BoxConfirmation");
 	for (int i = 0; i < num; i++) {

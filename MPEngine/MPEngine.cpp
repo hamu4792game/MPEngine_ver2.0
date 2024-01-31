@@ -13,6 +13,8 @@
 #include <dxgidebug.h>
 #pragma comment(lib,"dxguid.lib")
 
+#include "ImGuiManager/ImGuiManager.h"
+
 MPEngine* MPEngine::GetInstance() {
 	static MPEngine instance;
 	return &instance;
@@ -79,6 +81,13 @@ void MPEngine::Update() {
 	graphics_->PreDraw();
 	graphics_->SetViewPort(windowWidth_, windowHeight_);
 	input_->Update();
+
+#ifdef _DEBUG
+	//	ImGui のフレームに一つ目の ImGui のウィンドウを描く
+	ImGui::Begin("Control panel");
+	ImGui::Text("Frame rate: %6.2f fps", ImGui::GetIO().Framerate);
+	ImGui::End();
+#endif FrameRate
 	
 	// ゲームシーン処理
 	game_->Update();

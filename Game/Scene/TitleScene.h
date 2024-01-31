@@ -2,6 +2,8 @@
 #include "Framework/SceneFrame.h"
 #include "Utils/WorldTransform/WorldTransform.h"
 #include "Game/TitleUI/TitleUI.h"
+#include "Game/Stage/Stage.h"
+#include "Game/Player/Player.h"
 
 class TitleScene : public SceneFrame {
 public:
@@ -16,5 +18,7 @@ public:
 private:
 	WorldTransform cameraTransform_;
 	std::unique_ptr<TitleUI> titleUI_;
+	std::unique_ptr<Stage> stage_;
+	std::unique_ptr<Player> player_;
 
 };

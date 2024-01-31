@@ -11,7 +11,7 @@ void BattleScene::Initialize() {
 	cameraTrans_.translation_ = Vector3(0.0f, 0.0f, -10.0f);
 	
 	stage_ = std::make_unique<Stage>();
-	stage_->Initialize();
+	stage_->Initialize("Stage");
 
 	enemy_ = std::make_unique<Enemy>();
 	enemy_->Initialize();

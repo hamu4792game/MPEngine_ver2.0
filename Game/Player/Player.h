@@ -19,6 +19,7 @@ public:
 
 	void Initialize();
 	void Update();
+	void TitleUpdate();
 	WorldTransform PostUpdate();
 	
 	const WorldTransform& GetTransform() const { return transform_; }
@@ -31,6 +32,7 @@ public:
 private:
 	void DrawImGui();
 	void Move();
+	void TitleMove();
 	void Jamp();
 	void TransformUpdate();
 	void LimitMoving(); // 移動制限用
@@ -133,5 +135,7 @@ private:
 	// アニメーション
 	std::unique_ptr<PlayerAnimation> animation_;
 	bool isAnime_ = true;
+
+	int moveVecFlag_ = 0;
 
 };

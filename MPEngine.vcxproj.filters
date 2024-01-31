@@ -508,9 +508,6 @@
     <Filter Include="Game\Scene">
       <UniqueIdentifier>{7e539c64-4955-448f-9bb9-00a17fae06c6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Scene\BattleScene">
-      <UniqueIdentifier>{40b0a4d4-31b6-4441-9dac-890815a56fee}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\BoxSky">
       <UniqueIdentifier>{b72ac4e9-d6c6-40da-9819-62df1da813c5}</UniqueIdentifier>
     </Filter>
@@ -567,6 +564,9 @@
     </Filter>
     <Filter Include="MPEngine\Base\Manager\ImGuiManager">
       <UniqueIdentifier>{f3054bbb-72fb-4162-9c74-8ae5737f8800}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\BattleScene">
+      <UniqueIdentifier>{40b0a4d4-31b6-4441-9dac-890815a56fee}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
