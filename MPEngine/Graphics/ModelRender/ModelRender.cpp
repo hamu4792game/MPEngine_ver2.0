@@ -3,6 +3,7 @@
 #include "MPEngine/Base/Manager/ShaderManager/ShaderManager.h"
 #include "MPEngine/Base/Manager/ListManager/ListManager.h"
 #include "MPEngine/Graphics/Model/Model.h"
+#include "Utils/Camera/Camera3d.h"
 
 void ModelRender::Initialize() {
 #pragma region Shader
@@ -21,7 +22,7 @@ void ModelRender::Initialize() {
 	range[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
 	range[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
-	const uint8_t paramIndex = 4;
+	const uint8_t paramIndex = 5;
 	D3D12_ROOT_PARAMETER rootParameter[paramIndex] = {};
 	rootParameter[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
 	rootParameter[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
@@ -42,6 +43,11 @@ void ModelRender::Initialize() {
 	rootParameter[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
 	rootParameter[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 	rootParameter[3].Descriptor.ShaderRegister = 2;
+
+	// カメラの情報
+	rootParameter[4].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParameter[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+	rootParameter[4].Descriptor.ShaderRegister = 3;
 
 	rootSignature_ = std::make_unique<RootSignature>();
 	rootSignature_->CreateRootSignature(rootParameter, paramIndex);
@@ -93,13 +99,15 @@ void ModelRender::Initialize() {
 
 }
 
-void ModelRender::DrawCommand(const Matrix4x4& viewProjectionMat) {
+void ModelRender::DrawCommand(Camera3d* cameraPtr) {
 	auto list = ListManager::GetInstance()->GetList();
 
 	list->SetGraphicsRootSignature(rootSignature_->GetRootSignature().Get());
 	list->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	directionalLight_->Update();
+	auto camera = Camera3d::GetInstance();
+	Matrix4x4 viewProjectionMat = camera->GetViewProMat();
 
 	auto& modelList = Model::modelLists_;
 
@@ -111,6 +119,7 @@ void ModelRender::DrawCommand(const Matrix4x4& viewProjectionMat) {
 		model->cMat->wvp = model->cMat->world * viewProjectionMat;
 		model->cMaterial->color = model->color_;
 		model->cMaterial->enableLighting = true;
+		model->cMaterial->shininess = 0.1f;
 
 		list->SetPipelineState(graphicsPipeline_[static_cast<uint32_t>(model->blendType_)]->GetPipelineState());
 		list->IASetVertexBuffers(0, 1, &model->vertexBufferView_);
@@ -119,6 +128,7 @@ void ModelRender::DrawCommand(const Matrix4x4& viewProjectionMat) {
 		list->SetGraphicsRootConstantBufferView(1, model->cMat.GetGPUVirtualAddress()); // cMat
 		list->SetGraphicsRootConstantBufferView(2, model->cMaterial.GetGPUVirtualAddress()); // cMaterial
 		list->SetGraphicsRootConstantBufferView(3, directionalLight_->cDirectionLight_.GetGPUVirtualAddress()); // cDirectinalLight
+		list->SetGraphicsRootConstantBufferView(4, camera->cCamera.GetGPUVirtualAddress()); // cCamera
 
 		// 描画
 		list->DrawInstanced(UINT(model->model_->GetModel().vertices.size()), 1, 0, 0);

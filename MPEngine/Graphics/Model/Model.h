@@ -46,6 +46,7 @@ private:
 	struct Material {
 		Vector4 color;
 		int enableLighting = true;
+		float shininess = 0.0f; // 光沢度
 	};
 	ConstantBuffer<Material> cMaterial;
 

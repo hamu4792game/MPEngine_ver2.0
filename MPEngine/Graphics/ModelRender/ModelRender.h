@@ -6,6 +6,8 @@
 #include "MPEngine/Base/DetailSetting/GraphicsPipeline/GraphicsPipeline.h"
 #include "Graphics/Light/DirectionalLight.h"
 
+class Camera3d;
+
 // RenderManagerでのみ実体化
 class ModelRender {
 public:
@@ -15,7 +17,7 @@ public:
 	// 初期化
 	void Initialize();
 	// spriteの描画
-	void DrawCommand(const Matrix4x4& viewProjectionMat);
+	void DrawCommand(Camera3d* cameraPtr = nullptr);
 
 private:
 	Microsoft::WRL::ComPtr<IDxcBlob> vertexShader;
