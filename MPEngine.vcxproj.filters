@@ -179,6 +179,9 @@
     <ClCompile Include="Game\Player\PlayerAnimation.cpp">
       <Filter>Game\Player</Filter>
     </ClCompile>
+    <ClCompile Include="MPEngine\Graphics\Light\DirectionalLight.cpp">
+      <Filter>MPEngine\Graphics\Light\DirectionalLight</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -377,6 +380,9 @@
     <ClInclude Include="Game\Player\PlayerAnimation.h">
       <Filter>Game\Player</Filter>
     </ClInclude>
+    <ClInclude Include="MPEngine\Graphics\Light\DirectionalLight.h">
+      <Filter>MPEngine\Graphics\Light\DirectionalLight</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="MPEngine">
@@ -567,6 +573,12 @@
     </Filter>
     <Filter Include="Game\Scene\BattleScene">
       <UniqueIdentifier>{40b0a4d4-31b6-4441-9dac-890815a56fee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Graphics\Light">
+      <UniqueIdentifier>{234c0cea-fbba-4588-b294-44dcd36e0da0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Graphics\Light\DirectionalLight">
+      <UniqueIdentifier>{cd5fceec-7198-44da-ae0d-e8e26db6c4d2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

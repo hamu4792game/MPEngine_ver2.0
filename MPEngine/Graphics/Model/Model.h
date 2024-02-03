@@ -40,10 +40,12 @@ private:
 
 	struct TransformationMatrix {
 		Matrix4x4 wvp;
+		Matrix4x4 world;
 	};
 	ConstantBuffer<TransformationMatrix> cMat;
 	struct Material {
 		Vector4 color;
+		int enableLighting = true;
 	};
 	ConstantBuffer<Material> cMaterial;
 
