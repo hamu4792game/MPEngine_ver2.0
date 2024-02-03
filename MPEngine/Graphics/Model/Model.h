@@ -41,6 +41,7 @@ private:
 	struct TransformationMatrix {
 		Matrix4x4 wvp;
 		Matrix4x4 world;
+		Matrix4x4 worldInverseTranspose;
 	};
 	ConstantBuffer<TransformationMatrix> cMat;
 	struct Material {

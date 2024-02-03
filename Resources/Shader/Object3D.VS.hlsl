@@ -6,7 +6,7 @@ VertexOutput main(float4 pos : POSITION, float2 uv : TEXCOORD, float3 normal : N
     VertexOutput output;
     output.potision = mul(pos, gTransformationMatrix.WVP);
     output.texcoord = uv;
-    output.normal = normalize(mul(normal,(float3x3)gTransformationMatrix.World));
+    output.normal = normalize(mul(normal,(float3x3)gTransformationMatrix.WorldInverseTranspose));
     output.worldPosition = mul(pos,gTransformationMatrix.World).xyz;
 	return output;
 }

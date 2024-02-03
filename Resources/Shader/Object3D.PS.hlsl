@@ -23,9 +23,10 @@ float4 main(VertexOutput input) : SV_TARGET {
     }
 
     float3 toEye = normalize(gCamera.worldPosition - input.worldPosition);
+    float3 halfVector = normalize(-gDirectionalLight.direction + toEye);
     float3 reflectLight = reflect(gDirectionalLight.direction,normalize(input.normal));
-    float RdotE = dot(reflectLight,toEye);
-    float specularPow = pow(saturate(RdotE),shininess); // 反射強度
+    float NDotH = dot(normalize(input.normal),halfVector);
+    float specularPow = pow(saturate(NDotH),shininess); // 反射強度
     float3 specular = 
     gDirectionalLight.color.rgb * gDirectionalLight.intensity * specularPow * float3(1.0f,1.0f,1.0f);
 

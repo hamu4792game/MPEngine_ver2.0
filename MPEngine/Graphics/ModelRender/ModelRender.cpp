@@ -116,6 +116,7 @@ void ModelRender::DrawCommand(Camera3d* cameraPtr) {
 
 		// 定数バッファ用の計算
 		model->cMat->world = model->transform_.UpdateMatrix();
+		model->cMat->worldInverseTranspose = Inverse(model->cMat->world);
 		model->cMat->wvp = model->cMat->world * viewProjectionMat;
 		model->cMaterial->color = model->color_;
 		model->cMaterial->enableLighting = true;
