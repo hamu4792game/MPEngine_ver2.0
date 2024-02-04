@@ -20,7 +20,6 @@ public:
 private:
 	std::unique_ptr<TitleScene> titleScene_;
 	std::unique_ptr<BattleScene> battleScene_;
-	std::unique_ptr<BoxSky> boxSky_;
 	std::unique_ptr<Transition> transition_;
 
 	//Scene

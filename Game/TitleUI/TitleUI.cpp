@@ -8,11 +8,13 @@ void TitleUI::Initialize() {
 	titleText_->SetTexture(rsManager->FindTexture("TitleText"));
 	titleText_->SetTranslate(Vector2(0.0f,110.0f));
 	titleText_->SetScale(Vector2(730.0f, 310.0f));
+	titleText_->SetIsActive(false);
 
 	pushText_ = std::make_shared<Sprite>();
 	pushText_->SetTexture(rsManager->FindTexture("PushText"));
 	pushText_->SetTranslate(Vector2(0.0f,-250.0f));
 	pushText_->SetScale(Vector2(900.0f, 80.0f));
+	pushText_->SetIsActive(false);
 	color_ = Vector4::one;
 }
 

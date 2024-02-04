@@ -108,6 +108,7 @@ void ModelRender::DrawCommand(Camera3d* cameraPtr) {
 	directionalLight_->Update();
 	auto camera = Camera3d::GetInstance();
 	Matrix4x4 viewProjectionMat = camera->GetViewProMat();
+	camera->cCamera->worldPosition = camera->GetTransform().GetPosition();
 
 	auto& modelList = Model::modelLists_;
 

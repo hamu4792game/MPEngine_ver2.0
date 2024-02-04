@@ -27,6 +27,8 @@ void GameScene::Initialize() {
 	rs->AddTexture("Ground", "Resources/Texture/ground.png");
 	rs->AddTexture("ABText", "Resources/hud/AB.png");
 	rs->AddTexture("Block", "Resources/Texture/block.png");
+	
+	rs->AddTexture("MonsterBall", "Resources/Texture/monsterBall.png");
 
 
 	rs->AddModel("Box", "Resources/box/box.obj");
@@ -38,11 +40,10 @@ void GameScene::Initialize() {
 	rs->AddModel("PlayerRightArm", "Resources/Player/RArm/RArm.obj");
 	rs->AddModel("PlayerLegs", "Resources/Player/Legs/limbs.obj");
 
+	rs->AddModel("Sphere", "Resources/sphere/sphere.obj");
+
 	rs->AddAudio("Title", "./Resources/Sound/w006.wav");
 
-
-	boxSky_ = std::make_unique<BoxSky>();
-	boxSky_->Initialize();
 	sceneRequest_ = Scene::TITLE;
 	transition_ = std::make_unique<Transition>();
 }

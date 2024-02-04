@@ -12,14 +12,12 @@ void TitleScene::Initialize() {
 	std::shared_ptr<Audio> titleAudio = rs->FindAudio("Title");
 	titleAudio->SoundPlayWave(true);
 
-	stage_ = std::make_unique<Stage>();
-	stage_->Initialize("TitleStage");
+	monsterBall_ = std::make_unique<Model>();
+	monsterBall_->SetModel(rs->FindObject3d("Sphere"));
+	monsterBall_->SetTexture(rs->FindTexture("MonsterBall"));
 
-	player_ = std::make_unique<Player>();
-	player_->Initialize();
-
-	cameraTransform_.translation_ = Vector3(0.0f, 300.0f, -51.0f);
-	cameraTransform_.rotation_.x = AngleToRadian(90.0f);
+	cameraTransform_.translation_ = Vector3(0.0f, 0.0f, -6.0f);
+	cameraTransform_.rotation_.x = AngleToRadian(0.0f);
 }
 
 void TitleScene::Finalize() {
@@ -45,13 +43,8 @@ void TitleScene::Update() {
 		endRequest_ = true;
 	}
 
-	titleUI_->Update();
-	stage_->Update();
-	player_->TitleUpdate();
-
-	for (auto coll : stage_->GetCollision()) {
-		player_->OnCollisionStage(coll);
-	}
+	ballTrans_.UpdateMatrix();
+	monsterBall_->transform_ = ballTrans_;
 
 	cameraTransform_.UpdateMatrix();
 	Camera3d::GetInstance()->SetTransform(cameraTransform_);
@@ -59,9 +52,22 @@ void TitleScene::Update() {
 
 void TitleScene::DrawImGui() {
 #ifdef _DEBUG
-	ImGui::Begin("camera");
-	ImGui::DragFloat3("translate", &cameraTransform_.translation_.x, 0.1f);
-	ImGui::DragFloat3("rotate", &cameraTransform_.rotation_.x, AngleToRadian(1.0f));
+	ImGui::Begin("State", nullptr, ImGuiWindowFlags_MenuBar);
+	if (ImGui::BeginMenuBar()) {
+		if (ImGui::BeginMenu("Camera")) {
+			ImGui::DragFloat3("translate", &cameraTransform_.translation_.x, 0.1f);
+			ImGui::DragFloat3("rotate", &cameraTransform_.rotation_.x, AngleToRadian(1.0f));
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("Sphere")) {
+			ImGui::DragFloat3("scale", &ballTrans_.scale_.x, 0.1f);
+			ImGui::DragFloat3("rotate", &ballTrans_.rotation_.x, AngleToRadian(1.0f));
+			ImGui::DragFloat3("translate", &ballTrans_.translation_.x, 0.1f);
+			ImGui::EndMenu();
+		}
+
+		ImGui::EndMenuBar();
+	}
 	ImGui::End();
 #endif // _DEBUG
 }
