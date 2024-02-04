@@ -85,18 +85,19 @@ void GameScene::ResultInitialize() {
 }
 
 void GameScene::TitleUpdate() {
-	if (titleScene_->IsEndRequest()) {
+	/*if (titleScene_->IsEndRequest()) {
 		transition_->StartTransition(Transition::Type::BlackOut);
 	}
 	else {
-		titleScene_->Update();
-	}
+		
+	}*/
+	titleScene_->Update();
 
-	if (transition_->Update()) {
+	/*if (transition_->Update()) {
 		sceneRequest_ = Scene::BATTLE;
 		titleScene_->Finalize();
 		titleScene_.reset();
-	}
+	}*/
 }
 
 void GameScene::BattleUpdate() {

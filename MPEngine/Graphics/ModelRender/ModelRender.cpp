@@ -121,7 +121,7 @@ void ModelRender::DrawCommand(Camera3d* cameraPtr) {
 		model->cMat->wvp = model->cMat->world * viewProjectionMat;
 		model->cMaterial->color = model->color_;
 		model->cMaterial->enableLighting = true;
-		model->cMaterial->shininess = 0.1f;
+		model->cMaterial->shininess = 5.0f;
 
 		list->SetPipelineState(graphicsPipeline_[static_cast<uint32_t>(model->blendType_)]->GetPipelineState());
 		list->IASetVertexBuffers(0, 1, &model->vertexBufferView_);

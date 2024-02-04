@@ -10,14 +10,14 @@ void TitleScene::Initialize() {
 	titleUI_->Initialize();
 	auto rs = ResourceManager::GetInstance();
 	std::shared_ptr<Audio> titleAudio = rs->FindAudio("Title");
-	titleAudio->SoundPlayWave(true);
+	//titleAudio->SoundPlayWave(true);
 
 	monsterBall_ = std::make_unique<Model>();
 	monsterBall_->SetModel(rs->FindObject3d("Sphere"));
 	monsterBall_->SetTexture(rs->FindTexture("MonsterBall"));
 
+	ballTrans_.rotation_.y = AngleToRadian(90.0f);
 	cameraTransform_.translation_ = Vector3(0.0f, 0.0f, -6.0f);
-	cameraTransform_.rotation_.x = AngleToRadian(0.0f);
 }
 
 void TitleScene::Finalize() {

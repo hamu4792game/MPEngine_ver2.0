@@ -14,4 +14,7 @@ void DirectionalLight::Update() {
 	ImGui::DragFloat("intensity", &cDirectionLight_->intensity, 0.01f);
 	ImGui::End();
 #endif // _DEBUG
+
+	cDirectionLight_->direction = Normalize(cDirectionLight_->direction);
+
 }
