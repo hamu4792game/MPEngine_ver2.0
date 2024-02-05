@@ -101,47 +101,20 @@
     <ClCompile Include="MPEngine\Utils\WorldTransform\WorldTransform.cpp">
       <Filter>MPEngine\Utils\WorldTransform</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Stage\Stage.cpp">
-      <Filter>Game\Stage</Filter>
-    </ClCompile>
     <ClCompile Include="MPEngine\Utils\Camera\Camera.cpp">
       <Filter>MPEngine\Utils\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Player\Player.cpp">
-      <Filter>Game\Player</Filter>
     </ClCompile>
     <ClCompile Include="MPEngine\Utils\Camera\Camera3d.cpp">
       <Filter>MPEngine\Utils\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Scene\BattleScene.cpp">
-      <Filter>Game\Scene\BattleScene</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\BoxSky\BoxSky.cpp">
-      <Filter>Game\BoxSky</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Stage\Ground.cpp">
-      <Filter>Game\Stage\Ground</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Stage\Tower.cpp">
-      <Filter>Game\Stage\Tower</Filter>
-    </ClCompile>
     <ClCompile Include="MPEngine\Utils\Easing\Ease.cpp">
       <Filter>MPEngine\Utils\Easing</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Target\Target.cpp">
-      <Filter>Game\Target</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\LockOn\LockOn.cpp">
-      <Filter>Game\LockOn</Filter>
     </ClCompile>
     <ClCompile Include="MPEngine\Utils\GlobalVariables\GlobalVariables.cpp">
       <Filter>MPEngine\Utils\GlobalVariables</Filter>
     </ClCompile>
     <ClCompile Include="MPEngine\Math\AABB.cpp">
       <Filter>MPEngine\Math\AABB</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Enemy\Enemy.cpp">
-      <Filter>Game\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Game\Camera\FollowCamera.cpp">
       <Filter>Game\Camera\FollowCamera</Filter>
@@ -155,17 +128,8 @@
     <ClCompile Include="MPEngine\Graphics\ParticleRender\ParticleRender.cpp">
       <Filter>MPEngine\Graphics\ParticleRender</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Player\PlayerParticle.cpp">
-      <Filter>Game\Player\PlayerParticle</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\GameUI\GameUI.cpp">
-      <Filter>Game\GameUI</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Scene\TitleScene.cpp">
       <Filter>Game\Scene\TitleScene</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\TitleUI\TitleUI.cpp">
-      <Filter>Game\GameUI</Filter>
     </ClCompile>
     <ClCompile Include="MPEngine\Input\Audio.cpp">
       <Filter>MPEngine\Input</Filter>
@@ -175,9 +139,6 @@
     </ClCompile>
     <ClCompile Include="GameScene\Transition.cpp">
       <Filter>GameScene</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Player\PlayerAnimation.cpp">
-      <Filter>Game\Player</Filter>
     </ClCompile>
     <ClCompile Include="MPEngine\Graphics\Light\DirectionalLight.cpp">
       <Filter>MPEngine\Graphics\Light\DirectionalLight</Filter>
@@ -299,29 +260,11 @@
     <ClInclude Include="MPEngine\Framework\GameFrame.h">
       <Filter>MPEngine\Framework</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Stage\Stage.h">
-      <Filter>Game\Stage</Filter>
-    </ClInclude>
     <ClInclude Include="MPEngine\Utils\Camera\Camera.h">
       <Filter>MPEngine\Utils\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Player\Player.h">
-      <Filter>Game\Player</Filter>
-    </ClInclude>
     <ClInclude Include="MPEngine\Utils\Camera\Camera3d.h">
       <Filter>MPEngine\Utils\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Scene\BattleScene.h">
-      <Filter>Game\Scene\BattleScene</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\BoxSky\BoxSky.h">
-      <Filter>Game\BoxSky</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Stage\Ground.h">
-      <Filter>Game\Stage\Ground</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Stage\Tower.h">
-      <Filter>Game\Stage\Tower</Filter>
     </ClInclude>
     <ClInclude Include="MPEngine\Utils\Easing\Ease.h">
       <Filter>MPEngine\Utils\Easing</Filter>
@@ -329,20 +272,11 @@
     <ClInclude Include="MPEngine\Utils\Easing\Easing.h">
       <Filter>MPEngine\Utils\Easing</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Target\Target.h">
-      <Filter>Game\Target</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\LockOn\LockOn.h">
-      <Filter>Game\LockOn</Filter>
-    </ClInclude>
     <ClInclude Include="MPEngine\Utils\GlobalVariables\GlobalVariables.h">
       <Filter>MPEngine\Utils\GlobalVariables</Filter>
     </ClInclude>
     <ClInclude Include="MPEngine\Math\AABB.h">
       <Filter>MPEngine\Math\AABB</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Enemy\Enemy.h">
-      <Filter>Game\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Game\Camera\FollowCamera.h">
       <Filter>Game\Camera\FollowCamera</Filter>
@@ -356,17 +290,8 @@
     <ClInclude Include="MPEngine\Graphics\ParticleRender\ParticleRender.h">
       <Filter>MPEngine\Graphics\ParticleRender</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Player\PlayerParticle.h">
-      <Filter>Game\Player\PlayerParticle</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\GameUI\GameUI.h">
-      <Filter>Game\GameUI</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Scene\TitleScene.h">
       <Filter>Game\Scene\TitleScene</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\TitleUI\TitleUI.h">
-      <Filter>Game\GameUI</Filter>
     </ClInclude>
     <ClInclude Include="MPEngine\Input\Audio.h">
       <Filter>MPEngine\Input</Filter>
@@ -376,9 +301,6 @@
     </ClInclude>
     <ClInclude Include="GameScene\Transition.h">
       <Filter>GameScene</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Player\PlayerAnimation.h">
-      <Filter>Game\Player</Filter>
     </ClInclude>
     <ClInclude Include="MPEngine\Graphics\Light\DirectionalLight.h">
       <Filter>MPEngine\Graphics\Light\DirectionalLight</Filter>
@@ -502,35 +424,14 @@
     <Filter Include="Game">
       <UniqueIdentifier>{5dff761b-29e4-4c92-865d-911dfc77ea57}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Stage">
-      <UniqueIdentifier>{19ded618-3c76-46d7-879c-a123b4da663f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="MPEngine\Utils\Camera">
       <UniqueIdentifier>{6a5d4110-2738-49e7-ad1e-f8b4293d63a4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Player">
-      <UniqueIdentifier>{c89d3320-9a61-4900-8784-20b3563fbe4b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\Scene">
       <UniqueIdentifier>{7e539c64-4955-448f-9bb9-00a17fae06c6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\BoxSky">
-      <UniqueIdentifier>{b72ac4e9-d6c6-40da-9819-62df1da813c5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Stage\Ground">
-      <UniqueIdentifier>{879e8b5c-804b-4e24-a645-0089b2ac87e5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Stage\Tower">
-      <UniqueIdentifier>{41535bfb-4caa-4678-92e8-39c35c480fbb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="MPEngine\Utils\Easing">
       <UniqueIdentifier>{037e1ca9-35f1-4998-a1e5-cec27fcd2c75}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Target">
-      <UniqueIdentifier>{90eb1c6e-7ab8-4268-aeab-388900a8c167}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\LockOn">
-      <UniqueIdentifier>{7609e7b7-185c-40c8-a2f0-384ec00bdf2c}</UniqueIdentifier>
     </Filter>
     <Filter Include="MPEngine\Utils\GlobalVariables">
       <UniqueIdentifier>{4f0eb38c-9d2c-4fbc-8c61-70ef7c8b1183}</UniqueIdentifier>
@@ -540,9 +441,6 @@
     </Filter>
     <Filter Include="MPEngine\Math\Sphere">
       <UniqueIdentifier>{cac44694-94ad-46e5-b9ce-3aa4a00e7f3b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Enemy">
-      <UniqueIdentifier>{530e4a2c-0909-4f5f-9bbb-53cc7252e6d8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\Camera">
       <UniqueIdentifier>{7e92d690-1ee2-48cd-ab80-409382813429}</UniqueIdentifier>
@@ -559,20 +457,11 @@
     <Filter Include="MPEngine\Graphics\ParticleRender">
       <UniqueIdentifier>{bb7ce54e-8604-4341-a908-0b036284391a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Player\PlayerParticle">
-      <UniqueIdentifier>{3ea22ed4-54d6-4b64-8b02-d7513003109f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\GameUI">
-      <UniqueIdentifier>{c561571a-482f-4f8b-9b68-705ec675c708}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\Scene\TitleScene">
       <UniqueIdentifier>{fa18a743-c9c5-4b66-90c3-9f057ed671f3}</UniqueIdentifier>
     </Filter>
     <Filter Include="MPEngine\Base\Manager\ImGuiManager">
       <UniqueIdentifier>{f3054bbb-72fb-4162-9c74-8ae5737f8800}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Scene\BattleScene">
-      <UniqueIdentifier>{40b0a4d4-31b6-4441-9dac-890815a56fee}</UniqueIdentifier>
     </Filter>
     <Filter Include="MPEngine\Graphics\Light">
       <UniqueIdentifier>{234c0cea-fbba-4588-b294-44dcd36e0da0}</UniqueIdentifier>

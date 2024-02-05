@@ -6,12 +6,9 @@
 #include "ImGuiManager/ImGuiManager.h"
 
 void TitleScene::Initialize() {
-	titleUI_ = std::make_unique<TitleUI>();
-	titleUI_->Initialize();
+	
 	auto rs = ResourceManager::GetInstance();
-	std::shared_ptr<Audio> titleAudio = rs->FindAudio("Title");
-	//titleAudio->SoundPlayWave(true);
-
+	
 	monsterBall_ = std::make_unique<Model>();
 	monsterBall_->SetModel(rs->FindObject3d("Sphere"));
 	monsterBall_->SetTexture(rs->FindTexture("MonsterBall"));
