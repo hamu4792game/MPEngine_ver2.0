@@ -46,8 +46,9 @@ private:
 	ConstantBuffer<TransformationMatrix> cMat;
 	struct Material {
 		Vector4 color;
-		int enableLighting = true;
+		int enableLighting = true; 
 		float shininess = 0.0f; // 光沢度
+		int phongLighing = false;
 	};
 	ConstantBuffer<Material> cMaterial;
 

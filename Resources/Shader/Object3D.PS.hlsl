@@ -7,6 +7,7 @@ cbuffer Material : register(b1) {
     float4 color;
     int enableLighting;
     float shininess;
+    int phongLighing;
 };
 
 ConstantBuffer<DirectionalLight> gDirectionalLight : register(b2);
@@ -20,17 +21,19 @@ float4 main(VertexOutput input) : SV_TARGET {
         float cos = pow(NdotL * 0.5f + 0.5f,2.0f);
         diffuse = 
         textureColor.rgb * gDirectionalLight.color.rgb * cos * gDirectionalLight.intensity;
-        
-        float3 toEye = normalize(gCamera.worldPosition - input.worldPosition);
-        //float3 halfVector = normalize(-gDirectionalLight.direction + toEye);
-        float3 reflectLight = reflect(gDirectionalLight.direction,normalize(input.normal));
-        //float NDotH = dot(normalize(input.normal),halfVector);
-        float RdotE = dot(reflectLight,toEye);
-        float specularPow = pow(saturate(RdotE),shininess); // 反射強度
-        float3 specular = 
-        gDirectionalLight.color.rgb * gDirectionalLight.intensity * specularPow * float3(1.0f,1.0f,1.0f);
+        textureColor.rgb = diffuse;
 
-        textureColor.rgb = diffuse + specular;
+        if (phongLighing != 0) {
+            float3 toEye = normalize(gCamera.worldPosition - input.worldPosition);
+            //float3 halfVector = normalize(-gDirectionalLight.direction + toEye);
+            float3 reflectLight = reflect(gDirectionalLight.direction,normalize(input.normal));
+            //float NDotH = dot(normalize(input.normal),halfVector);
+            float RdotE = dot(reflectLight,toEye);
+            float specularPow = pow(saturate(RdotE),shininess); // 反射強度
+            float3 specular = 
+            gDirectionalLight.color.rgb * gDirectionalLight.intensity * specularPow * float3(1.0f,1.0f,1.0f);
+            textureColor.rgb += specular;
+        }
     }
     
     if (textureColor.a == 0.0) {

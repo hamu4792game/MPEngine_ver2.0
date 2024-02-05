@@ -15,10 +15,9 @@ void TitleScene::Initialize() {
 	monsterBall_->isActive_ = false;
 
 	ballTrans_.rotation_.y = AngleToRadian(90.0f);
-	cameraTransform_.translation_ = Vector3(0.0f, 0.0f, -6.0f);
+	cameraTransform_.translation_ = Vector3(0.0f, 0.0f, -20.0f);
 
 	model_ = std::make_unique<ModelsControl>();
-
 
 }
 

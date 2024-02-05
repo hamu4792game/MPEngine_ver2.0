@@ -25,11 +25,16 @@ void GameScene::Initialize() {
 	rs->AddTexture("ABText", "Resources/Texture/hud/AB.png");
 	
 	rs->AddTexture("MonsterBall", "Resources/Texture/monsterBall.png");
+	rs->AddTexture("CheckerBoard", "Resources/Texture/checkerBoard.png");
 
 
 	rs->AddModel("Box", "Resources/Model/box/box.obj");
 	rs->AddModel("Plane", "Resources/Model/plane/plane.obj");
 	rs->AddModel("Sphere", "Resources/Model/sphere/sphere.obj");
+	rs->AddModel("Axis", "Resources/Model/axis/axis.obj");
+	rs->AddModel("MultiMesh", "Resources/Model/multiMesh/multiMesh.obj");
+	//rs->AddModel("Suzanne", "Resources/Model/suzanne/suzanne.obj");
+	rs->AddModel("Teapot", "Resources/Model/teapot/teapot.obj");
 
 	rs->AddAudio("Title", "./Resources/Sound/w006.wav");
 

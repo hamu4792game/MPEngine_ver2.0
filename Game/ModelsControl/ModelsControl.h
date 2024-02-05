@@ -10,10 +10,11 @@ public:
 
 	void Update();
 	void ImGuiProcess();
-
+	const WorldTransform& GetTransform() { return transform_; }
 private:
 	std::unique_ptr<Model> targetModel_;
 	WorldTransform transform_;
+	Vector4 color_ = Vector4::one;
 
 
 };
