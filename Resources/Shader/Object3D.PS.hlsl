@@ -31,6 +31,7 @@ float4 main(VertexOutput input) : SV_TARGET {
         gDirectionalLight.color.rgb * gDirectionalLight.intensity * specularPow * float3(1.0f,1.0f,1.0f);
 
         textureColor.rgb = diffuse + specular;
+        //textureColor.rgb = diffuse;
     }
     
     if (textureColor.a == 0.0) {
