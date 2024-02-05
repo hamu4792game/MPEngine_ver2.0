@@ -1,10 +1,10 @@
 #include "WindowSupervisor.h"
 //	imguiのinclude
-#include "externals/imgui/imgui.h"
-#include "externals/imgui/imgui_impl_dx12.h"
-#include "externals/imgui/imgui_impl_win32.h"
+#include "ImGuiManager/ImGuiManager.h"
+#ifdef _DEBUG
 //	関数の外部宣言
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+#endif // _DEBUG
 #include <string>
 
 #include "resource.h"
