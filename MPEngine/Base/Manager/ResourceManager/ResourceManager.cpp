@@ -198,7 +198,7 @@ ModelData ResourceManager::LoadObjFile(const std::string& filename) {
 				position.x *= -1.0f;
 				Vector2 texcoord = texcoords[static_cast<std::vector<Vector2, std::allocator<Vector2>>::size_type>(elementIndices[1]) - 1];
 				Vector3 normal = normals[static_cast<std::vector<Vector3, std::allocator<Vector3>>::size_type>(elementIndices[2]) - 1];
-				normal.x *= -1.0f;
+				//normal.x *= -1.0f;
 				triangle[faceVertex] = { position,texcoord,normal };
 			}
 			//	頂点を逆で登録することで、周り順を逆にする
