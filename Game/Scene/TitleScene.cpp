@@ -12,9 +12,14 @@ void TitleScene::Initialize() {
 	monsterBall_ = std::make_unique<Model>();
 	monsterBall_->SetModel(rs->FindObject3d("Sphere"));
 	monsterBall_->SetTexture(rs->FindTexture("MonsterBall"));
+	monsterBall_->isActive_ = false;
 
 	ballTrans_.rotation_.y = AngleToRadian(90.0f);
 	cameraTransform_.translation_ = Vector3(0.0f, 0.0f, -6.0f);
+
+	model_ = std::make_unique<ModelsControl>();
+
+
 }
 
 void TitleScene::Finalize() {
@@ -43,6 +48,8 @@ void TitleScene::Update() {
 	ballTrans_.UpdateMatrix();
 	monsterBall_->transform_ = ballTrans_;
 
+	model_->Update();
+
 	cameraTransform_.UpdateMatrix();
 	Camera3d::GetInstance()->SetTransform(cameraTransform_);
 }
@@ -59,9 +66,10 @@ void TitleScene::DrawImGui() {
 		if (ImGui::BeginMenu("Sphere")) {
 			ImGui::DragFloat3("scale", &ballTrans_.scale_.x, 0.1f);
 			ImGui::DragFloat3("rotate", &ballTrans_.rotation_.x, AngleToRadian(1.0f));
-			ImGui::DragFloat3("translate", &ballTrans_.translation_.x, 0.1f);
+			ImGui::DragFloat3("translate", &ballTrans_.translation_.x, 0.01f);
 			ImGui::EndMenu();
 		}
+		model_->ImGuiProcess();
 
 		ImGui::EndMenuBar();
 	}

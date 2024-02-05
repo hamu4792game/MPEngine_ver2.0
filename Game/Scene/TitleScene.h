@@ -2,6 +2,7 @@
 #include "Framework/SceneFrame.h"
 #include "Utils/WorldTransform/WorldTransform.h"
 #include "Graphics/Model/Model.h"
+#include "Game/ModelsControl/ModelsControl.h"
 
 class TitleScene : public SceneFrame {
 public:
@@ -17,5 +18,6 @@ private:
 	WorldTransform cameraTransform_;
 	std::unique_ptr<Model> monsterBall_;
 	WorldTransform ballTrans_;
+	std::unique_ptr<ModelsControl> model_;
 
 };
