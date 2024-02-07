@@ -156,6 +156,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Camera\FollowCamera.cpp" />
     <ClCompile Include="Game\Camera\WireCamera.cpp" />
     <ClCompile Include="Game\ModelsControl\ModelsControl.cpp" />
+    <ClCompile Include="Game\Particle\DustParticle.cpp" />
     <ClCompile Include="Game\Scene\TitleScene.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MPEngine\Base\DetailSetting\DepthBuffer\DepthBuffer.cpp" />
@@ -207,6 +208,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\Camera\FollowCamera.h" />
     <ClInclude Include="Game\Camera\WireCamera.h" />
     <ClInclude Include="Game\ModelsControl\ModelsControl.h" />
+    <ClInclude Include="Game\Particle\DustParticle.h" />
     <ClInclude Include="Game\Scene\TitleScene.h" />
     <ClInclude Include="MPEngine\Base\ConstantBuffer.h" />
     <ClInclude Include="MPEngine\Base\DetailSetting\DepthBuffer\DepthBuffer.h" />

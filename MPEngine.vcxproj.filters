@@ -146,6 +146,9 @@
     <ClCompile Include="Game\ModelsControl\ModelsControl.cpp">
       <Filter>Game\ModelsControl</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Particle\DustParticle.cpp">
+      <Filter>Game\Particle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -310,6 +313,9 @@
     </ClInclude>
     <ClInclude Include="Game\ModelsControl\ModelsControl.h">
       <Filter>Game\ModelsControl</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Particle\DustParticle.h">
+      <Filter>Game\Particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -477,6 +483,9 @@
     </Filter>
     <Filter Include="Game\ModelsControl">
       <UniqueIdentifier>{32bf7305-5c52-40f0-a0ce-5e1ef2066609}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Particle">
+      <UniqueIdentifier>{79132a06-5dc9-42c1-a691-944e89eda65a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

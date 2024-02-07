@@ -19,6 +19,7 @@ void TitleScene::Initialize() {
 
 	model_ = std::make_unique<ModelsControl>();
 
+	dust_ = std::make_unique<DustParticle>();
 }
 
 void TitleScene::Finalize() {
@@ -48,6 +49,7 @@ void TitleScene::Update() {
 	monsterBall_->transform_ = ballTrans_;
 
 	model_->Update();
+	dust_->Update(dustPosition_);
 
 	cameraTransform_.UpdateMatrix();
 	Camera3d::GetInstance()->SetTransform(cameraTransform_);
@@ -62,13 +64,15 @@ void TitleScene::DrawImGui() {
 			ImGui::DragFloat3("rotate", &cameraTransform_.rotation_.x, AngleToRadian(1.0f));
 			ImGui::EndMenu();
 		}
-		if (ImGui::BeginMenu("Sphere")) {
-			ImGui::DragFloat3("scale", &ballTrans_.scale_.x, 0.1f);
-			ImGui::DragFloat3("rotate", &ballTrans_.rotation_.x, AngleToRadian(1.0f));
-			ImGui::DragFloat3("translate", &ballTrans_.translation_.x, 0.01f);
+		model_->ImGuiProcess();
+
+		if (ImGui::BeginMenu("DustParticle")) {
+			//ImGui::DragFloat3("scale", &ballTrans_.scale_.x, 0.1f);
+			//ImGui::DragFloat3("rotate", &ballTrans_.rotation_.x, AngleToRadian(1.0f));
+			ImGui::DragFloat3("translate", &dustPosition_.x, 0.01f);
+			dust_->DrawImGui();
 			ImGui::EndMenu();
 		}
-		model_->ImGuiProcess();
 
 		ImGui::EndMenuBar();
 	}
