@@ -1,8 +1,6 @@
 #pragma once
 #include "Framework/GameFrame.h"
 #include "Game/Scene/TitleScene.h"
-#include "Game/Scene/BattleScene.h"
-#include "Game/BoxSky/BoxSky.h"
 #include <memory>
 #include <optional>
 #include "Transition.h"
@@ -19,8 +17,6 @@ public:
 
 private:
 	std::unique_ptr<TitleScene> titleScene_;
-	std::unique_ptr<BattleScene> battleScene_;
-	std::unique_ptr<BoxSky> boxSky_;
 	std::unique_ptr<Transition> transition_;
 
 	//Scene
@@ -40,9 +36,7 @@ private:
 
 	void TitleInitialize();
 	void BattleInitialize();
-	void ResultInitialize();
 	void TitleUpdate();
 	void BattleUpdate();
-	void ResultUpdate();
 
 };

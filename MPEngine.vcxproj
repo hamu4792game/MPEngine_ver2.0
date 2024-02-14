@@ -5,6 +5,10 @@
       <Configuration>Debug</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Demo|x64">
+      <Configuration>Demo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|x64">
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
@@ -31,6 +35,13 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Demo|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
@@ -42,6 +53,9 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Demo|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ExternalIncludePath>$(ExternalIncludePath)</ExternalIncludePath>
@@ -50,6 +64,12 @@
     <OutDir>$(SolutionDir)..\Generated\Outputs\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ExternalIncludePath>$(ExternalIncludePath)</ExternalIncludePath>
+    <IncludePath>$(ProjectDir)..\External\DirectXTex\include;$(ProjectDir)..\External\imgui;$(ProjectDir)..\External\nlohmann;$(IncludePath)</IncludePath>
+    <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)..\Generated\Outputs\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Demo|x64'">
     <ExternalIncludePath>$(ExternalIncludePath)</ExternalIncludePath>
     <IncludePath>$(ProjectDir)..\External\DirectXTex\include;$(ProjectDir)..\External\imgui;$(ProjectDir)..\External\nlohmann;$(IncludePath)</IncludePath>
     <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
@@ -103,25 +123,41 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Demo|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)MPEngine;$(ProjectDir)MPEngine\Base\Manager</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxcompiler.dll" "$(TargetDir)dxcompiler.dll"
+copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dxil.dll"
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GameScene\GameScene.cpp" />
     <ClCompile Include="GameScene\Transition.cpp" />
-    <ClCompile Include="Game\BoxSky\BoxSky.cpp" />
     <ClCompile Include="Game\Camera\FollowCamera.cpp" />
     <ClCompile Include="Game\Camera\WireCamera.cpp" />
-    <ClCompile Include="Game\Enemy\Enemy.cpp" />
-    <ClCompile Include="Game\GameUI\GameUI.cpp" />
-    <ClCompile Include="Game\LockOn\LockOn.cpp" />
-    <ClCompile Include="Game\Player\Player.cpp" />
-    <ClCompile Include="Game\Player\PlayerAnimation.cpp" />
-    <ClCompile Include="Game\Player\PlayerParticle.cpp" />
-    <ClCompile Include="Game\Scene\BattleScene.cpp" />
+    <ClCompile Include="Game\ModelsControl\ModelsControl.cpp" />
+    <ClCompile Include="Game\Particle\DustParticle.cpp" />
     <ClCompile Include="Game\Scene\TitleScene.cpp" />
-    <ClCompile Include="Game\Stage\Ground.cpp" />
-    <ClCompile Include="Game\Stage\Stage.cpp" />
-    <ClCompile Include="Game\Stage\Tower.cpp" />
-    <ClCompile Include="Game\Target\Target.cpp" />
-    <ClCompile Include="Game\TitleUI\TitleUI.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MPEngine\Base\DetailSetting\DepthBuffer\DepthBuffer.cpp" />
     <ClCompile Include="MPEngine\Base\DetailSetting\DescriptorHandle\DescriptorHandle.cpp" />
@@ -138,6 +174,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="MPEngine\Base\Manager\ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="MPEngine\Base\Manager\ShaderManager\ShaderManager.cpp" />
     <ClCompile Include="MPEngine\Base\WindowSupervisor\WindowSupervisor.cpp" />
+    <ClCompile Include="MPEngine\Graphics\Light\DirectionalLight.cpp" />
     <ClCompile Include="MPEngine\Graphics\ModelRender\ModelRender.cpp" />
     <ClCompile Include="MPEngine\Graphics\Model\Model.cpp" />
     <ClCompile Include="MPEngine\Graphics\Object3d\Object3d.cpp" />
@@ -168,22 +205,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   <ItemGroup>
     <ClInclude Include="GameScene\GameScene.h" />
     <ClInclude Include="GameScene\Transition.h" />
-    <ClInclude Include="Game\BoxSky\BoxSky.h" />
     <ClInclude Include="Game\Camera\FollowCamera.h" />
     <ClInclude Include="Game\Camera\WireCamera.h" />
-    <ClInclude Include="Game\Enemy\Enemy.h" />
-    <ClInclude Include="Game\GameUI\GameUI.h" />
-    <ClInclude Include="Game\LockOn\LockOn.h" />
-    <ClInclude Include="Game\Player\Player.h" />
-    <ClInclude Include="Game\Player\PlayerAnimation.h" />
-    <ClInclude Include="Game\Player\PlayerParticle.h" />
-    <ClInclude Include="Game\Scene\BattleScene.h" />
+    <ClInclude Include="Game\ModelsControl\ModelsControl.h" />
+    <ClInclude Include="Game\Particle\DustParticle.h" />
     <ClInclude Include="Game\Scene\TitleScene.h" />
-    <ClInclude Include="Game\Stage\Ground.h" />
-    <ClInclude Include="Game\Stage\Stage.h" />
-    <ClInclude Include="Game\Stage\Tower.h" />
-    <ClInclude Include="Game\Target\Target.h" />
-    <ClInclude Include="Game\TitleUI\TitleUI.h" />
     <ClInclude Include="MPEngine\Base\ConstantBuffer.h" />
     <ClInclude Include="MPEngine\Base\DetailSetting\DepthBuffer\DepthBuffer.h" />
     <ClInclude Include="MPEngine\Base\DetailSetting\DescriptorHandle\DescriptorHandle.h" />
@@ -203,6 +229,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="MPEngine\Base\WindowSupervisor\WindowSupervisor.h" />
     <ClInclude Include="MPEngine\Framework\GameFrame.h" />
     <ClInclude Include="MPEngine\Framework\SceneFrame.h" />
+    <ClInclude Include="MPEngine\Graphics\Light\DirectionalLight.h" />
     <ClInclude Include="MPEngine\Graphics\ModelRender\ModelRender.h" />
     <ClInclude Include="MPEngine\Graphics\Model\Model.h" />
     <ClInclude Include="MPEngine\Graphics\Object3d\Object3d.h" />

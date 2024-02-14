@@ -3,8 +3,8 @@
 
 Transition::Transition() : fadeSpeed_(20.0f) {
 	background_ = std::make_unique<Sprite>();
+	background_->SetTexture(ResourceManager::GetInstance()->FindTexture("white2x2"));
 	background_->SetLayerNum(10u);
-	background_->SetTexture(ResourceManager::GetInstance()->FindTexture("Block"));
 	background_->SetIsActive(true);
 	background_->SetColor(Vector4(0.0f, 0.0f, 0.0f, 1.0f));
 }

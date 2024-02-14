@@ -3,13 +3,14 @@
 #include <memory>
 #include "Math/MathUtl.h"
 
-class PlayerParticle {
+class DustParticle {
 public:
-	PlayerParticle();
-	~PlayerParticle() = default;
-	
+	DustParticle();
+	~DustParticle() = default;
+
 	void Initialize(const Vector3& emitter);
 	void Update(const Vector3& emitter);
+	void DrawImGui();
 private:
 	void StateInitialize(const Vector3& emitter, const uint32_t& num);
 
@@ -24,6 +25,8 @@ private:
 		float speed_ = 0.3f;
 	};
 	std::vector<Param> particleparam_;
+	Param minParam_;
+	Param maxParam_;
 	float coolTime_ = 0.0f;
 	bool flag_ = false;
 
