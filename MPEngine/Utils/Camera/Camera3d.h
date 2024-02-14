@@ -1,6 +1,7 @@
 #pragma once
 #include "Utils/Camera/Camera.h"
 #include <memory>
+#include "Base/ConstantBuffer.h"
 
 class Camera3d {
 private:
@@ -20,5 +21,10 @@ public:
 	const Camera& GetCamera() const { return camera_; }
 private:
 	Camera camera_;
+	struct CameraForGPU {
+		Vector3 worldPosition;
+	};
+public:
+	ConstantBuffer<CameraForGPU> cCamera;
 
 };

@@ -1,5 +1,5 @@
 #include "FollowCamera.h"
-#include "externals/imgui/imgui.h"
+#include "ImGuiManager/ImGuiManager.h"
 #include "Input/Input.h"
 #include "Utils/Easing/Easing.h"
 

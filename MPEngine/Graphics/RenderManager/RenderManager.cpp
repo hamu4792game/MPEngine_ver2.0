@@ -21,7 +21,7 @@ void RenderManager::Draw() {
 	list->SetDescriptorHeaps(1, &srvHeap);
 
 	projectionMatrix = camera3d_->GetViewProMat();
-	modelRender.DrawCommand(projectionMatrix);
+	modelRender.DrawCommand(camera3d_);
 	
 	Matrix4x4 billboardMat = camera3d_->GetBillboardMat();
 	particleRender.DrawCommand(projectionMatrix, billboardMat);

@@ -6,20 +6,20 @@
 #include "ImGuiManager/ImGuiManager.h"
 
 void TitleScene::Initialize() {
-	titleUI_ = std::make_unique<TitleUI>();
-	titleUI_->Initialize();
+	
 	auto rs = ResourceManager::GetInstance();
-	std::shared_ptr<Audio> titleAudio = rs->FindAudio("Title");
-	titleAudio->SoundPlayWave(true);
+	
+	monsterBall_ = std::make_unique<Model>();
+	monsterBall_->SetModel(rs->FindObject3d("Sphere"));
+	monsterBall_->SetTexture(rs->FindTexture("MonsterBall"));
+	monsterBall_->isActive_ = false;
 
-	stage_ = std::make_unique<Stage>();
-	stage_->Initialize("TitleStage");
+	ballTrans_.rotation_.y = AngleToRadian(90.0f);
+	cameraTransform_.translation_ = Vector3(0.0f, 0.0f, -20.0f);
 
-	player_ = std::make_unique<Player>();
-	player_->Initialize();
+	model_ = std::make_unique<ModelsControl>();
 
-	cameraTransform_.translation_ = Vector3(0.0f, 300.0f, -51.0f);
-	cameraTransform_.rotation_.x = AngleToRadian(90.0f);
+	dust_ = std::make_unique<DustParticle>();
 }
 
 void TitleScene::Finalize() {
@@ -45,13 +45,11 @@ void TitleScene::Update() {
 		endRequest_ = true;
 	}
 
-	titleUI_->Update();
-	stage_->Update();
-	player_->TitleUpdate();
+	ballTrans_.UpdateMatrix();
+	monsterBall_->transform_ = ballTrans_;
 
-	for (auto coll : stage_->GetCollision()) {
-		player_->OnCollisionStage(coll);
-	}
+	model_->Update();
+	dust_->Update(dustPosition_);
 
 	cameraTransform_.UpdateMatrix();
 	Camera3d::GetInstance()->SetTransform(cameraTransform_);
@@ -59,9 +57,25 @@ void TitleScene::Update() {
 
 void TitleScene::DrawImGui() {
 #ifdef _DEBUG
-	ImGui::Begin("camera");
-	ImGui::DragFloat3("translate", &cameraTransform_.translation_.x, 0.1f);
-	ImGui::DragFloat3("rotate", &cameraTransform_.rotation_.x, AngleToRadian(1.0f));
+	ImGui::Begin("State", nullptr, ImGuiWindowFlags_MenuBar);
+	if (ImGui::BeginMenuBar()) {
+		if (ImGui::BeginMenu("Camera")) {
+			ImGui::DragFloat3("translate", &cameraTransform_.translation_.x, 0.1f);
+			ImGui::DragFloat3("rotate", &cameraTransform_.rotation_.x, AngleToRadian(1.0f));
+			ImGui::EndMenu();
+		}
+		model_->ImGuiProcess();
+
+		if (ImGui::BeginMenu("DustParticle")) {
+			//ImGui::DragFloat3("scale", &ballTrans_.scale_.x, 0.1f);
+			//ImGui::DragFloat3("rotate", &ballTrans_.rotation_.x, AngleToRadian(1.0f));
+			ImGui::DragFloat3("translate", &dustPosition_.x, 0.01f);
+			dust_->DrawImGui();
+			ImGui::EndMenu();
+		}
+
+		ImGui::EndMenuBar();
+	}
 	ImGui::End();
 #endif // _DEBUG
 }

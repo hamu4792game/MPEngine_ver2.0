@@ -27,6 +27,10 @@ void Model::SetModel(const std::shared_ptr<Object3d>& model) {
 void Model::CreateVertexResource() {
 	auto rsManager = ResourceManager::GetInstance();
 	auto device = DeviceManager::GetInstance()->GetDevice();
+	if (vertexResource_) {
+		vertexResource_->Release();
+		vertexResource_.Reset();
+	}
 	vertexResource_ = rsManager->CreateBufferResource(device, sizeof(VertexData) * model_->GetModel().vertices.size());
 
 	vertexBufferView_.BufferLocation = vertexResource_->GetGPUVirtualAddress();

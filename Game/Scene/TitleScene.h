@@ -1,9 +1,9 @@
 #pragma once
 #include "Framework/SceneFrame.h"
 #include "Utils/WorldTransform/WorldTransform.h"
-#include "Game/TitleUI/TitleUI.h"
-#include "Game/Stage/Stage.h"
-#include "Game/Player/Player.h"
+#include "Graphics/Model/Model.h"
+#include "Game/ModelsControl/ModelsControl.h"
+#include "Game/Particle/DustParticle.h"
 
 class TitleScene : public SceneFrame {
 public:
@@ -17,8 +17,10 @@ public:
 
 private:
 	WorldTransform cameraTransform_;
-	std::unique_ptr<TitleUI> titleUI_;
-	std::unique_ptr<Stage> stage_;
-	std::unique_ptr<Player> player_;
+	std::unique_ptr<Model> monsterBall_;
+	WorldTransform ballTrans_;
+	std::unique_ptr<ModelsControl> model_;
+	std::unique_ptr<DustParticle> dust_;
+	Vector3 dustPosition_;
 
 };
