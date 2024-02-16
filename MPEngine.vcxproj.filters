@@ -188,6 +188,9 @@
     <ClCompile Include="MPEngine\Graphics\LineRender\LineRender.cpp">
       <Filter>MPEngine\Graphics\LineRender</Filter>
     </ClCompile>
+    <ClCompile Include="Game\TitleUI\TitleUI.cpp">
+      <Filter>Game\TitleUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -395,6 +398,9 @@
     <ClInclude Include="MPEngine\Graphics\LineRender\LineRender.h">
       <Filter>MPEngine\Graphics\LineRender</Filter>
     </ClInclude>
+    <ClInclude Include="Game\TitleUI\TitleUI.h">
+      <Filter>Game\TitleUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="MPEngine">
@@ -591,6 +597,9 @@
     </Filter>
     <Filter Include="MPEngine\Graphics\LineRender">
       <UniqueIdentifier>{a1dec1d1-ac5d-4d51-ae11-e5a2c14a87c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TitleUI">
+      <UniqueIdentifier>{13d7262e-9166-48d6-8c09-5fb07276a111}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
