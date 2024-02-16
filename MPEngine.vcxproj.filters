@@ -83,9 +83,6 @@
     <ClCompile Include="GameScene\GameScene.cpp">
       <Filter>GameScene</Filter>
     </ClCompile>
-    <ClCompile Include="MPEngine\Base\Manager\PipelineManager\PipelineManager.cpp">
-      <Filter>MPEngine\Base\Manager\PipelineManager</Filter>
-    </ClCompile>
     <ClCompile Include="MPEngine\Math\Matrix3x3.cpp">
       <Filter>MPEngine\Math\Matrix3x3</Filter>
     </ClCompile>
@@ -148,6 +145,48 @@
     </ClCompile>
     <ClCompile Include="Game\Particle\DustParticle.cpp">
       <Filter>Game\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Scene\BattleScene.cpp">
+      <Filter>Game\Scene\BattleScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Player\Player.cpp">
+      <Filter>Game\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Player\PlayerAnimation.cpp">
+      <Filter>Game\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Player\PlayerParticle.cpp">
+      <Filter>Game\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameUI\GameUI.cpp">
+      <Filter>Game\GameUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\LockOn\LockOn.cpp">
+      <Filter>Game\LockOn</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Enemy\Enemy.cpp">
+      <Filter>Game\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BoxSky\BoxSky.cpp">
+      <Filter>Game\BoxSky</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Stage\Ground.cpp">
+      <Filter>Game\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Stage\Stage.cpp">
+      <Filter>Game\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Stage\Tower.cpp">
+      <Filter>Game\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Target\Target.cpp">
+      <Filter>Game\Target</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\Graphics\Line\Line.cpp">
+      <Filter>MPEngine\Graphics\Line</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\Graphics\LineRender\LineRender.cpp">
+      <Filter>MPEngine\Graphics\LineRender</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -239,9 +278,6 @@
     <ClInclude Include="GameScene\GameScene.h">
       <Filter>GameScene</Filter>
     </ClInclude>
-    <ClInclude Include="MPEngine\Base\Manager\PipelineManager\PipelineManager.h">
-      <Filter>MPEngine\Base\Manager\PipelineManager</Filter>
-    </ClInclude>
     <ClInclude Include="MPEngine\Math\Matrix3x3.h">
       <Filter>MPEngine\Math\Matrix3x3</Filter>
     </ClInclude>
@@ -316,6 +352,48 @@
     </ClInclude>
     <ClInclude Include="Game\Particle\DustParticle.h">
       <Filter>Game\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Scene\BattleScene.h">
+      <Filter>Game\Scene\BattleScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Player\Player.h">
+      <Filter>Game\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Player\PlayerAnimation.h">
+      <Filter>Game\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Player\PlayerParticle.h">
+      <Filter>Game\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameUI\GameUI.h">
+      <Filter>Game\GameUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\LockOn\LockOn.h">
+      <Filter>Game\LockOn</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Enemy\Enemy.h">
+      <Filter>Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BoxSky\BoxSky.h">
+      <Filter>Game\BoxSky</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Stage\Ground.h">
+      <Filter>Game\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Stage\Stage.h">
+      <Filter>Game\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Stage\Tower.h">
+      <Filter>Game\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Target\Target.h">
+      <Filter>Game\Target</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Graphics\Line\Line.h">
+      <Filter>MPEngine\Graphics\Line</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Graphics\LineRender\LineRender.h">
+      <Filter>MPEngine\Graphics\LineRender</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -409,9 +487,6 @@
     <Filter Include="GameScene">
       <UniqueIdentifier>{1c0b4081-c4c0-447f-b10f-a9e850ce9569}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MPEngine\Base\Manager\PipelineManager">
-      <UniqueIdentifier>{e8c72f3f-8aee-49f1-8150-e60de2106ad4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="MPEngine\Math\Matrix3x3">
       <UniqueIdentifier>{2579d68a-7288-4c8a-917d-b7ea6e9a8167}</UniqueIdentifier>
     </Filter>
@@ -486,6 +561,36 @@
     </Filter>
     <Filter Include="Game\Particle">
       <UniqueIdentifier>{79132a06-5dc9-42c1-a691-944e89eda65a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\BattleScene">
+      <UniqueIdentifier>{242b9e70-017d-43c7-b946-f3c09cd028ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Player">
+      <UniqueIdentifier>{6fafe9ee-235e-49a2-a5b5-96d9899f53aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\LockOn">
+      <UniqueIdentifier>{43763786-e427-4ccc-9a22-6ac52c23192f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameUI">
+      <UniqueIdentifier>{2ffe6233-25e0-45f0-8990-328e75b89257}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Enemy">
+      <UniqueIdentifier>{86a19ab8-a36a-499e-8ccd-4ce76b31a3b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BoxSky">
+      <UniqueIdentifier>{9e6a8c9c-ea04-4128-8843-3f0436b29f28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Stage">
+      <UniqueIdentifier>{fda71cf1-23fa-4fa8-8de0-da5129fc810d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Target">
+      <UniqueIdentifier>{17a2bc1a-3f68-48ac-9ed1-3eb00925b84e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Graphics\Line">
+      <UniqueIdentifier>{e2e84727-7b8d-47a7-9040-f97529ac9383}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Graphics\LineRender">
+      <UniqueIdentifier>{a1dec1d1-ac5d-4d51-ae11-e5a2c14a87c1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -7,7 +7,7 @@ class PlayerParticle {
 public:
 	PlayerParticle();
 	~PlayerParticle() = default;
-
+	
 	void Initialize(const Vector3& emitter);
 	void Update(const Vector3& emitter);
 private:

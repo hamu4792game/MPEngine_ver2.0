@@ -26,6 +26,8 @@ struct PipelineDesc {
 	IDxcBlob* vertexShader_;
 	IDxcBlob* pixelShader_;
 	D3D12_DEPTH_STENCIL_DESC depthStencilDesc_{};
+	D3D12_RASTERIZER_DESC rasterizerDesc_{};
+	bool isLine_ = false; // lineのみtrue
 };
 
 class GraphicsPipeline {

@@ -7,6 +7,7 @@ void RenderManager::Initialize() {
 	spriteRender.Initialize();
 	modelRender.Initialize();
 	particleRender.Initialize();
+	lineRender.Initialize();
 	camera = std::make_shared<Camera>();
 	camera3d_ = Camera3d::GetInstance();
 	camera3d_->Initialize(2000.0f);
@@ -25,6 +26,8 @@ void RenderManager::Draw() {
 	
 	Matrix4x4 billboardMat = camera3d_->GetBillboardMat();
 	particleRender.DrawCommand(projectionMatrix, billboardMat);
+
+	lineRender.DrawCommand(projectionMatrix);
 
 	projectionMatrix = camera->GetViewProMat();
 	spriteRender.DrawCommand(projectionMatrix);
