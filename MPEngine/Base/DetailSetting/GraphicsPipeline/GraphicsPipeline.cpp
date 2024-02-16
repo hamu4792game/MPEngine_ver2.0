@@ -65,12 +65,7 @@ void GraphicsPipeline::CreatePipeline(PipelineDesc pipelineDesc, BlendMode type)
 #pragma region RasterizerState
 
 	//	ラスタライザの設定
-	D3D12_RASTERIZER_DESC rasterizerDesc{};
-	//	裏面を表示しない
-	rasterizerDesc.CullMode = D3D12_CULL_MODE_BACK;
-	//	塗りつぶす
-	rasterizerDesc.FillMode = D3D12_FILL_MODE_SOLID;
-	rasterizerDesc.DepthClipEnable = true;
+	D3D12_RASTERIZER_DESC rasterizerDesc = pipelineDesc.rasterizerDesc_;
 
 #pragma endregion
 
@@ -82,6 +77,9 @@ void GraphicsPipeline::CreatePipeline(PipelineDesc pipelineDesc, BlendMode type)
 	graphicsPipelineStateDesc.NumRenderTargets = 1;
 	graphicsPipelineStateDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	graphicsPipelineStateDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	if (pipelineDesc.isLine_) {
+		graphicsPipelineStateDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE;
+	}
 	graphicsPipelineStateDesc.SampleDesc.Count = 1;
 	graphicsPipelineStateDesc.SampleDesc.Quality = 0;
 	graphicsPipelineStateDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
@@ -96,7 +94,7 @@ void GraphicsPipeline::CreatePipeline(PipelineDesc pipelineDesc, BlendMode type)
 	};
 
 	graphicsPipelineStateDesc.BlendState = blendDesc;
-	graphicsPipelineStateDesc.RasterizerState = rasterizerDesc;
+	graphicsPipelineStateDesc.RasterizerState = pipelineDesc.rasterizerDesc_;
 
 	//	DepthStencilの設定
 	graphicsPipelineStateDesc.DepthStencilState = pipelineDesc.depthStencilDesc_;

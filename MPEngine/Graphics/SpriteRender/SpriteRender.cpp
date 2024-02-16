@@ -67,6 +67,11 @@ void SpriteRender::Initialize() {
 	plDesc.pixelShader_ = pixelShader.Get();
 
 	plDesc.depthStencilDesc_.DepthEnable = false;
+	// 裏面を表示しない
+	plDesc.rasterizerDesc_.CullMode = D3D12_CULL_MODE_BACK;
+	// 塗りつぶす
+	plDesc.rasterizerDesc_.FillMode = D3D12_FILL_MODE_SOLID;
+	plDesc.rasterizerDesc_.DepthClipEnable = true;
 
 	for (uint8_t i = 0; i < static_cast<uint8_t>(BlendMode::BlendCount); i++) {
 		graphicsPipeline_.at(i) = std::make_unique<GraphicsPipeline>();

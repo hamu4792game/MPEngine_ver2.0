@@ -9,6 +9,8 @@
 #include "Game/Enemy/Enemy.h"
 #include "Game/GameUI/GameUI.h"
 
+#include "Graphics/Line/Line.h"
+
 class BattleScene : public SceneFrame {
 public:
 	BattleScene() = default;
@@ -27,4 +29,5 @@ private:
 	std::unique_ptr<LockOn> lockOn_;
 	std::unique_ptr<Enemy> enemy_;
 	std::unique_ptr<GameUI> gameUI_;
+	std::unique_ptr<Line> line_;
 };
