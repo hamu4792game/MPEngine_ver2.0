@@ -9,7 +9,10 @@
 AABB::AABB() {
 	boxModel_ = std::make_shared<Model>();
 	boxModel_->SetModel(ResourceManager::GetInstance()->FindObject3d("Box"));
-	boxModel_->SetColor(0xffffffaa);
+	boxModel_->SetColor(0xffffff22);
+	for (auto& i : line_) {
+		i = std::make_unique<Line>();
+	}
 }
 
 void AABB::Update(const WorldTransform& transform) {
@@ -27,6 +30,52 @@ void AABB::Update(const WorldTransform& transform) {
 
 	direction_.upper.y = boxModel_->transform_.translation_.y + (boxModel_->transform_.scale_.y);
 	direction_.lower.y = boxModel_->transform_.translation_.y - (boxModel_->transform_.scale_.y);
+
+	// フレーム描画
+	Vector3 ver[8]{};
+	// 左下手前
+	ver[0] = { min.x,min.y,min.z };
+	// 右下手前
+	ver[1] = { max.x,min.y,min.z };
+	// 左上手前
+	ver[2] = { min.x,max.y,min.z };
+	// 右上手前
+	ver[3] = { max.x,max.y,min.z };
+	// 左下奥
+	ver[4] = { min.x,min.y,max.z };
+	// 右下奥
+	ver[5] = { max.x,min.y,max.z };
+	// 左上奥
+	ver[6] = { min.x,max.y,max.z };
+	// 右上奥
+	ver[7] = { max.x,max.y,max.z };
+
+	// 描画
+	// 下手前
+	line_[0]->SetLine(ver[0], ver[1]);
+	// 上手前
+	line_[1]->SetLine(ver[2], ver[3]);
+	// 下奥
+	line_[2]->SetLine(ver[4], ver[5]);
+	// 上奥
+	line_[3]->SetLine(ver[6], ver[7]);
+	// 左手前
+	line_[4]->SetLine(ver[0], ver[2]);
+	// 左奥
+	line_[5]->SetLine(ver[4], ver[6]);
+	// 右手前
+	line_[6]->SetLine(ver[1], ver[3]);
+	// 右奥
+	line_[7]->SetLine(ver[5], ver[7]);
+	// 左下
+	line_[8]->SetLine(ver[0], ver[4]);
+	// 左上
+	line_[9]->SetLine(ver[2], ver[6]);
+	// 右下
+	line_[10]->SetLine(ver[1], ver[5]);
+	// 右上
+	line_[11]->SetLine(ver[3], ver[7]);
+
 
 }
 

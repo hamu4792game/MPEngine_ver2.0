@@ -490,6 +490,7 @@ void Player::TransformUpdate() {
 }
 
 void Player::LimitMoving() {
+	transform_.translation_.y = std::clamp(transform_.translation_.y, 15.0f, 10000.0f);
 	if (transform_.translation_.y < 15.0f) {
 		transform_.translation_ = Vector3(0.0f, 22.0f, -100.0f);
 	}

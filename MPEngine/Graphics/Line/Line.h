@@ -13,19 +13,20 @@ public:
 public:
 	void SetColor(const Vector4& color) { color_ = color; }
 	void SetColor(const uint32_t& color) { color_ = ChangeColor(color); }
+	void SetLine(const Vector3& start, const Vector3& end);
 private:
 	void Initialize();
 	void CreateVertexResource();
 	void UploadVertexData();
 
 public:
-	Vector3 start_;
-	Vector3 end_;
 	bool isActive_ = true;
 
 private:
 	static std::list<Line*> lineLists_;
 	Vector4 color_ = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	Vector3 start_; // 始点
+	Vector3 end_; // 終点
 
 	// 描画必要情報
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_{};

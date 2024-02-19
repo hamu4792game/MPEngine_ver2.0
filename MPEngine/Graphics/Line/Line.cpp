@@ -14,6 +14,11 @@ Line::~Line() {
 	}
 }
 
+void Line::SetLine(const Vector3& start, const Vector3& end) {
+	start_ = start;
+	end_ = end;
+}
+
 void Line::Initialize() {
 	CreateVertexResource();
 	UploadVertexData();

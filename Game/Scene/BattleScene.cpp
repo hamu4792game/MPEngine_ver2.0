@@ -22,7 +22,6 @@ void BattleScene::Initialize() {
 	gameUI_ = std::make_unique<GameUI>();
 	gameUI_->Initialize();
 
-	line_ = std::make_unique<Line>();
 }
 
 void BattleScene::Finalize() {
@@ -60,8 +59,6 @@ void BattleScene::Update() {
 
 void BattleScene::DrawImGui() {
 #ifdef _DEBUG
-	static Vector3 start;
-	ImGui::DragFloat3("Start", &start.x, 0.1f);
-	line_->start_ = start;
+
 #endif // _DEBUG
 }

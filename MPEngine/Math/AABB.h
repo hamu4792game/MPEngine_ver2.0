@@ -3,6 +3,8 @@
 #include "Utils/WorldTransform/WorldTransform.h"
 #include "Graphics/Model/Model.h"
 #include <memory>
+#include "Graphics/Line/Line.h"
+#include <array>
 
 //	AABB
 class AABB {
@@ -24,6 +26,7 @@ private:
 		Vector3 right; // 右
 	};
 	Direction direction_;
+	std::array<std::unique_ptr<Line>, 12> line_;
 public:
 	void Update(const WorldTransform& transform);
 	//	AABBと球の衝突判定
