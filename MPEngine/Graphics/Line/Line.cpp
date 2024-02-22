@@ -41,8 +41,8 @@ void Line::CreateVertexResource() {
 void Line::UploadVertexData() {
 	// 頂点データ
 	VertexData vertex[2] = {
-		{{start_.x,start_.y,start_.z,1.0f},{0.0f,0.0f}},
-		{{end_.x,end_.y,end_.z,1.0f},{1.0f,0.0f}},
+		{{start_.x,start_.y,start_.z,1.0f}},
+		{{end_.x,end_.y,end_.z,1.0f}},
 	};
 
 	VertexData* mapData = nullptr;

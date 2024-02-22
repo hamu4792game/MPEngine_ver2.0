@@ -16,7 +16,7 @@ public:
 	Vector3 max;	// 最大点
 	Vector3 size{ 1.0f,1.0f,1.0f };
 	
-	std::shared_ptr<Model> boxModel_;
+	WorldTransform boxModel_;
 private:
 	Vector3 center_; // 中点
 	struct Direction {

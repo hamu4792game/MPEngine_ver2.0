@@ -7,9 +7,6 @@
 #undef max
 
 AABB::AABB() {
-	boxModel_ = std::make_shared<Model>();
-	boxModel_->SetModel(ResourceManager::GetInstance()->FindObject3d("Box"));
-	boxModel_->SetColor(0xffffff22);
 	for (auto& i : line_) {
 		i = std::make_unique<Line>();
 	}
@@ -20,16 +17,15 @@ void AABB::Update(const WorldTransform& transform) {
 	this->min = Vector3(transform.GetPosition() - Vector3(transform.scale_.x * size.x, transform.scale_.y * size.y, transform.scale_.z * size.z));
 	this->max = Vector3(transform.GetPosition() + Vector3(transform.scale_.x * size.x, transform.scale_.y * size.y, transform.scale_.z * size.z));
 	center_ = transform.GetPosition();
-	boxModel_->transform_.scale_ = Vector3(transform.scale_.x * size.x, transform.scale_.y * size.y, transform.scale_.z * size.z);
-	boxModel_->transform_.translation_ = center_;
-	boxModel_->transform_.UpdateMatrix();
-	boxModel_->isActive_ = false;
+	boxModel_.scale_ = Vector3(transform.scale_.x * size.x, transform.scale_.y * size.y, transform.scale_.z * size.z);
+	boxModel_.translation_ = center_;
+	boxModel_.UpdateMatrix();
 #ifdef _DEBUG
 	//boxModel_->isActive_ = true;
 #endif // _DEBUG
 
-	direction_.upper.y = boxModel_->transform_.translation_.y + (boxModel_->transform_.scale_.y);
-	direction_.lower.y = boxModel_->transform_.translation_.y - (boxModel_->transform_.scale_.y);
+	direction_.upper.y = boxModel_.translation_.y + (boxModel_.scale_.y);
+	direction_.lower.y = boxModel_.translation_.y - (boxModel_.scale_.y);
 
 	// フレーム描画
 	Vector3 ver[8]{};

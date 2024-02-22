@@ -110,9 +110,6 @@
     <ClCompile Include="MPEngine\Utils\GlobalVariables\GlobalVariables.cpp">
       <Filter>MPEngine\Utils\GlobalVariables</Filter>
     </ClCompile>
-    <ClCompile Include="MPEngine\Math\AABB.cpp">
-      <Filter>MPEngine\Math\AABB</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Camera\FollowCamera.cpp">
       <Filter>Game\Camera\FollowCamera</Filter>
     </ClCompile>
@@ -190,6 +187,15 @@
     </ClCompile>
     <ClCompile Include="Game\TitleUI\TitleUI.cpp">
       <Filter>Game\TitleUI</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\Utils\Collider\Collider.cpp">
+      <Filter>MPEngine\Utils\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\Utils\Collider\OBB.cpp">
+      <Filter>MPEngine\Utils\Collider\OBB</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\Math\AABB.cpp">
+      <Filter>MPEngine\Utils\Collider\AABB</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -320,9 +326,6 @@
     <ClInclude Include="MPEngine\Utils\GlobalVariables\GlobalVariables.h">
       <Filter>MPEngine\Utils\GlobalVariables</Filter>
     </ClInclude>
-    <ClInclude Include="MPEngine\Math\AABB.h">
-      <Filter>MPEngine\Math\AABB</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Camera\FollowCamera.h">
       <Filter>Game\Camera\FollowCamera</Filter>
     </ClInclude>
@@ -400,6 +403,15 @@
     </ClInclude>
     <ClInclude Include="Game\TitleUI\TitleUI.h">
       <Filter>Game\TitleUI</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Utils\Collider\Collider.h">
+      <Filter>MPEngine\Utils\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Utils\Collider\OBB.h">
+      <Filter>MPEngine\Utils\Collider\OBB</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Math\AABB.h">
+      <Filter>MPEngine\Utils\Collider\AABB</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -529,12 +541,6 @@
     <Filter Include="MPEngine\Utils\GlobalVariables">
       <UniqueIdentifier>{4f0eb38c-9d2c-4fbc-8c61-70ef7c8b1183}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MPEngine\Math\AABB">
-      <UniqueIdentifier>{e2687454-65e6-4df4-9e1a-810bf1ad59dc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MPEngine\Math\Sphere">
-      <UniqueIdentifier>{cac44694-94ad-46e5-b9ce-3aa4a00e7f3b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\Camera">
       <UniqueIdentifier>{7e92d690-1ee2-48cd-ab80-409382813429}</UniqueIdentifier>
     </Filter>
@@ -600,6 +606,15 @@
     </Filter>
     <Filter Include="Game\TitleUI">
       <UniqueIdentifier>{13d7262e-9166-48d6-8c09-5fb07276a111}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Utils\Collider">
+      <UniqueIdentifier>{b1c4d18d-1ea5-41f2-8ed6-205cb6096e7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Utils\Collider\AABB">
+      <UniqueIdentifier>{e2687454-65e6-4df4-9e1a-810bf1ad59dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Utils\Collider\OBB">
+      <UniqueIdentifier>{aeeb6f04-105c-4e03-8f35-4ad78d39286d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

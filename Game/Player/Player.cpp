@@ -166,7 +166,7 @@ bool Player::OnCollision(const AABB* aabb) {
 	// 床との衝突判定
 	if (iscoll) {
 		Vector3 extrusionVector;
-		collision_->boxModel_->SetColor(0x000000aa);
+		//collision_->boxModel_->SetColor(0x000000aa);
 		// 地面と当たっているので初期化
 		InitializeFall();
 
@@ -269,7 +269,7 @@ bool Player::OnCollision(const AABB* aabb) {
 		//TransformUpdate();
 	}
 	else {
-		collision_->boxModel_->SetColor(0xffffffaa);
+		//collision_->boxModel_->SetColor(0xffffffaa);
 	}
 
 }
@@ -280,14 +280,13 @@ void Player::OnCollisionStage(const AABB* aabb) {
 	// 床との衝突判定
 	if (iscoll) {
 		Vector3 extrusionVector;
-		collision_->boxModel_->SetColor(0x000000aa);
 		// 地面と当たっているので初期化
 		InitializeFall();
 		// size同士
-		Vector3 rScale = collision_->boxModel_->transform_.scale_ + aabb->boxModel_->transform_.scale_;
+		Vector3 rScale = collision_->boxModel_.scale_ + aabb->boxModel_.scale_;
 		// 距離 playerからboxの距離
-		Vector3 rPosA = collision_->boxModel_->transform_.GetPosition();
-		Vector3 rPosB = aabb->boxModel_->transform_.GetPosition();
+		Vector3 rPosA = collision_->boxModel_.GetPosition();
+		Vector3 rPosB = aabb->boxModel_.GetPosition();
 		Vector3 rDistance = rPosA - rPosB;
 		// 距離がsizeよりちいさかったらめり込んでいる 当たっている時点で通るがおまじない
 		// y軸
@@ -308,7 +307,7 @@ void Player::OnCollisionStage(const AABB* aabb) {
 		TransformUpdate();
 	}
 	else {
-		collision_->boxModel_->SetColor(0xffffffaa);
+		//collision_->boxModel_->SetColor(0xffffffaa);
 	}
 }
 

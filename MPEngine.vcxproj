@@ -212,6 +212,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="MPEngine\TimeBaseLoopExecuter\TimeBaseLoopExecuter.cpp" />
     <ClCompile Include="MPEngine\Utils\Camera\Camera.cpp" />
     <ClCompile Include="MPEngine\Utils\Camera\Camera3d.cpp" />
+    <ClCompile Include="MPEngine\Utils\Collider\Collider.cpp" />
+    <ClCompile Include="MPEngine\Utils\Collider\OBB.cpp" />
     <ClCompile Include="MPEngine\Utils\Easing\Ease.cpp" />
     <ClCompile Include="MPEngine\Utils\GlobalVariables\GlobalVariables.cpp" />
     <ClCompile Include="MPEngine\Utils\WorldTransform\WorldTransform.cpp" />
@@ -282,6 +284,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="MPEngine\TimeBaseLoopExecuter\TimeBaseLoopExecuter.h" />
     <ClInclude Include="MPEngine\Utils\Camera\Camera.h" />
     <ClInclude Include="MPEngine\Utils\Camera\Camera3d.h" />
+    <ClInclude Include="MPEngine\Utils\Collider\Collider.h" />
+    <ClInclude Include="MPEngine\Utils\Collider\OBB.h" />
     <ClInclude Include="MPEngine\Utils\Easing\Ease.h" />
     <ClInclude Include="MPEngine\Utils\Easing\Easing.h" />
     <ClInclude Include="MPEngine\Utils\GlobalVariables\GlobalVariables.h" />
