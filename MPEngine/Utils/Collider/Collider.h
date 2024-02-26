@@ -39,6 +39,7 @@ private:
 	std::string name_; // コライダーの名前
 	std::shared_ptr<AABB> boxCollider_;
 	Type collderType_;
+	WorldTransform transform_;
 
 
 };

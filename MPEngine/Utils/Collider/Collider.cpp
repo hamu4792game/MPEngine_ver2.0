@@ -3,6 +3,7 @@
 
 void Collider::Initialize(const WorldTransform& transform, Type type) {
 	collderType_ = type;
+	transform_ = transform;
 	switch (collderType_) {
 	case Collider::Box:
 		boxCollider_ = std::make_shared<AABB>();
@@ -13,7 +14,13 @@ void Collider::Initialize(const WorldTransform& transform, Type type) {
 }
 
 void Collider::Update() {
-
+	switch (collderType_) {
+	case Collider::Box:
+		boxCollider_->Update(transform_);
+		break;
+	case Collider::Sphere:
+		break;
+	}
 }
 
 bool Collider::OnCollision(const Collider& coll, Vector3& pushbackVec) {
@@ -36,4 +43,5 @@ bool Collider::BoxCollision(const Collider& coll, Vector3& pushbackVec) {
 	case Collider::Sphere:
 		return false;
 	}
+	return false;
 }
