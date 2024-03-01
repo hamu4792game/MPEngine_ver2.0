@@ -40,10 +40,7 @@ void Player::Initialize() {
 	partsTrans_.at(Parts::R_Arm).parent_ = &partsTrans_.at(Parts::Body);
 	partsTrans_.at(Parts::L_Legs).parent_ = &partsTrans_.at(Parts::Body);
 	partsTrans_.at(Parts::R_Legs).parent_ = &partsTrans_.at(Parts::Body);
-
-	for (uint32_t index = Parts::Tracking1; index <= Parts::Tracking3; index++) {
-
-	}
+	partsTrans_.at(Parts::Weapon).parent_ = &partsTrans_.at(Parts::Body);
 
 	auto global = GlobalVariables::GetInstance();
 	global->LoadFile(itemName_);
@@ -99,7 +96,7 @@ void Player::Update() {
 		}
 		//	振る舞いリクエストをリセット
 		behaviorRequest_ = std::nullopt;
-	}
+	}// aba
 
 	switch (behavior_) {
 	case Behavior::kRoot:
@@ -526,7 +523,7 @@ void Player::BehaviorRootUpdate() {
 	if (input->GetKey()->TriggerKey(DIK_V)) {
 		attackFlag = true;
 	}
-	if (attackFlag && wireMove_) { behaviorRequest_ = Behavior::kAttack; }
+	if (attackFlag && !wireMove_) { behaviorRequest_ = Behavior::kAttack; }
 
 	bool wireFlag = false;
 	if (input->GetKey()->TriggerKey(DIK_B)) {

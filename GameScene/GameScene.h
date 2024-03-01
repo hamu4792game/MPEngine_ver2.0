@@ -16,6 +16,7 @@ public:
 	void Finalize() override;
 	void Update() override;
 
+
 private:
 	std::unique_ptr<TitleScene> titleScene_;
 	std::unique_ptr<BattleScene> battleScene_;
