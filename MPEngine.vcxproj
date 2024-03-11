@@ -154,6 +154,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="GameScene\GameScene.cpp" />
     <ClCompile Include="GameScene\Transition.cpp" />
     <ClCompile Include="Game\BoxSky\BoxSky.cpp" />
+    <ClCompile Include="Game\Camera\AttackCamera.cpp" />
     <ClCompile Include="Game\Camera\FollowCamera.cpp" />
     <ClCompile Include="Game\Camera\WireCamera.cpp" />
     <ClCompile Include="Game\Enemy\Enemy.cpp" />
@@ -222,6 +223,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="GameScene\GameScene.h" />
     <ClInclude Include="GameScene\Transition.h" />
     <ClInclude Include="Game\BoxSky\BoxSky.h" />
+    <ClInclude Include="Game\Camera\AttackCamera.h" />
     <ClInclude Include="Game\Camera\FollowCamera.h" />
     <ClInclude Include="Game\Camera\WireCamera.h" />
     <ClInclude Include="Game\Enemy\Enemy.h" />

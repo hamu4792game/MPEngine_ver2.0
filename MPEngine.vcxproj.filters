@@ -197,6 +197,9 @@
     <ClCompile Include="MPEngine\Math\AABB.cpp">
       <Filter>MPEngine\Utils\Collider\AABB</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Camera\AttackCamera.cpp">
+      <Filter>Game\Camera\AttackCamera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -413,6 +416,9 @@
     <ClInclude Include="MPEngine\Math\AABB.h">
       <Filter>MPEngine\Utils\Collider\AABB</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Camera\AttackCamera.h">
+      <Filter>Game\Camera\AttackCamera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="MPEngine">
@@ -615,6 +621,9 @@
     </Filter>
     <Filter Include="MPEngine\Utils\Collider\OBB">
       <UniqueIdentifier>{aeeb6f04-105c-4e03-8f35-4ad78d39286d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Camera\AttackCamera">
+      <UniqueIdentifier>{fe9aa31c-dcd6-4639-8bc2-bcce12cd4b74}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

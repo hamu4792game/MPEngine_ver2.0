@@ -8,6 +8,7 @@
 #include "Math/AABB.h"
 #include "Game/Camera/FollowCamera.h"
 #include "Game/Camera/WireCamera.h"
+#include "Game/Camera/AttackCamera.h"
 #include "Game/Player/PlayerParticle.h"
 #include "PlayerAnimation.h"
 
@@ -118,6 +119,7 @@ private:
 		bool comboNext_ = false;
 	};
 	WorkAttack workAttack_;
+	bool isAttacked_ = false;
 	uint32_t attackDamage_ = 0u; // 攻撃力
 	static const int kComboNum = 3; // 最大コンボ定数
 	// コンボ定数表
@@ -128,6 +130,7 @@ private:
 	// カメラ関係
 	std::shared_ptr<FollowCamera> followCamera_;
 	std::shared_ptr<WireCamera> wireCamera_;
+	std::shared_ptr<AttackCamera> attackCamera_;
 
 	// パーティクル
 	std::shared_ptr<PlayerParticle> playerParticle_;

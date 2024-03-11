@@ -29,10 +29,12 @@ void Player::Initialize() {
 	models_.at(Parts::R_Arm)->SetModel(rsManager->FindObject3d("PlayerRightArm"));
 	models_.at(Parts::L_Legs)->SetModel(rsManager->FindObject3d("PlayerLegs"));
 	models_.at(Parts::R_Legs)->SetModel(rsManager->FindObject3d("PlayerLegs"));
-	models_.at(Parts::Weapon)->SetModel(rsManager->FindObject3d("Box"));
+	models_.at(Parts::Weapon)->SetModel(rsManager->FindObject3d("PlayerWeapon"));
 	models_.at(Parts::Tracking1)->SetModel(rsManager->FindObject3d("PlayerLegs"));
 	models_.at(Parts::Tracking2)->SetModel(rsManager->FindObject3d("PlayerLegs"));
 	models_.at(Parts::Tracking3)->SetModel(rsManager->FindObject3d("PlayerLegs"));
+
+	models_.at(Parts::Weapon)->isActive_ = false;
 
 	partsTrans_.at(Parts::Body).parent_ = &transform_;
 	partsTrans_.at(Parts::Head).parent_ = &partsTrans_.at(Parts::Body);
@@ -74,6 +76,8 @@ void Player::Initialize() {
 	wireCamera_->SetTarget(&transform_);
 	wireCamera_->Initialize(followCamera_->GetTransform());
 
+	attackCamera_ = std::make_shared<AttackCamera>();
+
 	TransformUpdate();
 }
 
@@ -87,6 +91,7 @@ void Player::Update() {
 		// 振る舞いごとの初期化を実行
 		switch (behavior_) {
 		case Behavior::kRoot:
+			isAttacked_ = false;
 			break;
 		case Behavior::kAttack:
 			InitializeAttack();
@@ -119,6 +124,9 @@ void Player::Update() {
 	if (wireMove_) {
 		wireCamera_->CameraMove();
 	}
+	else if (isAttacked_) {
+		attackCamera_;
+	}
 	else {
 		followCamera_->CameraMove();
 	}
@@ -148,6 +156,11 @@ WorldTransform Player::PostUpdate() {
 	if (wireMove_) {
 		wireCamera_->Update();
 		cameraTrans = wireCamera_->GetTransform();
+	}
+	else if (isAttacked_) {
+		Vector3 lockonTrans = targetTransform_.GetPosition() - transform_.GetPosition();
+		attackCamera_->Update(lockonTrans);
+		cameraTrans = attackCamera_->GetTransform();
 	}
 	else {
 		followCamera_->Update();
@@ -500,7 +513,11 @@ void Player::InitializeAttack() {
 	workAttack_.attackParameter_ = 0;
 	workAttack_.inComboPhase_ = 0;
 	workAttack_.comboIndex_ = 0;
+	partsTrans_[Parts::Weapon].rotation_ = Vector3::zero;
 
+	isAttacked_ = true;
+	models_.at(Parts::Weapon)->isActive_ = true;
+	attackCamera_->Initialize(followCamera_->GetTransform());
 }
 
 void Player::InitializeFall() {
@@ -581,6 +598,7 @@ void Player::BehaviorAttackUpdate() {
 		// コンボ継続出ないなら終了
 		else {
 			behaviorRequest_ = Behavior::kRoot;
+			models_.at(Parts::Weapon)->isActive_ = false;
 		}
 	}
 
@@ -591,23 +609,22 @@ void Player::BehaviorAttackUpdate() {
 	case 0:
 		attackDamage_ = 20;
 		if (workAttack_.inComboPhase_ == 2) {
-			
+			partsTrans_[Parts::Weapon].rotation_.y += AngleToRadian(2.0f);
+			partsTrans_[Parts::Weapon].rotation_.x = AngleToRadian(90.0f);
 		}
 		break;
 	case 1:
 		attackDamage_ = 30;
 		if (workAttack_.inComboPhase_ == 2) {
-			
+			partsTrans_[Parts::Weapon].rotation_.y -= AngleToRadian(4.0f);
 		}
 		break;
 	case 2:
 		attackDamage_ = 100;
 		if (workAttack_.inComboPhase_ == 0) {
-			float a = 2.0f / kConstAttacks_[workAttack_.comboIndex_].anticipationTime;
-			//parts_[2].rotation_.x += a;
-			//parts_[3].rotation_.x += a;
-			//parts_[4].rotation_.x += a;
-			//playerTrans_.rotation_.y -= AngleToRadian(90.0f / kConstAttacks_[workAttack_.comboIndex_].anticipationTime);
+			partsTrans_[Parts::Weapon].rotation_.y += AngleToRadian(4.0f);
+			partsTrans_[Parts::Weapon].rotation_.x -= AngleToRadian(4.0f);
+			transform_.translation_.y += 1.0f;
 		}
 		else if (workAttack_.inComboPhase_ == 1) {
 			//playerTrans_.rotation_.y += AngleToRadian(270.0f / kConstAttacks_[workAttack_.comboIndex_].chargeTime);
@@ -618,6 +635,8 @@ void Player::BehaviorAttackUpdate() {
 			//parts_[3].rotation_.x -= a;
 			//parts_[4].rotation_.x -= a;
 			//playerTrans_.rotation_.y += AngleToRadian(180.0f / kConstAttacks_[workAttack_.comboIndex_].swingTime);
+			partsTrans_[Parts::Weapon].rotation_.x += AngleToRadian(2.0f);
+			transform_.translation_.y -= 0.5f;
 		}
 		break;
 	}
