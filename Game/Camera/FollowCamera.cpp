@@ -3,24 +3,41 @@
 #include "Input/Input.h"
 #include "Utils/Easing/Easing.h"
 
-void FollowCamera::Initialize(const WorldTransform& transform) {
+FollowCamera::FollowCamera() {
 	transform_.rotation_.x = AngleToRadian(5.0f);
-	transform_ = transform;
 	offset_ = Vector3(0.0f, 2.0f, -20.0f);
+	preOffset_ = offset_;
+	preRotate_ = transform_.rotation_;
+	postRotate_ = transform_.rotation_;
+}
+
+void FollowCamera::Initialize(const WorldTransform& transform) {
+	transform_ = transform;
 	preTranslate_ = target_->worldMatrix_ * TargetOffset(offset_, transform_.rotation_);
+	lerpSpeed_ = 0.2f;
+}
+
+void FollowCamera::SetParam(const Vector3& offset, const Vector3& rotate, float lerpSpeed) {
+	offset_ = offset;
+	postRotate_ = rotate;
+	lerpSpeed_ = lerpSpeed;
 }
 
 void FollowCamera::Update() {
 	if (target_) {
 		Vector3 lOffset = offset_;
-		lOffset = TargetOffset(lOffset, transform_.rotation_);
+		preOffset_ = Lerp(preOffset_, offset_, lerpSpeed_);
+		preRotate_ = Lerp(preRotate_, postRotate_, lerpSpeed_);
+
+		lOffset = TargetOffset(preOffset_, preRotate_);
 		float T = Easing::EaseInSine(0.5f);
 
-		Vector3 end = target_->worldMatrix_ * lOffset;
+		Vector3 end = MakeTranslateMatrix(target_->GetPosition()) * lOffset;
 
 		preTranslate_ = Lerp(preTranslate_, end, T);
 
 		transform_.translation_ = lOffset + preTranslate_;
+		transform_.rotation_ = preRotate_;
 	}
 	transform_.UpdateMatrix();
 }
@@ -71,7 +88,8 @@ void FollowCamera::CameraMove() {
 		}
 	}
 	transform_.rotation_.x += move.x;
-	transform_.rotation_.y += move.y;
+	//transform_.rotation_.y += move.y;
+	postRotate_.y += move.y;
 
 	transform_.rotation_.x = std::clamp(transform_.rotation_.x, AngleToRadian(-8.0f), AngleToRadian(75.0f));
 }

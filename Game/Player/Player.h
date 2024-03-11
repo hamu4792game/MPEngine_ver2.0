@@ -130,7 +130,6 @@ private:
 	// カメラ関係
 	std::shared_ptr<FollowCamera> followCamera_;
 	std::shared_ptr<WireCamera> wireCamera_;
-	std::shared_ptr<AttackCamera> attackCamera_;
 
 	// パーティクル
 	std::shared_ptr<PlayerParticle> playerParticle_;

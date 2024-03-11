@@ -76,8 +76,6 @@ void Player::Initialize() {
 	wireCamera_->SetTarget(&transform_);
 	wireCamera_->Initialize(followCamera_->GetTransform());
 
-	attackCamera_ = std::make_shared<AttackCamera>();
-
 	TransformUpdate();
 }
 
@@ -92,6 +90,7 @@ void Player::Update() {
 		switch (behavior_) {
 		case Behavior::kRoot:
 			isAttacked_ = false;
+			followCamera_->SetParam(Vector3(0.0f, 2.0f, -20.0f), Vector3(AngleToRadian(5.0f), transform_.rotation_.y, followCamera_->GetTransform().rotation_.z), 0.05f);
 			break;
 		case Behavior::kAttack:
 			InitializeAttack();
@@ -101,7 +100,7 @@ void Player::Update() {
 		}
 		//	振る舞いリクエストをリセット
 		behaviorRequest_ = std::nullopt;
-	}// aba
+	}
 
 	switch (behavior_) {
 	case Behavior::kRoot:
@@ -123,9 +122,6 @@ void Player::Update() {
 	LimitMoving();
 	if (wireMove_) {
 		wireCamera_->CameraMove();
-	}
-	else if (isAttacked_) {
-		attackCamera_;
 	}
 	else {
 		followCamera_->CameraMove();
@@ -156,11 +152,6 @@ WorldTransform Player::PostUpdate() {
 	if (wireMove_) {
 		wireCamera_->Update();
 		cameraTrans = wireCamera_->GetTransform();
-	}
-	else if (isAttacked_) {
-		Vector3 lockonTrans = targetTransform_.GetPosition() - transform_.GetPosition();
-		attackCamera_->Update(lockonTrans);
-		cameraTrans = attackCamera_->GetTransform();
 	}
 	else {
 		followCamera_->Update();
@@ -423,7 +414,8 @@ void Player::Move() {
 		move = TargetOffset(move, Camera3d::GetInstance()->GetTransform().rotation_);
 		move.y = 0.0f;
 		transform_.translation_ += move;
-		partsTrans_[Parts::Body].rotation_.y = FindAngle(move, Vector3(0.0f, 0.0f, 1.0f));
+		//partsTrans_[Parts::Body].rotation_.y = FindAngle(move, Vector3(0.0f, 0.0f, 1.0f));
+		transform_.rotation_.y = FindAngle(move, Vector3(0.0f, 0.0f, 1.0f));
 	}
 
 }
@@ -503,7 +495,6 @@ void Player::LimitMoving() {
 	if (transform_.translation_.y < 15.0f) {
 		transform_.translation_ = Vector3(0.0f, 22.0f, -100.0f);
 	}
-
 }
 
 void Player::InitializeAttack() {
@@ -517,7 +508,6 @@ void Player::InitializeAttack() {
 
 	isAttacked_ = true;
 	models_.at(Parts::Weapon)->isActive_ = true;
-	attackCamera_->Initialize(followCamera_->GetTransform());
 }
 
 void Player::InitializeFall() {
@@ -611,12 +601,14 @@ void Player::BehaviorAttackUpdate() {
 		if (workAttack_.inComboPhase_ == 2) {
 			partsTrans_[Parts::Weapon].rotation_.y += AngleToRadian(2.0f);
 			partsTrans_[Parts::Weapon].rotation_.x = AngleToRadian(90.0f);
+			followCamera_->SetParam(Vector3(0.0f, 2.0f, -15.0f), Vector3(AngleToRadian(5.0f), followCamera_->GetTransform().rotation_.y, followCamera_->GetTransform().rotation_.z), 0.1f);
 		}
 		break;
 	case 1:
 		attackDamage_ = 30;
 		if (workAttack_.inComboPhase_ == 2) {
 			partsTrans_[Parts::Weapon].rotation_.y -= AngleToRadian(4.0f);
+			followCamera_->SetParam(Vector3(0.0f, 1.0f, -10.0f), Vector3(AngleToRadian(2.0f), followCamera_->GetTransform().rotation_.y, followCamera_->GetTransform().rotation_.z), 0.1f);
 		}
 		break;
 	case 2:
@@ -625,9 +617,11 @@ void Player::BehaviorAttackUpdate() {
 			partsTrans_[Parts::Weapon].rotation_.y += AngleToRadian(4.0f);
 			partsTrans_[Parts::Weapon].rotation_.x -= AngleToRadian(4.0f);
 			transform_.translation_.y += 1.0f;
+			followCamera_->SetParam(Vector3(0.0f, -2.0f, -30.0f), Vector3(AngleToRadian(5.0f), followCamera_->GetTransform().rotation_.y, followCamera_->GetTransform().rotation_.z), 0.3f);
 		}
 		else if (workAttack_.inComboPhase_ == 1) {
 			//playerTrans_.rotation_.y += AngleToRadian(270.0f / kConstAttacks_[workAttack_.comboIndex_].chargeTime);
+			
 		}
 		else if (workAttack_.inComboPhase_ == 2) {
 			//float a = 1.5f / kConstAttacks_[workAttack_.comboIndex_].swingTime;
@@ -637,6 +631,7 @@ void Player::BehaviorAttackUpdate() {
 			//playerTrans_.rotation_.y += AngleToRadian(180.0f / kConstAttacks_[workAttack_.comboIndex_].swingTime);
 			partsTrans_[Parts::Weapon].rotation_.x += AngleToRadian(2.0f);
 			transform_.translation_.y -= 0.5f;
+			followCamera_->SetParam(Vector3(0.0f, 0.0f, -10.0f), Vector3(AngleToRadian(5.0f), transform_.rotation_.y + AngleToRadian(-45.0f), followCamera_->GetTransform().rotation_.z), 0.2f);
 		}
 		break;
 	}

@@ -3,9 +3,10 @@
 
 class FollowCamera {
 public:
-	FollowCamera() = default;
+	FollowCamera();
 	~FollowCamera() = default;
 	void Initialize(const WorldTransform& transform = WorldTransform());
+	void SetParam(const Vector3& offset, const Vector3& rotate, float lerpSpeed = 0.2f);
 	void Update();
 	void DrawImGui();
 
@@ -17,4 +18,8 @@ private:
 	const WorldTransform* target_ = nullptr;
 	Vector3 preTranslate_;
 	Vector3 offset_;
+	Vector3 preOffset_;
+	Vector3 preRotate_;
+	Vector3 postRotate_;
+	float lerpSpeed_ = 0.0f;
 };
