@@ -200,6 +200,9 @@
     <ClCompile Include="Game\Camera\AttackCamera.cpp">
       <Filter>Game\Camera\AttackCamera</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Player\PlayerAttack.cpp">
+      <Filter>Game\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -418,6 +421,9 @@
     </ClInclude>
     <ClInclude Include="Game\Camera\AttackCamera.h">
       <Filter>Game\Camera\AttackCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Player\PlayerAttack.h">
+      <Filter>Game\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
