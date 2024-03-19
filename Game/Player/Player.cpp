@@ -7,15 +7,6 @@
 #undef min
 #undef max
 
-// コンボ定数表
-const std::array<Player::ConstAttack, Player::kComboNum> Player::kConstAttacks_ = {
-	{
-		{0,0,20,20,0.0f,0.0f,0.0f},
-		{0,0,20,20,0.0f,0.0f,0.0f},
-		{10,20,20,30,0.0f,0.0f,0.0f},
-	}
-};
-
 void Player::Initialize() {
 #pragma region Models
 	auto rsManager = ResourceManager::GetInstance();
@@ -76,6 +67,12 @@ void Player::Initialize() {
 	wireCamera_->SetTarget(&transform_);
 	wireCamera_->Initialize(followCamera_->GetTransform());
 
+#pragma region Attack
+	playerAttack_ = std::make_unique<PlayerAttack>();
+	playerAttack_->SetPtr(&transform_, partsTrans_.data(), followCamera_.get());
+
+#pragma endregion
+
 	TransformUpdate();
 }
 
@@ -89,7 +86,6 @@ void Player::Update() {
 		// 振る舞いごとの初期化を実行
 		switch (behavior_) {
 		case Behavior::kRoot:
-			isAttacked_ = false;
 			followCamera_->SetParam(Vector3(0.0f, 2.0f, -20.0f), Vector3(AngleToRadian(5.0f), transform_.rotation_.y, followCamera_->GetTransform().rotation_.z), 0.05f);
 			break;
 		case Behavior::kAttack:
@@ -498,15 +494,8 @@ void Player::LimitMoving() {
 }
 
 void Player::InitializeAttack() {
-	// コンボ継続フラグをリセットする
-	workAttack_.comboNext_ = false;
-	// 攻撃のパラメーターリセット
-	workAttack_.attackParameter_ = 0;
-	workAttack_.inComboPhase_ = 0;
-	workAttack_.comboIndex_ = 0;
-	partsTrans_[Parts::Weapon].rotation_ = Vector3::zero;
+	playerAttack_->Initialize();
 
-	isAttacked_ = true;
 	models_.at(Parts::Weapon)->isActive_ = true;
 }
 
@@ -560,108 +549,14 @@ void Player::BehaviorAttackUpdate() {
 	// 予備動作の時間
 	auto input = Input::GetInstance();
 
-	// コンボ上限に達していない
-	if (workAttack_.comboIndex_ < kComboNum - 1) {
-		// 攻撃ボタンをトリガーしたら
-		if (input->GetKey()->TriggerKey(DIK_V)) {
-			workAttack_.comboNext_ = true;
-		}
-	}
-
-	// 既定の時間経過で通常行動に戻る
-	uint32_t totalTime = kConstAttacks_[workAttack_.comboIndex_].anticipationTime + kConstAttacks_[workAttack_.comboIndex_].chargeTime
-		+ kConstAttacks_[workAttack_.comboIndex_].recoveryTime + kConstAttacks_[workAttack_.comboIndex_].swingTime;
-	if (++workAttack_.attackParameter_ >= totalTime) {
-		// コンボ継続なら次のコンボに進む
-		if (workAttack_.comboNext_) {
-			// コンボ継続フラグをリセットする
-			workAttack_.comboNext_ = false;
-			workAttack_.comboIndex_++;
-			if (workAttack_.comboIndex_ >= kComboNum) {
-				workAttack_.comboIndex_ = 0;
-			};
-			// 攻撃のパラメーターリセット
-			workAttack_.attackParameter_ = 0;
-			workAttack_.inComboPhase_ = 0;
-			Move();
-		}
-		// コンボ継続出ないなら終了
-		else {
-			behaviorRequest_ = Behavior::kRoot;
-			models_.at(Parts::Weapon)->isActive_ = false;
-		}
-	}
-
-	GetPhase();
-
-	// コンボ段階によってモーションを分岐
-	switch (workAttack_.comboIndex_) {
-	case 0:
-		attackDamage_ = 20;
-		if (workAttack_.inComboPhase_ == 2) {
-			partsTrans_[Parts::Weapon].rotation_.y += AngleToRadian(2.0f);
-			partsTrans_[Parts::Weapon].rotation_.x = AngleToRadian(90.0f);
-			followCamera_->SetParam(Vector3(0.0f, 2.0f, -15.0f), Vector3(AngleToRadian(5.0f), followCamera_->GetTransform().rotation_.y, followCamera_->GetTransform().rotation_.z), 0.1f);
-		}
-		break;
-	case 1:
-		attackDamage_ = 30;
-		if (workAttack_.inComboPhase_ == 2) {
-			partsTrans_[Parts::Weapon].rotation_.y -= AngleToRadian(4.0f);
-			followCamera_->SetParam(Vector3(0.0f, 1.0f, -10.0f), Vector3(AngleToRadian(2.0f), followCamera_->GetTransform().rotation_.y, followCamera_->GetTransform().rotation_.z), 0.1f);
-		}
-		break;
-	case 2:
-		attackDamage_ = 100;
-		if (workAttack_.inComboPhase_ == 0) {
-			partsTrans_[Parts::Weapon].rotation_.y += AngleToRadian(4.0f);
-			partsTrans_[Parts::Weapon].rotation_.x -= AngleToRadian(4.0f);
-			transform_.translation_.y += 1.0f;
-			followCamera_->SetParam(Vector3(0.0f, -2.0f, -30.0f), Vector3(AngleToRadian(5.0f), followCamera_->GetTransform().rotation_.y, followCamera_->GetTransform().rotation_.z), 0.3f);
-		}
-		else if (workAttack_.inComboPhase_ == 1) {
-			//playerTrans_.rotation_.y += AngleToRadian(270.0f / kConstAttacks_[workAttack_.comboIndex_].chargeTime);
-			
-		}
-		else if (workAttack_.inComboPhase_ == 2) {
-			//float a = 1.5f / kConstAttacks_[workAttack_.comboIndex_].swingTime;
-			//parts_[2].rotation_.x -= a;
-			//parts_[3].rotation_.x -= a;
-			//parts_[4].rotation_.x -= a;
-			//playerTrans_.rotation_.y += AngleToRadian(180.0f / kConstAttacks_[workAttack_.comboIndex_].swingTime);
-			partsTrans_[Parts::Weapon].rotation_.x += AngleToRadian(2.0f);
-			transform_.translation_.y -= 0.5f;
-			followCamera_->SetParam(Vector3(0.0f, 0.0f, -10.0f), Vector3(AngleToRadian(5.0f), transform_.rotation_.y + AngleToRadian(-45.0f), followCamera_->GetTransform().rotation_.z), 0.2f);
-		}
-		break;
+	if (!playerAttack_->Update()) {
+		behaviorRequest_ = Behavior::kRoot;
+		models_.at(Parts::Weapon)->isActive_ = false;
 	}
 }
 
 void Player::BehaviorDashUpdate() {
 
-}
-
-void Player::GetPhase() {
-	uint32_t totalTime = kConstAttacks_[workAttack_.comboIndex_].anticipationTime;
-	if (workAttack_.attackParameter_ < totalTime) {
-		workAttack_.inComboPhase_ = 0;
-		return;
-	}
-	totalTime += kConstAttacks_[workAttack_.comboIndex_].chargeTime;
-	if (workAttack_.attackParameter_ < totalTime) {
-		workAttack_.inComboPhase_ = 1;
-		return;
-	}
-	totalTime += kConstAttacks_[workAttack_.comboIndex_].swingTime;
-	if (workAttack_.attackParameter_ < totalTime) {
-		workAttack_.inComboPhase_ = 2;
-		return;
-	}
-	totalTime += kConstAttacks_[workAttack_.comboIndex_].recoveryTime;
-	if (workAttack_.attackParameter_ < totalTime) {
-		workAttack_.inComboPhase_ = 3;
-		return;
-	}
 }
 
 void Player::DoWireMoving() {

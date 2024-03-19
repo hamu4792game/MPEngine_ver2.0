@@ -17,7 +17,7 @@ public:
 private:
 	void Initialize();
 private:
-	uint32_t type_;
+	uint32_t type_ = 0u;
 
 	// 通常アニメーション
 	struct NormalParameter {
@@ -29,6 +29,6 @@ private:
 	void NormalUpdate();
 
 private:
-	WorldTransform* partsTrans_;
+	WorldTransform* partsTrans_ = nullptr;
 
 };
