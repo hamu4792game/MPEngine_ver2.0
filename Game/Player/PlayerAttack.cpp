@@ -28,7 +28,10 @@ void PlayerAttack::Initialize() {
 	partsTrans[Player::Parts::Weapon].rotation_ = Vector3::zero;
 }
 
-bool PlayerAttack::Update() {
+bool PlayerAttack::Update(const WorldTransform* target) {
+	// ダッシュアタックが出来れば攻撃不可
+	if (DashAttack(target)) { return true; }
+	// コンボが出来なければ終了
 	if (!AttackProcess()) { return false; }
 	GetPhase();
 	AttackAnimation();
@@ -98,22 +101,23 @@ bool PlayerAttack::AttackProcess() {
 void PlayerAttack::AttackAnimation() {
 	// コンボ段階によってモーションを分岐
 	switch (workAttack_.comboIndex_) {
-	case 0:
+	case AttackPattern::LeftSwingAttack:
 		attackDamage_ = 20;
 		if (workAttack_.inComboPhase_ == 2) {
 			partsTrans[Player::Parts::Weapon].rotation_.y += AngleToRadian(2.0f);
 			partsTrans[Player::Parts::Weapon].rotation_.x = AngleToRadian(90.0f);
+			followCamera->SetTarget(playerTrans);
 			followCamera->SetParam(Vector3(0.0f, 2.0f, -15.0f), Vector3(AngleToRadian(5.0f), followCamera->GetTransform().rotation_.y, followCamera->GetTransform().rotation_.z), 0.1f);
 		}
 		break;
-	case 1:
+	case AttackPattern::RightSwingAttack:
 		attackDamage_ = 30;
 		if (workAttack_.inComboPhase_ == 2) {
 			partsTrans[Player::Parts::Weapon].rotation_.y -= AngleToRadian(4.0f);
 			followCamera->SetParam(Vector3(0.0f, 1.0f, -10.0f), Vector3(AngleToRadian(2.0f), followCamera->GetTransform().rotation_.y, followCamera->GetTransform().rotation_.z), 0.1f);
 		}
 		break;
-	case 2:
+	case AttackPattern::SwingStrongAttack:
 		attackDamage_ = 100;
 		if (workAttack_.inComboPhase_ == 0) {
 			partsTrans[Player::Parts::Weapon].rotation_.y += AngleToRadian(4.0f);
@@ -132,4 +136,37 @@ void PlayerAttack::AttackAnimation() {
 		}
 		break;
 	}
+}
+
+bool PlayerAttack::DashAttack(const WorldTransform* target) {
+
+	// 早期リターン
+	if (!target) { return false; }
+
+	float distance = Distance(target->GetPosition(), playerTrans->GetPosition());
+	if (distance <= 10.0f) { return false; } // 距離が近ければ通常攻撃へ
+
+	float speed = 2.0f;
+	Vector3 vec = FindVector(playerTrans->GetPosition(), target->GetPosition());
+	vec = Normalize(vec) * speed;
+
+	playerTrans->translation_ += vec;
+	playerTrans->UpdateMatrix();
+
+	// カメラ関係の更新
+	followCamera->Update();
+	followCamera->transform_.translation_ = followCamera->GetTransform().GetPosition();
+	//followCamera->transform_.rotation_.y = FindAngle(target->GetPosition(), playerTrans->GetPosition());
+	followCamera->SetTarget(nullptr);
+
+	return true;
+
+}
+
+void PlayerAttack::InputProcess() {
+	AttackButton handle;
+	// 予備動作の時間
+	auto input = Input::GetInstance();
+
+	attackButton_ = handle;
 }

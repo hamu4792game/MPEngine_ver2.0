@@ -1,4 +1,4 @@
-#include "BattleScene.h"
+ #include "BattleScene.h"
 #include "Utils/Camera/Camera3d.h"
 #include "Input/Input.h"
 #include "ImGuiManager/ImGuiManager.h"
@@ -34,7 +34,8 @@ void BattleScene::Update() {
 	std::list<std::shared_ptr<Target>> listData(stage_->GetTargets());
 
 	lockOn_->Update(listData);
-	player_->SetTargetTrans(lockOn_->GetTargetTrans());
+	auto handle = lockOn_->GetTargetTrans();
+	player_->SetTargetTrans(&handle);
 
 
 	player_->Update();

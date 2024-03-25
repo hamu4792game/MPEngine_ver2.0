@@ -10,14 +10,29 @@ public:
 	~PlayerAttack() = default;
 
 	void Initialize(); // 初期化処理
-	bool Update(); // true:更新中 false:更新終了
+	bool Update(const WorldTransform* target); // true:更新中 false:更新終了
 
 private:
 	void GetPhase(); // 今がどのフェーズ(振りかぶり状態なのか等)になるのか取得
 	bool AttackProcess(); // 攻撃はじめの処理 false:終了
 	void AttackAnimation(); // 攻撃のコンボ別アニメーション処理
+	bool DashAttack(const WorldTransform* target); // Targetに対してダッシュアタック
+	void InputProcess(); // 入力処理
 
 private:
+
+	struct AttackButton {
+		bool pushA = false;
+	};
+	AttackButton attackButton_;
+
+	enum AttackPattern {
+		LeftSwingAttack, // 左振り攻撃
+		RightSwingAttack, // 右振り攻撃
+		SwingStrongAttack, // 大振り攻撃
+
+		kMaxNum,
+	};
 
 	// 攻撃用定数
 	struct ConstAttack {
@@ -49,5 +64,7 @@ private:
 
 	// 追従カメラ
 	FollowCamera* followCamera = nullptr;
+
+	WorldTransform* targetTrans = nullptr;
 
 };

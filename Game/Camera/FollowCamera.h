@@ -13,8 +13,8 @@ public:
 	void SetTarget(const WorldTransform* target) { target_ = target; }
 	const WorldTransform& GetTransform() { return transform_; }
 	void CameraMove();
-private:
 	WorldTransform transform_;
+private:
 	const WorldTransform* target_ = nullptr;
 	Vector3 preTranslate_;
 	Vector3 offset_;

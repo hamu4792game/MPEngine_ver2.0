@@ -86,6 +86,7 @@ void Player::Update() {
 		// 振る舞いごとの初期化を実行
 		switch (behavior_) {
 		case Behavior::kRoot:
+			followCamera_->SetTarget(&transform_);
 			followCamera_->SetParam(Vector3(0.0f, 2.0f, -20.0f), Vector3(AngleToRadian(5.0f), transform_.rotation_.y, followCamera_->GetTransform().rotation_.z), 0.05f);
 			break;
 		case Behavior::kAttack:
@@ -549,7 +550,7 @@ void Player::BehaviorAttackUpdate() {
 	// 予備動作の時間
 	auto input = Input::GetInstance();
 
-	if (!playerAttack_->Update()) {
+	if (!playerAttack_->Update(targetTransform_)) {
 		behaviorRequest_ = Behavior::kRoot;
 		models_.at(Parts::Weapon)->isActive_ = false;
 	}
@@ -566,14 +567,14 @@ void Player::DoWireMoving() {
 	static float a = 0.0f;
 	static Vector3 rTarget;
 	if (wireInitialize_) {
-		rVec = Normalize(FindVector(transform_.GetPosition(), targetTransform_.GetPosition()));
+		rVec = Normalize(FindVector(transform_.GetPosition(), targetTransform_->GetPosition()));
 		// targetがいない場合は0を返すので早期リターン
-		if (targetTransform_.GetPosition() == Vector3::zero) {
+		if (targetTransform_->GetPosition() == Vector3::zero) {
 			wireMove_ = false;
 			return;
 		}
 		num = 0.0f;
-		rTarget = targetTransform_.GetPosition();
+		rTarget = targetTransform_->GetPosition();
 		wireInitialize_ = false;
 		fallParam_.isJumpable_ = false;
 		fallParam_.acceleration_ = 0.0f;

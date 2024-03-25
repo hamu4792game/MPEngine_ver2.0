@@ -1,6 +1,6 @@
 {
      "Stage": {
-          "BoxConfirmation": 5,
+          "BoxConfirmation": 6,
           "BoxNumber : 0 : Rotate": [
                0.0,
                0.0,
@@ -76,7 +76,22 @@
                102.0,
                120.0
           ],
-          "TargetConfirmation": 4,
+          "BoxNumber : 5 : Rotate": [
+               0.0,
+               0.0,
+               0.0
+          ],
+          "BoxNumber : 5 : Scale": [
+               50.0,
+               20.0,
+               50.0
+          ],
+          "BoxNumber : 5 : Translate": [
+               100.0,
+               0.0,
+               -100.0
+          ],
+          "TargetConfirmation": 5,
           "TargetNumber : 0 : Translate": [
                59.0,
                57.29999923706055,
@@ -96,6 +111,11 @@
                -3.0,
                107.9000015258789,
                112.0
+          ],
+          "TargetNumber : 4 : Translate": [
+               0.0,
+               26.0,
+               -90.0
           ]
      }
 }

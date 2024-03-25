@@ -26,7 +26,7 @@ public:
 	
 	const WorldTransform& GetTransform() const { return transform_; }
 
-	void SetTargetTrans(const WorldTransform& transform) { targetTransform_ = transform; }
+	void SetTargetTrans(const WorldTransform* transform) { targetTransform_ = transform; }
 
 	bool OnCollision(const AABB* aabb);
 	void OnCollisionStage(const AABB* aabb);
@@ -98,7 +98,7 @@ private:
 	// 次の振る舞いリクエスト
 	std::optional<Behavior> behaviorRequest_ = std::nullopt;
 
-	WorldTransform targetTransform_;
+	const WorldTransform* targetTransform_ = nullptr;
 
 	std::shared_ptr<AABB> collision_;
 
