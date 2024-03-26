@@ -146,7 +146,7 @@
     <ClCompile Include="Game\Scene\BattleScene.cpp">
       <Filter>Game\Scene\BattleScene</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Player\Player.cpp">
+    <ClCompile Include="Game\Player\sPlayer.cpp">
       <Filter>Game\Player</Filter>
     </ClCompile>
     <ClCompile Include="Game\Player\PlayerAnimation.cpp">
@@ -201,6 +201,9 @@
       <Filter>Game\Camera\AttackCamera</Filter>
     </ClCompile>
     <ClCompile Include="Game\Player\PlayerAttack.cpp">
+      <Filter>Game\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Player\Player.cpp">
       <Filter>Game\Player</Filter>
     </ClCompile>
   </ItemGroup>
@@ -368,7 +371,7 @@
     <ClInclude Include="Game\Scene\BattleScene.h">
       <Filter>Game\Scene\BattleScene</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Player\Player.h">
+    <ClInclude Include="Game\Player\sPlayer.h">
       <Filter>Game\Player</Filter>
     </ClInclude>
     <ClInclude Include="Game\Player\PlayerAnimation.h">
@@ -423,6 +426,9 @@
       <Filter>Game\Camera\AttackCamera</Filter>
     </ClInclude>
     <ClInclude Include="Game\Player\PlayerAttack.h">
+      <Filter>Game\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Player\Player.h">
       <Filter>Game\Player</Filter>
     </ClInclude>
   </ItemGroup>

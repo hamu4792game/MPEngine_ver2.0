@@ -7,26 +7,46 @@
 #include <string>
 #include "Math/AABB.h"
 #include "Game/Camera/FollowCamera.h"
+#include "Game/Camera/WireCamera.h"
+#include "Game/Camera/AttackCamera.h"
+#include "Game/Player/PlayerParticle.h"
+#include "PlayerAnimation.h"
+#include "PlayerAttack.h"
 
-class Player {
+
+class sPlayer {
 public:
-	Player() = default;
-	~Player() = default;
+	sPlayer() = default;
+	~sPlayer() = default;
 
 	void Initialize();
 	void Update();
+	void TitleUpdate();
 	WorldTransform PostUpdate();
-
+	
 	const WorldTransform& GetTransform() const { return transform_; }
 
-	//void SetTargetTrans(const WorldTransform* transform) { targetTransform_ = transform; }
+	void SetTargetTrans(const WorldTransform* transform) { targetTransform_ = transform; }
+
+	bool OnCollision(const AABB* aabb);
+	void OnCollisionStage(const AABB* aabb);
 
 private:
-	void ImGuiProcess(); // ImGui処理
-	void Move(); // 移動処理
-	void Jamp(); // 重力処理
-	void TransformUpdate(); // 座標更新処理
+	void DrawImGui();
+	void Move();
+	void TitleMove();
+	void Jamp();
+	void TransformUpdate();
 	void LimitMoving(); // 移動制限用
+
+	void InitializeAttack();
+	void InitializeFall(); // 落下の初期化
+
+	void BehaviorRootUpdate();
+	void BehaviorAttackUpdate();
+	void BehaviorDashUpdate();
+
+	void DoWireMoving(); // ワイヤー移動
 
 private:
 	std::string itemName_ = "Player";
@@ -84,5 +104,17 @@ private:
 
 	// カメラ関係
 	std::shared_ptr<FollowCamera> followCamera_;
+	std::shared_ptr<WireCamera> wireCamera_;
+
+	// パーティクル
+	std::shared_ptr<PlayerParticle> playerParticle_;
+
+	// アニメーション
+	std::unique_ptr<PlayerAnimation> animation_;
+	bool isAnime_ = true;
+
+	int moveVecFlag_ = 0;
+	// 攻撃用クラス
+	std::unique_ptr<PlayerAttack> playerAttack_;
 
 };
