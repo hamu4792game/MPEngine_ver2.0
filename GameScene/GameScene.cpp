@@ -31,27 +31,22 @@ void GameScene::Initialize() {
 	rs->AddTexture("MonsterBall", "Resources/Texture/monsterBall.png");
 	rs->AddTexture("CheckerBoard", "Resources/Texture/checkerBoard.png");
 
-	rs->AddTexture("TitleText", "Resources/hud/titleText.png");
-	rs->AddTexture("PushText", "Resources/hud/pushText.png");
-	rs->AddTexture("ABCD", "Resources/uvChecker.png");
-	rs->AddTexture("Target", "Resources/hud/target.png");
+	rs->AddTexture("TitleText", "Resources/Texture/hud/titleText.png");
+	rs->AddTexture("PushText", "Resources/Texture/hud/pushText.png");
+	rs->AddTexture("ABCD", "Resources/Texture/uvChecker.png");
+	rs->AddTexture("Target", "Resources/Texture/hud/target.png");
 	rs->AddTexture("Circle", "Resources/Texture/particle.png");
 	rs->AddTexture("Ground", "Resources/Texture/ground.png");
-	rs->AddTexture("ABText", "Resources/hud/AB.png");
+	rs->AddTexture("ABText", "Resources/Texture/hud/AB.png");
 	rs->AddTexture("Block", "Resources/Texture/ground.png");
 
-
-	rs->AddModel("Axis", "Resources/Model/axis/axis.obj");
-	rs->AddModel("MultiMesh", "Resources/Model/multiMesh/multiMesh.obj");
-	rs->AddModel("Teapot", "Resources/Model/teapot/teapot.obj");
-
-	rs->AddModel("BoxSky", "Resources/boxSky/boxSky.obj");
-	rs->AddModel("PlayerHead", "Resources/Player/Head/head.obj");
-	rs->AddModel("PlayerBody", "Resources/Player/Body/body.obj");
-	rs->AddModel("PlayerLeftArm", "Resources/Player/LArm/LArm.obj");
-	rs->AddModel("PlayerRightArm", "Resources/Player/RArm/RArm.obj");
-	rs->AddModel("PlayerLegs", "Resources/Player/Legs/limbs.obj");
-	rs->AddModel("PlayerWeapon", "Resources/Player/weapon/weapon.obj");
+	rs->AddModel("BoxSky", "Resources/Model/boxSky/boxSky.obj");
+	rs->AddModel("PlayerHead", "Resources/Model/Player/Head/head.obj");
+	rs->AddModel("PlayerBody", "Resources/Model/Player/Body/body.obj");
+	rs->AddModel("PlayerLeftArm", "Resources/Model/Player/LArm/LArm.obj");
+	rs->AddModel("PlayerRightArm", "Resources/Model/Player/RArm/RArm.obj");
+	rs->AddModel("PlayerLegs", "Resources/Model/Player/Legs/limbs.obj");
+	rs->AddModel("PlayerWeapon", "Resources/Model/Player/weapon/weapon.obj");
 
 	rs->AddAudio("Title", "./Resources/Sound/w006.wav");
 
