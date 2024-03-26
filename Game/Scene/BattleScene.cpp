@@ -35,15 +35,15 @@ void BattleScene::Update() {
 
 	lockOn_->Update(listData);
 	auto handle = lockOn_->GetTargetTrans();
-	player_->SetTargetTrans(&handle);
+	//player_->SetTargetTrans(&handle);
 
 
 	player_->Update();
 	enemy_->Update();
-	player_->OnCollisionStage(enemy_->GetCollision());
-	if (player_->OnCollision(enemy_->GetCollision())) {
-		endRequest_ = true;
-	}
+	//player_->OnCollisionStage(enemy_->GetCollision());
+	//if (player_->OnCollision(enemy_->GetCollision())) {
+	//	endRequest_ = true;
+	//}
 
 	for (auto coll : stage_->GetCollision()) {
 		player_->OnCollisionStage(coll);

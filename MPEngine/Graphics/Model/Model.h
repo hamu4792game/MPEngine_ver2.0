@@ -12,20 +12,20 @@ class Model {
 public:
 	Model();
 	~Model();
-public:
+public: // setter
 	// Textureのセット
 	void SetModel(const std::shared_ptr<Object3d>& model);
 	void SetTexture(const std::shared_ptr<Texture>& texture) { texture_ = texture; }
 	void SetColor(const Vector4& color) { color_ = color; }
 	void SetColor(const uint32_t& color) { color_ = ChangeColor(color); }
+	void SetTransform(const WorldTransform& transform) { transform_ = transform; }
 private:
 	void Initialize();
 	void CreateVertexResource();
 	void UploadVertexData();
 
 public:
-	WorldTransform transform_;
-	bool isActive_ = true;
+	bool isActive_ = true; // true:描画する/false:描画しない
 
 private:
 	static std::list<Model*> modelLists_;
@@ -33,6 +33,7 @@ private:
 	std::shared_ptr<Texture> texture_;
 	BlendMode blendType_ = BlendMode::Normal;
 	Vector4 color_ = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	WorldTransform transform_; // 座標
 
 	// 描画必要情報
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_{};

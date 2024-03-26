@@ -23,7 +23,7 @@ void Ground::Initialize(const Vector3& scale, const Vector3& rotate, const Vecto
 	transform_.translation_ = translate;
 	transform_.UpdateMatrix();
 
-	model_->transform_ = transform_;
+	model_->SetTransform(transform_);
 	collision_ = std::make_shared<AABB>();
 	collision_->Update(transform_);
 }
@@ -33,6 +33,6 @@ void Ground::DrawImGui() {
 	ImGui::DragFloat3("rotate", &transform_.rotation_.x, AngleToRadian(1.0f));
 	ImGui::DragFloat3("position", &transform_.translation_.x, 0.1f);
 	transform_.UpdateMatrix();
-	model_->transform_ = transform_;
+	model_->SetTransform(transform_);
 	collision_->Update(transform_);
 }

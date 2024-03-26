@@ -6,5 +6,5 @@ void BoxSky::Initialize() {
 	transform_.scale_ = Vector3(300.0f, 300.0f, 300.0f);
 	transform_.UpdateMatrix();
 
-	model_->transform_ = transform_;
+	model_->SetTransform(transform_);
 }

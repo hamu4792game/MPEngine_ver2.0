@@ -47,10 +47,10 @@ void TitleScene::Update() {
 
 	titleUI_->Update();
 	stage_->Update();
-	player_->TitleUpdate();
+	//player_->TitleUpdate();
 
 	for (auto coll : stage_->GetCollision()) {
-		player_->OnCollisionStage(coll);
+		//player_->OnCollisionStage(coll);
 	}
 
 	cameraTransform_.UpdateMatrix();

@@ -137,9 +137,6 @@
     <ClCompile Include="MPEngine\Graphics\Light\DirectionalLight.cpp">
       <Filter>MPEngine\Graphics\Light\DirectionalLight</Filter>
     </ClCompile>
-    <ClCompile Include="Game\ModelsControl\ModelsControl.cpp">
-      <Filter>Game\ModelsControl</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Particle\DustParticle.cpp">
       <Filter>Game\Particle</Filter>
     </ClCompile>
@@ -362,9 +359,6 @@
     <ClInclude Include="MPEngine\Graphics\Light\DirectionalLight.h">
       <Filter>MPEngine\Graphics\Light\DirectionalLight</Filter>
     </ClInclude>
-    <ClInclude Include="Game\ModelsControl\ModelsControl.h">
-      <Filter>Game\ModelsControl</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Particle\DustParticle.h">
       <Filter>Game\Particle</Filter>
     </ClInclude>
@@ -585,9 +579,6 @@
     </Filter>
     <Filter Include="MPEngine\Graphics\Light\DirectionalLight">
       <UniqueIdentifier>{cd5fceec-7198-44da-ae0d-e8e26db6c4d2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\ModelsControl">
-      <UniqueIdentifier>{32bf7305-5c52-40f0-a0ce-5e1ef2066609}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\Particle">
       <UniqueIdentifier>{79132a06-5dc9-42c1-a691-944e89eda65a}</UniqueIdentifier>

@@ -160,7 +160,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Enemy\Enemy.cpp" />
     <ClCompile Include="Game\GameUI\GameUI.cpp" />
     <ClCompile Include="Game\LockOn\LockOn.cpp" />
-    <ClCompile Include="Game\ModelsControl\ModelsControl.cpp" />
     <ClCompile Include="Game\Particle\DustParticle.cpp" />
     <ClCompile Include="Game\Player\Player.cpp" />
     <ClCompile Include="Game\Player\sPlayer.cpp" />
@@ -231,7 +230,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\Enemy\Enemy.h" />
     <ClInclude Include="Game\GameUI\GameUI.h" />
     <ClInclude Include="Game\LockOn\LockOn.h" />
-    <ClInclude Include="Game\ModelsControl\ModelsControl.h" />
     <ClInclude Include="Game\Particle\DustParticle.h" />
     <ClInclude Include="Game\Player\Player.h" />
     <ClInclude Include="Game\Player\sPlayer.h" />

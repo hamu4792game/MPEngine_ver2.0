@@ -3,10 +3,10 @@
 #include "Utils/WorldTransform/WorldTransform.h"
 #include <memory>
 #include <optional>
-#include <vector>
+#include <array>
 #include <string>
-#include "Math/AABB.h"
 #include "Game/Camera/FollowCamera.h"
+#include "Math/AABB.h"
 
 class Player {
 public:
@@ -15,18 +15,21 @@ public:
 
 	void Initialize();
 	void Update();
-	WorldTransform PostUpdate();
+	WorldTransform PostUpdate(); // カメラ用更新処理 カメラ座標を返す
 
 	const WorldTransform& GetTransform() const { return transform_; }
 
 	//void SetTargetTrans(const WorldTransform* transform) { targetTransform_ = transform; }
+	void OnCollisionStage(const AABB* aabb);
 
 private:
-	void ImGuiProcess(); // ImGui処理
+	void DrawImGui(); // ImGui処理
 	void Move(); // 移動処理
 	void Jamp(); // 重力処理
 	void TransformUpdate(); // 座標更新処理
 	void LimitMoving(); // 移動制限用
+
+	void BehaviorRootUpdate();
 
 private:
 	std::string itemName_ = "Player";
@@ -54,14 +57,19 @@ public:
 
 private:
 	WorldTransform transform_;
-	std::vector<WorldTransform> partsTrans_;
-	std::vector<std::shared_ptr<Model>> models_;
+	std::array<WorldTransform, Parts::kMaxParts> partsTrans_;
+	std::array<std::shared_ptr<Model>, Parts::kMaxParts> models_;
 
 	// 落下用ステータス ジャンプも含む
 	struct FallParam {
 		float acceleration_ = 0.0f; // 落下時の加速度
 		bool isJumpable_ = true; // ジャンプ可能かのフラグ
 		bool isFalled_ = false; // 落下中かのフラグ true:落ちている/false:落ちていない
+		void Initialize() {
+			isJumpable_ = true;
+			isFalled_ = false;
+			acceleration_ = 0.0f;
+		}
 	};
 	FallParam fallParam_;
 

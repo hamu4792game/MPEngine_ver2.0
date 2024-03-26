@@ -7,7 +7,7 @@ void Target::Initialize(const Vector3& translate) {
 	model_->SetModel(rsManager->FindObject3d("Box"));
 	transform_.translation_ = translate;
 	transform_.UpdateMatrix();
-	model_->transform_ = transform_;
+	model_->SetTransform(transform_);
 }
 
 void Target::DrawImGui() {
@@ -16,6 +16,6 @@ void Target::DrawImGui() {
 	ImGui::DragFloat3("rotate", &transform_.rotation_.x, AngleToRadian(1.0f));
 	ImGui::DragFloat3("position", &transform_.translation_.x, 0.1f);
 	transform_.UpdateMatrix();
-	model_->transform_ = transform_;
+	model_->SetTransform(transform_);
 #endif // _DEBUG
 }

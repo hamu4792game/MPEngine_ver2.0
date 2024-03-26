@@ -13,7 +13,7 @@ ModelsControl::ModelsControl() {
 void ModelsControl::Update() {
 
 	transform_.UpdateMatrix();
-	targetModel_->transform_ = transform_;
+	model_->SetTransform(transform_);
 	targetModel_->SetColor(color_);
 }
 template<typename T>

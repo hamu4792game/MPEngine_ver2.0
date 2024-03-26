@@ -482,7 +482,7 @@ void sPlayer::TransformUpdate() {
 		transform.UpdateMatrix();
 	}
 	for (uint32_t index = 0u; index < Parts::kMaxParts; index++) {
-		models_.at(index)->transform_ = partsTrans_.at(index);
+		models_.at(index)->SetTransform(partsTrans_.at(index));
 	}
 	collision_->Update(transform_);
 }
