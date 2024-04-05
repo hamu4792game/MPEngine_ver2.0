@@ -32,21 +32,33 @@ const uint32_t ResourceManager::GetCount() {
 }
 
 void ResourceManager::AddTexture(const std::string& name, const std::string& fileName) {
+	// 既にある場合早期リターン
+	if (textureContainer_.find(name) != textureContainer_.end()) {
+		return;
+	}
 	// textureの追加
 	textureContainer_.emplace(std::make_pair(name, std::make_shared<Texture>()));
 	textureContainer_.at(name).get()->Load(name, fileName);
 }
 
 void ResourceManager::AddModel(const std::string& name, const std::string& fileName) {
+	// 既にある場合早期リターン
+	if (object3dContainer_.find(name) != object3dContainer_.end()) {
+		return;
+	}
 	// modelDataの追加
 	object3dContainer_.emplace(std::make_pair(name, std::make_shared<Object3d>()));
 	object3dContainer_.at(name).get()->Load(name, fileName);
 }
 
 void ResourceManager::AddAudio(const std::string& name, const std::string& fileName) {
-	std::shared_ptr<Audio> instance = std::make_shared<Audio>();
-	instance->SoundLoadWave(fileName);
-	audioContainer_.emplace(std::make_pair(name, instance));
+	// 既にある場合早期リターン
+	if (audioContainer_.find(name) != audioContainer_.end()) {
+		return;
+	}
+	// audioDataの追加
+	audioContainer_.emplace(std::make_pair(name, std::make_shared<Audio>()));
+	audioContainer_.at(name).get()->SoundLoadWave(fileName);
 }
 
 DirectX::ScratchImage ResourceManager::LoadTexture(const std::string& filePath) {
