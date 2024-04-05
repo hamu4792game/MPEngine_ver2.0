@@ -8,6 +8,9 @@
 #include <sstream>
 #include <filesystem>
 
+#include "externals/DirectXTex/d3dx12.h"
+
+
 ResourceManager* ResourceManager::GetInstance() {
 	static ResourceManager instance;
 	return &instance;
@@ -30,16 +33,14 @@ const uint32_t ResourceManager::GetCount() {
 
 void ResourceManager::AddTexture(const std::string& name, const std::string& fileName) {
 	// textureの追加
-	std::shared_ptr<Texture> instance = std::make_shared<Texture>();
-	instance->Load(name, fileName);
-	textureContainer_.emplace(std::make_pair(instance->name_, instance));
+	textureContainer_.emplace(std::make_pair(name, std::make_shared<Texture>()));
+	textureContainer_.at(name).get()->Load(name, fileName);
 }
 
 void ResourceManager::AddModel(const std::string& name, const std::string& fileName) {
 	// modelDataの追加
-	std::shared_ptr<Object3d> instance = std::make_shared<Object3d>();
-	instance->Load(name, fileName);
-	object3dContainer_.emplace(std::make_pair(instance->name_, instance));
+	object3dContainer_.emplace(std::make_pair(name, std::make_shared<Object3d>()));
+	object3dContainer_.at(name).get()->Load(name, fileName);
 }
 
 void ResourceManager::AddAudio(const std::string& name, const std::string& fileName) {
@@ -81,6 +82,28 @@ void ResourceManager::UploadTextureData(ID3D12Resource* texture, const DirectX::
 	}
 }
 
+//	TextureResourceにデータを転送する
+[[nodiscard]]	//戻り値を破棄してはならない
+ID3D12Resource* ResourceManager::UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages, ID3D12Device* device, ID3D12GraphicsCommandList* commandList) {
+	//	中間リソース
+	std::vector<D3D12_SUBRESOURCE_DATA> subresources;
+	DirectX::PrepareUpload(device, mipImages.GetImages(), mipImages.GetImageCount(), mipImages.GetMetadata(), subresources);
+	uint64_t intermediateSize = GetRequiredIntermediateSize(texture, 0, UINT(subresources.size()));
+	ID3D12Resource* intermediateResource = CreateBufferResource(device, intermediateSize);
+	//	データ転送をコマンドに積む
+	UpdateSubresources(commandList, texture, intermediateResource, 0, 0, UINT(subresources.size()), subresources.data());
+	//	Textureへの転送後は利用できるよう、D3D12_RESOURCE_STATE_COPY_DESTからD3D12_RESOURCE_STATE_GENERIC_READへResourceStateを変更する
+	D3D12_RESOURCE_BARRIER barrier{};
+	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+	barrier.Transition.pResource = texture;
+	barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
+	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_COPY_DEST;
+	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_GENERIC_READ;
+	commandList->ResourceBarrier(1, &barrier);
+	return intermediateResource;
+}
+
 ID3D12Resource* ResourceManager::CreateTextureResource(ID3D12Device* device, const DirectX::TexMetadata& metadata) {
 	// metadataを基にResourceの設定
 	D3D12_RESOURCE_DESC resourceDesc{};
@@ -93,16 +116,16 @@ ID3D12Resource* ResourceManager::CreateTextureResource(ID3D12Device* device, con
 	resourceDesc.Dimension = D3D12_RESOURCE_DIMENSION(metadata.dimension); // Textureの次元数。普段使っているのは二次元
 	// 利用するHeapの設定。非常に特殊な運用。02_04exで一般的なケース版がある
 	D3D12_HEAP_PROPERTIES heapProperties{};
-	heapProperties.Type = D3D12_HEAP_TYPE_CUSTOM; // VRAM上に作成する
-	heapProperties.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK; // WriteBackポリシーでCPUアクセス可能
-	heapProperties.MemoryPoolPreference = D3D12_MEMORY_POOL_L0; // プロセッサの近くに配置
+	heapProperties.Type = D3D12_HEAP_TYPE_DEFAULT; // VRAM上に作成する
+	//heapProperties.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK; // WriteBackポリシーでCPUアクセス可能
+	//heapProperties.MemoryPoolPreference = D3D12_MEMORY_POOL_L0; // プロセッサの近くに配置
 	// Resourceの設定する
 	ID3D12Resource* resource = nullptr;
 	HRESULT hr = device->CreateCommittedResource(
 		&heapProperties, // Heapの設定
 		D3D12_HEAP_FLAG_NONE, // Heapの特殊な設定。特になし
 		&resourceDesc, // Resourceの設定
-		D3D12_RESOURCE_STATE_GENERIC_READ, // データ転送される設定
+		D3D12_RESOURCE_STATE_COPY_DEST, // データ転送される設定
 		nullptr, // Clear最適値。使わないのでnullptr
 		IID_PPV_ARGS(&resource)); // 作成するResourceポインタへのポインタ
 	assert(SUCCEEDED(hr));

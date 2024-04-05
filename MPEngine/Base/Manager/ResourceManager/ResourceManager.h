@@ -1,7 +1,7 @@
 #pragma once
 //	DirextXtex
+#include <d3d12.h>
 #include "externals/DirectXTex/DirectXTex.h"
-#include "externals/DirectXTex/d3dx12.h"
 
 #include "MPEngine/Base/DetailSetting/DescriptorHeap/DescriptorHeap.h"
 
@@ -71,6 +71,7 @@ public:
 	DirectX::ScratchImage LoadTexture(const std::string& filePath);
 	// TextureResourceにデータを転送する
 	void UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages);
+	ID3D12Resource* UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages, ID3D12Device* device, ID3D12GraphicsCommandList* commandList);
 	// Resourceを生成してreturnする
 	ID3D12Resource* CreateTextureResource(ID3D12Device* device, const DirectX::TexMetadata& metadata);
 	// BufferResourceを作る関数

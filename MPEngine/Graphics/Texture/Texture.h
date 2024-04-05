@@ -24,5 +24,5 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12Resource> resource_;
 	Vector2 textureSize_;
 	DescriptorHandle srvHandle_;
-
+	Microsoft::WRL::ComPtr<ID3D12Resource> val;
 };

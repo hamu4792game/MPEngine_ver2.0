@@ -122,8 +122,7 @@ MPEngine::D3DResourceLeakChecker::~D3DResourceLeakChecker() {
 
 void MPEngine::D3DResourceLeakChecker::EnableDebugLayer() {
 	Microsoft::WRL::ComPtr<ID3D12Debug1> debugController = nullptr;
-	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController))))
-	{
+	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController)))) 	{
 		//	デバッグレイヤーを有効可する
 		debugController->EnableDebugLayer();
 		//	さらにGPU側でもチェックを行うようにする
