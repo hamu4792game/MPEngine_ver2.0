@@ -36,7 +36,6 @@ void GameScene::Initialize() {
 	rs->AddTexture("ABCD", "Resources/Texture/uvChecker.png");
 	rs->AddTexture("Target", "Resources/Texture/hud/target.png");
 	rs->AddTexture("Block", "Resources/Texture/ground.png");
-	rs->AddTexture("Block", "Resources/Texture/ground.png");
 
 	rs->AddModel("BoxSky", "Resources/Model/boxSky/boxSky.obj");
 	rs->AddModel("PlayerHead", "Resources/Model/Player/Head/head.obj");
