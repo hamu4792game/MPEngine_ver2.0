@@ -21,13 +21,13 @@ public:
 
 	// ModelDataの取得
 	ModelData GetModel() const { return modelData_; }
-	std::shared_ptr<Texture> GetTexture() const { return texture_; }
+	Texture* GetTexture() const { return texture_; }
 
 	std::string name_; // modelName
 private:
 	// モデルデータ構造体
 	ModelData modelData_;
 	DescriptorHandle srvHandle_;
-	std::shared_ptr<Texture> texture_;
+	Texture* texture_ = nullptr;
 
 };

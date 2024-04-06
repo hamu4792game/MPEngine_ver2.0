@@ -13,8 +13,8 @@ public:
 	~Particle();
 
 	// Textureのセット
-	void SetModel(const std::shared_ptr<Object3d>& model, const uint32_t& count);
-	void SetTexture(const std::shared_ptr<Texture>& texture) { texture_ = texture; }
+	void SetModel(Object3d* model, const uint32_t& count);
+	void SetTexture(Texture* texture) { texture_ = texture; }
 	void SetBlendMode(BlendMode type) { blendType_ = type; }
 	//void SetColor(const Vector4& color) { color_ = color; }
 	//void SetColor(const uint32_t& color) { color_ = ChangeColor(color); }
@@ -33,8 +33,8 @@ public:
 
 private:
 	static std::list<Particle*> particleLists_;
-	std::shared_ptr<Object3d> model_;
-	std::shared_ptr<Texture> texture_;
+	Object3d* model_ = nullptr;
+	Texture* texture_ = nullptr;
 	BlendMode blendType_ = BlendMode::Normal;
 
 	uint32_t kNumInstance = 1u;

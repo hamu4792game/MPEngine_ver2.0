@@ -9,7 +9,7 @@ void TitleScene::Initialize() {
 	titleUI_ = std::make_unique<TitleUI>();
 	titleUI_->Initialize();
 	auto rs = ResourceManager::GetInstance();
-	std::shared_ptr<Audio> titleAudio = rs->FindAudio("Title");
+	Audio* titleAudio = rs->FindAudio("Title");
 	titleAudio->SoundPlayWave(true);
 
 	stage_ = std::make_unique<Stage>();

@@ -14,8 +14,8 @@ public:
 	~Model();
 public: // setter
 	// Textureのセット
-	void SetModel(const std::shared_ptr<Object3d>& model);
-	void SetTexture(const std::shared_ptr<Texture>& texture) { texture_ = texture; }
+	void SetModel(Object3d* model);
+	void SetTexture(Texture* texture) { texture_ = texture; }
 	void SetColor(const Vector4& color) { color_ = color; }
 	void SetColor(const uint32_t& color) { color_ = ChangeColor(color); }
 	void SetTransform(const WorldTransform& transform) { transform_ = transform; }
@@ -29,8 +29,8 @@ public:
 
 private:
 	static std::list<Model*> modelLists_;
-	std::shared_ptr<Object3d> model_;
-	std::shared_ptr<Texture> texture_;
+	Object3d* model_ = nullptr;
+	Texture* texture_ = nullptr;
 	BlendMode blendType_ = BlendMode::Normal;
 	Vector4 color_ = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 	WorldTransform transform_; // 座標

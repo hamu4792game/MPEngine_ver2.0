@@ -18,7 +18,7 @@ void Model::Initialize() {
 	UploadVertexData();
 }
 
-void Model::SetModel(const std::shared_ptr<Object3d>& model) {
+void Model::SetModel(Object3d* model) {
 	model_ = model;
 	texture_ = model->GetTexture();
 	Initialize();

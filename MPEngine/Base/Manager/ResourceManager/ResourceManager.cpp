@@ -37,7 +37,7 @@ void ResourceManager::AddTexture(const std::string& name, const std::string& fil
 		return;
 	}
 	// textureの追加
-	textureContainer_.emplace(std::make_pair(name, std::make_shared<Texture>()));
+	textureContainer_.emplace(std::make_pair(name, std::make_unique<Texture>()));
 	textureContainer_.at(name).get()->Load(name, fileName);
 }
 
@@ -47,7 +47,7 @@ void ResourceManager::AddModel(const std::string& name, const std::string& fileN
 		return;
 	}
 	// modelDataの追加
-	object3dContainer_.emplace(std::make_pair(name, std::make_shared<Object3d>()));
+	object3dContainer_.emplace(std::make_pair(name, std::make_unique<Object3d>()));
 	object3dContainer_.at(name).get()->Load(name, fileName);
 }
 
@@ -57,7 +57,7 @@ void ResourceManager::AddAudio(const std::string& name, const std::string& fileN
 		return;
 	}
 	// audioDataの追加
-	audioContainer_.emplace(std::make_pair(name, std::make_shared<Audio>()));
+	audioContainer_.emplace(std::make_pair(name, std::make_unique<Audio>()));
 	audioContainer_.at(name).get()->SoundLoadWave(fileName);
 }
 

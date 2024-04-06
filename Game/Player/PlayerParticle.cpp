@@ -4,7 +4,6 @@
 
 PlayerParticle::PlayerParticle() {
 	auto rsManager = ResourceManager::GetInstance();
-	particle_ = std::make_shared<Particle>();
 	particle_->SetModel(rsManager->FindObject3d("Plane"), kNumCount_);
 	particle_->SetTexture(rsManager->FindTexture("Circle"));
 	particle_->SetBlendMode(BlendMode::Add);

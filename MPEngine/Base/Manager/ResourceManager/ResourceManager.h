@@ -48,16 +48,16 @@ private:
 	std::unique_ptr<DescriptorHeap> srvDescriptorHeap_;
 	const uint32_t kDescriptorHeapSize_ = 4096u;
 
-	std::unordered_map<std::string, std::shared_ptr<Texture>> textureContainer_; // textureを纏めたコンテナ
-	std::unordered_map<std::string, std::shared_ptr<Object3d>> object3dContainer_; // modelDataを纏めたコンテナ
-	std::unordered_map<std::string, std::shared_ptr<Audio>> audioContainer_; // audioを纏めたコンテナ
+	std::unordered_map<std::string, std::unique_ptr<Texture>> textureContainer_; // textureを纏めたコンテナ
+	std::unordered_map<std::string, std::unique_ptr<Object3d>> object3dContainer_; // modelDataを纏めたコンテナ
+	std::unordered_map<std::string, std::unique_ptr<Audio>> audioContainer_; // audioを纏めたコンテナ
 
 	uint32_t textureCount_ = 10u; // 今のテクスチャが追加された数
 public: // 取得関数
 	DescriptorHeap* const GetSRVHeap() { return srvDescriptorHeap_.get(); }
-	std::shared_ptr<Texture> FindTexture(const std::string& name) const { return textureContainer_.at(name); }
-	std::shared_ptr<Object3d> FindObject3d(const std::string& name) const { return object3dContainer_.at(name); }
-	std::shared_ptr<Audio> FindAudio(const std::string& name) const { return audioContainer_.at(name); }
+	Texture* FindTexture(const std::string& name) const { return textureContainer_.at(name).get(); }
+	Object3d* FindObject3d(const std::string& name) const { return object3dContainer_.at(name).get(); }
+	Audio* FindAudio(const std::string& name) const { return audioContainer_.at(name).get(); }
 
 public: // 追加関数
 	void AddTexture(const std::string& name, const std::string& fileName);

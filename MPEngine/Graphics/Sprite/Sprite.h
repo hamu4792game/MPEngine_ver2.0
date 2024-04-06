@@ -22,7 +22,7 @@ public:
 
 public: // セッター
 	// Textureのセット
-	void SetTexture(const std::shared_ptr<Texture>& texture);
+	void SetTexture(Texture* texture);
 	void SetBlend(BlendMode blend);
 	void SetAnchorPoint(AnchorPoint anchor);
 	void SetIsActive(const bool& active) { isActive_ = active; }
@@ -43,7 +43,7 @@ private:
 
 private:
 	static std::list<Sprite*> spriteLists_;
-	std::shared_ptr<Texture> texture_;
+	Texture* texture_ = nullptr;
 	BlendMode blendType_ = BlendMode::Normal;
 	AnchorPoint anchor_ = AnchorPoint::Center;
 	uint32_t layerNumber_ = 0u; // 描画順。0から描画される

@@ -18,7 +18,7 @@ Particle::~Particle() {
 	}
 }
 
-void Particle::SetModel(const std::shared_ptr<Object3d>& model, const uint32_t& count) {
+void Particle::SetModel(Object3d* model, const uint32_t& count) {
 	model_ = model;
 	texture_ = model->GetTexture();
 	kNumInstance = count;
