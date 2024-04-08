@@ -9,7 +9,9 @@
 #include <filesystem>
 
 #include "externals/DirectXTex/d3dx12.h"
-
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 
 ResourceManager* ResourceManager::GetInstance() {
 	static ResourceManager instance;
@@ -174,10 +176,10 @@ ID3D12Resource* ResourceManager::CreateBufferResource(ID3D12Device* device, size
 ModelData ResourceManager::LoadObjFile(const std::string& filename) {
 	//	必要な変数の宣言
 	ModelData modelData;	// 構築するModelData
-	std::vector<Vector4> positions;	// 位置
-	std::vector<Vector3> normals;	// 法線
-	std::vector<Vector2> texcoords;	// テクスチャ座標
-	std::string line;	// ファイルから読んだ1行を格納するもの
+	//std::vector<Vector4> positions;	// 位置
+	//std::vector<Vector3> normals;	// 法線
+	//std::vector<Vector2> texcoords;	// テクスチャ座標
+	//std::string line;	// ファイルから読んだ1行を格納するもの
 	/*p5_2 12*/
 	//	ファイルを開く
 	std::ifstream file(filename);
@@ -187,6 +189,52 @@ ModelData ResourceManager::LoadObjFile(const std::string& filename) {
 	std::filesystem::path ps = std::filesystem::path(filename);
 	std::string directryPath = ps.parent_path().string();
 
+	Assimp::Importer importer;
+	// fileからassimpのSceneを構築する
+	// aiProcess_FlipWindingOrder =	三角形の並び順を逆にする
+	// aiProcess_FlipUVs = UVをフリップする(texcoord.y = 1.0f - texcoord.yの処理)
+	const aiScene* scene = importer.ReadFile(filename.c_str(), aiProcess_FlipWindingOrder | aiProcess_FlipUVs);
+	assert(scene->HasMeshes()); // メッシュがないのは対応しない
+
+	// メッシュの解析
+	for (uint32_t index = 0; index < scene->mNumMeshes; index++) {
+		aiMesh* mesh = scene->mMeshes[index];
+		assert(mesh->HasNormals()); // 法線がないメッシュを非対応に
+		assert(mesh->HasTextureCoords(0)); // texcoordがないメッシュを非対応に
+		// ここからメッシュの中身の解析を行う
+		for (uint32_t faceIndex = 0; faceIndex < mesh->mNumFaces; faceIndex++) {
+			aiFace& face = mesh->mFaces[faceIndex];
+			assert(face.mNumIndices == 3); // 三角形のみサポート
+			// ここからvertexの解析を行う
+			for (uint32_t element = 0; element < face.mNumIndices; element++) {
+				uint32_t vertexIndex = face.mIndices[element];
+				aiVector3D& position = mesh->mVertices[vertexIndex];
+				aiVector3D& normal = mesh->mNormals[vertexIndex];
+				aiVector3D& texcoord = mesh->mTextureCoords[0][vertexIndex];
+				VertexData vertex;
+				vertex.position = { position.x,position.y,position.z,1.0f };
+				vertex.normal = { normal.x,normal.y,normal.z };
+				vertex.texcoord = { texcoord.x,texcoord.y };
+				// aiProcess_MakeLeftHandedはz*=-1で、右手->左手に変換するので手動で対処
+				vertex.position.x *= -1.0f;
+				vertex.normal.x *= 1.0f;
+				modelData.vertices.push_back(vertex);
+			}
+		}
+	}
+
+	// materialの解析を行う
+	for (uint32_t materialIndex = 0; materialIndex < scene->mNumMaterials; materialIndex++) {
+		aiMaterial* material = scene->mMaterials[materialIndex];
+		// 一般的に模様という用途の aiTextureType_DIFFUSE を使用する
+		if (material->GetTextureCount(aiTextureType_DIFFUSE) != 0) {
+			aiString textureFilePath;
+			material->GetTexture(aiTextureType_DIFFUSE, 0, &textureFilePath);
+			modelData.material.textureFilePath = directryPath + "/" + textureFilePath.C_Str();
+		}
+	}
+	// 自作ローダー
+/*
 	//	ファイルを読み込み、メタデータを構築
 	while (std::getline(file, line)) {
 		std::string identifier;
@@ -251,7 +299,8 @@ ModelData ResourceManager::LoadObjFile(const std::string& filename) {
 			//	基本的に
 			modelData.material = LoadMaterialTemplateFile(materialFilename);
 		}
-	}
+	}*/
+
 	return modelData;
 }
 
