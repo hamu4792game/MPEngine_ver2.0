@@ -28,12 +28,12 @@ private:
 
 public:	// キー
 	// キーが押されているか
-	bool PressKey(uint8_t keynumber);
+	bool PressKey(uint8_t keynumber) const;
 
 	//	キーを押した瞬間
-	bool TriggerKey(uint8_t keynumber);
+	bool TriggerKey(uint8_t keynumber) const;
 
 	//	キーを離した瞬間
-	bool ReleaseKey(uint8_t keynumber);
+	bool ReleaseKey(uint8_t keynumber) const;
 
 };

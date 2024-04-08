@@ -191,6 +191,7 @@ void Player::DrawImGui() {
 					ImGui::TreePop();
 				}
 			}
+
 			ImGui::EndMenu();
 		}
 		/*if (ImGui::BeginMenu("Animation")) {
@@ -258,8 +259,7 @@ void Player::Jamp() {
 			flag = true;
 		}
 	}
-
-
+	
 	if (flag && fallParam_.isJumpable_ && !fallParam_.isFalled_) {
 		// 初速度を与える
 		fallParam_.isJumpable_ = false;

@@ -203,6 +203,9 @@
     <ClCompile Include="Game\Player\Player.cpp">
       <Filter>Game\Player</Filter>
     </ClCompile>
+    <ClCompile Include="MPEngine\Input\MouseInput.cpp">
+      <Filter>MPEngine\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -424,6 +427,9 @@
     </ClInclude>
     <ClInclude Include="Game\Player\Player.h">
       <Filter>Game\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Input\MouseInput.h">
+      <Filter>MPEngine\Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

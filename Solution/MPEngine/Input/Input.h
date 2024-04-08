@@ -2,6 +2,7 @@
 #include <memory>
 #include "KeyInput.h"
 #include "PadInput.h"
+#include "MouseInput.h"
 
 class Input {
 private:
@@ -15,9 +16,11 @@ public:
 
 	KeyInput* GetKey() { return key.get(); }
 	PadInput* GetPad() { return pad.get(); }
+	MouseInput* GetMouse() { return mouse.get(); }
 
 private:
 	std::unique_ptr<KeyInput> key;
 	std::unique_ptr<PadInput> pad;
+	std::unique_ptr<MouseInput> mouse;
 
 };
