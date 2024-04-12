@@ -57,4 +57,5 @@ public:
 	// マウスのホイール量を取得
 	float GetMouseWheel() const;
 
+	//a
 };
