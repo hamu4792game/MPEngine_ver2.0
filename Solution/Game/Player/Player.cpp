@@ -203,8 +203,15 @@ void Player::DrawImGui() {
 		ImGui::EndMenuBar();
 
 	}
-
 	ImGui::End();
+
+	auto input = Input::GetInstance()->GetMouse();
+	ImGui::Begin("Mouse");
+	ImGui::Text("while %f", input->GetMouseWheel());
+	ImGui::Text("move %02f : %02f", input->GetMouseMove().x, input->GetMouseMove().y);
+	ImGui::Text("screenpos %02f : %02f", input->GetScreenPosition().x,input->GetScreenPosition().y);
+	ImGui::End();
+
 #endif // _DEBUG
 }
 

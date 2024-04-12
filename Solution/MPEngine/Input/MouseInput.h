@@ -49,7 +49,7 @@ public:
 	/// マウスのスクリーン座標を取得
 	/// </summary>
 	/// <param name="now">true = 今の座標:false = 前の座標</param>
-	/// <returns></returns>
+	/// <returns>スクリーン座標</returns>
 	Vector2 GetScreenPosition(bool now = true) const;
 
 	// 現在のマウスの移動量を取得
