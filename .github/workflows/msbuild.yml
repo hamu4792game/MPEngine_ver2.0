@@ -13,7 +13,7 @@ on:
 
 env:
   # Path to the solution file relative to the root of the project.
-  SOLUTION_FILE_PATH: ./MPEngine_ver2.0/Solution
+  SOLUTION_FILE_PATH: ./Engine.sln
 
 permissions:
   contents: read
