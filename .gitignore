@@ -17,10 +17,11 @@
 mono_crash.*
 
 # Build results
-[Dd]ebug/
+#[Dd]ebug/
 [Dd]ebugPublic/
-[Rr]elease/
+#[Rr]elease/
 [Rr]eleases/
+[Gg]enerated/
 x64/
 x86/
 [Ww][Ii][Nn]32/
@@ -32,6 +33,9 @@ bld/
 [Oo]ut/
 [Ll]og/
 [Ll]ogs/
+
+Externals/DirectXTex/Shaders/Compiled/*.pdb
+imgui.ini
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
@@ -77,7 +81,6 @@ StyleCopReport.xml
 *.meta
 *.iobj
 *.pch
-*.pdb
 *.ipdb
 *.pgc
 *.pgd
@@ -96,6 +99,7 @@ StyleCopReport.xml
 *.pidb
 *.svclog
 *.scc
+
 
 # Chutzpah Test files
 _Chutzpah*
@@ -360,6 +364,3 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-
-# .gitignore
-imgui.ini
