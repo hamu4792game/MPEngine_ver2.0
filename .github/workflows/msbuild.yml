@@ -36,12 +36,12 @@ jobs:
     - name: build app
       run: |
         msbuild -version
-        msbuild project\MPEngine_ver2.0\Solution\MPEngine.vcxproj -t:rebuild -verbosity:diag -property:Configuration=Release
+        msbuild MPEngine_ver2.0\Solution\MPEngine.vcxproj -t:rebuild -verbosity:diag -property:Configuration=Release
 
     - name: exec com execution
       run: |
         msbuild -version
-        dir project\MPEngine\x64\Debug
-        cd project\MPEngine\x64\Debug
+        dir MPEngine\x64\Debug
+        cd MPEngine\x64\Debug
         MPEngine.exe
       shell: cmd
