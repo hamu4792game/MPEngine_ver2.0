@@ -41,7 +41,8 @@ void SwapChain::CreateRenderTargetView() {
 	//	ディスクリプタヒープの生成
 	rtvDescriptorHeap_ = std::make_unique<DescriptorHeap>();
 	//	RTV用のヒープでディスクリプタの数は2。RTVはShader内で触るものではないので、ShaderVisibleはfalse
-	rtvDescriptorHeap_->CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE_RTV, 2, false);
+	// 3つめのディスクリプタはRenderTargetで使用
+	rtvDescriptorHeap_->CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE_RTV, 10, false);
 	
 	//	SwapChainからResourceを引っ張ってくる
 	swapChainResources_[0] = nullptr;

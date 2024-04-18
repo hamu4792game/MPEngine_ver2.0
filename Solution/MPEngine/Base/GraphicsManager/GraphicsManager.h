@@ -17,6 +17,7 @@ class SwapChain;
 class ResourceManager;
 class DepthBuffer;
 class ImGuiManager;
+class RenderTarget;
 
 class GraphicsManager {
 private:
@@ -86,15 +87,16 @@ private:
 	std::unique_ptr<DepthBuffer> depthBuffer_;
 	// imgui用
 	ImGuiManager* imguiManager_ = nullptr;
+	// RenderTexture用
+	std::unique_ptr<RenderTarget> renderTexture_;
 
 	// フェンス関係
 	Microsoft::WRL::ComPtr<ID3D12Fence> fence_;
 	uint32_t fenceValue_ = 0u;
-	HANDLE fenceEvent_;
+	HANDLE fenceEvent_{};
 
 	// レンダーターゲット用クリアカラー
-	float clearColor_[4] = { 0.1f,0.25f,0.5f,1.0f };	//	青っぽい色、RGBA
-
+	const float clearColor_[4] = { 0.1f,0.25f,0.5f,1.0f };	//	青っぽい色、RGBA
 
 public: // ゲッター
 

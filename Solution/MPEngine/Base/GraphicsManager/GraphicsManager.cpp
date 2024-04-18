@@ -9,7 +9,9 @@
 #include "MPEngine/Base/Manager/ResourceManager/ResourceManager.h"
 #include "MPEngine/Base/DetailSetting/DepthBuffer/DepthBuffer.h"
 #include "MPEngine/Base/Manager/ImGuiManager/ImGuiManager.h"
+#include "MPEngine/Base/DetailSetting/RenderTarget/RenderTarget.h"
 
+#pragma warning(disable : 820)
 
 GraphicsManager* GraphicsManager::GetInstance() {
 	static GraphicsManager instance;
@@ -25,6 +27,7 @@ void GraphicsManager::Initialize(unsigned int bufferWidth, unsigned int bufferHe
 	rsManager_ = ResourceManager::GetInstance();
 	depthBuffer_ = std::make_unique<DepthBuffer>();
 	imguiManager_ = ImGuiManager::GetInstance();
+	renderTexture_ = std::make_unique<RenderTarget>();
 
 	CreateFactry();
 	SelectAdapter();
@@ -34,6 +37,7 @@ void GraphicsManager::Initialize(unsigned int bufferWidth, unsigned int bufferHe
 	swapChain_->CreateSwapChain(dxgiFactory_.Get(), commandQueue_.Get());
 	rsManager_->Initialize();
 	depthBuffer_->Initialize(bufferWidth, bufferHeight);
+	renderTexture_->CreateRenderTexture(device_, swapChain_.get(), rsManager_);
 	CreateFence();
 #pragma endregion
 
@@ -53,20 +57,31 @@ void GraphicsManager::PreDraw() {
 	//ImGui::ShowDemoWindow();
 #endif // _DEBUG
 
+
 	CreateBarrier(swapChain_->GetBackBuffer(), D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
-	auto index = swapChain_->GetSwapChain()->GetCurrentBackBufferIndex();
-	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = swapChain_->GetRTVDesc()->GetCPUDescriptorHandle(index);
-		
+	//CreateBarrier(renderTexture_->GetResource(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+	auto index = renderTexture_->GetHandle();
+	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = swapChain_->GetRTVHeap()->GetCPUDescriptorHandle(2);
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = depthBuffer_->GetDSVDesc()->GetCPUDescriptorHandle(0);
 	// 描画先のRTVとDSVを設定する
 	commandList_->GetList()->OMSetRenderTargets(1, &rtvHandle, false, &dsvHandle);
-	//	指定した深度で画面全体をクリアする
-	commandList_->GetList()->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 	//	画面クリア
 	ClearRenderTarget(rtvHandle);
+	//	指定した深度で画面全体をクリアする
+	commandList_->GetList()->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 }
 
 void GraphicsManager::PostDraw() {
+
+	//CreateBarrier(renderTexture_->GetResource(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+
+	// SwapChainに対して書き込む
+	auto index = swapChain_->GetSwapChain()->GetCurrentBackBufferIndex();
+	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = swapChain_->GetRTVHeap()->GetCPUDescriptorHandle(index);
+	// 描画先のRTVを設定する
+	commandList_->GetList()->OMSetRenderTargets(1, &rtvHandle, false, nullptr);
+	//	画面クリア
+	ClearRenderTarget(rtvHandle);
 
 	ID3D12DescriptorHeap* descriptorHeap[] = { rsManager_->GetSRVHeap()->GetDescriptorHeap() };
 	commandList_->GetList()->SetDescriptorHeaps(_countof(descriptorHeap), descriptorHeap);
@@ -76,7 +91,6 @@ void GraphicsManager::PostDraw() {
 	
 	imguiManager_->Draw(commandList_->GetList());
 #endif // DEBUG
-
 	CreateBarrier(swapChain_->GetBackBuffer(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT);
 
 	EndProcess();

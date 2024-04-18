@@ -27,5 +27,5 @@ private:
 public: // ゲッター
 	IDXGISwapChain4* const GetSwapChain() { return swapChain_.Get(); }
 	ID3D12Resource* const GetBackBuffer() { return swapChainResources_[swapChain_->GetCurrentBackBufferIndex()].Get(); }
-	DescriptorHeap* const GetRTVDesc() { return rtvDescriptorHeap_.get(); }
+	DescriptorHeap* const GetRTVHeap() { return rtvDescriptorHeap_.get(); }
 };

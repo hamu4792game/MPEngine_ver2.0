@@ -173,6 +173,26 @@ ID3D12Resource* ResourceManager::CreateBufferResource(ID3D12Device* device, size
 
 }
 
+ID3D12Resource* ResourceManager::CreateRenderTextureResource(ID3D12Device* device, D3D12_RESOURCE_DESC resDesc, DXGI_FORMAT format, const Vector4& color) {
+	D3D12_RESOURCE_DESC resourceDesc = resDesc; // 使っているバッファの情報を利用する
+	resourceDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET; // RenderTargetとして利用する
+	D3D12_HEAP_PROPERTIES heapProperties{};
+	heapProperties.Type = D3D12_HEAP_TYPE_DEFAULT; // 当然VRAM状に作る
+	D3D12_CLEAR_VALUE clearValue{};
+	clearValue.Format = format;
+	clearValue.Color[0] = color.x;
+	clearValue.Color[1] = color.y;
+	clearValue.Color[2] = color.z;
+	clearValue.Color[3] = color.w;
+
+	// リソースの生成
+	ID3D12Resource* resource = nullptr;
+	HRESULT hr = device->CreateCommittedResource(&heapProperties, D3D12_HEAP_FLAG_NONE,
+		&resourceDesc, D3D12_RESOURCE_STATE_RENDER_TARGET, &clearValue, IID_PPV_ARGS(&resource));
+	assert(SUCCEEDED(hr));
+	return resource;
+}
+
 ModelData ResourceManager::LoadObjFile(const std::string& filename) {
 	//	必要な変数の宣言
 	ModelData modelData;	// 構築するModelData
