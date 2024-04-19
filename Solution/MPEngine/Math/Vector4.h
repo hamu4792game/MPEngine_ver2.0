@@ -10,6 +10,7 @@ class Vector4 final {
 public:
 	Vector4();
 	Vector4(const float& X, const float& Y, const float& Z,const float& W);
+	Vector4(const float* num);
 
 public:
 	float x;

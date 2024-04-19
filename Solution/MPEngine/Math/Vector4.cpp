@@ -11,6 +11,10 @@ Vector4::Vector4(const float& X, const float& Y, const float& Z, const float& W)
 	x = X, y = Y, z = Z, w = W;
 }
 
+Vector4::Vector4(const float* num) {
+	x = num[0], y = num[1], z = num[2], w = num[3];
+}
+
 Vector4 Vector4::operator+(const Vector4& num) const {
 	Vector4 result;
 	result.x = this->x + num.x;
