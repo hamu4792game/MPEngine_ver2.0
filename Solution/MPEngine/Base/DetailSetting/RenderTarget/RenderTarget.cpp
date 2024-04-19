@@ -2,16 +2,20 @@
 #include "MPEngine/Base/Manager/ResourceManager/ResourceManager.h"
 #include "MPEngine/Base/DetailSetting/SwapChain/SwapChain.h"
 #include "MPEngine/Base/Manager/DeviceManager/DeviceManager.h"
+#include <ShaderManager/ShaderManager.h>
+#include "MPEngine/Base/Manager/ShaderManager/ShaderManager.h"
 
 RenderTarget::~RenderTarget() {
 	if (renderTextureResource_) {
 		renderTextureResource_->Release();
 	}
+	if (vertexResource_) {
+		vertexResource_->Release();
+	}
 }
 
 void RenderTarget::CreateRenderTexture(DeviceManager* device, SwapChain* swapChain, ResourceManager* rsManager) {
-	const Vector4 color = { 0.1f,0.25f,0.5f,1.0f };
-	renderTextureResource_ = rsManager->CreateRenderTextureResource(device->GetDevice(), swapChain->GetBackBuffer()->GetDesc(), DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, color);
+	renderTextureResource_ = rsManager->CreateRenderTextureResource(device->GetDevice(), swapChain->GetBackBuffer()->GetDesc(), DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, Vector4(clearColor_));
 
 	// RTVの設定 swapChainと同じ
 	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
@@ -29,8 +33,117 @@ void RenderTarget::CreateRenderTexture(DeviceManager* device, SwapChain* swapCha
 	handleNum_ = rsManager->GetCount();
 	// SRVの生成
 	device->GetDevice()->CreateShaderResourceView(renderTextureResource_.Get(), &srvDesc, rsManager->GetSRVHeap()->GetCPUDescriptorHandle(handleNum_));
+
+	// 必要パラメーターの生成
+	CreatePipelineState();
+	CreateVertex(device, rsManager);
 }
 
-void RenderTarget::DrawColl(ID3D12CommandList* comList) {
+void RenderTarget::DrawCommand(ID3D12GraphicsCommandList* comList) {
+	comList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+	comList->IASetVertexBuffers(0, 1, &vertexBufferView_);
+	comList->SetGraphicsRootSignature(rootSignature_->GetRootSignature().Get());
+	comList->SetPipelineState(graphicsPipeline_[static_cast<uint32_t>(BlendMode::None)]->GetPipelineState());
+	comList->SetGraphicsRootDescriptorTable(0, ResourceManager::GetInstance()->GetSRVHeap()->GetGPUDescriptorHandle(handleNum_));
+	
+	// 頂点3つ描画
+	comList->DrawInstanced(3, 1, 0, 0);
+}
 
+void RenderTarget::ClearRenderTarget(ID3D12GraphicsCommandList* comList, D3D12_CPU_DESCRIPTOR_HANDLE rtvHeapPointer) {
+	// 指定した色で画面全体をクリアする
+	comList->ClearRenderTargetView(rtvHeapPointer, clearColor_, 0, nullptr);
+}
+
+void RenderTarget::CreatePipelineState() {
+#pragma region Shader
+	const std::string VSpath = "CopyImage.VS.hlsl";
+	const std::string PSpath = "CopyImage.PS.hlsl";
+	auto shaderInstance = ShaderManager::GetInstance();
+	vertexShader = shaderInstance->CompileShader(VSpath, ShaderManager::ShaderType::Vertex);
+	pixelShader = shaderInstance->CompileShader(PSpath, ShaderManager::ShaderType::Pixel);
+#pragma endregion
+
+#pragma region RootSignature
+	D3D12_DESCRIPTOR_RANGE range[1] = {};
+	range[0].BaseShaderRegister = 0;
+	range[0].NumDescriptors = 1; // 必要な数
+	range[0].RegisterSpace = 0;
+	range[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+	range[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+	const uint8_t paramIndex = 1;
+	D3D12_ROOT_PARAMETER rootParameter[paramIndex] = {};
+	rootParameter[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+	rootParameter[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+	rootParameter[0].DescriptorTable.pDescriptorRanges = range;
+	rootParameter[0].DescriptorTable.NumDescriptorRanges = _countof(range);
+
+	// WVP
+	//rootParameter[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	//rootParameter[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+	//rootParameter[1].Descriptor.ShaderRegister = 0;
+
+	//// 色などのマテリアル系
+	//rootParameter[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	//rootParameter[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	//rootParameter[2].Descriptor.ShaderRegister = 1;
+	rootSignature_ = std::make_unique<RootSignature>();
+	rootSignature_->CreateRootSignature(rootParameter, paramIndex);
+#pragma endregion
+
+#pragma region GraphicsPipeline
+	PipelineDesc plDesc;
+
+	// 頂点データには何も入力しないので利用しない。ドライバやGUPが軽くなるかもしれないらしい
+	D3D12_INPUT_LAYOUT_DESC layoutDesc{};
+	layoutDesc.pInputElementDescs = nullptr;
+	layoutDesc.NumElements = 0;
+	plDesc.layoutDesc_ = layoutDesc;
+
+	plDesc.signature_ = rootSignature_->GetRootSignature().Get();
+	plDesc.vertexShader_ = vertexShader.Get();
+	plDesc.pixelShader_ = pixelShader.Get();
+
+	plDesc.depthStencilDesc_.DepthEnable = false;
+	// 裏面を表示しない
+	plDesc.rasterizerDesc_.CullMode = D3D12_CULL_MODE_BACK;
+	// 塗りつぶす
+	plDesc.rasterizerDesc_.FillMode = D3D12_FILL_MODE_SOLID;
+	plDesc.rasterizerDesc_.DepthClipEnable = true;
+
+	for (uint8_t i = 0; i < static_cast<uint8_t>(BlendMode::BlendCount); i++) {
+		graphicsPipeline_.at(i) = std::make_unique<GraphicsPipeline>();
+		graphicsPipeline_.at(i)->CreatePipeline(plDesc, static_cast<BlendMode>(i));
+	}
+
+#pragma endregion
+
+}
+
+void RenderTarget::CreateVertex(DeviceManager* device, ResourceManager* rsManager) {
+	//	頂点データの作成
+	struct PeraVertex {
+		Vector4 pos;
+		Vector2 uv;
+	};
+
+	PeraVertex pv[3] = {
+		{{-1.0f, 1.0f, 0.0f, 1.0f},{0.0f,0.0f}}, // 左上
+		{{3.0f, 1.0f, 0.0f, 1.0f},{2.0f,0.0f}}, // 右上
+		{{-1.0f, -3.0f, 0.0f, 1.0f},{0.0f,2.0f}}, // 左下
+	};
+
+	// ペラポリゴンの頂点バッファの作成
+	vertexResource_ = rsManager->CreateBufferResource(device->GetDevice(), sizeof(pv));
+
+	// バッファービューの設定
+	vertexBufferView_.BufferLocation = vertexResource_->GetGPUVirtualAddress();
+	vertexBufferView_.SizeInBytes = sizeof(pv);
+	vertexBufferView_.StrideInBytes = sizeof(PeraVertex);
+
+	// マップでコピー
+	PeraVertex* peramap = nullptr;
+	vertexResource_->Map(0, nullptr, reinterpret_cast<void**>(&peramap));
+	std::copy(std::begin(pv), std::end(pv), peramap);
+	vertexResource_->Unmap(0, nullptr);
 }

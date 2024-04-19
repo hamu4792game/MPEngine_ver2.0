@@ -63,8 +63,6 @@ private:
 	// バリアの作成
 	void CreateBarrier(ID3D12Resource* pResource, D3D12_RESOURCE_STATES stateBefore, D3D12_RESOURCE_STATES stateAfter,
 		D3D12_RESOURCE_BARRIER_TYPE type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION, D3D12_RESOURCE_BARRIER_FLAGS flag = D3D12_RESOURCE_BARRIER_FLAG_NONE);
-	// 指定色でクリア
-	void ClearRenderTarget(D3D12_CPU_DESCRIPTOR_HANDLE rtvHeapPointer);
 
 private:
 	const WindowSupervisor* winSv_ = nullptr;
@@ -88,15 +86,12 @@ private:
 	// imgui用
 	ImGuiManager* imguiManager_ = nullptr;
 	// RenderTexture用
-	std::unique_ptr<RenderTarget> renderTexture_;
+	std::unique_ptr<RenderTarget> renderTarget_;
 
 	// フェンス関係
 	Microsoft::WRL::ComPtr<ID3D12Fence> fence_;
 	uint32_t fenceValue_ = 0u;
 	HANDLE fenceEvent_{};
-
-	// レンダーターゲット用クリアカラー
-	const float clearColor_[4] = { 0.1f,0.25f,0.5f,1.0f };	//	青っぽい色、RGBA
 
 public: // ゲッター
 
