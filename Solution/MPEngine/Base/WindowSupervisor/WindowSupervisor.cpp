@@ -52,13 +52,13 @@ bool WindowSupervisor::ProcessMessage() {
 
 void WindowSupervisor::CreateGameWindow(const wchar_t* title, int32_t clientWidth, int32_t clientHeight) {
 	//	COMの初期化を行う
-	HRESULT hr = CoInitializeEx(0, COINIT_MULTITHREADED);
+	HRESULT hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
 	assert(SUCCEEDED(hr));
 
 	//	ウィンドウプロシージャ
 	wc.lpfnWndProc = WindowProc;
 	//	ウィンドウクラス名（なんでも良い
-	wc.lpszClassName = L"CG2WindowClass";
+	wc.lpszClassName = L"MPEngine";
 	//	インスタンスハンドル
 	wc.hInstance = GetModuleHandle(nullptr);
 	//	カーソル指定

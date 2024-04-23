@@ -1,11 +1,22 @@
 #include "Audio.h"
 #include <cassert>
+#include "Base/Log.h"
+#include <vector>
 
+#include <mfapi.h>
+#include <mfidl.h>
+#include <mfreadwrite.h>
+
+#pragma comment(lib, "Mf.lib")
+#pragma comment(lib, "mfplat.lib")
+#pragma comment(lib, "Mfreadwrite.lib")
+#pragma comment(lib, "mfuuid.lib")
 
 MasterAudio::~MasterAudio() {
 	if (xAudio2_) {
 		xAudio2_.Reset();
 	}
+	MFShutdown();
 }
 
 MasterAudio* MasterAudio::GetInstance() {
@@ -19,6 +30,8 @@ void MasterAudio::Intialize() {
 	result = XAudio2Create(&xAudio2_, 0, XAUDIO2_DEFAULT_PROCESSOR);
 	// マスターボイスの生成
 	result = xAudio2_->CreateMasteringVoice(&masterVoice_);
+	// MediaFoundationの初期化
+	result = MFStartup(MF_VERSION, MFSTARTUP_NOSOCKET);
 }
 
 Audio::~Audio() {
@@ -89,6 +102,81 @@ void Audio::SoundLoadWave(const std::string fileName) {
 	soundData.wfex = format.fmt;
 	soundData.pBuffer = reinterpret_cast<BYTE*>(pBuffer);
 	soundData.bufferSize = data.size;
+}
+
+void Audio::SoundLoad(const std::string fileName) {
+	// ファイルオープン
+	// ファイル入力ストリームのインスタンス
+	std::ifstream file;
+	// .wavファイルをバイナリモードで開く
+	file.open(fileName, std::ios_base::binary);
+	// 失敗の検出
+	assert(file);
+
+	// ソースリーダーの作成
+	IMFSourceReader* pMFSourceReader{ nullptr };
+	MFCreateSourceReaderFromURL(ConvertString(fileName).c_str(), nullptr, &pMFSourceReader);
+	
+	// メディアタイプの取得
+	IMFMediaType* pMFMediaType{ nullptr };
+	MFCreateMediaType(&pMFMediaType);
+	pMFMediaType->SetGUID(MF_MT_MAJOR_TYPE, MFMediaType_Audio);
+	pMFMediaType->SetGUID(MF_MT_SUBTYPE, MFAudioFormat_PCM);
+	pMFSourceReader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM, nullptr, pMFMediaType);
+
+	pMFMediaType->Release();
+	pMFMediaType = nullptr;
+	pMFSourceReader->GetCurrentMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM, &pMFMediaType);
+
+	// オーディオデータ形式の作成
+	WAVEFORMATEX* waveFormat{ nullptr };
+	MFCreateWaveFormatExFromMFMediaType(pMFMediaType, &waveFormat, nullptr);
+
+	// データの読み込み
+	std::vector<BYTE> mediaData;
+	while (true) {
+		IMFSample* pMFSample{ nullptr };
+		DWORD dwStreamFlags{ 0 };
+		pMFSourceReader->ReadSample(MF_SOURCE_READER_FIRST_AUDIO_STREAM, 0, nullptr, &dwStreamFlags, nullptr, &pMFSample);
+
+		if (dwStreamFlags & MF_SOURCE_READERF_ENDOFSTREAM) {
+			break;
+		}
+
+		IMFMediaBuffer* pMFMediaBuffer{ nullptr };
+		pMFSample->ConvertToContiguousBuffer(&pMFMediaBuffer);
+
+		BYTE* pBuffer{ nullptr };
+		DWORD cbCurrentLength{ 0 };
+		pMFMediaBuffer->Lock(&pBuffer, nullptr, &cbCurrentLength);
+
+		mediaData.resize(mediaData.size() + cbCurrentLength);
+		memcpy(mediaData.data() + mediaData.size() - cbCurrentLength, pBuffer, cbCurrentLength);
+
+		pMFMediaBuffer->Unlock();
+
+		pMFMediaBuffer->Release();
+		pMFSample->Release();
+	}
+	
+	BYTE* pMemory = new BYTE[mediaData.size()];
+	memcpy(pMemory, mediaData.data(), mediaData.size());
+
+	// soundDataに代入
+	soundData.pBuffer = pMemory;
+	soundData.bufferSize = sizeof(BYTE) * static_cast<UINT32>(mediaData.size());
+	soundData.wfex = *waveFormat;
+
+	file.close();
+
+	// ローカルポインタ解放処理
+	CoTaskMemFree(waveFormat);
+	if (pMFMediaType) {
+		pMFMediaType->Release();
+	}
+	if (pMFSourceReader) {
+		pMFSourceReader->Release();
+	}
 }
 
 void Audio::SoundUnload(SoundData* soundData) {

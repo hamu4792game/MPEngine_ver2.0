@@ -1,8 +1,9 @@
- #include "BattleScene.h"
+#include "BattleScene.h"
 #include "Utils/Camera/Camera3d.h"
 #include "Input/Input.h"
 #include "ImGuiManager/ImGuiManager.h"
-
+#include "ResourceManager/ResourceManager.h"
+#include "Input/Audio.h"
 
 void BattleScene::Initialize() {
 	player_ = std::make_unique<Player>();
@@ -21,6 +22,11 @@ void BattleScene::Initialize() {
 
 	gameUI_ = std::make_unique<GameUI>();
 	gameUI_->Initialize();
+
+	// 音
+	auto rs = ResourceManager::GetInstance();
+	Audio* bgm = rs->FindAudio("Title");
+	bgm->SoundPlayWave(true);
 
 }
 

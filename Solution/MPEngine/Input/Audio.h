@@ -59,6 +59,8 @@ public:
 	//	サウンドデータの読み込み関数
 	void SoundLoadWave(const std::string fileName);
 
+	void SoundLoad(const std::string fileName);
+
 	//	音声データ解放
 	void SoundUnload(SoundData* soundData);
 

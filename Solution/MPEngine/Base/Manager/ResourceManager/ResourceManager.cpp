@@ -60,7 +60,7 @@ void ResourceManager::AddAudio(const std::string& name, const std::string& fileN
 	}
 	// audioDataの追加
 	audioContainer_.emplace(std::make_pair(name, std::make_unique<Audio>()));
-	audioContainer_.at(name).get()->SoundLoadWave(fileName);
+	audioContainer_.at(name).get()->SoundLoad(fileName);
 }
 
 DirectX::ScratchImage ResourceManager::LoadTexture(const std::string& filePath) {

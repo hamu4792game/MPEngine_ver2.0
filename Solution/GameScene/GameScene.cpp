@@ -46,6 +46,7 @@ void GameScene::Initialize() {
 	rs->AddModel("PlayerWeapon", "Resources/Model/Player/weapon/weapon.obj");
 
 	rs->AddAudio("Title", "./Resources/Sound/w006.wav");
+	rs->AddAudio("Battle", "./Resources/Sound/mLoop1.mp3");
 
 	sceneRequest_ = Scene::BATTLE;
 	transition_ = std::make_unique<Transition>();
