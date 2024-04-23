@@ -45,7 +45,7 @@ void GameScene::Initialize() {
 	rs->AddModel("PlayerLegs", "Resources/Model/Player/Legs/limbs.obj");
 	rs->AddModel("PlayerWeapon", "Resources/Model/Player/weapon/weapon.obj");
 
-	rs->AddAudio("Title", "./Resources/Sound/w006.wav");
+	//rs->AddAudio("Title", "./Resources/Sound/w006.wav");
 	rs->AddAudio("Battle", "./Resources/Sound/mLoop1.mp3");
 
 	sceneRequest_ = Scene::BATTLE;

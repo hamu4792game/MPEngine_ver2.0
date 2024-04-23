@@ -25,7 +25,7 @@ void BattleScene::Initialize() {
 
 	// 音
 	auto rs = ResourceManager::GetInstance();
-	Audio* bgm = rs->FindAudio("Title");
+	Audio* bgm = rs->FindAudio("Battle");
 	bgm->SoundPlayWave(true);
 
 }
