@@ -120,9 +120,9 @@ void ModelRender::DrawCommand(Camera3d* cameraPtr) {
 
 	for (auto model : modelList) {
 		if (!model->isActive_) { continue; }
-
+		Matrix4x4 nodeMatrix = model->model_->GetModel().rootNode.localMatrix;
 		// 定数バッファ用の計算
-		model->cMat->world = model->transform_.UpdateMatrix();
+		model->cMat->world = nodeMatrix * model->transform_.UpdateMatrix();
 		model->cMat->worldInverseTranspose = Inverse(model->cMat->world);
 		model->cMat->wvp = model->cMat->world * viewProjectionMat;
 		model->cMaterial->color = model->color_;

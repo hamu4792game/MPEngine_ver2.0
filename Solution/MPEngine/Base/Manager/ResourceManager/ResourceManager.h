@@ -24,10 +24,17 @@ struct VertexData {
 struct MaterialData {
 	std::string textureFilePath;
 };
+// gltfのnode
+struct Node {
+	Matrix4x4 localMatrix;
+	std::string name;
+	std::vector<Node> children;
+};
 // モデルデータ構造体
 struct ModelData {
 	std::vector<VertexData> vertices;
 	MaterialData material;
+	Node rootNode;
 };
 
 class Texture;
@@ -79,8 +86,9 @@ public:
 	// RenderTextureを作る関数
 	ID3D12Resource* CreateRenderTextureResource(ID3D12Device* device, D3D12_RESOURCE_DESC resDesc, DXGI_FORMAT format, const Vector4& color);
 	// オブジェクトファイルを読み込む関数
-	ModelData LoadObjFile(const std::string& filename);
+	ModelData LoadModelFile(const std::string& filename);
 private:
 	MaterialData LoadMaterialTemplateFile(const std::string& filename);
+	Node ReadNode(struct aiNode* node);
 
 };

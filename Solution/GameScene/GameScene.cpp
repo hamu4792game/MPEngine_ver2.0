@@ -38,8 +38,8 @@ void GameScene::Initialize() {
 	rs->AddTexture("Block", "Resources/Texture/ground.png");
 
 	rs->AddModel("BoxSky", "Resources/Model/boxSky/boxSky.obj");
-	rs->AddModel("PlayerHead", "Resources/Model/Player/Head/head.obj");
-	rs->AddModel("PlayerBody", "Resources/Model/Player/Body/body.obj");
+	rs->AddModel("PlayerHead", "Resources/Model/AnimatedCube/AnimatedCube.gltf");
+	rs->AddModel("PlayerBody", "Resources/Model/multiMesh/multiMaterial.obj");
 	rs->AddModel("PlayerLeftArm", "Resources/Model/Player/LArm/LArm.obj");
 	rs->AddModel("PlayerRightArm", "Resources/Model/Player/RArm/RArm.obj");
 	rs->AddModel("PlayerLegs", "Resources/Model/Player/Legs/limbs.obj");
