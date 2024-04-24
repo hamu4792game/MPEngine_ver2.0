@@ -193,14 +193,9 @@ ID3D12Resource* ResourceManager::CreateRenderTextureResource(ID3D12Device* devic
 	return resource;
 }
 
-ModelData ResourceManager::LoadObjFile(const std::string& filename) {
+ModelData ResourceManager::LoadModelFile(const std::string& filename) {
 	//	必要な変数の宣言
 	ModelData modelData;	// 構築するModelData
-	//std::vector<Vector4> positions;	// 位置
-	//std::vector<Vector3> normals;	// 法線
-	//std::vector<Vector2> texcoords;	// テクスチャ座標
-	//std::string line;	// ファイルから読んだ1行を格納するもの
-	/*p5_2 12*/
 	//	ファイルを開く
 	std::ifstream file(filename);
 	assert(file.is_open());
@@ -253,73 +248,9 @@ ModelData ResourceManager::LoadObjFile(const std::string& filename) {
 			modelData.material.textureFilePath = directryPath + "/" + textureFilePath.C_Str();
 		}
 	}
-	// 自作ローダー
-/*
-	//	ファイルを読み込み、メタデータを構築
-	while (std::getline(file, line)) {
-		std::string identifier;
-		std::istringstream s(line);
-		s >> identifier;	// 先頭の識別子を読む
 
-		//	identifierに応じた処理 v:頂点位置,vt:頂点テクスチャ座標,vn:頂点法線,f:面
-		if (identifier == "v") {
-			Vector4 position{};
-			s >> position.x >> position.y >> position.z;
-			position.w = 1.0f;
-			positions.push_back(position);
-		}
-		else if (identifier == "vt") {
-			Vector2 texcoord{};
-			s >> texcoord.x >> texcoord.y;
-			texcoord.y = 1.0f - texcoord.y;
-			texcoords.push_back(texcoord);
-		}
-		else if (identifier == "vn") {
-			Vector3 normal{};
-			s >> normal.x >> normal.y >> normal.z;
-			normals.push_back(normal);
-		}
-		else if (identifier == "f") {
-			VertexData triangle[3]{};
-			//	面は三角形限定。その他は未対応
-			for (int32_t faceVertex = 0; faceVertex < 3; faceVertex++)
-			{
-				std::string vertexDefinition;
-				s >> vertexDefinition;
-				//	頂点の要素へのIndexは「位置/UV/法線」で格納されているので、分解してIndexを取得する
-				std::istringstream v(vertexDefinition);
-				uint32_t elementIndices[3]{};
-				for (int32_t element = 0; element < 3; element++)
-				{
-					std::string index;
-					//	区切りでインデックスを読んでいく
-					std::getline(v, index, '/');
-					elementIndices[element] = std::stoi(index);
-				}
-				//	要素へのIndexから、実際の要素の値を取得して、頂点を構築していく
-				Vector4 position = positions[static_cast<std::vector<Vector4, std::allocator<Vector4>>::size_type>(elementIndices[0]) - 1];
-				position.x *= -1.0f;
-				Vector2 texcoord = texcoords[static_cast<std::vector<Vector2, std::allocator<Vector2>>::size_type>(elementIndices[1]) - 1];
-				Vector3 normal = normals[static_cast<std::vector<Vector3, std::allocator<Vector3>>::size_type>(elementIndices[2]) - 1];
-				normal.x *= -1.0f;
-				triangle[faceVertex] = { position,texcoord,normal };
-			}
-			//	頂点を逆で登録することで、周り順を逆にする
-			modelData.vertices.push_back(triangle[2]);
-			modelData.vertices.push_back(triangle[1]);
-			modelData.vertices.push_back(triangle[0]);
-		}
-		else if (identifier == "mtllib") {
-			std::string materialFilename;
-			s >> materialFilename;
-
-			//	ディレクトリパスとmtlパスの結合
-			materialFilename = directryPath + "/" + materialFilename;
-
-			//	基本的に
-			modelData.material = LoadMaterialTemplateFile(materialFilename);
-		}
-	}*/
+	// シーン全体の階層構造を作り上げる
+	modelData.rootNode = ReadNode(scene->mRootNode);
 
 	return modelData;
 }
@@ -349,4 +280,39 @@ MaterialData ResourceManager::LoadMaterialTemplateFile(const std::string& filena
 	}
 
 	return materialData;
+}
+
+Node ResourceManager::ReadNode(aiNode* node) {
+	Node result;
+	aiMatrix4x4 aiLocalMatrix = node->mTransformation; // nodeのlocalMatrixを取得
+	aiLocalMatrix.Transpose(); // 列ベクトル形式を行ベクトル形式に転置
+#pragma region 行列代入
+	result.localMatrix.m[0][0] = aiLocalMatrix[0][0];
+	result.localMatrix.m[0][1] = aiLocalMatrix[0][1];
+	result.localMatrix.m[0][2] = aiLocalMatrix[0][2];
+	result.localMatrix.m[0][3] = aiLocalMatrix[0][3];
+
+	result.localMatrix.m[1][0] = aiLocalMatrix[1][0];
+	result.localMatrix.m[1][1] = aiLocalMatrix[1][1];
+	result.localMatrix.m[1][2] = aiLocalMatrix[1][2];
+	result.localMatrix.m[1][3] = aiLocalMatrix[1][3];
+
+	result.localMatrix.m[2][0] = aiLocalMatrix[2][0];
+	result.localMatrix.m[2][1] = aiLocalMatrix[2][1];
+	result.localMatrix.m[2][2] = aiLocalMatrix[2][2];
+	result.localMatrix.m[2][3] = aiLocalMatrix[2][3];
+
+	result.localMatrix.m[3][0] = aiLocalMatrix[3][0];
+	result.localMatrix.m[3][1] = aiLocalMatrix[3][1];
+	result.localMatrix.m[3][2] = aiLocalMatrix[3][2];
+	result.localMatrix.m[3][3] = aiLocalMatrix[3][3];
+#pragma endregion
+	result.name = node->mName.C_Str(); // Node名を取得
+	result.children.resize(node->mNumChildren); // 子供の数だけ確保
+	for (uint32_t childIndex = 0; childIndex < node->mNumChildren; childIndex++) {
+		// 再帰的に読んで階層構造を作っていく
+		result.children[childIndex] = ReadNode(node->mChildren[childIndex]);
+	}
+
+	return result;
 }

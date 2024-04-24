@@ -11,12 +11,12 @@ void Object3d::Load(const std::string& name, const std::string& filePath) {
 	auto rsManager = ResourceManager::GetInstance();
 	auto device = DeviceManager::GetInstance()->GetDevice();
 	// モデル読み込み
-	modelData_ = rsManager->LoadObjFile(filePath);
+	modelData_ = rsManager->LoadModelFile(filePath);
 
 	std::string handle = "white2x2";
 	if (modelData_.material.textureFilePath != "") {
 		rsManager->AddTexture(name_ + "Texture", modelData_.material.textureFilePath);
-		handle = name_ + "Texture";
-	}
+			handle = name_ + "Texture";
+		}
 	texture_ = rsManager->FindTexture(handle);
 }
