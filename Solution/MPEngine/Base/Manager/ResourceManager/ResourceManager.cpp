@@ -3,6 +3,7 @@
 #include "MPEngine/Graphics/Texture/Texture.h"
 #include "MPEngine/Graphics/Object3d/Object3d.h"
 #include "MPEngine/Input/Audio.h"
+#include "MPEngine/Graphics/Animation/Animation.h"
 #include <format>
 #include <fstream>
 #include <sstream>
@@ -38,9 +39,10 @@ void ResourceManager::AddTexture(const std::string& name, const std::string& fil
 	if (textureContainer_.find(name) != textureContainer_.end()) {
 		return;
 	}
+	static const std::string directryPath = "Resources/Texture/";
 	// textureの追加
 	textureContainer_.emplace(std::make_pair(name, std::make_unique<Texture>()));
-	textureContainer_.at(name).get()->Load(name, fileName);
+	textureContainer_.at(name).get()->Load(name, directryPath + fileName);
 }
 
 void ResourceManager::AddModel(const std::string& name, const std::string& fileName) {
@@ -48,6 +50,7 @@ void ResourceManager::AddModel(const std::string& name, const std::string& fileN
 	if (object3dContainer_.find(name) != object3dContainer_.end()) {
 		return;
 	}
+	static const std::string directryPath = "Resources/Model/";
 	// modelDataの追加
 	object3dContainer_.emplace(std::make_pair(name, std::make_unique<Object3d>()));
 	object3dContainer_.at(name).get()->Load(name, fileName);
@@ -58,6 +61,7 @@ void ResourceManager::AddAudio(const std::string& name, const std::string& fileN
 	if (audioContainer_.find(name) != audioContainer_.end()) {
 		return;
 	}
+	static const std::string directryPath = "Resources/Audio/";
 	// audioDataの追加
 	audioContainer_.emplace(std::make_pair(name, std::make_unique<Audio>()));
 	audioContainer_.at(name).get()->SoundLoad(fileName);
@@ -253,6 +257,54 @@ ModelData ResourceManager::LoadModelFile(const std::string& filename) {
 	modelData.rootNode = ReadNode(scene->mRootNode);
 
 	return modelData;
+}
+
+Animation ResourceManager::LoadAnimationFile(const std::string& filename) {
+	Animation animation; // 今回作るアニメーション
+	Assimp::Importer importer;
+	//	ディレクトリパスの取得
+	std::filesystem::path ps = std::filesystem::path(filename);
+	std::string directryPath = ps.parent_path().string();
+
+	const aiScene* scene = importer.ReadFile(filename.c_str(), 0);
+	assert(scene->mNumAnimations != 0); // アニメーションがない
+	aiAnimation* animationAssimp = scene->mAnimations[0]; // 最初のアニメーションだけ採用。もちろん複数対応するに越したことはない
+	// mTicksPerSecond : 周波数 / mDuration : 周波数の長さ
+	// 例 周波数が1000Hzの時、周期(1Tick)は1ms。周波数の長さが2000なら、2000ms = 2sである
+	animation.duration = float(animationAssimp->mDuration / animationAssimp->mTicksPerSecond); // 時間の単位を秒に変換
+
+	// NodeAnimationの解析
+	// assimpでは個々のNodeのAnimationをchannelと呼んでいるのでchannnelを回してNodeanimationの情報を取ってくる
+	for (uint32_t channnelIndex = 0; channnelIndex < animationAssimp->mNumChannels; channnelIndex++) {
+		aiNodeAnim* nodeAnimationAssimp = animationAssimp->mChannels[channnelIndex];
+		NodeAnimation& nodeAnimation = animation.nodeAnimations[nodeAnimationAssimp->mNodeName.C_Str()];
+		// 座標の取得
+		for (uint32_t keyIndex = 0; keyIndex < nodeAnimationAssimp->mNumPositionKeys; keyIndex++) {
+			aiVectorKey& keyAssimp = nodeAnimationAssimp->mPositionKeys[keyIndex];
+			Keyframe<Vector3> keyframe;
+			keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond); // ここも秒に変換
+			keyframe.value = Vector3(-keyAssimp.mValue.x, keyAssimp.mValue.y, keyAssimp.mValue.z); // 右手→左手
+			nodeAnimation.translate.keyframes.push_back(keyframe);
+		}
+		// 回転の取得
+		for (uint32_t keyIndex = 0; keyIndex < nodeAnimationAssimp->mNumRotationKeys; keyIndex++) {
+			aiQuatKey& keyAssimp = nodeAnimationAssimp->mRotationKeys[keyIndex];
+			Keyframe<Quaternion> keyframe;
+			keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond); // ここも秒に変換
+			keyframe.value = Quaternion(keyAssimp.mValue.x, -keyAssimp.mValue.y, -keyAssimp.mValue.z, keyAssimp.mValue.w); // 右手→左手
+			nodeAnimation.rotate.keyframes.push_back(keyframe);
+		}
+		// 拡縮の取得
+		for (uint32_t keyIndex = 0; keyIndex < nodeAnimationAssimp->mNumScalingKeys; keyIndex++) {
+			aiVectorKey& keyAssimp = nodeAnimationAssimp->mScalingKeys[keyIndex];
+			Keyframe<Vector3> keyframe;
+			keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond); // ここも秒に変換
+			keyframe.value = Vector3(keyAssimp.mValue.x, keyAssimp.mValue.y, keyAssimp.mValue.z); // 右手→左手
+			nodeAnimation.scale.keyframes.push_back(keyframe);
+		}
+	}
+	// アニメーションを返す
+	return animation;
 }
 
 MaterialData ResourceManager::LoadMaterialTemplateFile(const std::string& filename) {

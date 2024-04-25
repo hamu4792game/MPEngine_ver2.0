@@ -194,9 +194,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="MPEngine\Base\Manager\ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="MPEngine\Base\Manager\ShaderManager\ShaderManager.cpp" />
     <ClCompile Include="MPEngine\Base\WindowSupervisor\WindowSupervisor.cpp" />
+    <ClCompile Include="MPEngine\Graphics\Animation\Animation.cpp" />
     <ClCompile Include="MPEngine\Graphics\Light\DirectionalLight.cpp" />
     <ClCompile Include="MPEngine\Graphics\LineRender\LineRender.cpp" />
     <ClCompile Include="MPEngine\Graphics\Line\Line.cpp" />
+    <ClCompile Include="MPEngine\Graphics\ModelAnimation\ModelAnimation.cpp" />
     <ClCompile Include="MPEngine\Graphics\ModelRender\ModelRender.cpp" />
     <ClCompile Include="MPEngine\Graphics\Model\Model.cpp" />
     <ClCompile Include="MPEngine\Graphics\Object3d\Object3d.cpp" />
@@ -214,6 +216,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="MPEngine\Math\AABB.cpp" />
     <ClCompile Include="MPEngine\Math\Matrix3x3.cpp" />
     <ClCompile Include="MPEngine\math\Matrix4x4.cpp" />
+    <ClCompile Include="MPEngine\Math\Quaternion.cpp" />
     <ClCompile Include="MPEngine\math\Vector2.cpp" />
     <ClCompile Include="MPEngine\math\Vector3.cpp" />
     <ClCompile Include="MPEngine\math\Vector4.cpp" />
@@ -268,9 +271,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="MPEngine\Base\WindowSupervisor\WindowSupervisor.h" />
     <ClInclude Include="MPEngine\Framework\GameFrame.h" />
     <ClInclude Include="MPEngine\Framework\SceneFrame.h" />
+    <ClInclude Include="MPEngine\Graphics\Animation\Animation.h" />
     <ClInclude Include="MPEngine\Graphics\Light\DirectionalLight.h" />
     <ClInclude Include="MPEngine\Graphics\LineRender\LineRender.h" />
     <ClInclude Include="MPEngine\Graphics\Line\Line.h" />
+    <ClInclude Include="MPEngine\Graphics\ModelAnimation\ModelAnimation.h" />
     <ClInclude Include="MPEngine\Graphics\ModelRender\ModelRender.h" />
     <ClInclude Include="MPEngine\Graphics\Model\Model.h" />
     <ClInclude Include="MPEngine\Graphics\Object3d\Object3d.h" />
@@ -289,6 +294,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="MPEngine\Math\MathUtl.h" />
     <ClInclude Include="MPEngine\Math\Matrix3x3.h" />
     <ClInclude Include="MPEngine\math\Matrix4x4.h" />
+    <ClInclude Include="MPEngine\Math\Quaternion.h" />
     <ClInclude Include="MPEngine\math\Vector2.h" />
     <ClInclude Include="MPEngine\math\Vector3.h" />
     <ClInclude Include="MPEngine\math\Vector4.h" />

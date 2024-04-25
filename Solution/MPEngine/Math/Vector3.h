@@ -36,6 +36,9 @@ public:
 public: // 定数
 	static const Vector3 zero;
 	static const Vector3 one;
+
+	// 取得関数
+	Vector3 Normalize() const;
 	
 };
 

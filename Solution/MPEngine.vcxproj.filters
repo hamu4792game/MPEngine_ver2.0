@@ -206,6 +206,15 @@
     <ClCompile Include="MPEngine\Input\MouseInput.cpp">
       <Filter>MPEngine\Input</Filter>
     </ClCompile>
+    <ClCompile Include="MPEngine\Math\Quaternion.cpp">
+      <Filter>MPEngine\Math\Quaternion</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\Graphics\ModelAnimation\ModelAnimation.cpp">
+      <Filter>MPEngine\Graphics\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\Graphics\Animation\Animation.cpp">
+      <Filter>MPEngine\Graphics\Animation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -431,6 +440,15 @@
     <ClInclude Include="MPEngine\Input\MouseInput.h">
       <Filter>MPEngine\Input</Filter>
     </ClInclude>
+    <ClInclude Include="MPEngine\Math\Quaternion.h">
+      <Filter>MPEngine\Math\Quaternion</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Graphics\ModelAnimation\ModelAnimation.h">
+      <Filter>MPEngine\Graphics\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Graphics\Animation\Animation.h">
+      <Filter>MPEngine\Graphics\Animation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="MPEngine">
@@ -633,6 +651,12 @@
     </Filter>
     <Filter Include="Game\Camera\AttackCamera">
       <UniqueIdentifier>{fe9aa31c-dcd6-4639-8bc2-bcce12cd4b74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Math\Quaternion">
+      <UniqueIdentifier>{121381fe-4a17-4543-a3e7-335d542d1272}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Graphics\Animation">
+      <UniqueIdentifier>{4b6145d8-02cb-45ae-927c-74f2c4667e6a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -15,8 +15,8 @@ void Object3d::Load(const std::string& name, const std::string& filePath) {
 
 	std::string handle = "white2x2";
 	if (modelData_.material.textureFilePath != "") {
-		rsManager->AddTexture(name_ + "Texture", modelData_.material.textureFilePath);
-			handle = name_ + "Texture";
-		}
+		rsManager->AddTexture(name_, modelData_.material.textureFilePath);
+		handle = name_;
+	}
 	texture_ = rsManager->FindTexture(handle);
 }
