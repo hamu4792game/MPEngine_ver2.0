@@ -10,6 +10,7 @@
 #include <cmath>
 #include <string>
 #include <vector>
+#include <map>
 
 #include "MPEngine/Math/MathUtl.h"
 
@@ -37,9 +38,11 @@ struct ModelData {
 	Node rootNode;
 };
 
+
 class Texture;
 class Object3d;
 class Audio;
+class Animation;
 
 class ResourceManager {
 private:
@@ -85,8 +88,10 @@ public:
 	ID3D12Resource* CreateBufferResource(ID3D12Device* device, size_t sizeInBytes);
 	// RenderTextureを作る関数
 	ID3D12Resource* CreateRenderTextureResource(ID3D12Device* device, D3D12_RESOURCE_DESC resDesc, DXGI_FORMAT format, const Vector4& color);
-	// オブジェクトファイルを読み込む関数
+	// モデルファイルを読み込む関数
 	ModelData LoadModelFile(const std::string& filename);
+	// アニメーションファイルを読み込む関数
+	Animation LoadAnimationFile(const std::string& filename);
 private:
 	MaterialData LoadMaterialTemplateFile(const std::string& filename);
 	Node ReadNode(struct aiNode* node);

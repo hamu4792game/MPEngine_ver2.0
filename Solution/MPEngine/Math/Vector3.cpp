@@ -94,6 +94,19 @@ bool Vector3::operator!=(const Vector3& num) const {
 	return !(*this == num);
 }
 
+Vector3 Vector3::Normalize() const {
+	Vector3 result;
+	float w = Length(*this);
+	if (w == 0) {
+		return Vector3(0.0f, 0.0f, 0.0f);
+	}
+	w = 1.0f / w;
+	result.x = this->x * w;
+	result.y = this->y * w;
+	result.z = this->z * w;
+	return result;
+}
+
 float Length(const Vector3& vec) {
 	return sqrtf((vec.x * vec.x) + (vec.y * vec.y) + (vec.z * vec.z));
 }
