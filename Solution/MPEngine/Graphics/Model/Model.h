@@ -5,10 +5,12 @@
 #include "MPEngine/Base/ConstantBuffer.h"
 #include "MPEngine/Base/DetailSetting/GraphicsPipeline/GraphicsPipeline.h"
 #include "Utils/WorldTransform/WorldTransform.h"
+#include "Graphics/Animation/ModelAnimation.h"
 
 // モデル
 class Model {
 	friend class ModelRender;
+	friend class ModelAnimation;
 public:
 	Model();
 	~Model();
@@ -19,6 +21,7 @@ public: // setter
 	void SetColor(const Vector4& color) { color_ = color; }
 	void SetColor(const uint32_t& color) { color_ = ChangeColor(color); }
 	void SetTransform(const WorldTransform& transform) { transform_ = transform; }
+	void SetAnimation(ModelAnimation* animation) { animation_ = animation; }
 private:
 	void Initialize();
 	void CreateVertexResource();
@@ -52,5 +55,7 @@ private:
 		int phongLighing = false;
 	};
 	ConstantBuffer<Material> cMaterial;
+
+	ModelAnimation* animation_ = nullptr;
 
 };

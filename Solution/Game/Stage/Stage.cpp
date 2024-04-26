@@ -16,9 +16,6 @@ void Stage::Initialize(std::string fileName) {
 		boxes_.emplace_back(std::make_shared<Ground>())->Initialize(scale, rotate, translate);
 	}
 
-	/*for (uint32_t index = 0u; index < 3u; index++) {
-		targets_.emplace_back(std::make_shared<Target>())->Initialize(Vector3::zero);
-	}*/
 
 	num = global->GetIntValue(itemName_, "TargetConfirmation");
 	for (int index = 0u; index < num; index++) {
@@ -35,6 +32,9 @@ void Stage::Update() {
 	const uint32_t maxCount = static_cast<uint32_t>(boxes_.size());
 	for (uint32_t index = 0u; index < maxCount; index++) {
 		collisionList_.emplace_back(boxes_.at(index)->GetCollision());
+	}
+	for (auto& i : targets_) {
+		i->Update();
 	}
 }
 

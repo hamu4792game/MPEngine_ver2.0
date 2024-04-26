@@ -1,5 +1,7 @@
 #include "Matrix4x4.h"
 #include <cassert>
+#include "Quaternion.h"
+#include "Vector3.h"
 #include <cmath>
 
 Matrix4x4::Matrix4x4() : m({ 0.0f }) {}
@@ -358,7 +360,7 @@ Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Quaternion& rotate, const
 	Matrix4x4 result;
 
 	Matrix4x4 rotateMatrix;
-	rotateMatrix = Quaternion::MakeRotateMatrix(rotate);
+	rotateMatrix = Quaternion::MakeQuaternionRotateMatrix(rotate);
 	result = rotateMatrix;
 
 	for (int i = 0; i < 3; i++)

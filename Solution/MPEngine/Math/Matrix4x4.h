@@ -1,7 +1,8 @@
 #pragma once
-#include "Vector3.h"
-#include "Quaternion.h"
 #include <array>
+
+class Vector3;
+class Quaternion;
 
 class Matrix4x4 {
 public:

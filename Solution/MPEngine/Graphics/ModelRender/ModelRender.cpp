@@ -120,7 +120,10 @@ void ModelRender::DrawCommand(Camera3d* cameraPtr) {
 
 	for (auto model : modelList) {
 		if (!model->isActive_) { continue; }
-		Matrix4x4 nodeMatrix = model->model_->GetModel().rootNode.localMatrix;
+		Matrix4x4 nodeMatrix = MakeIdentity4x4();
+		if (model->animation_) {
+			nodeMatrix = model->animation_->GetMatrix();
+		}
 		// 定数バッファ用の計算
 		model->cMat->world = nodeMatrix * model->transform_.UpdateMatrix();
 		model->cMat->worldInverseTranspose = Inverse(model->cMat->world);

@@ -17,38 +17,41 @@ void (GameScene::* GameScene::SceneInitializeTable[])() = {
 
 void GameScene::Initialize() {
 	auto rs = ResourceManager::GetInstance();
-	rs->AddTexture("white2x2", "white2x2.png");
-	rs->AddTexture("UVChecker", "uvChecker.png");
+	std::string directryPath = "Resources/Model/";
+	rs->AddTexture("white2x2", "Resources/Texture/white2x2.png");
+	rs->AddTexture("UVChecker","Resources/Texture/uvChecker.png");
 
-	rs->AddModel("Box", "box/box.obj");
-	rs->AddModel("Plane", "plane/plane.obj");
-	rs->AddModel("Sphere", "sphere/sphere.obj");
+	rs->AddModel("Box", "Resources/Model/AnimatedCube/AnimatedCube.gltf");
+	rs->AddModel("Plane", "Resources/Model/plane/plane.obj");
+	rs->AddModel("Sphere", "Resources/Model/sphere/sphere.obj");
 	
-	rs->AddTexture("Ground", "ground.png");
-	rs->AddTexture("Circle", "particle.png");
-	rs->AddTexture("ABText", "hud/AB.png");
+	rs->AddTexture("Ground", "Resources/Texture/ground.png");
+	rs->AddTexture("Circle", "Resources/Texture/particle.png");
+	rs->AddTexture("ABText", "Resources/Texture/hud/AB.png");
 	
-	rs->AddTexture("MonsterBall", "monsterBall.png");
-	rs->AddTexture("CheckerBoard", "checkerBoard.png");
+	rs->AddTexture("MonsterBall", "Resources/Texture/monsterBall.png");
+	rs->AddTexture("CheckerBoard", "Resources/Texture/checkerBoard.png");
 
-	rs->AddTexture("TitleText", "hud/titleText.png");
-	rs->AddTexture("PushText", "hud/pushText.png");
-	rs->AddTexture("ABCD", "uvChecker.png");
-	rs->AddTexture("Target", "hud/target.png");
-	rs->AddTexture("Block", "ground.png");
+	rs->AddTexture("TitleText", "Resources/Texture/hud/titleText.png");
+	rs->AddTexture("PushText", "Resources/Texture/hud/pushText.png");
+	rs->AddTexture("ABCD", "Resources/Texture/uvChecker.png");
+	rs->AddTexture("Target", "Resources/Texture/hud/target.png");
+	rs->AddTexture("Block", "Resources/Texture/ground.png");
 
-	rs->AddModel("BoxSky", "boxSky/boxSky.obj");
-	rs->AddModel("PlayerHead", "AnimatedCube/AnimatedCube.gltf");
-	rs->AddModel("PlayerBody", "multiMesh/multiMaterial.obj");
-	rs->AddModel("PlayerLeftArm", "Player/LArm/LArm.obj");
-	rs->AddModel("PlayerRightArm", "Player/RArm/RArm.obj");
-	rs->AddModel("PlayerLegs", "Player/Legs/limbs.obj");
-	rs->AddModel("PlayerWeapon", "Player/weapon/weapon.obj");
+	rs->AddModel("Target", "Resources/Model/Target/target.gltf");
+	rs->AddModel("BoxSky", "Resources/Model/boxSky/boxSky.obj");
+	rs->AddModel("PlayerHead", "Resources/Model/Player/Head/head.obj");
+	rs->AddModel("PlayerBody", "Resources/Model/Player/Body/body.obj");
+	rs->AddModel("PlayerLeftArm", "Resources/Model/Player/LArm/LArm.obj");
+	rs->AddModel("PlayerRightArm", "Resources/Model/Player/RArm/RArm.obj");
+	rs->AddModel("PlayerLegs", "Resources/Model/Player/Legs/limbs.obj");
+	rs->AddModel("PlayerWeapon", "Resources/Model/Player/weapon/weapon.obj");
 
-	rs->LoadAnimationFile("AnimatedCube/AnimatedCube.gltf");
+	rs->AddAnimation("Rotate", "Resources/Model/AnimatedCube/AnimatedCube.gltf");
+	rs->AddAnimation("Target", "Resources/Model/Target/target.gltf");
 
 	//rs->AddAudio("Title", "./Resources/Sound/w006.wav");
-	rs->AddAudio("Battle", "mLoop1.mp3");
+	rs->AddAudio("Battle", "Resources/Audio/mLoop1.mp3");
 
 	sceneRequest_ = Scene::BATTLE;
 	transition_ = std::make_unique<Transition>();
