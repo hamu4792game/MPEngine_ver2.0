@@ -3,7 +3,7 @@
 #include "MPEngine/Graphics/Texture/Texture.h"
 #include "MPEngine/Graphics/Object3d/Object3d.h"
 #include "MPEngine/Input/Audio.h"
-#include "MPEngine/Graphics/Animation/Animation.h"
+#include "MPEngine/Graphics/Animation/ModelAnimation.h"
 #include <format>
 #include <fstream>
 #include <sstream>
@@ -42,7 +42,7 @@ void ResourceManager::AddTexture(const std::string& name, const std::string& fil
 	static const std::string directryPath = "Resources/Texture/";
 	// textureの追加
 	textureContainer_.emplace(std::make_pair(name, std::make_unique<Texture>()));
-	textureContainer_.at(name).get()->Load(name, directryPath + fileName);
+	textureContainer_.at(name).get()->Load(name, fileName);
 }
 
 void ResourceManager::AddModel(const std::string& name, const std::string& fileName) {
@@ -65,6 +65,17 @@ void ResourceManager::AddAudio(const std::string& name, const std::string& fileN
 	// audioDataの追加
 	audioContainer_.emplace(std::make_pair(name, std::make_unique<Audio>()));
 	audioContainer_.at(name).get()->SoundLoad(fileName);
+}
+
+void ResourceManager::AddAnimation(const std::string& name, const std::string& fileName) {
+	// 既にある場合早期リターン
+	if (animationContainer_.find(name) != animationContainer_.end()) {
+		return;
+	}
+	static const std::string directryPath = "Resources/Model/";
+	// animationDataの追加
+	AnimationData handle = LoadAnimationFile(fileName);
+	animationContainer_.emplace(std::make_pair(name, handle));
 }
 
 DirectX::ScratchImage ResourceManager::LoadTexture(const std::string& filePath) {
@@ -259,8 +270,8 @@ ModelData ResourceManager::LoadModelFile(const std::string& filename) {
 	return modelData;
 }
 
-Animation ResourceManager::LoadAnimationFile(const std::string& filename) {
-	Animation animation; // 今回作るアニメーション
+AnimationData ResourceManager::LoadAnimationFile(const std::string& filename) {
+	AnimationData animation; // 今回作るアニメーション
 	Assimp::Importer importer;
 	//	ディレクトリパスの取得
 	std::filesystem::path ps = std::filesystem::path(filename);

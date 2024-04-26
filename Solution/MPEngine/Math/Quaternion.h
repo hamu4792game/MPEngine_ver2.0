@@ -1,6 +1,7 @@
 #pragma once
-#include "Vector3.h"
-#include "Matrix4x4.h"
+
+class Vector3;
+class Matrix4x4;
 
 class Quaternion {
 public:
@@ -37,7 +38,7 @@ public:
 	// ベクトルをQuaternionで回転させた結果のベクトルを求める
 	static Vector3 RotateVector(const Vector3& vector, const Quaternion& quaternion);
 	// Quaternionから回転行列を求める
-	static Matrix4x4 MakeRotateMatrix(const Quaternion& quaternion);
+	static Matrix4x4 MakeQuaternionRotateMatrix(const Quaternion& quaternion);
 	// 内積
 	static float Dot(const Quaternion& q0, const Quaternion& q1);
 

@@ -13,6 +13,7 @@
 #include <map>
 
 #include "MPEngine/Math/MathUtl.h"
+#include "Math/Quaternion.h"
 
 
 // 頂点データ構造体
@@ -38,11 +39,33 @@ struct ModelData {
 	Node rootNode;
 };
 
+// アニメーション用構造体
+template <typename tValue>
+struct Keyframe {
+	float time; // キーフレームの時刻(単位は秒)
+	tValue value; // キーフレームの値
+};
+template <typename tValue>
+struct AnimationCurve {
+	std::vector<Keyframe<tValue>> keyframes;
+};
+// node毎のアニメーションとしてまとめる
+struct NodeAnimation {
+	AnimationCurve<Vector3> translate;
+	AnimationCurve<Quaternion> rotate;
+	AnimationCurve<Vector3> scale;
+};
+
+struct AnimationData {
+	float duration; // アニメーション全体の尺(単位は秒)
+	// NodeAnimationの集合。Nodeメイでひけるようにしておく
+	std::map<std::string, NodeAnimation> nodeAnimations;
+};
 
 class Texture;
 class Object3d;
 class Audio;
-class Animation;
+class ModelAnimation;
 
 class ResourceManager {
 private:
@@ -61,6 +84,7 @@ private:
 	std::unordered_map<std::string, std::unique_ptr<Texture>> textureContainer_; // textureを纏めたコンテナ
 	std::unordered_map<std::string, std::unique_ptr<Object3d>> object3dContainer_; // modelDataを纏めたコンテナ
 	std::unordered_map<std::string, std::unique_ptr<Audio>> audioContainer_; // audioを纏めたコンテナ
+	std::unordered_map<std::string, AnimationData> animationContainer_; // animationDataを纏めたコンテナ
 
 	uint32_t textureCount_ = 10u; // 今のテクスチャが追加された数
 public: // 取得関数
@@ -68,11 +92,13 @@ public: // 取得関数
 	Texture* FindTexture(const std::string& name) const { return textureContainer_.at(name).get(); }
 	Object3d* FindObject3d(const std::string& name) const { return object3dContainer_.at(name).get(); }
 	Audio* FindAudio(const std::string& name) const { return audioContainer_.at(name).get(); }
+	AnimationData FindAnimation(const std::string& name) const { return animationContainer_.at(name); }
 
 public: // 追加関数
 	void AddTexture(const std::string& name, const std::string& fileName);
 	void AddModel(const std::string& name, const std::string& fileName);
 	void AddAudio(const std::string& name, const std::string& fileName);
+	void AddAnimation(const std::string& name, const std::string& fileName);
 
 	const uint32_t GetCount(); // 次のtexture番号を割り当て
 
@@ -91,7 +117,7 @@ public:
 	// モデルファイルを読み込む関数
 	ModelData LoadModelFile(const std::string& filename);
 	// アニメーションファイルを読み込む関数
-	Animation LoadAnimationFile(const std::string& filename);
+	AnimationData LoadAnimationFile(const std::string& filename);
 private:
 	MaterialData LoadMaterialTemplateFile(const std::string& filename);
 	Node ReadNode(struct aiNode* node);

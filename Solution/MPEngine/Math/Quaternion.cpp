@@ -1,6 +1,8 @@
 #include "Quaternion.h"
 #include <cmath>
 #include <functional>
+#include "Vector3.h"
+#include "Matrix4x4.h"
 
 Quaternion::Quaternion() {
 	*this = IdentityQuaternion();
@@ -112,7 +114,7 @@ Vector3 Quaternion::RotateVector(const Vector3& vector, const Quaternion& quater
 	return result;
 }
 
-Matrix4x4 Quaternion::MakeRotateMatrix(const Quaternion& quaternion) {
+Matrix4x4 Quaternion::MakeQuaternionRotateMatrix(const Quaternion& quaternion) {
 	Matrix4x4 result;
 	result.m[0][0] = (quaternion.w * quaternion.w) + (quaternion.x * quaternion.x) - (quaternion.y * quaternion.y) - (quaternion.z * quaternion.z);
 	result.m[0][1] = 2.0f * ((quaternion.x * quaternion.y) + (quaternion.w * quaternion.z));
@@ -136,7 +138,7 @@ float Quaternion::Dot(const Quaternion& q0, const Quaternion& q1) {
 Quaternion Quaternion::Slerp(const Quaternion& q0, const Quaternion& q1, const float& t) {
 	float dot = Quaternion::Dot(q0, q1);
 	Quaternion localQ0 = q0;
-	float ep = 1.0f - std::numeric_limits<float>::epsilon();
+	constexpr float ep = 1.0f - std::numeric_limits<float>::epsilon();
 	if (dot < 0.0f) {
 		localQ0 = (-q0); // もう片方の回転を利用する
 		dot = -dot; // 内積も反転

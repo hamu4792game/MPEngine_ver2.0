@@ -209,10 +209,7 @@
     <ClCompile Include="MPEngine\Math\Quaternion.cpp">
       <Filter>MPEngine\Math\Quaternion</Filter>
     </ClCompile>
-    <ClCompile Include="MPEngine\Graphics\ModelAnimation\ModelAnimation.cpp">
-      <Filter>MPEngine\Graphics\Animation</Filter>
-    </ClCompile>
-    <ClCompile Include="MPEngine\Graphics\Animation\Animation.cpp">
+    <ClCompile Include="MPEngine\Graphics\Animation\ModelAnimation.cpp">
       <Filter>MPEngine\Graphics\Animation</Filter>
     </ClCompile>
   </ItemGroup>
@@ -443,10 +440,7 @@
     <ClInclude Include="MPEngine\Math\Quaternion.h">
       <Filter>MPEngine\Math\Quaternion</Filter>
     </ClInclude>
-    <ClInclude Include="MPEngine\Graphics\ModelAnimation\ModelAnimation.h">
-      <Filter>MPEngine\Graphics\Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="MPEngine\Graphics\Animation\Animation.h">
+    <ClInclude Include="MPEngine\Graphics\Animation\ModelAnimation.h">
       <Filter>MPEngine\Graphics\Animation</Filter>
     </ClInclude>
   </ItemGroup>
