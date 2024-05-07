@@ -53,7 +53,7 @@ void GameScene::Initialize() {
 	//rs->AddAudio("Title", "./Resources/Sound/w006.wav");
 	rs->AddAudio("Battle", "Resources/Audio/mLoop1.mp3");
 
-	sceneRequest_ = Scene::BATTLE;
+	sceneRequest_ = Scene::TITLE;
 	transition_ = std::make_unique<Transition>();
 }
 

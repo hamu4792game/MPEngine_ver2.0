@@ -9,7 +9,7 @@ void TitleScene::Initialize() {
 	titleUI_ = std::make_unique<TitleUI>();
 	titleUI_->Initialize();
 	auto rs = ResourceManager::GetInstance();
-	Audio* titleAudio = rs->FindAudio("Title");
+	Audio* titleAudio = rs->FindAudio("Battle");
 	titleAudio->SoundPlayWave(true);
 
 	stage_ = std::make_unique<Stage>();
@@ -47,11 +47,6 @@ void TitleScene::Update() {
 
 	titleUI_->Update();
 	stage_->Update();
-	//player_->TitleUpdate();
-
-	for (auto coll : stage_->GetCollision()) {
-		//player_->OnCollisionStage(coll);
-	}
 
 	cameraTransform_.UpdateMatrix();
 	Camera3d::GetInstance()->SetTransform(cameraTransform_);

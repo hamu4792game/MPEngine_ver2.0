@@ -11,7 +11,7 @@ public:
 	void DrawImGui();
 
 	void SetTarget(const WorldTransform* target) { target_ = target; }
-	const WorldTransform& GetTransform() { return transform_; }
+	const WorldTransform& GetTransform() const { return transform_; }
 	void CameraMove();
 	WorldTransform transform_;
 private:
