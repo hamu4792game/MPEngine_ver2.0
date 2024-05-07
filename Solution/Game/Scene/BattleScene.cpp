@@ -43,6 +43,7 @@ void BattleScene::Update() {
 	else {
 		RenderManager::nowEffect = RenderManager::PostEffect::None;
 	}
+	time_ = std::min(time_, 300.0f);
 
 	DrawImGui();
 	stage_->Update();
