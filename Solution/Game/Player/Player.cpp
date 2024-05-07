@@ -6,6 +6,7 @@
 #include "Utils/GlobalVariables/GlobalVariables.h"
 #undef min
 #undef max
+#include "MPEngine/Graphics/RenderManager/RenderManager.h"
 
 void Player::Initialize() {
 #pragma region Models

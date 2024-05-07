@@ -3,6 +3,7 @@
 #include "MPEngine/Base/DetailSetting/RootSignature/RootSignature.h"
 #include "MPEngine/Base/DetailSetting/GraphicsPipeline/GraphicsPipeline.h"
 #include <array>
+#include "MPEngine/Graphics/RenderManager/RenderManager.h"
 
 class RenderTarget {
 public:
@@ -14,7 +15,7 @@ public:
 	// 書かれたものをswapchainに書き込む(コピー)
 	void DrawCommand(ID3D12GraphicsCommandList* comList);
 	// 指定色でクリア
-	void ClearRenderTarget(ID3D12GraphicsCommandList* comList, D3D12_CPU_DESCRIPTOR_HANDLE rtvHeapPointer);
+	void ClearRenderTarget(ID3D12GraphicsCommandList* comList, D3D12_CPU_DESCRIPTOR_HANDLE rtvHeapPointer) const;
 
 	ID3D12Resource* const GetResource() { return renderTextureResource_.Get(); }
 	const uint32_t& GetHandle() const { return handleNum_; }
@@ -28,10 +29,9 @@ private:
 private:
 	Microsoft::WRL::ComPtr<ID3D12Resource> renderTextureResource_;
 	uint32_t handleNum_ = 0u;
-	Microsoft::WRL::ComPtr<IDxcBlob> vertexShader;
-	Microsoft::WRL::ComPtr<IDxcBlob> pixelShader;
+	
 	std::unique_ptr<RootSignature> rootSignature_;
-	std::array<std::unique_ptr<GraphicsPipeline>, static_cast<int>(BlendMode::BlendCount)> graphicsPipeline_;
+	std::array<std::unique_ptr<GraphicsPipeline>, static_cast<int>(RenderManager::PostEffect::kMaxNum)> graphicsPipeline_;
 
 	// 描画必要情報
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_{};

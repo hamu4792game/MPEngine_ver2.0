@@ -3,6 +3,8 @@
 #include "MPEngine/Base/Manager/ListManager/ListManager.h"
 #include "MPEngine/Base/Manager/ResourceManager/ResourceManager.h"
 
+decltype(RenderManager::nowEffect)RenderManager::nowEffect = RenderManager::PostEffect::None;
+
 void RenderManager::Initialize() {
 	spriteRender.Initialize();
 	modelRender.Initialize();

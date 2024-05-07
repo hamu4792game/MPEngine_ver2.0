@@ -14,6 +14,16 @@ public:
 
 	void Initialize();
 	void Draw();
+
+	enum class PostEffect {
+		None,
+		Grayscale,
+		Sepiatone,
+
+		kMaxNum
+	};
+	static PostEffect nowEffect;
+
 private:
 
 	SpriteRender spriteRender;

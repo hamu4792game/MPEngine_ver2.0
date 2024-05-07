@@ -57,7 +57,7 @@
       <Filter>MPEngine\TimeBaseLoopExecuter</Filter>
     </ClCompile>
     <ClCompile Include="MPEngine\Graphics\Texture\Texture.cpp">
-      <Filter>MPEngine\Graphics\Texture</Filter>
+      <Filter>MPEngine\Graphics\Utils\Texture</Filter>
     </ClCompile>
     <ClCompile Include="MPEngine\Base\DetailSetting\GraphicsPipeline\GraphicsPipeline.cpp">
       <Filter>MPEngine\Base\DetailSetting\GraphicsPipeline</Filter>
@@ -66,10 +66,10 @@
       <Filter>MPEngine\Base\Manager\ShaderManager</Filter>
     </ClCompile>
     <ClCompile Include="MPEngine\Graphics\SpriteRender\SpriteRender.cpp">
-      <Filter>MPEngine\Graphics\SpriteRender</Filter>
+      <Filter>MPEngine\Graphics\Render\SpriteRender</Filter>
     </ClCompile>
     <ClCompile Include="MPEngine\Graphics\Sprite\Sprite.cpp">
-      <Filter>MPEngine\Graphics\Sprite</Filter>
+      <Filter>MPEngine\Graphics\Utils\Sprite</Filter>
     </ClCompile>
     <ClCompile Include="MPEngine\Base\DetailSetting\RootSignature\RootSignature.cpp">
       <Filter>MPEngine\Base\DetailSetting\RootSignature</Filter>
@@ -78,7 +78,7 @@
       <Filter>MPEngine\Base\DetailSetting\DescriptorHandle</Filter>
     </ClCompile>
     <ClCompile Include="MPEngine\Graphics\RenderManager\RenderManager.cpp">
-      <Filter>MPEngine\Graphics\RenderManager</Filter>
+      <Filter>MPEngine\Graphics\Render\RenderManager</Filter>
     </ClCompile>
     <ClCompile Include="GameScene\GameScene.cpp">
       <Filter>GameScene</Filter>
@@ -87,13 +87,13 @@
       <Filter>MPEngine\Math\Matrix3x3</Filter>
     </ClCompile>
     <ClCompile Include="MPEngine\Graphics\Model\Model.cpp">
-      <Filter>MPEngine\Graphics\Model</Filter>
+      <Filter>MPEngine\Graphics\Utils\Model</Filter>
     </ClCompile>
     <ClCompile Include="MPEngine\Graphics\ModelRender\ModelRender.cpp">
-      <Filter>MPEngine\Graphics\ModelRender</Filter>
+      <Filter>MPEngine\Graphics\Render\ModelRender</Filter>
     </ClCompile>
     <ClCompile Include="MPEngine\Graphics\Object3d\Object3d.cpp">
-      <Filter>MPEngine\Graphics\Object3d</Filter>
+      <Filter>MPEngine\Graphics\Utils\Object3d</Filter>
     </ClCompile>
     <ClCompile Include="MPEngine\Utils\WorldTransform\WorldTransform.cpp">
       <Filter>MPEngine\Utils\WorldTransform</Filter>
@@ -117,10 +117,10 @@
       <Filter>Game\Camera\WireCamera</Filter>
     </ClCompile>
     <ClCompile Include="MPEngine\Graphics\Particle\Particle.cpp">
-      <Filter>MPEngine\Graphics\Particle</Filter>
+      <Filter>MPEngine\Graphics\Utils\Particle</Filter>
     </ClCompile>
     <ClCompile Include="MPEngine\Graphics\ParticleRender\ParticleRender.cpp">
-      <Filter>MPEngine\Graphics\ParticleRender</Filter>
+      <Filter>MPEngine\Graphics\Render\ParticleRender</Filter>
     </ClCompile>
     <ClCompile Include="Game\Scene\TitleScene.cpp">
       <Filter>Game\Scene\TitleScene</Filter>
@@ -135,7 +135,7 @@
       <Filter>GameScene</Filter>
     </ClCompile>
     <ClCompile Include="MPEngine\Graphics\Light\DirectionalLight.cpp">
-      <Filter>MPEngine\Graphics\Light\DirectionalLight</Filter>
+      <Filter>MPEngine\Graphics\Utils\Light\DirectionalLight</Filter>
     </ClCompile>
     <ClCompile Include="Game\Particle\DustParticle.cpp">
       <Filter>Game\Particle</Filter>
@@ -177,10 +177,10 @@
       <Filter>Game\Target</Filter>
     </ClCompile>
     <ClCompile Include="MPEngine\Graphics\Line\Line.cpp">
-      <Filter>MPEngine\Graphics\Line</Filter>
+      <Filter>MPEngine\Graphics\Utils\Line</Filter>
     </ClCompile>
     <ClCompile Include="MPEngine\Graphics\LineRender\LineRender.cpp">
-      <Filter>MPEngine\Graphics\LineRender</Filter>
+      <Filter>MPEngine\Graphics\Render\LineRender</Filter>
     </ClCompile>
     <ClCompile Include="Game\TitleUI\TitleUI.cpp">
       <Filter>Game\TitleUI</Filter>
@@ -210,7 +210,7 @@
       <Filter>MPEngine\Math\Quaternion</Filter>
     </ClCompile>
     <ClCompile Include="MPEngine\Graphics\Animation\ModelAnimation.cpp">
-      <Filter>MPEngine\Graphics\Animation</Filter>
+      <Filter>MPEngine\Graphics\Utils\Animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -276,16 +276,16 @@
       <Filter>MPEngine\Base\DetailSetting\GraphicsPipeline</Filter>
     </ClInclude>
     <ClInclude Include="MPEngine\Graphics\Texture\Texture.h">
-      <Filter>MPEngine\Graphics\Texture</Filter>
+      <Filter>MPEngine\Graphics\Utils\Texture</Filter>
     </ClInclude>
     <ClInclude Include="MPEngine\Base\Manager\ShaderManager\ShaderManager.h">
       <Filter>MPEngine\Base\Manager\ShaderManager</Filter>
     </ClInclude>
     <ClInclude Include="MPEngine\Graphics\SpriteRender\SpriteRender.h">
-      <Filter>MPEngine\Graphics\SpriteRender</Filter>
+      <Filter>MPEngine\Graphics\Render\SpriteRender</Filter>
     </ClInclude>
     <ClInclude Include="MPEngine\Graphics\Sprite\Sprite.h">
-      <Filter>MPEngine\Graphics\Sprite</Filter>
+      <Filter>MPEngine\Graphics\Utils\Sprite</Filter>
     </ClInclude>
     <ClInclude Include="MPEngine\Base\DetailSetting\RootSignature\RootSignature.h">
       <Filter>MPEngine\Base\DetailSetting\RootSignature</Filter>
@@ -297,7 +297,7 @@
       <Filter>MPEngine\Base\DetailSetting\DescriptorHandle</Filter>
     </ClInclude>
     <ClInclude Include="MPEngine\Graphics\RenderManager\RenderManager.h">
-      <Filter>MPEngine\Graphics\RenderManager</Filter>
+      <Filter>MPEngine\Graphics\Render\RenderManager</Filter>
     </ClInclude>
     <ClInclude Include="GameScene\GameScene.h">
       <Filter>GameScene</Filter>
@@ -309,13 +309,13 @@
       <Filter>MPEngine\Math</Filter>
     </ClInclude>
     <ClInclude Include="MPEngine\Graphics\Model\Model.h">
-      <Filter>MPEngine\Graphics\Model</Filter>
+      <Filter>MPEngine\Graphics\Utils\Model</Filter>
     </ClInclude>
     <ClInclude Include="MPEngine\Graphics\ModelRender\ModelRender.h">
-      <Filter>MPEngine\Graphics\ModelRender</Filter>
+      <Filter>MPEngine\Graphics\Render\ModelRender</Filter>
     </ClInclude>
     <ClInclude Include="MPEngine\Graphics\Object3d\Object3d.h">
-      <Filter>MPEngine\Graphics\Object3d</Filter>
+      <Filter>MPEngine\Graphics\Utils\Object3d</Filter>
     </ClInclude>
     <ClInclude Include="MPEngine\Utils\WorldTransform\WorldTransform.h">
       <Filter>MPEngine\Utils\WorldTransform</Filter>
@@ -348,10 +348,10 @@
       <Filter>Game\Camera\WireCamera</Filter>
     </ClInclude>
     <ClInclude Include="MPEngine\Graphics\Particle\Particle.h">
-      <Filter>MPEngine\Graphics\Particle</Filter>
+      <Filter>MPEngine\Graphics\Utils\Particle</Filter>
     </ClInclude>
     <ClInclude Include="MPEngine\Graphics\ParticleRender\ParticleRender.h">
-      <Filter>MPEngine\Graphics\ParticleRender</Filter>
+      <Filter>MPEngine\Graphics\Render\ParticleRender</Filter>
     </ClInclude>
     <ClInclude Include="Game\Scene\TitleScene.h">
       <Filter>Game\Scene\TitleScene</Filter>
@@ -366,7 +366,7 @@
       <Filter>GameScene</Filter>
     </ClInclude>
     <ClInclude Include="MPEngine\Graphics\Light\DirectionalLight.h">
-      <Filter>MPEngine\Graphics\Light\DirectionalLight</Filter>
+      <Filter>MPEngine\Graphics\Utils\Light\DirectionalLight</Filter>
     </ClInclude>
     <ClInclude Include="Game\Particle\DustParticle.h">
       <Filter>Game\Particle</Filter>
@@ -408,10 +408,10 @@
       <Filter>Game\Target</Filter>
     </ClInclude>
     <ClInclude Include="MPEngine\Graphics\Line\Line.h">
-      <Filter>MPEngine\Graphics\Line</Filter>
+      <Filter>MPEngine\Graphics\Utils\Line</Filter>
     </ClInclude>
     <ClInclude Include="MPEngine\Graphics\LineRender\LineRender.h">
-      <Filter>MPEngine\Graphics\LineRender</Filter>
+      <Filter>MPEngine\Graphics\Render\LineRender</Filter>
     </ClInclude>
     <ClInclude Include="Game\TitleUI\TitleUI.h">
       <Filter>Game\TitleUI</Filter>
@@ -441,7 +441,7 @@
       <Filter>MPEngine\Math\Quaternion</Filter>
     </ClInclude>
     <ClInclude Include="MPEngine\Graphics\Animation\ModelAnimation.h">
-      <Filter>MPEngine\Graphics\Animation</Filter>
+      <Filter>MPEngine\Graphics\Utils\Animation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -508,20 +508,11 @@
     <Filter Include="MPEngine\Graphics">
       <UniqueIdentifier>{86e94afe-dddc-4771-ab3b-8331b6f641a9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MPEngine\Graphics\Texture">
-      <UniqueIdentifier>{d5147d06-c76b-43e6-8679-539867ee7b34}</UniqueIdentifier>
-    </Filter>
     <Filter Include="MPEngine\Base\DetailSetting\GraphicsPipeline">
       <UniqueIdentifier>{d4ec419f-9c13-4f55-bceb-6ed06736d998}</UniqueIdentifier>
     </Filter>
     <Filter Include="MPEngine\Base\Manager\ShaderManager">
       <UniqueIdentifier>{6453e595-8ac6-4a71-bf38-f573fb447ab4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MPEngine\Graphics\SpriteRender">
-      <UniqueIdentifier>{e2b5b48c-6d09-4fa7-8499-eedb15b8913b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MPEngine\Graphics\Sprite">
-      <UniqueIdentifier>{62ab4733-f874-428e-8760-ff502c89db88}</UniqueIdentifier>
     </Filter>
     <Filter Include="MPEngine\Base\DetailSetting\RootSignature">
       <UniqueIdentifier>{2f1e355a-ce5a-4c4b-8c3e-ae18499ead7d}</UniqueIdentifier>
@@ -529,23 +520,11 @@
     <Filter Include="MPEngine\Base\DetailSetting\DescriptorHandle">
       <UniqueIdentifier>{b52532d6-f6cc-4ad2-9dc9-f604e93a0d09}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MPEngine\Graphics\RenderManager">
-      <UniqueIdentifier>{acd41f0a-0343-4bf8-a137-d273c6ccc1ef}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameScene">
       <UniqueIdentifier>{1c0b4081-c4c0-447f-b10f-a9e850ce9569}</UniqueIdentifier>
     </Filter>
     <Filter Include="MPEngine\Math\Matrix3x3">
       <UniqueIdentifier>{2579d68a-7288-4c8a-917d-b7ea6e9a8167}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MPEngine\Graphics\ModelRender">
-      <UniqueIdentifier>{c0eb142f-6032-40b4-ba8d-1e895e6f71b0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MPEngine\Graphics\Model">
-      <UniqueIdentifier>{b155d36c-f16f-4218-b581-e3f5cfa73318}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MPEngine\Graphics\Object3d">
-      <UniqueIdentifier>{ced91e57-317f-407b-8a07-2dcd40dd8b09}</UniqueIdentifier>
     </Filter>
     <Filter Include="MPEngine\Utils">
       <UniqueIdentifier>{0b395792-25a1-452f-85ae-6611112c3e66}</UniqueIdentifier>
@@ -580,23 +559,11 @@
     <Filter Include="Game\Camera\WireCamera">
       <UniqueIdentifier>{4464f6e6-169e-4157-b584-73a0da5cae25}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MPEngine\Graphics\Particle">
-      <UniqueIdentifier>{c0a559cf-08c8-4809-9eeb-aa38c01244a9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MPEngine\Graphics\ParticleRender">
-      <UniqueIdentifier>{bb7ce54e-8604-4341-a908-0b036284391a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\Scene\TitleScene">
       <UniqueIdentifier>{fa18a743-c9c5-4b66-90c3-9f057ed671f3}</UniqueIdentifier>
     </Filter>
     <Filter Include="MPEngine\Base\Manager\ImGuiManager">
       <UniqueIdentifier>{f3054bbb-72fb-4162-9c74-8ae5737f8800}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MPEngine\Graphics\Light">
-      <UniqueIdentifier>{234c0cea-fbba-4588-b294-44dcd36e0da0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MPEngine\Graphics\Light\DirectionalLight">
-      <UniqueIdentifier>{cd5fceec-7198-44da-ae0d-e8e26db6c4d2}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\Particle">
       <UniqueIdentifier>{79132a06-5dc9-42c1-a691-944e89eda65a}</UniqueIdentifier>
@@ -625,12 +592,6 @@
     <Filter Include="Game\Target">
       <UniqueIdentifier>{17a2bc1a-3f68-48ac-9ed1-3eb00925b84e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MPEngine\Graphics\Line">
-      <UniqueIdentifier>{e2e84727-7b8d-47a7-9040-f97529ac9383}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MPEngine\Graphics\LineRender">
-      <UniqueIdentifier>{a1dec1d1-ac5d-4d51-ae11-e5a2c14a87c1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\TitleUI">
       <UniqueIdentifier>{13d7262e-9166-48d6-8c09-5fb07276a111}</UniqueIdentifier>
     </Filter>
@@ -649,7 +610,52 @@
     <Filter Include="MPEngine\Math\Quaternion">
       <UniqueIdentifier>{121381fe-4a17-4543-a3e7-335d542d1272}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MPEngine\Graphics\Animation">
+    <Filter Include="MPEngine\Graphics\Render">
+      <UniqueIdentifier>{65eeaa8a-eb9d-49b4-a331-8a7b2894380e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Graphics\Render\ModelRender">
+      <UniqueIdentifier>{c0eb142f-6032-40b4-ba8d-1e895e6f71b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Graphics\Render\LineRender">
+      <UniqueIdentifier>{a1dec1d1-ac5d-4d51-ae11-e5a2c14a87c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Graphics\Render\ParticleRender">
+      <UniqueIdentifier>{bb7ce54e-8604-4341-a908-0b036284391a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Graphics\Render\RenderManager">
+      <UniqueIdentifier>{acd41f0a-0343-4bf8-a137-d273c6ccc1ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Graphics\Render\SpriteRender">
+      <UniqueIdentifier>{e2b5b48c-6d09-4fa7-8499-eedb15b8913b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Graphics\Utils">
+      <UniqueIdentifier>{c4732bdb-6735-4604-80b2-eba799a717f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Graphics\Utils\Object3d">
+      <UniqueIdentifier>{ced91e57-317f-407b-8a07-2dcd40dd8b09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Graphics\Utils\Particle">
+      <UniqueIdentifier>{c0a559cf-08c8-4809-9eeb-aa38c01244a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Graphics\Utils\Sprite">
+      <UniqueIdentifier>{62ab4733-f874-428e-8760-ff502c89db88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Graphics\Utils\Texture">
+      <UniqueIdentifier>{d5147d06-c76b-43e6-8679-539867ee7b34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Graphics\Utils\Model">
+      <UniqueIdentifier>{b155d36c-f16f-4218-b581-e3f5cfa73318}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Graphics\Utils\Line">
+      <UniqueIdentifier>{e2e84727-7b8d-47a7-9040-f97529ac9383}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Graphics\Utils\Light">
+      <UniqueIdentifier>{234c0cea-fbba-4588-b294-44dcd36e0da0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Graphics\Utils\Light\DirectionalLight">
+      <UniqueIdentifier>{cd5fceec-7198-44da-ae0d-e8e26db6c4d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Graphics\Utils\Animation">
       <UniqueIdentifier>{4b6145d8-02cb-45ae-927c-74f2c4667e6a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

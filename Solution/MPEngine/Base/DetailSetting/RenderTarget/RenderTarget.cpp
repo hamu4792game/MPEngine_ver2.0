@@ -43,25 +43,31 @@ void RenderTarget::DrawCommand(ID3D12GraphicsCommandList* comList) {
 	comList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 	comList->IASetVertexBuffers(0, 1, &vertexBufferView_);
 	comList->SetGraphicsRootSignature(rootSignature_->GetRootSignature().Get());
-	comList->SetPipelineState(graphicsPipeline_[static_cast<uint32_t>(BlendMode::None)]->GetPipelineState());
+	comList->SetPipelineState(graphicsPipeline_[static_cast<uint32_t>(RenderManager::nowEffect)]->GetPipelineState());
 	comList->SetGraphicsRootDescriptorTable(0, ResourceManager::GetInstance()->GetSRVHeap()->GetGPUDescriptorHandle(handleNum_));
 	
 	// 頂点3つ描画
 	comList->DrawInstanced(3, 1, 0, 0);
 }
 
-void RenderTarget::ClearRenderTarget(ID3D12GraphicsCommandList* comList, D3D12_CPU_DESCRIPTOR_HANDLE rtvHeapPointer) {
+void RenderTarget::ClearRenderTarget(ID3D12GraphicsCommandList* comList, D3D12_CPU_DESCRIPTOR_HANDLE rtvHeapPointer) const {
 	// 指定した色で画面全体をクリアする
 	comList->ClearRenderTargetView(rtvHeapPointer, clearColor_, 0, nullptr);
 }
 
 void RenderTarget::CreatePipelineState() {
 #pragma region Shader
-	const std::string VSpath = "CopyImage.VS.hlsl";
-	const std::string PSpath = "CopyImage.PS.hlsl";
+	Microsoft::WRL::ComPtr<IDxcBlob> vertexShader;
+	Microsoft::WRL::ComPtr<IDxcBlob> pixelShader;
+	const std::string VSpath = "Fullscreen.VS.hlsl";
+	const std::string PSpath[] = {
+		"CopyImage.PS.hlsl",
+		"Grayscale.PS.hlsl",
+		"Sepiatone.PS.hlsl",
+	};
 	auto shaderInstance = ShaderManager::GetInstance();
 	vertexShader = shaderInstance->CompileShader(VSpath, ShaderManager::ShaderType::Vertex);
-	pixelShader = shaderInstance->CompileShader(PSpath, ShaderManager::ShaderType::Pixel);
+	//pixelShader = shaderInstance->CompileShader(PSpath, ShaderManager::ShaderType::Pixel);
 #pragma endregion
 
 #pragma region RootSignature
@@ -78,15 +84,6 @@ void RenderTarget::CreatePipelineState() {
 	rootParameter[0].DescriptorTable.pDescriptorRanges = range;
 	rootParameter[0].DescriptorTable.NumDescriptorRanges = _countof(range);
 
-	// WVP
-	//rootParameter[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
-	//rootParameter[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
-	//rootParameter[1].Descriptor.ShaderRegister = 0;
-
-	//// 色などのマテリアル系
-	//rootParameter[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
-	//rootParameter[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-	//rootParameter[2].Descriptor.ShaderRegister = 1;
 	rootSignature_ = std::make_unique<RootSignature>();
 	rootSignature_->CreateRootSignature(rootParameter, paramIndex);
 #pragma endregion
@@ -102,7 +99,7 @@ void RenderTarget::CreatePipelineState() {
 
 	plDesc.signature_ = rootSignature_->GetRootSignature().Get();
 	plDesc.vertexShader_ = vertexShader.Get();
-	plDesc.pixelShader_ = pixelShader.Get();
+	//plDesc.pixelShader_ = pixelShader.Get();
 
 	plDesc.depthStencilDesc_.DepthEnable = false;
 	// 裏面を表示しない
@@ -111,9 +108,12 @@ void RenderTarget::CreatePipelineState() {
 	plDesc.rasterizerDesc_.FillMode = D3D12_FILL_MODE_SOLID;
 	plDesc.rasterizerDesc_.DepthClipEnable = true;
 
-	for (uint8_t i = 0; i < static_cast<uint8_t>(BlendMode::BlendCount); i++) {
+	for (uint8_t i = 0; i < static_cast<uint8_t>(RenderManager::PostEffect::kMaxNum); i++) {
+		pixelShader = shaderInstance->CompileShader(PSpath[i], ShaderManager::ShaderType::Pixel);
+		plDesc.pixelShader_ = pixelShader.Get();
+
 		graphicsPipeline_.at(i) = std::make_unique<GraphicsPipeline>();
-		graphicsPipeline_.at(i)->CreatePipeline(plDesc, static_cast<BlendMode>(i));
+		graphicsPipeline_.at(i)->CreatePipeline(plDesc, BlendMode::None);
 	}
 
 #pragma endregion
