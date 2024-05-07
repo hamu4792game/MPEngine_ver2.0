@@ -27,4 +27,7 @@ private:
 	std::unique_ptr<LockOn> lockOn_;
 	std::unique_ptr<Enemy> enemy_;
 	std::unique_ptr<GameUI> gameUI_;
+
+	float time_ = 0.0f;
+	const float kMaxTimer_ = 3.0f;
 };

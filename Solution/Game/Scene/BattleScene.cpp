@@ -4,6 +4,7 @@
 #include "ImGuiManager/ImGuiManager.h"
 #include "ResourceManager/ResourceManager.h"
 #include "Input/Audio.h"
+#include "MPEngine/Graphics/RenderManager/RenderManager.h"
 
 void BattleScene::Initialize() {
 	player_ = std::make_unique<Player>();
@@ -35,6 +36,14 @@ void BattleScene::Finalize() {
 }
 
 void BattleScene::Update() {
+
+	if (time_++ <= kMaxTimer_ * 60.0f) {
+		RenderManager::nowEffect = RenderManager::PostEffect::Grayscale;
+	}
+	else {
+		RenderManager::nowEffect = RenderManager::PostEffect::None;
+	}
+
 	DrawImGui();
 	stage_->Update();
 	std::list<std::shared_ptr<Target>> listData(stage_->GetTargets());
