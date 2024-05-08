@@ -87,9 +87,10 @@ void FollowCamera::CameraMove() {
 			move.x += AngleToRadian(1.0f);
 		}
 	}
-	transform_.rotation_.x += move.x;
+	//transform_.rotation_.x += move.x;
 	//transform_.rotation_.y += move.y;
+	postRotate_.x += move.x;
 	postRotate_.y += move.y;
 
-	transform_.rotation_.x = std::clamp(transform_.rotation_.x, AngleToRadian(-8.0f), AngleToRadian(75.0f));
+	//transform_.rotation_.x = std::clamp(transform_.rotation_.x, AngleToRadian(-8.0f), AngleToRadian(75.0f));
 }

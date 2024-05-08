@@ -231,24 +231,26 @@ ModelData ResourceManager::LoadModelFile(const std::string& filename) {
 		aiMesh* mesh = scene->mMeshes[index];
 		assert(mesh->HasNormals()); // 法線がないメッシュを非対応に
 		assert(mesh->HasTextureCoords(0)); // texcoordがないメッシュを非対応に
-		// ここからメッシュの中身の解析を行う
+
+		// ここからVertexの解析を行う
+		modelData.vertices.resize(mesh->mNumVertices);
+		for (uint32_t vertexIndex = 0u; vertexIndex < mesh->mNumVertices; vertexIndex++) {
+			aiVector3D& position = mesh->mVertices[vertexIndex];
+			aiVector3D& normal = mesh->mNormals[vertexIndex];
+			aiVector3D& texcoord = mesh->mTextureCoords[0][vertexIndex];
+			// 右手→左手座標系へ変換
+			modelData.vertices[vertexIndex].position = { -position.x,position.y,position.z,1.0f };
+			modelData.vertices[vertexIndex].normal = { -normal.x,normal.y,normal.z };
+			modelData.vertices[vertexIndex].texcoord = { texcoord.x,texcoord.y };
+		}
+
 		for (uint32_t faceIndex = 0; faceIndex < mesh->mNumFaces; faceIndex++) {
 			aiFace& face = mesh->mFaces[faceIndex];
 			assert(face.mNumIndices == 3); // 三角形のみサポート
-			// ここからvertexの解析を行う
-			for (uint32_t element = 0; element < face.mNumIndices; element++) {
+			// indexの解析
+			for (uint32_t element = 0u; element < face.mNumIndices; element++) {
 				uint32_t vertexIndex = face.mIndices[element];
-				aiVector3D& position = mesh->mVertices[vertexIndex];
-				aiVector3D& normal = mesh->mNormals[vertexIndex];
-				aiVector3D& texcoord = mesh->mTextureCoords[0][vertexIndex];
-				VertexData vertex;
-				vertex.position = { position.x,position.y,position.z,1.0f };
-				vertex.normal = { normal.x,normal.y,normal.z };
-				vertex.texcoord = { texcoord.x,texcoord.y };
-				// aiProcess_MakeLeftHandedはz*=-1で、右手->左手に変換するので手動で対処
-				vertex.position.x *= -1.0f;
-				vertex.normal.x *= 1.0f;
-				modelData.vertices.push_back(vertex);
+				modelData.indices.push_back(vertexIndex);
 			}
 		}
 	}

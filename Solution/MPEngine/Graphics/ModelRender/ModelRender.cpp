@@ -135,6 +135,7 @@ void ModelRender::DrawCommand(Camera3d* cameraPtr) {
 
 		list->SetPipelineState(graphicsPipeline_[static_cast<uint32_t>(model->blendType_)]->GetPipelineState());
 		list->IASetVertexBuffers(0, 1, &model->vertexBufferView_);
+		list->IASetIndexBuffer(&model->indexBufferView_);
 		auto rsManager = ResourceManager::GetInstance();
 		list->SetGraphicsRootDescriptorTable(0, model->texture_->GetHandle().GetGPU()); // Texture
 		list->SetGraphicsRootConstantBufferView(1, model->cMat.GetGPUVirtualAddress()); // cMat
@@ -143,7 +144,8 @@ void ModelRender::DrawCommand(Camera3d* cameraPtr) {
 		list->SetGraphicsRootConstantBufferView(4, camera->cCamera.GetGPUVirtualAddress()); // cCamera
 
 		// 描画
-		list->DrawInstanced(UINT(model->model_->GetModel().vertices.size()), 1, 0, 0);
+		//list->DrawInstanced(UINT(model->model_->GetModel().vertices.size()), 1, 0, 0);
+		list->DrawIndexedInstanced(UINT(model->model_->GetModel().indices.size()), 1, 0, 0, 0);
 	}
 
 }

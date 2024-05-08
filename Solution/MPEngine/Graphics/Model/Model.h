@@ -41,6 +41,8 @@ private:
 	// 描画必要情報
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_{};
 	Microsoft::WRL::ComPtr<ID3D12Resource> vertexResource_ = nullptr;
+	D3D12_INDEX_BUFFER_VIEW indexBufferView_{};
+	Microsoft::WRL::ComPtr<ID3D12Resource> indexResource_ = nullptr;
 
 	struct TransformationMatrix {
 		Matrix4x4 wvp;
