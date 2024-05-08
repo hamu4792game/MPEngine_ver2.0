@@ -11,9 +11,11 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <optional>
 
 #include "MPEngine/Math/MathUtl.h"
 #include "Math/Quaternion.h"
+#include "Utils/WorldTransform/WorldTransform.h"
 
 
 // 頂点データ構造体
@@ -28,6 +30,7 @@ struct MaterialData {
 };
 // gltfのnode
 struct Node {
+	WorldTransform transform;
 	Matrix4x4 localMatrix;
 	std::string name;
 	std::vector<Node> children;
@@ -42,7 +45,7 @@ struct ModelData {
 // アニメーション用構造体
 template <typename tValue>
 struct Keyframe {
-	float time; // キーフレームの時刻(単位は秒)
+	float time = 0.0f; // キーフレームの時刻(単位は秒)
 	tValue value; // キーフレームの値
 };
 template <typename tValue>
@@ -57,9 +60,25 @@ struct NodeAnimation {
 };
 
 struct AnimationData {
-	float duration; // アニメーション全体の尺(単位は秒)
+	float duration = 0.0f; // アニメーション全体の尺(単位は秒)
 	// NodeAnimationの集合。Nodeメイでひけるようにしておく
 	std::map<std::string, NodeAnimation> nodeAnimations;
+};
+
+struct Joint {
+	WorldTransform transform;
+	Matrix4x4 localMatrix;
+	Matrix4x4 skeletonSpaceMatrix; // skeletonSpaceでの変換行列
+	std::string name; // 名前
+	std::vector<int32_t> children; // 子jointのindexリスト。居なければ空
+	int32_t index = 0; // 自信のindex
+	std::optional<int32_t> parent; // 親jointのindex。いなければnull
+};
+
+struct Skeleton {
+	int32_t root = 0; // rootJointのindex
+	std::map<std::string, int32_t> jointMap; // Joint名とIndexとの辞書
+	std::vector<Joint> joints; // 所属しているJoint
 };
 
 class Texture;
@@ -121,5 +140,8 @@ public:
 private:
 	MaterialData LoadMaterialTemplateFile(const std::string& filename);
 	Node ReadNode(struct aiNode* node);
+	Skeleton CreateSkeleton(const Node& rootNode);
+	int32_t CreateJoint(const Node& node, const std::optional<int32_t>& parent, std::vector<Joint>& joints);
+	
 
 };

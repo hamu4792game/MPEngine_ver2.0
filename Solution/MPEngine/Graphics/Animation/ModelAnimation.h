@@ -16,6 +16,8 @@ public:
 	void Play(const bool& flag);
 	Matrix4x4 Update();
 	const Matrix4x4& GetMatrix() const { return localMatrix; }
+	void Update(Skeleton& skeleton);
+	void ApplyAnimation(Skeleton& skeleton, const AnimationData& animation, float animationTime);
 
 private:
 	// 任意時刻の値を取得する

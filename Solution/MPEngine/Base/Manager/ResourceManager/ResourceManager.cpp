@@ -349,26 +349,16 @@ Node ResourceManager::ReadNode(aiNode* node) {
 	Node result;
 	aiMatrix4x4 aiLocalMatrix = node->mTransformation; // nodeのlocalMatrixを取得
 	aiLocalMatrix.Transpose(); // 列ベクトル形式を行ベクトル形式に転置
+	aiVector3D scale, translate;
+	aiQuaternion rotate;
 #pragma region 行列代入
-	result.localMatrix.m[0][0] = aiLocalMatrix[0][0];
-	result.localMatrix.m[0][1] = aiLocalMatrix[0][1];
-	result.localMatrix.m[0][2] = aiLocalMatrix[0][2];
-	result.localMatrix.m[0][3] = aiLocalMatrix[0][3];
-
-	result.localMatrix.m[1][0] = aiLocalMatrix[1][0];
-	result.localMatrix.m[1][1] = aiLocalMatrix[1][1];
-	result.localMatrix.m[1][2] = aiLocalMatrix[1][2];
-	result.localMatrix.m[1][3] = aiLocalMatrix[1][3];
-
-	result.localMatrix.m[2][0] = aiLocalMatrix[2][0];
-	result.localMatrix.m[2][1] = aiLocalMatrix[2][1];
-	result.localMatrix.m[2][2] = aiLocalMatrix[2][2];
-	result.localMatrix.m[2][3] = aiLocalMatrix[2][3];
-
-	result.localMatrix.m[3][0] = aiLocalMatrix[3][0];
-	result.localMatrix.m[3][1] = aiLocalMatrix[3][1];
-	result.localMatrix.m[3][2] = aiLocalMatrix[3][2];
-	result.localMatrix.m[3][3] = aiLocalMatrix[3][3];
+	node->mTransformation.Decompose(scale, rotate, translate); // assimpの行列からSRTを抽出
+	result.transform.scale_ = Vector3(scale.x, scale.y, scale.z);
+	result.transform.rotationQuat_ = Quaternion(rotate.x, rotate.y, -rotate.z, rotate.w); // x軸を反転、さらに回転方向が逆なので軸を反転させる
+	result.transform.translation_ = Vector3(-translate.x, translate.y, translate.z); // x軸を反転
+	// quaternionを使用して更新
+	result.transform.isQuaternion_ = true;
+	result.localMatrix = result.transform.UpdateMatrix();
 #pragma endregion
 	result.name = node->mName.C_Str(); // Node名を取得
 	result.children.resize(node->mNumChildren); // 子供の数だけ確保
@@ -378,4 +368,32 @@ Node ResourceManager::ReadNode(aiNode* node) {
 	}
 
 	return result;
+}
+
+Skeleton ResourceManager::CreateSkeleton(const Node& rootNode) {
+	Skeleton skeleton;
+	skeleton.root = CreateJoint(rootNode, {}, skeleton.joints);
+	// 名前とindexのマッピングを行いアクセスしやすくする
+	for (const Joint& joint : skeleton.joints) {
+		skeleton.jointMap.emplace(joint.name, joint.index);
+	}
+	return skeleton;
+}
+
+int32_t ResourceManager::CreateJoint(const Node& node, const std::optional<int32_t>& parent, std::vector<Joint>& joints) {
+	Joint joint;
+	joint.name = node.name;
+	joint.localMatrix = node.localMatrix;
+	joint.skeletonSpaceMatrix = MakeIdentity4x4();
+	joint.transform = node.transform;
+	joint.index = int32_t(joints.size()); // 現在登録されている数をindexに
+	joint.parent = parent;
+	joints.push_back(joint); // SkeletonのJoint列に追加
+	for (const Node& child : node.children) {
+		// 子Jointを作成し、そおのIndexを登録
+		int32_t childIndex = CreateJoint(child, joint.index, joints);
+		joints[joint.index].children.push_back(childIndex);
+	}
+	// 自信のindexを返す
+	return joint.index;
 }

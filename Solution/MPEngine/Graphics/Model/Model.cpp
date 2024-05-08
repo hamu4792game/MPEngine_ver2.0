@@ -41,9 +41,6 @@ void Model::CreateVertexResource() {
 void Model::UploadVertexData() {
 	VertexData* mapData = nullptr;
 	vertexResource_->Map(0, nullptr, reinterpret_cast<void**>(&mapData));
-	auto a = model_->GetModel().vertices.size();
-	for (auto i = 0; i < a; i++) {
-		mapData[i] = model_->GetModel().vertices[i];
-	}
+	std::memcpy(mapData, model_->GetModel().vertices.data(), sizeof(VertexData) * model_->GetModel().vertices.size());
 	vertexResource_->Unmap(0, nullptr);
 }

@@ -26,6 +26,32 @@ Matrix4x4 ModelAnimation::Update() {
 	return localMatrix;
 }
 
+void ModelAnimation::Update(Skeleton& skeleton) {
+	// 全てのJointを更新、親が若いので通常ループで処理可能になっている
+	for (Joint& joint : skeleton.joints) {
+		joint.localMatrix = joint.transform.UpdateMatrix();
+		if (joint.parent) { /// 親がいれば親の行列を抜ける
+			joint.skeletonSpaceMatrix = joint.localMatrix * skeleton.joints[*joint.parent].skeletonSpaceMatrix;
+		}
+		else { // 親がいないのでlocalMatrixとskeletonSpaceMatrixは一致する
+			joint.skeletonSpaceMatrix = joint.localMatrix;
+		}
+	}
+}
+
+void ModelAnimation::ApplyAnimation(Skeleton& skeleton, const AnimationData& animation, float animationTime) {
+	for (Joint& joint : skeleton.joints) {
+		// 対象のJointのAnimationがあれば、相対の適応を行う。下のif文はC++17から可能になった初期化付きif文
+		if (auto it = animation.nodeAnimations.find(joint.name); it != animation.nodeAnimations.end()) {
+			const NodeAnimation& rootNodeAnimation = (*it).second;
+			joint.transform.translation_ = CalculateValue(rootNodeAnimation.translate.keyframes, animationTime);
+			joint.transform.rotationQuat_ = CalculateValue(rootNodeAnimation.rotate.keyframes, animationTime);
+			joint.transform.scale_ = CalculateValue(rootNodeAnimation.scale.keyframes, animationTime);
+
+		}
+	}
+}
+
 Vector3 ModelAnimation::CalculateValue(const std::vector<Keyframe<Vector3>>& keyframes, float time) {
 	assert(!keyframes.empty()); // キーがない場合
 	// 特殊なケースを早期リターンすることで、のちの処理が纏まる

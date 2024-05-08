@@ -6,6 +6,8 @@ public:
 	WorldTransform();
 	~WorldTransform() = default;
 	WorldTransform(const WorldTransform& transform);
+	WorldTransform(const Vector3& scale, const Vector3& rotate, const Vector3& translate);
+	WorldTransform(const Vector3& scale, const Quaternion& rotate, const Vector3& translate);
 
 	WorldTransform& operator=(const WorldTransform& trans);
 
@@ -14,7 +16,8 @@ public:
 	Vector3 scale_ = { 1.0f, 1.0f, 1.0f };
 	// X,Y,Z軸回りのローカル回転角
 	Vector3 rotation_ = { 0.0f, 0.0f, 0.0f };
-	//Matrix4x4 rotateMatrix;
+	Quaternion rotationQuat_;
+	bool isQuaternion_ = false; // Quaternionを使うか
 	// ローカル座標
 	Vector3 translation_ = { 0.0f, 0.0f, 0.0f };
 	// ローカル → ワールド変換行列
