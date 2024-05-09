@@ -6,6 +6,7 @@
 #include <string>
 #include "AnimationData.h"
 #include "ResourceManager/ResourceManager.h"
+#include "Graphics/Line/Line.h"
 
 class Model;
 
@@ -24,10 +25,11 @@ public:
 
 	void Load(const AnimationData* data, const Model* model);
 	void Play(const bool& flag);
-	Matrix4x4 Update();
+	//Matrix4x4 Update();
 	const Matrix4x4& GetMatrix() const { return localMatrix; }
-	void Update(Skeleton& skeleton);
-	void ApplyAnimation(Skeleton& skeleton, const AnimationData& animation, float animationTime);
+	void Update(const WorldTransform& transform);
+	void ApplyAnimation(float animationTime);
+	void Draw(const WorldTransform& transform);
 
 private:
 	static Skeleton CreateSkeleton(const Node& rootNode);
@@ -40,7 +42,9 @@ private:
 	float animationTime_ = 0.0f;
 	const AnimationData* data_ = nullptr;
 	const Model* model_ = nullptr;
+	Skeleton skeleton_;
 	Matrix4x4 localMatrix;
 	bool isPlay_ = true;
+	std::vector<std::unique_ptr<Line>> lines_;
 
 };

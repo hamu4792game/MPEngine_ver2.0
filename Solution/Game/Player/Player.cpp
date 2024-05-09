@@ -101,6 +101,10 @@ void Player::Update() {
 	LimitMoving();
 	followCamera_->CameraMove();
 	TransformUpdate();
+
+	animationTime_ += 0.1f;
+	animation_->ApplyAnimation(animationTime_);
+	animation_->Update(transform_);
 }
 
 WorldTransform Player::PostUpdate() {

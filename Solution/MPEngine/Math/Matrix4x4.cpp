@@ -78,6 +78,9 @@ Vector3 Matrix4x4::operator*(const Vector3& vec) const {
 	result.z = vec.x * this->m[0][2] + vec.y * this->m[1][2] + vec.z * this->m[2][2] + this->m[3][2];
 	return result;
 }
+Vector3 Matrix4x4::GetPosition() {
+	return Vector3(this->m[3][0], this->m[3][1], this->m[3][2]);
+}
 //	逆行列
 Matrix4x4 Inverse(const Matrix4x4& m) {
 	Matrix4x4 result;

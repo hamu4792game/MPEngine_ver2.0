@@ -4,6 +4,11 @@
 void ModelAnimation::Load(const AnimationData* data, const Model* model) {
 	data_ = data;
 	model_ = model;
+	skeleton_ = CreateSkeleton(model_->model_->GetModel().rootNode);
+	for (Joint& joint : skeleton_.joints) {
+		if (!joint.parent && lines_.empty()) { continue; }
+		auto& line = lines_.emplace_back(std::make_unique<Line>());
+	}
 }
 
 void ModelAnimation::Play(const bool& flag) {
@@ -11,7 +16,7 @@ void ModelAnimation::Play(const bool& flag) {
 	animationTime_ = 0.0f;
 }
 
-Matrix4x4 ModelAnimation::Update() {
+/*Matrix4x4 ModelAnimation::Update() {
 	if (isPlay_ == true) {
 		// 固定フレーム
 		static float kFrame = 1.0f / 60.0f;
@@ -24,30 +29,48 @@ Matrix4x4 ModelAnimation::Update() {
 		localMatrix = MakeAffineMatrix(scale, rotate, translate);
 	}	
 	return localMatrix;
-}
+}*/
 
-void ModelAnimation::Update(Skeleton& skeleton) {
+void ModelAnimation::Update(const WorldTransform& transform) {
 	// 全てのJointを更新、親が若いので通常ループで処理可能になっている
-	for (Joint& joint : skeleton.joints) {
+	for (Joint& joint : skeleton_.joints) {
 		joint.localMatrix = joint.transform.UpdateMatrix();
 		if (joint.parent) { /// 親がいれば親の行列を抜ける
-			joint.skeletonSpaceMatrix = joint.localMatrix * skeleton.joints[*joint.parent].skeletonSpaceMatrix;
+			joint.skeletonSpaceMatrix = joint.localMatrix * skeleton_.joints[*joint.parent].skeletonSpaceMatrix;
 		}
 		else { // 親がいないのでlocalMatrixとskeletonSpaceMatrixは一致する
 			joint.skeletonSpaceMatrix = joint.localMatrix;
 		}
 	}
+	Draw(transform);
 }
 
-void ModelAnimation::ApplyAnimation(Skeleton& skeleton, const AnimationData& animation, float animationTime) {
-	for (Joint& joint : skeleton.joints) {
+void ModelAnimation::ApplyAnimation(float animationTime) {
+	for (Joint& joint : skeleton_.joints) {
 		// 対象のJointのAnimationがあれば、相対の適応を行う。下のif文はC++17から可能になった初期化付きif文
-		if (auto it = animation.nodeAnimations.find(joint.name); it != animation.nodeAnimations.end()) {
+		if (auto it = data_->nodeAnimations.find(joint.name); it != data_->nodeAnimations.end()) {
 			const NodeAnimation& rootNodeAnimation = (*it).second;
 			joint.transform.translation_ = CalculateValue(rootNodeAnimation.translate.keyframes, animationTime);
 			joint.transform.rotationQuat_ = CalculateValue(rootNodeAnimation.rotate.keyframes, animationTime);
 			joint.transform.scale_ = CalculateValue(rootNodeAnimation.scale.keyframes, animationTime);
 		}
+	}
+}
+
+void ModelAnimation::Draw(const WorldTransform& transform) {
+	/*for (Joint& joint : skeleton_.joints) {
+		if (!joint.parent && lines_.empty()) { continue; }
+		auto& line = lines_.emplace_back(std::make_unique<Line>());
+		int32_t handle = joint.parent.value();
+		line->SetLine(skeleton_.joints[handle].skeletonSpaceMatrix.GetPosition(), skeleton_.joints[joint.index].skeletonSpaceMatrix.GetPosition());
+	}*/
+	int index = 0;
+	for (Joint& joint : skeleton_.joints) {
+		if (!joint.parent.has_value()) { continue; }
+		int32_t handle = joint.parent.value();
+		Matrix4x4 mat1 = transform.worldMatrix_ * skeleton_.joints[handle].skeletonSpaceMatrix;
+		Matrix4x4 mat2 = transform.worldMatrix_ * skeleton_.joints[joint.index].skeletonSpaceMatrix;
+		lines_.at(index++)->SetLine(mat1.GetPosition(), mat2.GetPosition());
 	}
 }
 

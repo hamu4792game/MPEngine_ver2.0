@@ -29,6 +29,9 @@ public:
 	Matrix4x4& operator=(const Matrix4x4& mat);
 
 	Vector3 operator*(const Vector3& vec) const;
+
+public:
+	Vector3 GetPosition();
 	
 };
 
