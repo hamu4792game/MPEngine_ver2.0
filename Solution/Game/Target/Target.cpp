@@ -4,7 +4,7 @@
 void Target::Initialize(const Vector3& translate) {
 	auto rsManager = ResourceManager::GetInstance();
 	model_ = std::make_unique<Model>();
-	model_->SetModel(rsManager->FindObject3d("Target"));
+	model_->SetModel(rsManager->FindObject3d("Human"));
 	transform_.translation_ = translate;
 	transform_.UpdateMatrix();
 	model_->SetTransform(transform_);

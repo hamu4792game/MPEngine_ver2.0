@@ -38,7 +38,7 @@ void GameScene::Initialize() {
 	rs->AddTexture("Target", "Resources/Texture/hud/target.png");
 	rs->AddTexture("Block", "Resources/Texture/ground.png");
 
-	rs->AddModel("Target", "Resources/Model/human/walk.gltf");
+	rs->AddModel("Human", "Resources/Model/human/walk.gltf");
 	rs->AddModel("BoxSky", "Resources/Model/boxSky/boxSky.obj");
 	rs->AddModel("PlayerHead", "Resources/Model/Player/Head/head.obj");
 	rs->AddModel("PlayerBody", "Resources/Model/Player/Body/body.obj");
