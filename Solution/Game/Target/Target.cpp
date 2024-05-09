@@ -4,12 +4,12 @@
 void Target::Initialize(const Vector3& translate) {
 	auto rsManager = ResourceManager::GetInstance();
 	model_ = std::make_unique<Model>();
-	model_->SetModel(rsManager->FindObject3d("Human"));
+	model_->SetModel(rsManager->FindObject3d("Box"));
 	transform_.translation_ = translate;
 	transform_.UpdateMatrix();
 	model_->SetTransform(transform_);
 	animation_ = std::make_unique<ModelAnimation>();
-	animation_->Load(rsManager->FindAnimation("Target"), model_.get());
+	animation_->Load(rsManager->FindAnimation("Rotate"), model_.get());
 	model_->SetAnimation(animation_.get());
 }
 
