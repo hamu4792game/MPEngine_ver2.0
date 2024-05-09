@@ -7,6 +7,7 @@
 #include <string>
 #include "Game/Camera/FollowCamera.h"
 #include "Math/AABB.h"
+#include "Graphics/Animation/ModelAnimation.h"
 
 class Player {
 public:
@@ -59,6 +60,7 @@ private:
 	WorldTransform transform_;
 	std::array<WorldTransform, Parts::kMaxParts> partsTrans_;
 	std::array<std::shared_ptr<Model>, Parts::kMaxParts> models_;
+	std::unique_ptr<ModelAnimation> animation_;
 
 	// 落下用ステータス ジャンプも含む
 	struct FallParam {

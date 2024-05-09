@@ -15,7 +15,7 @@ void Player::Initialize() {
 		model = std::make_shared<Model>();
 	}
 
-	models_.at(Parts::Body)->SetModel(rsManager->FindObject3d("PlayerBody"));
+	models_.at(Parts::Body)->SetModel(rsManager->FindObject3d("Human"));
 	models_.at(Parts::Head)->SetModel(rsManager->FindObject3d("PlayerHead"));
 	models_.at(Parts::L_Arm)->SetModel(rsManager->FindObject3d("PlayerLeftArm"));
 	models_.at(Parts::R_Arm)->SetModel(rsManager->FindObject3d("PlayerRightArm"));
@@ -25,8 +25,14 @@ void Player::Initialize() {
 	models_.at(Parts::Tracking1)->SetModel(rsManager->FindObject3d("PlayerLegs"));
 	models_.at(Parts::Tracking2)->SetModel(rsManager->FindObject3d("PlayerLegs"));
 	models_.at(Parts::Tracking3)->SetModel(rsManager->FindObject3d("PlayerLegs"));
+	for (auto& model : models_) {
+		model->isActive_ = false;
+	}
 
-	models_.at(Parts::Weapon)->isActive_ = false;
+	models_.at(Parts::Body)->isActive_ = true;
+
+	animation_ = std::make_unique<ModelAnimation>();
+	animation_->Load(rsManager->FindAnimation("HumanWalk"), models_.at(Parts::Body).get());
 
 	partsTrans_.at(Parts::Body).parent_ = &transform_;
 	partsTrans_.at(Parts::Head).parent_ = &partsTrans_.at(Parts::Body);

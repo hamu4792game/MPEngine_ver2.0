@@ -51,9 +51,9 @@
                0.0
           ],
           "PartsTrans : scale0": [
-               1.0,
-               1.0,
-               1.0
+               3.0,
+               3.0,
+               3.0
           ],
           "PartsTrans : scale1": [
                1.0,
@@ -102,7 +102,7 @@
           ],
           "PartsTrans : translate0": [
                0.0,
-               -1.0,
+               -2.4000000953674316,
                0.0
           ],
           "PartsTrans : translate1": [
