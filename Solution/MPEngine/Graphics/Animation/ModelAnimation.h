@@ -4,7 +4,10 @@
 #include "Math/Quaternion.h"
 #include <map>
 #include <string>
+#include "AnimationData.h"
 #include "ResourceManager/ResourceManager.h"
+
+class Model;
 
 class ModelAnimation {
 	friend class ResourceManager;
@@ -12,7 +15,14 @@ public:
 	ModelAnimation() = default;
 	~ModelAnimation() = default;
 
-	void Load(const AnimationData& data, const class Model* model);
+	enum AnimationType {
+		None,
+		Rigid,
+		Skin,
+		kMaxNum
+	};
+
+	void Load(const AnimationData* data, const Model* model);
 	void Play(const bool& flag);
 	Matrix4x4 Update();
 	const Matrix4x4& GetMatrix() const { return localMatrix; }
@@ -28,8 +38,8 @@ private:
 	Vector3 CalculateValue(const std::vector<Keyframe<Vector3>>& keyframes, float time);
 	Quaternion CalculateValue(const std::vector<Keyframe<Quaternion>>& keyframes, float time);
 	float animationTime_ = 0.0f;
-	AnimationData data_;
-	const class Model* model_ = nullptr;
+	const AnimationData* data_ = nullptr;
+	const Model* model_ = nullptr;
 	Matrix4x4 localMatrix;
 	bool isPlay_ = true;
 

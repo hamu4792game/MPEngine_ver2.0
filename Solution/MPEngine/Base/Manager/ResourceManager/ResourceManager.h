@@ -43,49 +43,11 @@ struct ModelData {
 	Node rootNode;
 };
 
-// アニメーション用構造体
-template <typename tValue>
-struct Keyframe {
-	float time = 0.0f; // キーフレームの時刻(単位は秒)
-	tValue value; // キーフレームの値
-};
-template <typename tValue>
-struct AnimationCurve {
-	std::vector<Keyframe<tValue>> keyframes;
-};
-// node毎のアニメーションとしてまとめる
-struct NodeAnimation {
-	AnimationCurve<Vector3> translate;
-	AnimationCurve<Quaternion> rotate;
-	AnimationCurve<Vector3> scale;
-};
-
-struct AnimationData {
-	float duration = 0.0f; // アニメーション全体の尺(単位は秒)
-	// NodeAnimationの集合。Nodeメイでひけるようにしておく
-	std::map<std::string, NodeAnimation> nodeAnimations;
-};
-
-struct Joint {
-	WorldTransform transform;
-	Matrix4x4 localMatrix;
-	Matrix4x4 skeletonSpaceMatrix; // skeletonSpaceでの変換行列
-	std::string name; // 名前
-	std::vector<int32_t> children; // 子jointのindexリスト。居なければ空
-	int32_t index = 0; // 自信のindex
-	std::optional<int32_t> parent; // 親jointのindex。いなければnull
-};
-
-struct Skeleton {
-	int32_t root = 0; // rootJointのindex
-	std::map<std::string, int32_t> jointMap; // Joint名とIndexとの辞書
-	std::vector<Joint> joints; // 所属しているJoint
-};
-
 class Texture;
 class Object3d;
 class Audio;
 class ModelAnimation;
+class AnimationData;
 
 class ResourceManager {
 private:
@@ -104,7 +66,7 @@ private:
 	std::unordered_map<std::string, std::unique_ptr<Texture>> textureContainer_; // textureを纏めたコンテナ
 	std::unordered_map<std::string, std::unique_ptr<Object3d>> object3dContainer_; // modelDataを纏めたコンテナ
 	std::unordered_map<std::string, std::unique_ptr<Audio>> audioContainer_; // audioを纏めたコンテナ
-	std::unordered_map<std::string, AnimationData> animationContainer_; // animationDataを纏めたコンテナ
+	std::unordered_map<std::string, std::unique_ptr<AnimationData>> animationContainer_; // animationDataを纏めたコンテナ
 
 	uint32_t textureCount_ = 10u; // 今のテクスチャが追加された数
 public: // 取得関数
@@ -112,7 +74,7 @@ public: // 取得関数
 	Texture* FindTexture(const std::string& name) const { return textureContainer_.at(name).get(); }
 	Object3d* FindObject3d(const std::string& name) const { return object3dContainer_.at(name).get(); }
 	Audio* FindAudio(const std::string& name) const { return audioContainer_.at(name).get(); }
-	AnimationData FindAnimation(const std::string& name) const { return animationContainer_.at(name); }
+	AnimationData* FindAnimation(const std::string& name) const { return animationContainer_.at(name).get(); }
 
 public: // 追加関数
 	void AddTexture(const std::string& name, const std::string& fileName);

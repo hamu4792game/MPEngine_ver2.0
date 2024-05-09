@@ -4,6 +4,7 @@
 #include "MPEngine/Graphics/Object3d/Object3d.h"
 #include "MPEngine/Input/Audio.h"
 #include "MPEngine/Graphics/Animation/ModelAnimation.h"
+#include "MPEngine/Graphics/Animation/AnimationData.h"
 #include <format>
 #include <fstream>
 #include <sstream>
@@ -74,8 +75,8 @@ void ResourceManager::AddAnimation(const std::string& name, const std::string& f
 	}
 	static const std::string directryPath = "Resources/Model/";
 	// animationDataの追加
-	AnimationData handle = LoadAnimationFile(fileName);
-	animationContainer_.emplace(std::make_pair(name, handle));
+	animationContainer_.emplace(std::make_pair(name, std::make_unique<AnimationData>()));
+	animationContainer_.at(name).get()->Load(name, fileName);
 }
 
 DirectX::ScratchImage ResourceManager::LoadTexture(const std::string& filePath) {

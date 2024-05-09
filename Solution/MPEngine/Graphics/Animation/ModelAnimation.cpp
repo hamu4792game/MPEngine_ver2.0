@@ -1,7 +1,7 @@
 #include "ModelAnimation.h"
 #include "Graphics/Model/Model.h"
 
-void ModelAnimation::Load(const AnimationData& data, const Model* model) {
+void ModelAnimation::Load(const AnimationData* data, const Model* model) {
 	data_ = data;
 	model_ = model;
 }
@@ -16,8 +16,8 @@ Matrix4x4 ModelAnimation::Update() {
 		// 固定フレーム
 		static float kFrame = 1.0f / 60.0f;
 		animationTime_ += kFrame; // のちに可変フレームに対応
-		animationTime_ = std::fmod(animationTime_, data_.duration); // 最後まで行ったらリピート再生
-		NodeAnimation& rootNodeAnimation = data_.nodeAnimations[model_->model_->GetModel().rootNode.name]; // rootnodeのanimationを取得
+		animationTime_ = std::fmod(animationTime_, data_->duration); // 最後まで行ったらリピート再生
+		NodeAnimation rootNodeAnimation = data_->nodeAnimations.at(model_->model_->GetModel().rootNode.name); // rootnodeのanimationを取得
 		Vector3 translate = CalculateValue(rootNodeAnimation.translate.keyframes, animationTime_);
 		Quaternion rotate = CalculateValue(rootNodeAnimation.rotate.keyframes, animationTime_);
 		Vector3 scale = CalculateValue(rootNodeAnimation.scale.keyframes, animationTime_);

@@ -212,6 +212,9 @@
     <ClCompile Include="MPEngine\Graphics\Animation\ModelAnimation.cpp">
       <Filter>MPEngine\Graphics\Utils\Animation</Filter>
     </ClCompile>
+    <ClCompile Include="MPEngine\Graphics\Animation\AnimationData.cpp">
+      <Filter>MPEngine\Graphics\Utils\Animation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -441,6 +444,9 @@
       <Filter>MPEngine\Math\Quaternion</Filter>
     </ClInclude>
     <ClInclude Include="MPEngine\Graphics\Animation\ModelAnimation.h">
+      <Filter>MPEngine\Graphics\Utils\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Graphics\Animation\AnimationData.h">
       <Filter>MPEngine\Graphics\Utils\Animation</Filter>
     </ClInclude>
   </ItemGroup>
