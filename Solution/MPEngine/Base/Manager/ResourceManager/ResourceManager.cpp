@@ -371,31 +371,3 @@ Node ResourceManager::ReadNode(aiNode* node) {
 
 	return result;
 }
-
-Skeleton ResourceManager::CreateSkeleton(const Node& rootNode) {
-	Skeleton skeleton;
-	skeleton.root = CreateJoint(rootNode, {}, skeleton.joints);
-	// 名前とindexのマッピングを行いアクセスしやすくする
-	for (const Joint& joint : skeleton.joints) {
-		skeleton.jointMap.emplace(joint.name, joint.index);
-	}
-	return skeleton;
-}
-
-int32_t ResourceManager::CreateJoint(const Node& node, const std::optional<int32_t>& parent, std::vector<Joint>& joints) {
-	Joint joint;
-	joint.name = node.name;
-	joint.localMatrix = node.localMatrix;
-	joint.skeletonSpaceMatrix = MakeIdentity4x4();
-	joint.transform = node.transform;
-	joint.index = int32_t(joints.size()); // 現在登録されている数をindexに
-	joint.parent = parent;
-	joints.push_back(joint); // SkeletonのJoint列に追加
-	for (const Node& child : node.children) {
-		// 子Jointを作成し、そおのIndexを登録
-		int32_t childIndex = CreateJoint(child, joint.index, joints);
-		joints[joint.index].children.push_back(childIndex);
-	}
-	// 自信のindexを返す
-	return joint.index;
-}

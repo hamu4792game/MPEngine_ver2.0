@@ -20,6 +20,10 @@ public:
 	void ApplyAnimation(Skeleton& skeleton, const AnimationData& animation, float animationTime);
 
 private:
+	static Skeleton CreateSkeleton(const Node& rootNode);
+	static int32_t CreateJoint(const Node& node, const std::optional<int32_t>& parent, std::vector<Joint>& joints);
+
+private:
 	// 任意時刻の値を取得する
 	Vector3 CalculateValue(const std::vector<Keyframe<Vector3>>& keyframes, float time);
 	Quaternion CalculateValue(const std::vector<Keyframe<Quaternion>>& keyframes, float time);
