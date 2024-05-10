@@ -33,6 +33,7 @@ void Player::Initialize() {
 
 	animation_ = std::make_unique<ModelAnimation>();
 	animation_->Load(rsManager->FindAnimation("HumanWalk"), models_.at(Parts::Body).get());
+	models_.at(Parts::Body)->SetAnimation(animation_.get());
 
 	partsTrans_.at(Parts::Body).parent_ = &transform_;
 	partsTrans_.at(Parts::Head).parent_ = &partsTrans_.at(Parts::Body);
@@ -105,6 +106,7 @@ void Player::Update() {
 	animationTime_ += 0.1f;
 	animation_->ApplyAnimation(animationTime_);
 	animation_->Update(transform_);
+	models_.at(Parts::Body)->SetAnimation(animation_.get());
 }
 
 WorldTransform Player::PostUpdate() {

@@ -35,12 +35,21 @@ struct Node {
 	std::string name;
 	std::vector<Node> children;
 };
+struct VertexWeightData {
+	float weight = 0.0f;
+	uint32_t vertexIndex = 0u;
+};
+struct JointWeightData {
+	Matrix4x4 inverseBindPoseMatrix;
+	std::vector<VertexWeightData> vertexWeights;
+};
 // モデルデータ構造体
 struct ModelData {
 	std::vector<VertexData> vertices;
 	std::vector<uint32_t> indices;
 	MaterialData material;
 	Node rootNode;
+	std::map<std::string, JointWeightData> skinClusterData;
 };
 
 class Texture;

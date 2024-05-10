@@ -19,6 +19,6 @@ private:
 	WorldTransform cameraTransform_;
 	std::unique_ptr<TitleUI> titleUI_;
 	std::unique_ptr<Stage> stage_;
-	std::unique_ptr<Player> player_;
+	//std::unique_ptr<Player> player_;
 
 };

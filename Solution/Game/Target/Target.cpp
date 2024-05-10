@@ -10,7 +10,7 @@ void Target::Initialize(const Vector3& translate) {
 	model_->SetTransform(transform_);
 	animation_ = std::make_unique<ModelAnimation>();
 	animation_->Load(rsManager->FindAnimation("Rotate"), model_.get());
-	model_->SetAnimation(animation_.get());
+	//model_->SetAnimation(animation_.get());
 }
 
 void Target::DrawImGui() {

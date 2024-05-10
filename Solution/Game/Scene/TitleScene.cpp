@@ -15,8 +15,8 @@ void TitleScene::Initialize() {
 	stage_ = std::make_unique<Stage>();
 	stage_->Initialize("TitleStage");
 
-	player_ = std::make_unique<Player>();
-	player_->Initialize();
+	//player_ = std::make_unique<Player>();
+	//player_->Initialize();
 
 	cameraTransform_.translation_ = Vector3(0.0f, 300.0f, -51.0f);
 	cameraTransform_.rotation_.x = AngleToRadian(90.0f);

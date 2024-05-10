@@ -5,6 +5,7 @@
 #include <map>
 #include <string>
 #include <optional>
+#include <span>
 
 // アニメーション用構造体
 template <typename tValue>
@@ -52,6 +53,5 @@ public:
 	float duration = 0.0f; // アニメーション全体の尺(単位は秒)
 	// NodeAnimationの集合。Nodeメイでひけるようにしておく
 	std::map<std::string, NodeAnimation> nodeAnimations;
-
 
 };

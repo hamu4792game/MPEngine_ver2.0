@@ -244,7 +244,7 @@ ModelData ResourceManager::LoadModelFile(const std::string& filename) {
 			modelData.vertices[vertexIndex].normal = { -normal.x,normal.y,normal.z };
 			modelData.vertices[vertexIndex].texcoord = { texcoord.x,texcoord.y };
 		}
-
+		// indexの解析
 		for (uint32_t faceIndex = 0; faceIndex < mesh->mNumFaces; faceIndex++) {
 			aiFace& face = mesh->mFaces[faceIndex];
 			assert(face.mNumIndices == 3); // 三角形のみサポート
@@ -252,6 +252,26 @@ ModelData ResourceManager::LoadModelFile(const std::string& filename) {
 			for (uint32_t element = 0u; element < face.mNumIndices; element++) {
 				uint32_t vertexIndex = face.mIndices[element];
 				modelData.indices.push_back(vertexIndex);
+			}
+		}
+		for (uint32_t boneIndex = 0; boneIndex < mesh->mNumBones; boneIndex++) {
+			// Jointごとの格納領域を作る
+			aiBone* bone = mesh->mBones[boneIndex];
+			std::string jointName = bone->mName.C_Str();
+			JointWeightData& jointWeightData = modelData.skinClusterData[jointName];
+
+			// inverseBindPoseMatrixの抽出
+			aiMatrix4x4 bindPoseMatrixAssimp = bone->mOffsetMatrix.Inverse();
+			aiVector3D scale, translate;
+			aiQuaternion rotate;
+			bindPoseMatrixAssimp.Decompose(scale, rotate, translate);
+			// 左手座標系で
+			Matrix4x4 bindPoseMatrix = MakeAffineMatrix(Vector3(scale.x, scale.y, scale.z), Quaternion(rotate.x, -rotate.y, -rotate.z, rotate.w), Vector3(-translate.x, translate.y, translate.z));
+			jointWeightData.inverseBindPoseMatrix = Inverse(bindPoseMatrix);
+			
+			// Weight情報を取り出す
+			for (uint32_t weightIndex = 0u; weightIndex < bone->mNumWeights; weightIndex++) {
+				jointWeightData.vertexWeights.push_back({ bone->mWeights[weightIndex].mWeight,bone->mWeights[weightIndex].mVertexId });
 			}
 		}
 	}
