@@ -41,7 +41,6 @@ struct SkinCluster {
 		}
 	}
 };
-
 class Model;
 
 class ModelAnimation {
@@ -84,6 +83,4 @@ private:
 	SkinCluster skinCluster_;
 	Matrix4x4 localMatrix;
 	bool isPlay_ = true;
-	std::vector<std::unique_ptr<Line>> lines_;
-
 };

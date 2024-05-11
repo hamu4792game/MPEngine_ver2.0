@@ -22,6 +22,7 @@ public: // setter
 	void SetColor(const uint32_t& color) { color_ = ChangeColor(color); }
 	void SetTransform(const WorldTransform& transform) { transform_ = transform; }
 	void SetAnimation(ModelAnimation* animation) { animation_ = animation; }
+	void SetBlendType(BlendMode type) { blendType_ = type; }
 private:
 	void Initialize();
 	void CreateVertexResource();

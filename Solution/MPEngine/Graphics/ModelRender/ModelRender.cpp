@@ -100,7 +100,6 @@ void ModelRender::Initialize() {
 			graphicsPipeline_.at(i) = std::make_unique<GraphicsPipeline>();
 			graphicsPipeline_.at(i)->CreatePipeline(plDesc, static_cast<BlendMode>(i));
 		}
-
 #pragma endregion
 	}
 
