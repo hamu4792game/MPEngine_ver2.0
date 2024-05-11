@@ -26,6 +26,8 @@ WorldTransform::WorldTransform(const Vector3& scale, const Quaternion& rotate, c
 WorldTransform& WorldTransform::operator=(const WorldTransform& trans) {
 	this->translation_ = trans.translation_;
 	this->rotation_ = trans.rotation_;
+	this->isQuaternion_ = trans.isQuaternion_;
+	this->rotationQuat_ = trans.rotationQuat_;
 	this->scale_ = trans.scale_;
 	this->worldMatrix_ = trans.worldMatrix_;
 	this->parent_ = trans.parent_;

@@ -23,6 +23,8 @@ public: // setter
 	void SetTransform(const WorldTransform& transform) { transform_ = transform; }
 	void SetAnimation(ModelAnimation* animation) { animation_ = animation; }
 	void SetBlendType(BlendMode type) { blendType_ = type; }
+
+	const WorldTransform& GetTransform() const { return transform_; }
 private:
 	void Initialize();
 	void CreateVertexResource();

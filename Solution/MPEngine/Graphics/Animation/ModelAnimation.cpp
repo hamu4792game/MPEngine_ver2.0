@@ -18,6 +18,13 @@ void ModelAnimation::Load(const AnimationData* data, const Model* model) {
 	}*/
 	skinCluster_ = CreateSkinCluster(skeleton_, model_->model_->GetModel());
 
+	joints_.resize(skeleton_.joints.size());
+	for (auto& joint : joints_) {
+		joint = std::make_unique<Model>();
+		joint->SetModel(ResourceManager::GetInstance()->FindObject3d("Box"));
+		joint->SetTexture(ResourceManager::GetInstance()->FindTexture("UVChecker"));
+		joint->transform_.scale_ = Vector3(0.1f, 0.1f, 0.1f);
+	}
 }
 
 void ModelAnimation::Play(const bool& flag) {
@@ -41,23 +48,15 @@ void ModelAnimation::Play(const bool& flag) {
 }*/
 
 void ModelAnimation::Update(const WorldTransform& transform) {
-	// 全てのJointを更新、親が若いので通常ループで処理可能になっている
-	for (Joint& joint : skeleton_.joints) {
-		joint.transform.isQuaternion_ = true;
-		joint.localMatrix = joint.transform.UpdateMatrix();
-		if (joint.parent) { /// 親がいれば親の行列を抜ける
-			joint.skeletonSpaceMatrix = joint.localMatrix * skeleton_.joints[*joint.parent].skeletonSpaceMatrix;
-		}
-		else { // 親がいないのでlocalMatrixとskeletonSpaceMatrixは一致する
-			joint.skeletonSpaceMatrix = joint.localMatrix;
-		}
-	}
+	Update(skeleton_);
 	Update(skinCluster_, skeleton_);
-	//Draw(transform);
+	transform;
+	Draw(transform);
 }
 
 void ModelAnimation::ApplyAnimation(float animationTime) {
 	animationTime = std::fmod(animationTime, data_->duration);
+	int index = 0;
 	for (Joint& joint : skeleton_.joints) {
 		// 対象のJointのAnimationがあれば、相対の適応を行う。下のif文はC++17から可能になった初期化付きif文
 		if (auto it = data_->nodeAnimations.find(joint.name); it != data_->nodeAnimations.end()) {
@@ -65,8 +64,6 @@ void ModelAnimation::ApplyAnimation(float animationTime) {
 			joint.transform.translation_ = CalculateValue(rootNodeAnimation.translate.keyframes, animationTime);
 			joint.transform.rotationQuat_ = CalculateValue(rootNodeAnimation.rotate.keyframes, animationTime);
 			joint.transform.scale_ = CalculateValue(rootNodeAnimation.scale.keyframes, animationTime);
-			joint.transform.isQuaternion_ = true;
-			joint.transform.UpdateMatrix();
 		}
 	}
 }
@@ -82,9 +79,11 @@ void ModelAnimation::Draw(const WorldTransform& transform) {
 	for (Joint& joint : skeleton_.joints) {
 		if (!joint.parent.has_value()) { continue; }
 		int32_t handle = joint.parent.value();
-		Matrix4x4 mat1 = transform.worldMatrix_ * skeleton_.joints[handle].skeletonSpaceMatrix;
-		Matrix4x4 mat2 = transform.worldMatrix_ * skeleton_.joints[joint.index].skeletonSpaceMatrix;
+		// JointのWorldMatrixは skeletonSpaceMatrix * worldMatrix のため、変換色はこうなる
+		Matrix4x4 mat1 = skeleton_.joints[handle].skeletonSpaceMatrix * transform.worldMatrix_;
+		//Matrix4x4 mat2 = skeleton_.joints[joint.index].skeletonSpaceMatrix * transform.worldMatrix_;
 		//lines_.at(index++)->SetLine(mat1.GetPosition(), mat2.GetPosition());
+		joints_.at(index++)->transform_.parent_ = &transform;
 	}
 }
 
@@ -108,7 +107,7 @@ int32_t ModelAnimation::CreateJoint(const Node& node, const std::optional<int32_
 	joint.parent = parent;
 	joints.push_back(joint); // SkeletonのJoint列に追加
 	for (const Node& child : node.children) {
-		// 子Jointを作成し、そおのIndexを登録
+		// 子Jointを作成し、そのIndexを登録
 		int32_t childIndex = CreateJoint(child, joint.index, joints);
 		joints[joint.index].children.push_back(childIndex);
 	}
@@ -180,6 +179,21 @@ SkinCluster ModelAnimation::CreateSkinCluster(const Skeleton& skeleton, const Mo
 	}
 
 	return skinCluster;
+}
+
+void ModelAnimation::Update(Skeleton& skeleton) {
+	// 全てのJointを更新、親が若いので通常ループで処理可能になっている
+	for (Joint& joint : skeleton_.joints) {
+		joint.transform.isQuaternion_ = true;
+		//joint.localMatrix = joint.transform.UpdateMatrix();
+		joint.localMatrix = MakeAffineMatrix(joint.transform.scale_, joint.transform.rotationQuat_, joint.transform.translation_);
+		if (joint.parent) { /// 親がいれば親の行列を抜ける
+			joint.skeletonSpaceMatrix = joint.localMatrix * skeleton_.joints[*joint.parent].skeletonSpaceMatrix;
+		}
+		else { // 親がいないのでlocalMatrixとskeletonSpaceMatrixは一致する
+			joint.skeletonSpaceMatrix = joint.localMatrix;
+		}
+	}
 }
 
 void ModelAnimation::Update(SkinCluster& skinCluster, const Skeleton& skeleton) {

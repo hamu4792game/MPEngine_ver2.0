@@ -370,8 +370,8 @@ MaterialData ResourceManager::LoadMaterialTemplateFile(const std::string& filena
 
 Node ResourceManager::ReadNode(aiNode* node) {
 	Node result;
-	aiMatrix4x4 aiLocalMatrix = node->mTransformation; // nodeのlocalMatrixを取得
-	aiLocalMatrix.Transpose(); // 列ベクトル形式を行ベクトル形式に転置
+	//aiMatrix4x4 aiLocalMatrix = node->mTransformation; // nodeのlocalMatrixを取得
+	//aiLocalMatrix.Transpose(); // 列ベクトル形式を行ベクトル形式に転置
 	aiVector3D scale, translate;
 	aiQuaternion rotate;
 #pragma region 行列代入

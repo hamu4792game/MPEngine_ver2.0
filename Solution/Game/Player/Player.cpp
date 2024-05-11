@@ -53,7 +53,8 @@ void Player::Initialize() {
 #pragma endregion
 
 	transform_.scale_ = Vector3::one;
-	transform_.translation_ = Vector3(0.0f, 22.0f, -100.0f);
+	//transform_.translation_ = Vector3(0.0f, 22.0f, -100.0f);
+	transform_.translation_ = Vector3(0.0f, 22.0f, 0.0f);
 	transform_.UpdateMatrix();
 
 	collision_ = std::make_shared<AABB>();
@@ -76,7 +77,7 @@ void Player::Update() {
 		switch (behavior_) {
 		case Behavior::kRoot:
 			followCamera_->SetTarget(&transform_);
-			followCamera_->SetParam(Vector3(0.0f, 2.0f, -20.0f), Vector3(AngleToRadian(5.0f), transform_.rotation_.y, followCamera_->GetTransform().rotation_.z), 0.05f);
+			followCamera_->SetParam(Vector3(0.0f, 2.0f, -10.0f), Vector3(AngleToRadian(5.0f), transform_.rotation_.y, followCamera_->GetTransform().rotation_.z), 0.05f);
 			break;
 		case Behavior::kAttack:
 			break;
@@ -105,9 +106,10 @@ void Player::Update() {
 
 	static const float frameSpeed = 1.0f / 60.0f;
 	animationTime_ += frameSpeed;
+	//animationTime_ = 0.0f;
 	animation_->ApplyAnimation(animationTime_);
-	animation_->Update(transform_);
-	models_.at(Parts::Body)->SetAnimation(animation_.get());
+	animation_->Update(models_.at(Parts::Body)->GetTransform());
+	//models_.at(Parts::Body)->SetAnimation(animation_.get());
 }
 
 WorldTransform Player::PostUpdate() {

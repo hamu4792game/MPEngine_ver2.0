@@ -8,6 +8,7 @@
 #include "ResourceManager/ResourceManager.h"
 #include "Graphics/Line/Line.h"
 #include "MPEngine/Base/DetailSetting/DescriptorHandle/DescriptorHandle.h"
+#include "Graphics/Particle/Particle.h"
 
 
 const uint32_t kNumMaxInfluence = 4;
@@ -70,6 +71,7 @@ private:
 	static int32_t CreateJoint(const Node& node, const std::optional<int32_t>& parent, std::vector<Joint>& joints);
 	static SkinCluster CreateSkinCluster(const Skeleton& skeleton, const ModelData& modelData);
 
+	void Update(Skeleton& skeleton);
 	void Update(SkinCluster& skinCluster, const Skeleton& skeleton);
 
 private:
@@ -83,4 +85,6 @@ private:
 	SkinCluster skinCluster_;
 	Matrix4x4 localMatrix;
 	bool isPlay_ = true;
+
+	std::vector<std::unique_ptr<Model>> joints_;
 };

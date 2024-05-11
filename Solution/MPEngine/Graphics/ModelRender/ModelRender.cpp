@@ -178,12 +178,12 @@ void ModelRender::Initialize() {
 		inputElementDesc[2].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 		inputElementDesc[3].SemanticName = "WEIGHT";
 		inputElementDesc[3].SemanticIndex = 0;
-		inputElementDesc[3].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+		inputElementDesc[3].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
 		inputElementDesc[3].InputSlot = 1; // 1番目のslotのvbvのことだと伝える
 		inputElementDesc[3].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 		inputElementDesc[4].SemanticName = "INDEX";
 		inputElementDesc[4].SemanticIndex = 0;
-		inputElementDesc[4].Format = DXGI_FORMAT_R32G32B32_SINT;
+		inputElementDesc[4].Format = DXGI_FORMAT_R32G32B32A32_SINT;
 		inputElementDesc[4].InputSlot = 1; // 1番目のslotのvbvのことだと伝える
 		inputElementDesc[4].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 
