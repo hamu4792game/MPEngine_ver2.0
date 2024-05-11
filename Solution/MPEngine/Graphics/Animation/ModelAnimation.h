@@ -63,7 +63,7 @@ public:
 	//Matrix4x4 Update();
 	const Matrix4x4& GetMatrix() const { return localMatrix; }
 	void Update(const WorldTransform& transform);
-	void ApplyAnimation(float animationTime);
+	float ApplyAnimation(const float& animationTime);
 	void Draw(const WorldTransform& transform);
 
 private:

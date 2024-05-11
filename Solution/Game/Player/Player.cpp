@@ -104,10 +104,10 @@ void Player::Update() {
 	followCamera_->CameraMove();
 	TransformUpdate();
 
-	static const float frameSpeed = 1.0f / 60.0f;
-	animationTime_ += frameSpeed;
 	//animationTime_ = 0.0f;
-	animation_->ApplyAnimation(animationTime_);
+	animationTime_ = animation_->ApplyAnimation(animationTime_);
+	static const float frameSpeed = 1.0f / 120.0f;
+	animationTime_ += frameSpeed;
 	animation_->Update(models_.at(Parts::Body)->GetTransform());
 	//models_.at(Parts::Body)->SetAnimation(animation_.get());
 }

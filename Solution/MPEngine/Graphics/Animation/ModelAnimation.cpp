@@ -18,13 +18,13 @@ void ModelAnimation::Load(const AnimationData* data, const Model* model) {
 	}*/
 	skinCluster_ = CreateSkinCluster(skeleton_, model_->model_->GetModel());
 
-	joints_.resize(skeleton_.joints.size());
+	/*joints_.resize(skeleton_.joints.size());
 	for (auto& joint : joints_) {
 		joint = std::make_unique<Model>();
 		joint->SetModel(ResourceManager::GetInstance()->FindObject3d("Box"));
 		joint->SetTexture(ResourceManager::GetInstance()->FindTexture("UVChecker"));
 		joint->transform_.scale_ = Vector3(0.1f, 0.1f, 0.1f);
-	}
+	}*/
 }
 
 void ModelAnimation::Play(const bool& flag) {
@@ -54,8 +54,8 @@ void ModelAnimation::Update(const WorldTransform& transform) {
 	Draw(transform);
 }
 
-void ModelAnimation::ApplyAnimation(float animationTime) {
-	animationTime = std::fmod(animationTime, data_->duration);
+float ModelAnimation::ApplyAnimation(const float& animationTime) {
+	float result = std::fmod(animationTime, data_->duration);
 	int index = 0;
 	for (Joint& joint : skeleton_.joints) {
 		// 対象のJointのAnimationがあれば、相対の適応を行う。下のif文はC++17から可能になった初期化付きif文
@@ -66,6 +66,7 @@ void ModelAnimation::ApplyAnimation(float animationTime) {
 			joint.transform.scale_ = CalculateValue(rootNodeAnimation.scale.keyframes, animationTime);
 		}
 	}
+	return result;
 }
 
 void ModelAnimation::Draw(const WorldTransform& transform) {
@@ -83,7 +84,7 @@ void ModelAnimation::Draw(const WorldTransform& transform) {
 		Matrix4x4 mat1 = skeleton_.joints[handle].skeletonSpaceMatrix * transform.worldMatrix_;
 		//Matrix4x4 mat2 = skeleton_.joints[joint.index].skeletonSpaceMatrix * transform.worldMatrix_;
 		//lines_.at(index++)->SetLine(mat1.GetPosition(), mat2.GetPosition());
-		joints_.at(index++)->transform_.parent_ = &transform;
+		//joints_.at(index++)->transform_.parent_ = &transform;
 	}
 }
 
