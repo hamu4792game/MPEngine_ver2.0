@@ -50,7 +50,6 @@ void ModelAnimation::Play(const bool& flag) {
 void ModelAnimation::Update(const WorldTransform& transform) {
 	Update(skeleton_);
 	Update(skinCluster_, skeleton_);
-	transform;
 	Draw(transform);
 }
 
@@ -61,9 +60,9 @@ float ModelAnimation::ApplyAnimation(const float& animationTime) {
 		// 対象のJointのAnimationがあれば、相対の適応を行う。下のif文はC++17から可能になった初期化付きif文
 		if (auto it = data_->nodeAnimations.find(joint.name); it != data_->nodeAnimations.end()) {
 			const NodeAnimation& rootNodeAnimation = (*it).second;
-			joint.transform.translation_ = CalculateValue(rootNodeAnimation.translate.keyframes, animationTime);
-			joint.transform.rotationQuat_ = CalculateValue(rootNodeAnimation.rotate.keyframes, animationTime);
-			joint.transform.scale_ = CalculateValue(rootNodeAnimation.scale.keyframes, animationTime);
+			joint.transform.translation_ = CalculateValue(rootNodeAnimation.translate.keyframes, result);
+			joint.transform.rotationQuat_ = CalculateValue(rootNodeAnimation.rotate.keyframes, result);
+			joint.transform.scale_ = CalculateValue(rootNodeAnimation.scale.keyframes, result);
 		}
 	}
 	return result;
@@ -219,7 +218,7 @@ Vector3 ModelAnimation::CalculateValue(const std::vector<Keyframe<Vector3>>& key
 		// indexとnextindexの二つをkeyframeを取得して範囲内に時刻がアルカを判定
 		if (keyframes[index].time <= time && time <= keyframes[nextIndex].time) {
 			// 範囲内を確認する
-			float t = (time - keyframes[index].time / (keyframes[nextIndex].time - keyframes[index].time));
+			float t = (time - keyframes[index].time) / (keyframes[nextIndex].time - keyframes[index].time);
 			// 線形補間で返す
 			return Lerp(keyframes[index].value, keyframes[nextIndex].value, t);
 		}
@@ -240,7 +239,7 @@ Quaternion ModelAnimation::CalculateValue(const std::vector<Keyframe<Quaternion>
 		// indexとnextindexの二つをkeyframeを取得して範囲内に時刻がアルカを判定
 		if (keyframes[index].time <= time && time <= keyframes[nextIndex].time) {
 			// 範囲内を確認する
-			float t = (time - keyframes[index].time / (keyframes[nextIndex].time - keyframes[index].time));
+			float t = (time - keyframes[index].time) / (keyframes[nextIndex].time - keyframes[index].time);
 			/// 球面補間で返す
 			return Quaternion::Slerp(keyframes[index].value, keyframes[nextIndex].value, t);
 		}
