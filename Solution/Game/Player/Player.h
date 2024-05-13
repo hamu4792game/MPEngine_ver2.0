@@ -60,7 +60,7 @@ private:
 	WorldTransform transform_;
 	std::array<WorldTransform, Parts::kMaxParts> partsTrans_;
 	std::array<std::shared_ptr<Model>, Parts::kMaxParts> models_;
-	std::unique_ptr<ModelAnimation> animation_;
+	std::array<std::unique_ptr<ModelAnimation>, 2> animation_;
 	float animationTime_ = 0.0f;
 
 	// 落下用ステータス ジャンプも含む

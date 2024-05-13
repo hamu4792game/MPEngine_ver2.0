@@ -31,9 +31,12 @@ void Player::Initialize() {
 
 	models_.at(Parts::Body)->isActive_ = true;
 
-	animation_ = std::make_unique<ModelAnimation>();
-	animation_->Load(rsManager->FindAnimation("HumanWalk"), models_.at(Parts::Body).get());
-	models_.at(Parts::Body)->SetAnimation(animation_.get());
+	for (auto& anime : animation_) {
+		anime = std::make_unique<ModelAnimation>();
+	}
+	animation_.at(0)->Load(rsManager->FindAnimation("HumanWait"), models_.at(Parts::Body).get());
+	animation_.at(1)->Load(rsManager->FindAnimation("HumanWalk"), models_.at(Parts::Body).get());
+	models_.at(Parts::Body)->SetAnimation(animation_.at(0).get());
 
 	partsTrans_.at(Parts::Body).parent_ = &transform_;
 	partsTrans_.at(Parts::Head).parent_ = &partsTrans_.at(Parts::Body);
@@ -105,10 +108,11 @@ void Player::Update() {
 	TransformUpdate();
 
 	//animationTime_ = 0.0f;
-	animationTime_ = animation_->ApplyAnimation(animationTime_);
-	static const float frameSpeed = 1.0f / 120.0f;
+	animationTime_ = models_.at(Parts::Body)->GetAnimation()->ApplyAnimation(animationTime_);
+	//animationTime_ = animation_->ApplyAnimation(animationTime_);
+	static const float frameSpeed = 1.0f / 60.0f;
 	animationTime_ += frameSpeed;
-	animation_->Update(models_.at(Parts::Body)->GetTransform());
+	models_.at(Parts::Body)->GetAnimation()->Update(models_.at(Parts::Body)->GetTransform());
 	//models_.at(Parts::Body)->SetAnimation(animation_.get());
 }
 
@@ -259,7 +263,7 @@ void Player::Move() {
 			move.z = pMove.y;
 		}
 	}
-
+	models_.at(Parts::Body)->SetAnimation(animation_.at(0).get());
 	if (move != Vector3::zero) {
 		move = Normalize(move);
 		// 移動ベクトルをカメラの角度だけ回転させる
@@ -268,6 +272,8 @@ void Player::Move() {
 		transform_.translation_ += move;
 		//partsTrans_[Parts::Body].rotation_.y = FindAngle(move, Vector3(0.0f, 0.0f, 1.0f));
 		transform_.rotation_.y = FindAngle(move, Vector3(0.0f, 0.0f, 1.0f));
+
+		models_.at(Parts::Body)->SetAnimation(animation_.at(1).get());
 	}
 }
 

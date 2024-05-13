@@ -38,7 +38,7 @@ void GameScene::Initialize() {
 	rs->AddTexture("Target", "Resources/Texture/hud/target.png");
 	rs->AddTexture("Block", "Resources/Texture/ground.png");
 
-	rs->AddModel("Human", "Resources/Model/human/walk.gltf");
+	rs->AddModel("Human", "Resources/Model/human/run.gltf");
 	rs->AddModel("BoxSky", "Resources/Model/boxSky/boxSky.obj");
 	rs->AddModel("PlayerHead", "Resources/Model/Player/Head/head.obj");
 	rs->AddModel("PlayerBody", "Resources/Model/Player/Body/body.obj");
@@ -48,7 +48,8 @@ void GameScene::Initialize() {
 	rs->AddModel("PlayerWeapon", "Resources/Model/Player/weapon/weapon.obj");
 
 	rs->AddAnimation("Rotate", "Resources/Model/AnimatedCube/AnimatedCube.gltf");
-	rs->AddAnimation("HumanWalk", "Resources/Model/human/walk.gltf");
+	rs->AddAnimation("HumanWalk", "Resources/Model/human/run.gltf");
+	rs->AddAnimation("HumanWait", "Resources/Model/human/wait.gltf");
 
 	//rs->AddAudio("Title", "./Resources/Sound/w006.wav");
 	rs->AddAudio("Battle", "Resources/Audio/mLoop1.mp3");

@@ -25,6 +25,7 @@ public: // setter
 	void SetBlendType(BlendMode type) { blendType_ = type; }
 
 	const WorldTransform& GetTransform() const { return transform_; }
+	ModelAnimation* GetAnimation() const { return animation_; }
 private:
 	void Initialize();
 	void CreateVertexResource();
