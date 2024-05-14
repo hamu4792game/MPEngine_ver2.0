@@ -19,8 +19,11 @@ float Vignetting(float2 texcoord) {
 PixelShaderOutput main(VertexShaderOutput input) {
     PixelShaderOutput output;
     output.color = gTexture.Sample(gSampler,input.texcoord);
+    float3 vignetteColor = {0.1f,0.0f,0.0f};
 
     // 係数として乗算
-    output.color.rgb *= Vignetting(input.texcoord);
+    float vignette = Vignetting(input.texcoord);
+    output.color.rgb *= vignette;
+    output.color.rgb += (1.0f - vignette) * vignetteColor;
     return output;
 }

@@ -56,8 +56,8 @@ void Player::Initialize() {
 #pragma endregion
 
 	transform_.scale_ = Vector3::one;
-	//transform_.translation_ = Vector3(0.0f, 22.0f, -100.0f);
-	transform_.translation_ = Vector3(0.0f, 22.0f, 0.0f);
+	transform_.translation_ = Vector3(120.0f, 22.0f, -100.0f);
+	//transform_.translation_ = Vector3(0.0f, 22.0f, 0.0f);
 	transform_.UpdateMatrix();
 
 	collision_ = std::make_shared<AABB>();
