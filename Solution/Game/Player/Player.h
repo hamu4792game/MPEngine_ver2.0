@@ -20,7 +20,7 @@ public:
 
 	const WorldTransform& GetTransform() const { return transform_; }
 
-	//void SetTargetTrans(const WorldTransform* transform) { targetTransform_ = transform; }
+	void SetTargetTrans(const WorldTransform* transform) { targetTransform_ = transform; }
 	void OnCollisionStage(const AABB* aabb);
 
 private:

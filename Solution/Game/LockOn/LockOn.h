@@ -13,7 +13,7 @@ public:
 	void Initialize();
 	void Update(const std::list<std::shared_ptr<Target>>& targets);
 	
-	WorldTransform GetTargetTrans() const;
+	WorldTransform* GetTargetTrans() const;
 
 private:
 	Vector2 ChangeScreen(const Vector3& worldPos);

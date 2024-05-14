@@ -51,7 +51,7 @@ void BattleScene::Update() {
 
 	lockOn_->Update(listData);
 	auto handle = lockOn_->GetTargetTrans();
-	//player_->SetTargetTrans(&handle);
+	player_->SetTargetTrans(handle);
 
 
 	player_->Update();

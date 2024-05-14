@@ -64,6 +64,7 @@ void RenderTarget::CreatePipelineState() {
 		"CopyImage.PS.hlsl",
 		"Grayscale.PS.hlsl",
 		"Sepiatone.PS.hlsl",
+		"Vignette.PS.hlsl",
 	};
 	auto shaderInstance = ShaderManager::GetInstance();
 	vertexShader = shaderInstance->CompileShader(VSpath, ShaderManager::ShaderType::Vertex);

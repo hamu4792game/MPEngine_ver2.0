@@ -41,12 +41,11 @@ void LockOn::Update(const std::list<std::shared_ptr<Target>>& targets) {
 	}
 }
 
-WorldTransform LockOn::GetTargetTrans() const {
-	WorldTransform result;
+WorldTransform* LockOn::GetTargetTrans() const {
 	if (target_) {
-		result = target_->GetTransform();
+		return (WorldTransform*)&target_->GetTransform();
 	}
-	return result;
+	return nullptr;
 }
 
 Vector2 LockOn::ChangeScreen(const Vector3& worldPos) {

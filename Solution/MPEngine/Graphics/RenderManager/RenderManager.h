@@ -19,7 +19,7 @@ public:
 		None,
 		Grayscale,
 		Sepiatone,
-
+		Vignette,
 		kMaxNum
 	};
 	static PostEffect nowEffect;
