@@ -51,6 +51,9 @@ void BattleScene::Update() {
 
 	lockOn_->Update(listData);
 	auto handle = lockOn_->GetTargetTrans();
+	if (handle) {
+		RenderManager::nowEffect = RenderManager::PostEffect::Vignette;
+	}
 	player_->SetTargetTrans(handle);
 
 

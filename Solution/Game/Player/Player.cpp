@@ -113,10 +113,6 @@ void Player::Update() {
 	static const float frameSpeed = 1.0f / 60.0f;
 	animationTime_ += frameSpeed;
 	models_.at(Parts::Body)->GetAnimation()->Update(models_.at(Parts::Body)->GetTransform());
-	//models_.at(Parts::Body)->SetAnimation(animation_.get());
-	if (targetTransform_) {
-		RenderManager::nowEffect = RenderManager::PostEffect::Vignette;
-	}
 }
 
 WorldTransform Player::PostUpdate() {

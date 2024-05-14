@@ -6,17 +6,21 @@ struct PixelShaderOutput {
     float4 color : SV_TARGET0;
 };
 
-PixelShaderOutput main(VertexShaderOutput input) {
-    PixelShaderOutput output;
-    output.color = gTexture.Sample(gSampler,input.texcoord);
-
+float Vignetting(float2 texcoord) {
     // 周囲を0に、中心になるほど明るくなるように計算で調整
-    float2 correct = input.texcoord * (1.0f - input.texcoord.yx);
+    float2 correct = texcoord * (1.0f - texcoord.yx);
     // correctだけで計算すると中心の最大値が0.0625で暗すぎるのでscaleで調整。この例では16バイして1にしている
     float vignette = correct.x * correct.y * 16.0f;
     // とりあえず0.8乗
     vignette = saturate(pow(vignette,0.8f));
+    return vignette;
+}
+
+PixelShaderOutput main(VertexShaderOutput input) {
+    PixelShaderOutput output;
+    output.color = gTexture.Sample(gSampler,input.texcoord);
+
     // 係数として乗算
-    output.color.rgb *= vignette;
+    output.color.rgb *= Vignetting(input.texcoord);
     return output;
 }
