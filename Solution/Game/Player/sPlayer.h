@@ -11,7 +11,6 @@
 #include "Game/Camera/AttackCamera.h"
 #include "Game/Player/PlayerParticle.h"
 #include "PlayerAnimation.h"
-#include "PlayerAttack.h"
 
 
 class sPlayer {
@@ -115,6 +114,6 @@ private:
 
 	int moveVecFlag_ = 0;
 	// 攻撃用クラス
-	std::unique_ptr<PlayerAttack> playerAttack_;
+	std::unique_ptr<class PlayerAttack> playerAttack_;
 
 };

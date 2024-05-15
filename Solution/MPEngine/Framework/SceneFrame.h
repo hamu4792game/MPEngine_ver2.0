@@ -16,5 +16,7 @@ public:
 	virtual bool IsEndRequest() { return endRequest_; }
 
 protected:
+	// アニメーション等の事後更新用
+	virtual void SecondUpdate() = 0;
 	bool endRequest_ = false;
 };

@@ -161,7 +161,7 @@ void Player::OnCollisionStage(const AABB* aabb) {
 
 void Player::DrawImGui() {
 #ifdef _DEBUG
-	ImGui::Begin("Player", nullptr, ImGuiWindowFlags_MenuBar);
+	ImGui::Begin(itemName_.c_str(), nullptr, ImGuiWindowFlags_MenuBar);
 	if (ImGui::BeginMenuBar()) {
 		if (ImGui::BeginMenu("initialize")) {
 			if (ImGui::TreeNode("FileSave")) {

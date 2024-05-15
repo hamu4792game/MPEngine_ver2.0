@@ -52,6 +52,10 @@ void TitleScene::Update() {
 	Camera3d::GetInstance()->SetTransform(cameraTransform_);
 }
 
+void TitleScene::SecondUpdate() {
+
+}
+
 void TitleScene::DrawImGui() {
 #ifdef _DEBUG
 	ImGui::Begin("camera");

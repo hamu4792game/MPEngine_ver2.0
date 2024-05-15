@@ -1,34 +1,60 @@
 #pragma once
 #include "Utils/WorldTransform/WorldTransform.h"
+#include "Graphics/Model/Model.h"
+#include "Graphics/Animation/ModelAnimation.h"
+#include <array>
 #include <memory>
-#include <vector>
+#include <string>
 
 class PlayerAnimation {
 public:
 	PlayerAnimation() = default;
+	PlayerAnimation(const WorldTransform* transform);
 	~PlayerAnimation() = default;
-public:
-	void SetPartsPtr(WorldTransform* parts);
-
-	void Request(uint32_t type); // 初期化処理やる
-	
-	void Update();
 
 private:
-	void Initialize();
-private:
-	uint32_t type_ = 0u;
-
-	// 通常アニメーション
-	struct NormalParameter {
-		std::vector<Vector3> offsets;
-		std::vector<Vector3> prePositions;
+	const std::string itemName_ = "Player";
+public: // public変数
+	enum class Parts {
+		Body,
+		kMaxNum
 	};
-	NormalParameter normal_;
-	void NormalInitialize();
-	void NormalUpdate();
+	enum class AnimationType {
+		Wait,
+		Run,
+		Jump,
+		kMaxNum
+	};
 
-private:
-	WorldTransform* partsTrans_ = nullptr;
+	struct BehaviorFlag {
+		bool isWaiting = false; // 待機中か
+		bool isMoved = false; // 移動中か
+		bool isJumped = false; // ジャンプ中か
+		bool isReset = false; // animationTimeをリセットするか
+		void Initialize() {
+			isWaiting = false;
+			isMoved = false;
+			isJumped = false;
+			isReset = false;
+		}
+	};
+public: // public関数
+	void Initialize();
+	void Update(BehaviorFlag flag);
+
+	// アニメーションタイプのセット、flag = true:最初から再生/false:途中から再生
+	void SetAnimation(AnimationType type, const bool flag = false);
+
+private: // private関数
+	void SetAnimation(); // アニメーション切り替えの更新
+	void AnimationControl(BehaviorFlag flag);
+	bool CheckType(AnimationType type) const;
+
+private: // private変数
+	std::array<std::unique_ptr<Model>, static_cast<uint32_t>(Parts::kMaxNum)> models_;
+	std::array<std::unique_ptr<ModelAnimation>, static_cast<uint32_t>(AnimationType::kMaxNum)> animation_;
+	float animationTime_ = 0.0f;
+	AnimationType nowType_; // 今のタイプ
+	AnimationType oldType_; // 前のタイプ
 
 };

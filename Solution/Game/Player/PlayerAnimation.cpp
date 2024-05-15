@@ -1,59 +1,112 @@
 #include "PlayerAnimation.h"
-#include "Player.h"
+#include "Utils/GlobalVariables/GlobalVariables.h"
+#include "PlayerManager.h"
 
-void PlayerAnimation::SetPartsPtr(WorldTransform* parts) {
-	partsTrans_ = parts;
-	Initialize();
-}
-
-void PlayerAnimation::Request(uint32_t type) {
-	type_ = type;
-	switch (type_) {
-	case Player::AnimationType::Normal:
-		NormalInitialize();
-		break;
+PlayerAnimation::PlayerAnimation(const WorldTransform* transform) {
+	auto rsManager = ResourceManager::GetInstance();
+	auto global = GlobalVariables::GetInstance();
+	global->LoadFile(itemName_);
+	// Modelの生成と読み込み
+	uint32_t index = 0u;
+	for (auto& model : models_) {
+		model = std::make_unique<Model>();
+		model->SetModel(rsManager->FindObject3d("Human"));
+		Vector3 scale = global->GetVector3Value(itemName_, ("PartsTrans : scale" + std::to_string(index)).c_str());
+		Vector3 rotation = global->GetVector3Value(itemName_, ("PartsTrans : rotate" + std::to_string(index)).c_str());
+		Vector3 translation = global->GetVector3Value(itemName_, ("PartsTrans : translate" + std::to_string(index)).c_str());
+		WorldTransform trans = WorldTransform(scale, rotation, translation);
+		trans.parent_ = transform;
+		model->SetTransform(trans);
+		index++;
 	}
-}
-
-void PlayerAnimation::Update() {
-	switch (type_) {
-	case Player::AnimationType::Normal:
-		NormalUpdate();
-		break;
+	// animationの生成と読み込み
+	std::string animationNames[static_cast<uint32_t>(AnimationType::kMaxNum)]{
+		"HumanWait",
+		"HumanWalk",
+		"HumanJump",
+	};
+	index = 0u;
+	for (auto& anime : animation_) {
+		anime = std::make_unique<ModelAnimation>();
+		anime->Load(rsManager->FindAnimation(animationNames[index]), models_.at(static_cast<uint32_t>(Parts::Body)).get());
+		index++;
 	}
 }
 
 void PlayerAnimation::Initialize() {
-	normal_.offsets.resize(Player::Parts::kMaxParts);
-	normal_.prePositions.resize(Player::Parts::kMaxParts);
+	animationTime_ = 0.0f;
+	nowType_ = AnimationType::Wait;
+	oldType_ = AnimationType::kMaxNum;
+	models_.at(static_cast<uint32_t>(Parts::Body))->SetAnimation(animation_.at(static_cast<uint32_t>(nowType_)).get());
 }
 
-void PlayerAnimation::NormalInitialize() {
-	for (uint32_t index = 0u; index < normal_.offsets.size(); index++) {
-		normal_.offsets.at(index) = partsTrans_[index].translation_;
-		normal_.prePositions.at(index) = partsTrans_[index].translation_;
+void PlayerAnimation::Update(BehaviorFlag flag) {
+	AnimationControl(flag);
+
+	SetAnimation();
+	// アニメーションの更新
+	float timeHandle = 0.0f;
+	for (auto& model : models_) {
+		timeHandle = model->GetAnimation()->ApplyAnimation(animationTime_);
 	}
-	partsTrans_[Player::Parts::Tracking1].rotation_.y = AngleToRadian(0.0f);
-	partsTrans_[Player::Parts::Tracking2].rotation_.y = AngleToRadian(120.0f);
-	partsTrans_[Player::Parts::Tracking3].rotation_.y = AngleToRadian(240.0f);
+	animationTime_ = timeHandle;
+	static const float frameSpeed = 1.0f / 60.0f;
+	animationTime_ += frameSpeed;
+	models_.at(static_cast<uint32_t>(Parts::Body))->GetAnimation()->Update(models_.at(static_cast<uint32_t>(Parts::Body))->GetTransform());
 }
 
-void PlayerAnimation::NormalUpdate() {
-	//partsTrans_[Player::Parts::Head].rotation_.y += AngleToRadian(1.0f);
+void PlayerAnimation::SetAnimation() {
+	// アニメーションタイプに変化がなければ早期リターン
+	if (oldType_ == nowType_) {
+		return;
+	}
+	// しばらく補間かけて云々をここでやりたい気もする
 
-	for (uint32_t index = Player::Parts::Tracking1; index <= Player::Parts::Tracking3; index++) {
-		partsTrans_[index].rotation_.y += AngleToRadian(1.0f);
-		if (partsTrans_[index].rotation_.y >= AngleToRadian(360.0f)) {
-			partsTrans_[index].rotation_.y -= AngleToRadian(360.0f);
-		}
+	models_.at(static_cast<uint32_t>(Parts::Body))->SetAnimation(animation_.at(static_cast<uint32_t>(nowType_)).get());
+}
 
-		Vector3 lOffset = normal_.offsets[index];
-		lOffset = TargetOffset(lOffset, partsTrans_[index].rotation_);
+void PlayerAnimation::SetAnimation(AnimationType type, const bool flag) {
+	// 今のタイプが同じで、最初から再生するわけでもないのであれば、早期リターン
+	if (nowType_ == type) {
+		return;
+	}
+	oldType_ = nowType_;
+	nowType_ = type;
+	if (flag) {
+		animationTime_ = 0.0f;
+	}
+}
 
-		// 遅延は武器用
-		normal_.prePositions.at(index) = Lerp(normal_.prePositions.at(index), partsTrans_[Player::Parts::Body].GetPosition(), 1.0f);
+void PlayerAnimation::AnimationControl(BehaviorFlag flag) {
+	oldType_ = nowType_;
+	if (flag.isReset) {
+		animationTime_ = 0.0f;
+	}
+	// 下に配置すればするほど、優先度が高くなる
+	if (flag.isWaiting) {
+		nowType_ = AnimationType::Wait;
+	}
+	if (flag.isMoved) {
+		nowType_ = AnimationType::Run;
+	}
+	if (flag.isJumped) {
+		nowType_ = AnimationType::Jump;
+	}
 
-		partsTrans_[index].translation_ = lOffset + normal_.prePositions.at(index);
-	}	
+	// 今のタイプが待機中で、前まで待機していなかった場合
+	if (CheckType(AnimationType::Wait)) {
+		animationTime_ = 0.0f;
+	} 
+	else if (CheckType(AnimationType::Jump)) {
+		animationTime_ = 0.0f;
+	}
 
+}
+
+bool PlayerAnimation::CheckType(AnimationType type) const {
+	// 今のタイプが変数で、前まで待機していなかった場合
+	if ((nowType_ == type) && (nowType_ != oldType_)) {
+		return true;
+	}
+	return false;
 }

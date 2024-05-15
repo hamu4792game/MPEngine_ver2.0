@@ -48,13 +48,14 @@ void GameScene::Initialize() {
 	rs->AddModel("PlayerWeapon", "Resources/Model/Player/weapon/weapon.obj");
 
 	rs->AddAnimation("Rotate", "Resources/Model/AnimatedCube/AnimatedCube.gltf");
-	rs->AddAnimation("HumanWalk", "Resources/Model/human/run.gltf");
 	rs->AddAnimation("HumanWait", "Resources/Model/human/wait.gltf");
+	rs->AddAnimation("HumanWalk", "Resources/Model/human/run.gltf");
+	rs->AddAnimation("HumanJump", "Resources/Model/human/jump.gltf");
 
 	//rs->AddAudio("Title", "./Resources/Sound/w006.wav");
 	rs->AddAudio("Battle", "Resources/Audio/mLoop1.mp3");
 
-	sceneRequest_ = Scene::TITLE;
+	sceneRequest_ = Scene::BATTLE;
 	transition_ = std::make_unique<Transition>();
 }
 

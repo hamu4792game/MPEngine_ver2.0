@@ -7,7 +7,7 @@
 #include "MPEngine/Graphics/RenderManager/RenderManager.h"
 
 void BattleScene::Initialize() {
-	player_ = std::make_unique<Player>();
+	player_ = std::make_unique<PlayerManager>();
 	player_->Initialize();
 	cameraTrans_.scale_ = Vector3::one;
 	cameraTrans_.translation_ = Vector3(0.0f, 0.0f, -10.0f);
@@ -69,12 +69,15 @@ void BattleScene::Update() {
 	}
 	gameUI_->Update();
 
-	Camera3d::GetInstance()->SetTransform(player_->PostUpdate());
-
 	if (Input::GetInstance()->GetKey()->PressKey(DIK_P)) {
 		endRequest_ = true;
 	}
 
+	SecondUpdate();
+}
+
+void BattleScene::SecondUpdate() {
+	Camera3d::GetInstance()->SetTransform(player_->PostUpdate());
 }
 
 void BattleScene::DrawImGui() {

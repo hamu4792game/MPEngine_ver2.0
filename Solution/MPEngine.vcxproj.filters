@@ -143,12 +143,6 @@
     <ClCompile Include="Game\Scene\BattleScene.cpp">
       <Filter>Game\Scene\BattleScene</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Player\sPlayer.cpp">
-      <Filter>Game\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Player\PlayerAnimation.cpp">
-      <Filter>Game\Player</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Player\PlayerParticle.cpp">
       <Filter>Game\Player</Filter>
     </ClCompile>
@@ -197,12 +191,6 @@
     <ClCompile Include="Game\Camera\AttackCamera.cpp">
       <Filter>Game\Camera\AttackCamera</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Player\PlayerAttack.cpp">
-      <Filter>Game\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Player\Player.cpp">
-      <Filter>Game\Player</Filter>
-    </ClCompile>
     <ClCompile Include="MPEngine\Input\MouseInput.cpp">
       <Filter>MPEngine\Input</Filter>
     </ClCompile>
@@ -217,6 +205,12 @@
     </ClCompile>
     <ClCompile Include="MPEngine\Graphics\PostEffect\BaseEffect.cpp">
       <Filter>MPEngine\Graphics\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Player\PlayerManager.cpp">
+      <Filter>Game\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Player\PlayerAnimation.cpp">
+      <Filter>Game\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -380,12 +374,6 @@
     <ClInclude Include="Game\Scene\BattleScene.h">
       <Filter>Game\Scene\BattleScene</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Player\sPlayer.h">
-      <Filter>Game\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Player\PlayerAnimation.h">
-      <Filter>Game\Player</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Player\PlayerParticle.h">
       <Filter>Game\Player</Filter>
     </ClInclude>
@@ -434,12 +422,6 @@
     <ClInclude Include="Game\Camera\AttackCamera.h">
       <Filter>Game\Camera\AttackCamera</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Player\PlayerAttack.h">
-      <Filter>Game\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Player\Player.h">
-      <Filter>Game\Player</Filter>
-    </ClInclude>
     <ClInclude Include="MPEngine\Input\MouseInput.h">
       <Filter>MPEngine\Input</Filter>
     </ClInclude>
@@ -454,6 +436,12 @@
     </ClInclude>
     <ClInclude Include="MPEngine\Graphics\PostEffect\BaseEffect.h">
       <Filter>MPEngine\Graphics\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Player\PlayerManager.h">
+      <Filter>Game\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Player\PlayerAnimation.h">
+      <Filter>Game\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
