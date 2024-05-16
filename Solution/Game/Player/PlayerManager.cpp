@@ -84,6 +84,9 @@ void PlayerManager::OnCollisionStage(const AABB* aabb) {
 	if (iscoll) {
 		Vector3 extrusionVector;
 		// 地面と当たっているので初期化
+		if (!fallParam_.isJumpable_) {
+			behaviorFlag_.isLanded = true;
+		}
 		fallParam_.Initialize();
 		// size同士
 		Vector3 rScale = collision_->boxModel_.scale_ + aabb->boxModel_.scale_;
@@ -195,7 +198,6 @@ void PlayerManager::Jamp() {
 		fallParam_.isJumpable_ = false;
 		fallParam_.acceleration_ = 1.0f;
 		fallParam_.isFalled_ = true;
-		
 	}
 	// 落下更新処理
 	// 重力
@@ -203,9 +205,16 @@ void PlayerManager::Jamp() {
 	// 重力を足していく
 	fallParam_.acceleration_ -= gravity_;
 	transform_.translation_.y += fallParam_.acceleration_;
-	//if (fallParam_.isFalled_) {
-	//	
-	//}
+	if (fallParam_.isFalled_) {
+		if (fallParam_.acceleration_ < 0.0f) {
+			// 落下中
+			behaviorFlag_.isFalled = true;
+		}
+		else {
+			// 上昇中
+			behaviorFlag_.isJumped = true;
+		}
+	}
 }
 
 void PlayerManager::TransformUpdate() {

@@ -30,11 +30,16 @@ public: // public変数
 		bool isWaiting = false; // 待機中か
 		bool isMoved = false; // 移動中か
 		bool isJumped = false; // ジャンプ中か
+		bool isFalled = false; // 落下中か
+		bool isLanded = false; // 着地したか
 		bool isReset = false; // animationTimeをリセットするか
+		bool isLoop = false;
 		void Initialize() {
 			isWaiting = false;
 			isMoved = false;
 			isJumped = false;
+			isFalled = false;
+			isLanded = false;
 			isReset = false;
 		}
 	};
@@ -45,7 +50,10 @@ public: // public関数
 	// アニメーションタイプのセット、flag = true:最初から再生/false:途中から再生
 	void SetAnimation(AnimationType type, const bool flag = false);
 
+	const bool& GetFinishedAnimation() const { return isFinishedAnimation_; }
+
 private: // private関数
+	float AnimationUpdate(BehaviorFlag flag); // アニメーションの更新
 	void SetAnimation(); // アニメーション切り替えの更新
 	void AnimationControl(BehaviorFlag flag);
 	bool CheckType(AnimationType type) const;
@@ -56,5 +64,6 @@ private: // private変数
 	float animationTime_ = 0.0f;
 	AnimationType nowType_; // 今のタイプ
 	AnimationType oldType_; // 前のタイプ
-
+	bool isFinishedAnimation_ = false; // アニメーションが終わったか
+	bool isJumpFrag_ = false;
 };

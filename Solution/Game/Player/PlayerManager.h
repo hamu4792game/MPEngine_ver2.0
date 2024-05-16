@@ -39,10 +39,12 @@ private:
 	struct FallParam {
 		float acceleration_ = 0.0f; // 落下時の加速度
 		bool isJumpable_ = true; // ジャンプ可能かのフラグ
+		bool oldJumpable_ = false; // ジャンプ可能かのフラグ
 		bool isFalled_ = false; // 落下中かのフラグ true:落ちている/false:落ちていない
 		void Initialize() {
 			isJumpable_ = true;
 			isFalled_ = false;
+			oldJumpable_ = false;
 			acceleration_ = 0.0f;
 		}
 	};

@@ -41,17 +41,22 @@ void PlayerAnimation::Initialize() {
 }
 
 void PlayerAnimation::Update(BehaviorFlag flag) {
-	AnimationControl(flag);
-
-	SetAnimation();
 	// アニメーションの更新
-	float timeHandle = 0.0f;
-	for (auto& model : models_) {
-		timeHandle = model->GetAnimation()->ApplyAnimation(animationTime_);
+	float timeHandle = AnimationUpdate(flag);
+	
+	isFinishedAnimation_ = false;
+	if (timeHandle < animationTime_) {
+		// アニメーションが終わった瞬間にフラグを渡す
+		isFinishedAnimation_ = true;
+		// 再度更新
+		timeHandle = AnimationUpdate(flag);
+	}
+	else {
+		static const float frameSpeed = 1.0f / 60.0f;
+		timeHandle += frameSpeed;
 	}
 	animationTime_ = timeHandle;
-	static const float frameSpeed = 1.0f / 60.0f;
-	animationTime_ += frameSpeed;
+		
 	models_.at(static_cast<uint32_t>(Parts::Body))->GetAnimation()->Update(models_.at(static_cast<uint32_t>(Parts::Body))->GetTransform());
 }
 
@@ -77,6 +82,17 @@ void PlayerAnimation::SetAnimation(AnimationType type, const bool flag) {
 	}
 }
 
+float PlayerAnimation::AnimationUpdate(BehaviorFlag flag) {
+	AnimationControl(flag);
+	SetAnimation();
+	// アニメーションの更新
+	float timeHandle = 0.0f;
+	for (auto& model : models_) {
+		timeHandle = model->GetAnimation()->ApplyAnimation(animationTime_);
+	}
+	return timeHandle;
+}
+
 void PlayerAnimation::AnimationControl(BehaviorFlag flag) {
 	oldType_ = nowType_;
 	if (flag.isReset) {
@@ -89,8 +105,38 @@ void PlayerAnimation::AnimationControl(BehaviorFlag flag) {
 	if (flag.isMoved) {
 		nowType_ = AnimationType::Run;
 	}
-	if (flag.isJumped) {
+	if (flag.isJumped || flag.isFalled || flag.isLanded || isJumpFrag_) {
 		nowType_ = AnimationType::Jump;
+	}
+
+	// ジャンプ中の特例処理
+	if (nowType_ == AnimationType::Jump) {
+		static const float maxframe = 10.0f / 60.0f;
+		if (flag.isLanded && !isFinishedAnimation_) {
+			isJumpFrag_ = true;
+		}
+		else if (flag.isJumped) {
+			// 上に飛んでいる間はこれ以上進まない
+			if (animationTime_ >= maxframe) {
+				animationTime_ = maxframe;
+			}
+		}
+		else if (flag.isFalled) {
+			// 落下中は固定
+			animationTime_ = maxframe;
+		}
+		else if (flag.isMoved) {
+			// 移動中なら途中で切り替える
+			if (animationTime_ >= maxframe * 3.0f) {
+				isJumpFrag_ = false;
+				nowType_ = AnimationType::Run;
+			}
+		}
+		else if (isFinishedAnimation_) {
+			// アニメーションがおわったらフラグを折る
+			isJumpFrag_ = false;
+			AnimationControl(flag);
+		}
 	}
 
 	// 今のタイプが待機中で、前まで待機していなかった場合
