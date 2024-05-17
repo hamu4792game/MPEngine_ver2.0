@@ -212,6 +212,12 @@
     <ClCompile Include="Game\Player\PlayerAnimation.cpp">
       <Filter>Game\Player</Filter>
     </ClCompile>
+    <ClCompile Include="MPEngine\Graphics\SkyBox\SkyBox.cpp">
+      <Filter>MPEngine\Graphics\Utils\SkyBox</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\Graphics\SkyBoxRender\SkyBoxRender.cpp">
+      <Filter>MPEngine\Graphics\Render\SkyBoxRender</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -443,6 +449,12 @@
     <ClInclude Include="Game\Player\PlayerAnimation.h">
       <Filter>Game\Player</Filter>
     </ClInclude>
+    <ClInclude Include="MPEngine\Graphics\SkyBox\SkyBox.h">
+      <Filter>MPEngine\Graphics\Utils\SkyBox</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Graphics\SkyBoxRender\SkyBoxRender.h">
+      <Filter>MPEngine\Graphics\Render\SkyBoxRender</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="MPEngine">
@@ -660,6 +672,12 @@
     </Filter>
     <Filter Include="MPEngine\Graphics\PostEffect">
       <UniqueIdentifier>{1b6b2e55-6808-45e8-a35c-cbb6bf88a9cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Graphics\Utils\SkyBox">
+      <UniqueIdentifier>{d433aebc-9ad2-4e63-9bba-579daf688ccc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Graphics\Render\SkyBoxRender">
+      <UniqueIdentifier>{e4a15233-882b-410b-bded-526025943c19}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

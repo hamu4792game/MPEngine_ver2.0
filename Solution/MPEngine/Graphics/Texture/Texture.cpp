@@ -36,10 +36,20 @@ void Texture::Load(const std::string& name, const std::string& filePath) {
 
 	// 設定
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Format = metaData.format;
-	srvDesc.Texture2D.MipLevels = static_cast<UINT>(metaData.mipLevels);
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	// metaDataからcubemapかどうかを取得できるので利用して分離
+	if (metaData.IsCubemap()) {
+		srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURECUBE;
+		srvDesc.TextureCube.MostDetailedMip = 0; // unionがTextureCubeになったが、内部パラメータの意味はTexture2dと変わらない
+		srvDesc.TextureCube.MipLevels = UINT_MAX;
+		srvDesc.TextureCube.ResourceMinLODClamp = 0.0f;
+	}
+	else {
+
+		srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+		srvDesc.Texture2D.MipLevels = static_cast<UINT>(metaData.mipLevels);
+	}
 	// ビューの生成
 	device->CreateShaderResourceView(resource_.Get(), &srvDesc, /*rsManager->GetSRVHeap()->GetCPUDescriptorHandle(0)*/cpuHandle); 
 }

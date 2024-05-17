@@ -204,6 +204,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="MPEngine\Graphics\Particle\Particle.cpp" />
     <ClCompile Include="MPEngine\Graphics\PostEffect\BaseEffect.cpp" />
     <ClCompile Include="MPEngine\Graphics\RenderManager\RenderManager.cpp" />
+    <ClCompile Include="MPEngine\Graphics\SkyBoxRender\SkyBoxRender.cpp" />
+    <ClCompile Include="MPEngine\Graphics\SkyBox\SkyBox.cpp" />
     <ClCompile Include="MPEngine\Graphics\SpriteRender\SpriteRender.cpp" />
     <ClCompile Include="MPEngine\Graphics\Sprite\Sprite.cpp" />
     <ClCompile Include="MPEngine\Graphics\Texture\Texture.cpp" />
@@ -280,6 +282,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="MPEngine\Graphics\Particle\Particle.h" />
     <ClInclude Include="MPEngine\Graphics\PostEffect\BaseEffect.h" />
     <ClInclude Include="MPEngine\Graphics\RenderManager\RenderManager.h" />
+    <ClInclude Include="MPEngine\Graphics\SkyBoxRender\SkyBoxRender.h" />
+    <ClInclude Include="MPEngine\Graphics\SkyBox\SkyBox.h" />
     <ClInclude Include="MPEngine\Graphics\SpriteRender\SpriteRender.h" />
     <ClInclude Include="MPEngine\Graphics\Sprite\Sprite.h" />
     <ClInclude Include="MPEngine\Graphics\Texture\Texture.h" />
