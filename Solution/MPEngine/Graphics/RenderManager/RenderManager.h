@@ -3,6 +3,7 @@
 #include "MPEngine/Graphics/ModelRender/ModelRender.h"
 #include "MPEngine/Graphics/ParticleRender/ParticleRender.h"
 #include "MPEngine/Graphics/LineRender/LineRender.h"
+#include "MPEngine/Graphics/SkyBoxRender/SkyBoxRender.h"
 #include "Utils/Camera/Camera.h"
 #include "MPEngine/Utils/Camera/Camera3d.h"
 
@@ -30,6 +31,7 @@ private:
 	ModelRender modelRender;
 	ParticleRender particleRender;
 	LineRender lineRender;
+	SkyBoxRender skyBoxRender;
 	std::shared_ptr<Camera> camera;
 	Camera3d* camera3d_ = nullptr;
 };

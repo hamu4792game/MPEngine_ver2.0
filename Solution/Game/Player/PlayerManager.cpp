@@ -16,7 +16,8 @@ void PlayerManager::Initialize() {
 	//global->LoadFile(itemName_);
 	
 	transform_.scale_ = Vector3::one;
-	transform_.translation_ = Vector3(120.0f, 22.0f, -100.0f);
+	//transform_.translation_ = Vector3(120.0f, 22.0f, -100.0f);
+	transform_.translation_ = Vector3(0.0f, 22.0f, 0.0f);
 	transform_.UpdateMatrix();
 	animation_->Initialize();
 	collision_->size = Vector3(1.0f, 2.4f, 1.0f);

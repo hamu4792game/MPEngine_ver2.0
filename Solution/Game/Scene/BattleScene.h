@@ -8,6 +8,7 @@
 #include "Game/LockOn/LockOn.h"
 #include "Game/Enemy/Enemy.h"
 #include "Game/GameUI/GameUI.h"
+#include "MPEngine/Graphics/SkyBox/SkyBox.h"
 
 class BattleScene : public SceneFrame {
 public:
@@ -28,6 +29,8 @@ private:
 	std::unique_ptr<LockOn> lockOn_;
 	std::unique_ptr<Enemy> enemy_;
 	std::unique_ptr<GameUI> gameUI_;
+
+	std::unique_ptr<SkyBox> skybox_;
 
 	float time_ = 0.0f;
 	const float kMaxTimer_ = 3.0f;

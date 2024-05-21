@@ -10,6 +10,8 @@ void RenderManager::Initialize() {
 	modelRender.Initialize();
 	particleRender.Initialize();
 	lineRender.Initialize();
+	skyBoxRender.Initialize();
+
 	camera = std::make_shared<Camera>();
 	camera3d_ = Camera3d::GetInstance();
 	camera3d_->Initialize(2000.0f);
@@ -20,6 +22,7 @@ void RenderManager::Draw() {
 	auto rsManager = ResourceManager::GetInstance();
 	auto srvHeap = rsManager->GetSRVHeap()->GetDescriptorHeap();
 	Matrix4x4 projectionMatrix;
+	Matrix4x4 projectionMatrix2D;
 
 	list->SetDescriptorHeaps(1, &srvHeap);
 
@@ -31,7 +34,9 @@ void RenderManager::Draw() {
 
 	lineRender.DrawCommand(projectionMatrix);
 
-	projectionMatrix = camera->GetViewProMat();
-	spriteRender.DrawCommand(projectionMatrix);
+	skyBoxRender.DrawCommand(projectionMatrix);
+
+	projectionMatrix2D = camera->GetViewProMat();
+	spriteRender.DrawCommand(projectionMatrix2D);
 
 }

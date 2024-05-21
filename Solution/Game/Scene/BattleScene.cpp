@@ -24,6 +24,9 @@ void BattleScene::Initialize() {
 	gameUI_ = std::make_unique<GameUI>();
 	gameUI_->Initialize();
 
+	skybox_ = std::make_unique<SkyBox>();
+	skybox_->SetTexture(ResourceManager::GetInstance()->FindTexture("Airport"));
+
 	// 音
 	auto rs = ResourceManager::GetInstance();
 	Audio* bgm = rs->FindAudio("Battle");
@@ -63,6 +66,12 @@ void BattleScene::Update() {
 	//if (player_->OnCollision(enemy_->GetCollision())) {
 	//	endRequest_ = true;
 	//}
+	static Vector3 scale = Vector3(300.0f, 300.0f, 300.0f);
+	static Vector3 translate = Vector3(0.0f, 0.0f, 0.0f);
+	ImGui::DragFloat3("BoxScale", &scale.x, 1.0f);
+	ImGui::DragFloat3("BoxTranslate", &translate.x, 1.0f);
+	skybox_->SetScale(scale);
+	skybox_->SetTranslate(translate);
 
 	for (auto coll : stage_->GetCollision()) {
 		player_->OnCollisionStage(coll);
