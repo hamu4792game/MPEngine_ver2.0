@@ -6,6 +6,7 @@
 
 #include "MPEngine/Base/ConstantBuffer.h"
 #include "MPEngine/Math/MathUtl.h"
+#include "Utils/WorldTransform/WorldTransform.h"
 
 class SkyBox {
 	friend class SkyBoxRender;
@@ -13,13 +14,13 @@ public:
 	SkyBox();
 	~SkyBox();
 
+	void Update();
+
 public: // セッター
 	// Textureのセット
 	void SetTexture(Texture* texture);
 	void SetIsActive(const bool& active) { isActive_ = active; }
-	void SetScale(const Vector3& scale) { scale_ = scale; }
-	void SetRotate(const float& rotate) { rotate_ = rotate; }
-	void SetTranslate(const Vector3& translate) { translate_ = translate; }
+	void SetTransform(const WorldTransform& trans) { transform_ = trans; }
 	void SetColor(const Vector4& color) { color_ = color; }
 	void SetUVSize(const Vector2& uv) { uvScale_ = uv; }
 	void SetLayerNum(const uint32_t& num) { layerNumber_ = num; }
@@ -39,9 +40,7 @@ private:
 	uint32_t layerNumber_ = 0u; // 描画順。0から描画される
 	bool isActive_ = true; // 描画するか否か
 
-	Vector3 scale_;
-	float rotate_ = 0.0f;
-	Vector3 translate_;
+	WorldTransform transform_;
 
 public:
 	Vector2 uvScale_ = Vector2::one; // UVサイズ

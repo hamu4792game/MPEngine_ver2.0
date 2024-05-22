@@ -24,6 +24,10 @@ SkyBox::~SkyBox() {
 	}
 }
 
+void SkyBox::Update() {
+	transform_.UpdateMatrix();
+}
+
 void SkyBox::SetTexture(Texture* texture) {
 	texture_ = texture;
 	uvScale_ = Vector2(1.0f, 1.0f);

@@ -70,8 +70,9 @@ void BattleScene::Update() {
 	static Vector3 translate = Vector3(0.0f, 0.0f, 0.0f);
 	ImGui::DragFloat3("BoxScale", &scale.x, 1.0f);
 	ImGui::DragFloat3("BoxTranslate", &translate.x, 1.0f);
-	skybox_->SetScale(scale);
-	skybox_->SetTranslate(translate);
+	WorldTransform trans(scale, Vector3::zero, translate);
+	skybox_->SetTransform(trans);
+	skybox_->Update();
 
 	for (auto coll : stage_->GetCollision()) {
 		player_->OnCollisionStage(coll);

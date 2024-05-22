@@ -96,11 +96,7 @@ void SkyBoxRender::DrawCommand(const Matrix4x4& viewProjectionMat) {
 		if (!skybox->isActive_) { continue; }
 
 		// 定数バッファ用の計算
-		skybox->cMat->wvp = MakeAffineMatrix(
-			{ skybox->scale_.x,skybox->scale_.y,skybox->scale_.z },
-			{ 0.0f,0.0f,skybox->rotate_ },
-			{ skybox->translate_.x,skybox->translate_.y,skybox->translate_.z }
-		) * viewProjectionMat;
+		skybox->cMat->wvp = skybox->transform_.worldMatrix_ * viewProjectionMat;
 		skybox->cMaterial->uvMat = MakeAffineMatrix(
 			{ skybox->uvScale_.x,skybox->uvScale_.y,1.0f },
 			{ 0.0f,0.0f,skybox->uvRotate_ },

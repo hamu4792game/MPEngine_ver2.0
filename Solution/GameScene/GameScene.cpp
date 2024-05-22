@@ -24,6 +24,7 @@ void GameScene::Initialize() {
 	rs->AddModel("Box", "Resources/Model/AnimatedCube/AnimatedCube.gltf");
 	rs->AddModel("Plane", "Resources/Model/plane/plane.obj");
 	rs->AddModel("Sphere", "Resources/Model/sphere/sphere.obj");
+	rs->AddModel("Target", "Resources/Model/models/multiMesh.obj");
 	
 	rs->AddTexture("Ground", "Resources/Texture/ground.png");
 	rs->AddTexture("Circle", "Resources/Texture/particle.png");
