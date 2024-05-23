@@ -222,9 +222,7 @@ ID3D12Resource* ResourceManager::CreateRenderTextureResource(ID3D12Device* devic
 	return resource;
 }
 
-ModelData ResourceManager::LoadModelFile(const std::string& filename) {
-	//	必要な変数の宣言
-	ModelData modelData;	// 構築するModelData
+std::vector<ModelData> ResourceManager::LoadModelFile(const std::string& filename) {
 	//	ファイルを開く
 	std::ifstream file(filename);
 	assert(file.is_open());
@@ -240,6 +238,10 @@ ModelData ResourceManager::LoadModelFile(const std::string& filename) {
 	const aiScene* scene = importer.ReadFile(filename.c_str(), aiProcess_FlipWindingOrder | aiProcess_FlipUVs);
 	assert(scene->HasMeshes()); // メッシュがないのは対応しない
 
+	// dataの宣言
+	std::vector<ModelData> modelDatas;
+	modelDatas.resize(scene->mNumMeshes);
+	ModelData modelData;
 	// メッシュの解析
 	for (uint32_t index = 0; index < scene->mNumMeshes; index++) {
 		aiMesh* mesh = scene->mMeshes[index];
@@ -287,23 +289,28 @@ ModelData ResourceManager::LoadModelFile(const std::string& filename) {
 				jointWeightData.vertexWeights.push_back({ bone->mWeights[weightIndex].mWeight,bone->mWeights[weightIndex].mVertexId });
 			}
 		}
+
+		// シーン全体の階層構造を作り上げる
+		modelData.rootNode = ReadNode(scene->mRootNode);
+
+		// 生成したデータを入れ込む
+		modelDatas.at(index) = modelData;
 	}
 
 	// materialの解析を行う
+	uint32_t index = 0u;
 	for (uint32_t materialIndex = 0; materialIndex < scene->mNumMaterials; materialIndex++) {
 		aiMaterial* material = scene->mMaterials[materialIndex];
 		// 一般的に模様という用途の aiTextureType_DIFFUSE を使用する
 		if (material->GetTextureCount(aiTextureType_DIFFUSE) != 0) {
 			aiString textureFilePath;
 			material->GetTexture(aiTextureType_DIFFUSE, 0, &textureFilePath);
-			modelData.material.textureFilePath = directryPath + "/" + textureFilePath.C_Str();
+			// 対応した場所にテクスチャファイルとして入れ込む
+			modelDatas.at(index++).material.textureFilePath = directryPath + "/" + textureFilePath.C_Str();
 		}
 	}
 
-	// シーン全体の階層構造を作り上げる
-	modelData.rootNode = ReadNode(scene->mRootNode);
-
-	return modelData;
+	return modelDatas;
 }
 
 AnimationData ResourceManager::LoadAnimationFile(const std::string& filename) {

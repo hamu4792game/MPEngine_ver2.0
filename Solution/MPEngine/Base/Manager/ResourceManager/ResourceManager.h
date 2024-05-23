@@ -106,7 +106,7 @@ public:
 	// RenderTextureを作る関数
 	ID3D12Resource* CreateRenderTextureResource(ID3D12Device* device, D3D12_RESOURCE_DESC resDesc, DXGI_FORMAT format, const Vector4& color);
 	// モデルファイルを読み込む関数
-	ModelData LoadModelFile(const std::string& filename);
+	std::vector<ModelData> LoadModelFile(const std::string& filename);
 	// アニメーションファイルを読み込む関数
 	AnimationData LoadAnimationFile(const std::string& filename);
 private:

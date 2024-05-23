@@ -24,7 +24,7 @@ void GameScene::Initialize() {
 	rs->AddModel("Box", "Resources/Model/AnimatedCube/AnimatedCube.gltf");
 	rs->AddModel("Plane", "Resources/Model/plane/plane.obj");
 	rs->AddModel("Sphere", "Resources/Model/sphere/sphere.obj");
-	rs->AddModel("Target", "Resources/Model/models/multiMesh.obj");
+	rs->AddModel("Target", "Resources/Model/models/multiMaterial.obj");
 	
 	rs->AddTexture("Ground", "Resources/Texture/ground.png");
 	rs->AddTexture("Circle", "Resources/Texture/particle.png");
@@ -41,13 +41,13 @@ void GameScene::Initialize() {
 	rs->AddTexture("Airport", "Resources/Texture/rostock_laage_airport_4k.dds");
 
 	rs->AddModel("Human", "Resources/Model/human/run.gltf");
-	rs->AddModel("BoxSky", "Resources/Model/boxSky/boxSky.obj");
 	rs->AddModel("PlayerHead", "Resources/Model/Player/Head/head.obj");
 	rs->AddModel("PlayerBody", "Resources/Model/Player/Body/body.obj");
 	rs->AddModel("PlayerLeftArm", "Resources/Model/Player/LArm/LArm.obj");
 	rs->AddModel("PlayerRightArm", "Resources/Model/Player/RArm/RArm.obj");
 	rs->AddModel("PlayerLegs", "Resources/Model/Player/Legs/limbs.obj");
 	rs->AddModel("PlayerWeapon", "Resources/Model/Player/weapon/weapon.obj");
+	//rs->AddModel("BoxSky", "Resources/Model/boxSky/boxSky.obj");
 
 	rs->AddAnimation("Rotate", "Resources/Model/AnimatedCube/AnimatedCube.gltf");
 	rs->AddAnimation("HumanWait", "Resources/Model/human/wait.gltf");

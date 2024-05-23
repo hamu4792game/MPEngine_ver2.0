@@ -27,9 +27,7 @@ public: // setter
 	const WorldTransform& GetTransform() const { return transform_; }
 	ModelAnimation* GetAnimation() const { return animation_; }
 private:
-	void Initialize();
-	void CreateVertexResource();
-	void UploadVertexData();
+	
 
 public:
 	bool isActive_ = true; // true:描画する/false:描画しない
@@ -41,12 +39,6 @@ private:
 	BlendMode blendType_ = BlendMode::Normal;
 	Vector4 color_ = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 	WorldTransform transform_; // 座標
-
-	// 描画必要情報
-	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_{};
-	Microsoft::WRL::ComPtr<ID3D12Resource> vertexResource_ = nullptr;
-	D3D12_INDEX_BUFFER_VIEW indexBufferView_{};
-	Microsoft::WRL::ComPtr<ID3D12Resource> indexResource_ = nullptr;
 
 	struct TransformationMatrix {
 		Matrix4x4 wvp;

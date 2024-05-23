@@ -252,21 +252,14 @@ void ModelRender::DrawCommand(Camera3d* cameraPtr) {
 		model->cMaterial->phongLighing = false;
 
 		if (model->animation_) {
-			D3D12_VERTEX_BUFFER_VIEW vbvs[2] = {
-				model->vertexBufferView_, // VertexのVBV
-				model->animation_->skinCluster_.influenceBufferView, // InfluenceのVBV
-			};
 			list->SetGraphicsRootSignature(skinningRootSignature_->GetRootSignature().Get());
 			list->SetPipelineState(skinningGraphicsPipeline_[static_cast<uint32_t>(model->blendType_)]->GetPipelineState());
-			list->IASetVertexBuffers(0, 2, vbvs);
 		}
 		else {
 			list->SetGraphicsRootSignature(rootSignature_->GetRootSignature().Get());
 			list->SetPipelineState(graphicsPipeline_[static_cast<uint32_t>(model->blendType_)]->GetPipelineState());
-			list->IASetVertexBuffers(0, 1, &model->vertexBufferView_);
 		}
 
-		list->IASetIndexBuffer(&model->indexBufferView_);
 		list->SetGraphicsRootDescriptorTable(0, model->texture_->GetHandle().GetGPU()); // Texture
 		list->SetGraphicsRootConstantBufferView(1, model->cMat.GetGPUVirtualAddress()); // cMat
 		list->SetGraphicsRootConstantBufferView(2, model->cMaterial.GetGPUVirtualAddress()); // cMaterial
@@ -275,9 +268,27 @@ void ModelRender::DrawCommand(Camera3d* cameraPtr) {
 		if (model->animation_) {
 			list->SetGraphicsRootDescriptorTable(5, model->animation_->skinCluster_.paletteSrvHandle.GetGPU()); // skinning
 		}
-		// 描画
-		//list->DrawInstanced(UINT(model->model_->GetModel().vertices.size()), 1, 0, 0);
-		list->DrawIndexedInstanced(UINT(model->model_->GetModel().indices.size()), 1, 0, 0, 0);
-	}
 
+		for (uint32_t index = 0u; index < model->model_->modelDatas_.size(); index++) {
+			if (model->animation_) {
+				D3D12_VERTEX_BUFFER_VIEW vbvs[2] = {
+					model->model_->vertexBufferView_.at(index), // VertexのVBV
+					model->animation_->skinCluster_.influenceBufferView, // InfluenceのVBV
+				};
+				list->IASetVertexBuffers(0, 2, vbvs);
+			}
+			else {
+				list->IASetVertexBuffers(0, 1, &model->model_->vertexBufferView_.at(index));
+			}
+
+			list->IASetIndexBuffer(&model->model_->indexBufferView_.at(index));
+
+			list->DrawIndexedInstanced(UINT(model->model_->modelDatas_.at(index).indices.size()), 1, 0, 0, 0);
+		}
+
+		// 描画 meshの数だけ描画する
+		/*for (auto& handle : model->model_->GetModels()) {
+			list->DrawIndexedInstanced(UINT(handle.indices.size()), 1, 0, 0, 0);
+		}*/
+	}
 }
