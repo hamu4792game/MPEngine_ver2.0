@@ -299,15 +299,36 @@ std::vector<ModelData> ResourceManager::LoadModelFile(const std::string& filenam
 
 	// materialの解析を行う
 	uint32_t index = 0u;
+	std::vector<std::string> texturesPath;
+	texturesPath.resize(scene->mNumMaterials);
 	for (uint32_t materialIndex = 0; materialIndex < scene->mNumMaterials; materialIndex++) {
 		aiMaterial* material = scene->mMaterials[materialIndex];
+
 		// 一般的に模様という用途の aiTextureType_DIFFUSE を使用する
 		if (material->GetTextureCount(aiTextureType_DIFFUSE) != 0) {
 			aiString textureFilePath;
 			material->GetTexture(aiTextureType_DIFFUSE, 0, &textureFilePath);
 			// 対応した場所にテクスチャファイルとして入れ込む
-			modelDatas.at(index++).material.textureFilePath = directryPath + "/" + textureFilePath.C_Str();
+			uint32_t handle = 1u;
+			if (ps.extension() == ".gltf") {
+				// gltfだった場合は特殊なため、例外処理を入れる
+				handle = 0u;
+			}
+			//modelDatas.at(static_cast<uint32_t>(index - handle)).material.textureFilePath = directryPath + "/" + textureFilePath.C_Str();
+			texturesPath.at(index - handle) = directryPath + "/" + textureFilePath.C_Str();
 		}
+		index++;
+	}
+
+	// textureを全部読み込んでからメッシュ事にテクスチャを振り分けていく
+	uint32_t handle = 1u;
+	if (ps.extension() == ".gltf") {
+		// gltfだった場合は特殊なため、例外処理を入れる
+		handle = 0u;
+	}
+	for (uint32_t index = 0; index < scene->mNumMeshes; index++) {
+		aiMesh* mesh = scene->mMeshes[index];
+		modelDatas.at(static_cast<uint32_t>(index)).material.textureFilePath = texturesPath.at(mesh->mMaterialIndex - handle);
 	}
 
 	return modelDatas;

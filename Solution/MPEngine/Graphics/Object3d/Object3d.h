@@ -24,7 +24,7 @@ public:
 	// ModelDataの取得
 	ModelData GetModel() const { return modelDatas_.front(); }
 	std::vector<ModelData> GetModels() const { return modelDatas_; }
-	Texture* GetTexture() const { return texture_; }
+	std::vector<Texture*> GetTexture() const { return texture_; }
 
 	std::string name_; // modelName
 private:
@@ -36,7 +36,7 @@ private:
 	// モデルデータ構造体
 	std::vector<ModelData> modelDatas_;
 	DescriptorHandle srvHandle_;
-	Texture* texture_ = nullptr;
+	std::vector<Texture*> texture_;
 
 	// 描画必要情報
 	std::vector<D3D12_VERTEX_BUFFER_VIEW> vertexBufferView_{};

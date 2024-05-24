@@ -260,7 +260,7 @@ void ModelRender::DrawCommand(Camera3d* cameraPtr) {
 			list->SetPipelineState(graphicsPipeline_[static_cast<uint32_t>(model->blendType_)]->GetPipelineState());
 		}
 
-		list->SetGraphicsRootDescriptorTable(0, model->texture_->GetHandle().GetGPU()); // Texture
+		//list->SetGraphicsRootDescriptorTable(0, model->texture_->GetHandle().GetGPU()); // Texture
 		list->SetGraphicsRootConstantBufferView(1, model->cMat.GetGPUVirtualAddress()); // cMat
 		list->SetGraphicsRootConstantBufferView(2, model->cMaterial.GetGPUVirtualAddress()); // cMaterial
 		list->SetGraphicsRootConstantBufferView(3, directionalLight_->cDirectionLight_.GetGPUVirtualAddress()); // cDirectinalLight
@@ -270,6 +270,7 @@ void ModelRender::DrawCommand(Camera3d* cameraPtr) {
 		}
 
 		for (uint32_t index = 0u; index < model->model_->modelDatas_.size(); index++) {
+			list->SetGraphicsRootDescriptorTable(0, model->texture_.at(index)->GetHandle().GetGPU()); // Texture
 			if (model->animation_) {
 				D3D12_VERTEX_BUFFER_VIEW vbvs[2] = {
 					model->model_->vertexBufferView_.at(index), // VertexのVBV
@@ -280,8 +281,8 @@ void ModelRender::DrawCommand(Camera3d* cameraPtr) {
 			else {
 				list->IASetVertexBuffers(0, 1, &model->model_->vertexBufferView_.at(index));
 			}
-
 			list->IASetIndexBuffer(&model->model_->indexBufferView_.at(index));
+
 
 			list->DrawIndexedInstanced(UINT(model->model_->modelDatas_.at(index).indices.size()), 1, 0, 0, 0);
 		}

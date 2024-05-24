@@ -15,9 +15,13 @@ public:
 	Model();
 	~Model();
 public: // setter
-	// Textureのセット
 	void SetModel(Object3d* model);
-	void SetTexture(Texture* texture) { texture_ = texture; }
+	/// <summary>
+	/// Textureのセッター
+	/// </summary>
+	/// <param name="texture"></param>
+	/// <param name="number">変更したいモデルテクスチャの番号、-1の場合は全部変わる</param>
+	void SetTexture(Texture* texture, const int32_t number = 0);
 	void SetColor(const Vector4& color) { color_ = color; }
 	void SetColor(const uint32_t& color) { color_ = ChangeColor(color); }
 	void SetTransform(const WorldTransform& transform) { transform_ = transform; }
@@ -35,7 +39,7 @@ public:
 private:
 	static std::list<Model*> modelLists_;
 	Object3d* model_ = nullptr;
-	Texture* texture_ = nullptr;
+	std::vector<Texture*> texture_;
 	BlendMode blendType_ = BlendMode::Normal;
 	Vector4 color_ = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 	WorldTransform transform_; // 座標

@@ -1,6 +1,7 @@
 #include "Object3d.h"
 #include "MPEngine/Base/Manager/DeviceManager/DeviceManager.h"
 #include "MPEngine/Graphics/Texture/Texture.h"
+#include <filesystem>
 
 Object3d::~Object3d() {
 	for (auto& handle : vertexResource_) {
@@ -24,13 +25,17 @@ void Object3d::Load(const std::string& name, const std::string& filePath) {
 	// モデル読み込み
 	modelDatas_ = rsManager->LoadModelFile(filePath);
 
-	std::string handle = "white2x2";
+	uint32_t index = 0u;
+	texture_.resize(modelDatas_.size());
 	for (auto& model : modelDatas_) {
+		std::string handle = "white2x2";
 		if (model.material.textureFilePath != "") {
-			rsManager->AddTexture(name_, model.material.textureFilePath);
-			handle = name_;
+			// textureのpathを取得
+			std::string fileName = std::filesystem::path(model.material.textureFilePath).stem().string();
+			handle = name_ + "_" + fileName;
+			rsManager->AddTexture(handle, model.material.textureFilePath);
 		}
-		texture_ = rsManager->FindTexture(handle);
+		texture_.at(index++) = rsManager->FindTexture(handle);
 	}
 	Initialize();
 }
