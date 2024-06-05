@@ -159,3 +159,9 @@ Quaternion Quaternion::Slerp(const Quaternion& q0, const Quaternion& q1, const f
 
 	return result;
 }
+
+Quaternion Quaternion::MakeFromTwoVector(const Vector3& from, const Vector3& to) {
+	Vector3 axis = Cross(from, to);
+	float angle = FindAngle(from, to);
+	return MakeRotateAxisAngleQuaternion(axis, angle);
+}

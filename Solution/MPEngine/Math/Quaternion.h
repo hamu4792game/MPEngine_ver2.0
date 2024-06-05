@@ -44,4 +44,6 @@ public:
 
 	static Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, const float& t);
 
+	static Quaternion MakeFromTwoVector(const Vector3& from, const Vector3& to);
+
 };

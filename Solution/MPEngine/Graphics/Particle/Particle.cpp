@@ -20,7 +20,7 @@ Particle::~Particle() {
 
 void Particle::SetModel(Object3d* model, const uint32_t& count) {
 	model_ = model;
-	texture_ = *model->GetTexture().data();
+	texture_ = model->GetTexture().front(); // textureの代入。基本的にはSetTexture()を使う
 	kNumInstance = count;
 	transform_.resize(kNumInstance);
 	color_.resize(kNumInstance);
