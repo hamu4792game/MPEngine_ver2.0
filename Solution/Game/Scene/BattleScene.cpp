@@ -5,6 +5,7 @@
 #include "ResourceManager/ResourceManager.h"
 #include "Input/Audio.h"
 #include "MPEngine/Graphics/RenderManager/RenderManager.h"
+#include "Utils/Tool/LevelData.h"
 
 void BattleScene::Initialize() {
 	player_ = std::make_unique<PlayerManager>();
@@ -13,7 +14,10 @@ void BattleScene::Initialize() {
 	cameraTrans_.translation_ = Vector3(0.0f, 0.0f, -10.0f);
 	
 	stage_ = std::make_unique<Stage>();
-	stage_->Initialize("Stage");
+	//stage_->Initialize("Stage");
+	LevelData data;
+	auto leveldata = data.Load("box.json");
+	stage_->LevelLoad(leveldata);
 
 	enemy_ = std::make_unique<Enemy>();
 	enemy_->Initialize();

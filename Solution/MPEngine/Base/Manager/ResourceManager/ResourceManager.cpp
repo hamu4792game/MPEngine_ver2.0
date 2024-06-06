@@ -314,8 +314,7 @@ std::vector<ModelData> ResourceManager::LoadModelFile(const std::string& filenam
 				// gltfだった場合は特殊なため、例外処理を入れる
 				handle = 0u;
 			}
-			//modelDatas.at(static_cast<uint32_t>(index - handle)).material.textureFilePath = directryPath + "/" + textureFilePath.C_Str();
-			texturesPath.at(index - handle) = directryPath + "/" + textureFilePath.C_Str();
+			texturesPath.at(static_cast<std::vector<std::string, std::allocator<std::string>>::size_type>(index) - handle) = directryPath + "/" + textureFilePath.C_Str();
 		}
 		index++;
 	}

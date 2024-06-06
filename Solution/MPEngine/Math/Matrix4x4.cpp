@@ -49,8 +49,7 @@ Matrix4x4 Matrix4x4::operator*(const Matrix4x4& mat) const
 	Matrix4x4 result;
 
 	for (int y = 0; y < m.size(); y++) {
-		for (int x = 0; x < m.begin()->size(); x++)
-		{
+		for (int x = 0; x < m.begin()->size(); x++) {
 			for (int i = 0; i < 4; i++) {
 				result.m[y][x] += m[y][i] * mat.m[i][x];
 			}

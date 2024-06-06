@@ -8,6 +8,8 @@
 #include <list>
 #include "Game/Target/Target.h"
 
+#include "MPEngine/Utils/Tool/LevelData.h"
+
 class Stage {
 public:
 	Stage() = default;
@@ -20,6 +22,7 @@ public:
 	std::list<AABB*> GetCollision() const { return collisionList_; }
 	std::list<std::shared_ptr<Target>> GetTargets() const;
 
+	void LevelLoad(LevelData* data);
 
 private:
 	std::vector<std::shared_ptr<Ground>> boxes_;

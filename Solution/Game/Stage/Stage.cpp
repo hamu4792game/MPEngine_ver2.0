@@ -29,6 +29,16 @@ void Stage::Initialize(std::string fileName) {
 void Stage::Update() {
 	DrawImGui();
 	collisionList_.clear();
+
+	for (auto& box : boxes_) {
+		WorldTransform tra = box->GetTrans();
+		
+		if (box->GetTrans().parent_) {
+			bool is = true;
+		}
+
+	}
+
 	const uint32_t maxCount = static_cast<uint32_t>(boxes_.size());
 	for (uint32_t index = 0u; index < maxCount; index++) {
 		collisionList_.emplace_back(boxes_.at(index)->GetCollision());
@@ -128,4 +138,17 @@ void Stage::DrawImGui() {
 
 std::list<std::shared_ptr<Target>> Stage::GetTargets() const {
 	return std::list<std::shared_ptr<Target>>(targets_.begin(),targets_.end());
+}
+
+void Stage::LevelLoad(LevelData* data) {
+	boxes_.clear();
+	for (auto& objectData : data->GetData()) {
+		// 座標の取得
+		WorldTransform transform;
+		transform = objectData.transform;
+		// ここからはタイプ別に生成
+		if (objectData.fileName.find("Box") != std::string::npos) {
+			boxes_.emplace_back(std::make_shared<Ground>())->Initialize(transform);
+		}
+	}
 }

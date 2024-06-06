@@ -218,6 +218,9 @@
     <ClCompile Include="MPEngine\Graphics\SkyBoxRender\SkyBoxRender.cpp">
       <Filter>MPEngine\Graphics\Render\SkyBoxRender</Filter>
     </ClCompile>
+    <ClCompile Include="MPEngine\Utils\Tool\LevelData.cpp">
+      <Filter>MPEngine\Utils\Tool</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -455,6 +458,9 @@
     <ClInclude Include="MPEngine\Graphics\SkyBoxRender\SkyBoxRender.h">
       <Filter>MPEngine\Graphics\Render\SkyBoxRender</Filter>
     </ClInclude>
+    <ClInclude Include="MPEngine\Utils\Tool\LevelData.h">
+      <Filter>MPEngine\Utils\Tool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="MPEngine">
@@ -678,6 +684,9 @@
     </Filter>
     <Filter Include="MPEngine\Graphics\Render\SkyBoxRender">
       <UniqueIdentifier>{e4a15233-882b-410b-bded-526025943c19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Utils\Tool">
+      <UniqueIdentifier>{ff36c992-f97a-459d-ab81-13e557cf4018}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
