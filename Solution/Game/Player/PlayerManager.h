@@ -4,6 +4,7 @@
 #include "Utils/WorldTransform/WorldTransform.h"
 #include "Game/Camera/FollowCamera.h"
 #include "Math/AABB.h"
+#include "WebSwing.h"
 
 class PlayerManager {
 public:
@@ -55,6 +56,7 @@ private:
 		kRoot,	// 通常行動
 		kAttack,// 攻撃中
 		kDash,	// ダッシュ中
+		kSwing,	// スイング中
 	};
 	Behavior behavior_ = Behavior::kRoot;
 	// 次の振る舞いリクエスト
@@ -63,6 +65,8 @@ private:
 	const WorldTransform* targetTransform_ = nullptr;
 
 	std::shared_ptr<AABB> collision_;
+
+	std::unique_ptr<WebSwing> webswing_;
 
 	// カメラ関係
 	std::shared_ptr<FollowCamera> followCamera_;

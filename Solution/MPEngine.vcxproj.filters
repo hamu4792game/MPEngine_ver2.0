@@ -221,6 +221,9 @@
     <ClCompile Include="MPEngine\Utils\Tool\LevelData.cpp">
       <Filter>MPEngine\Utils\Tool</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Player\WebSwing.cpp">
+      <Filter>Game\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -460,6 +463,9 @@
     </ClInclude>
     <ClInclude Include="MPEngine\Utils\Tool\LevelData.h">
       <Filter>MPEngine\Utils\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Player\WebSwing.h">
+      <Filter>Game\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

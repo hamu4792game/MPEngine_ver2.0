@@ -9,6 +9,7 @@ PlayerManager::PlayerManager() {
 	animation_ = std::make_unique<PlayerAnimation>(&transform_);
 	collision_ = std::make_shared<AABB>();
 	followCamera_ = std::make_shared<FollowCamera>();
+	webswing_ = std::make_unique<WebSwing>();
 }
 
 void PlayerManager::Initialize() {
@@ -16,8 +17,8 @@ void PlayerManager::Initialize() {
 	//global->LoadFile(itemName_);
 	
 	transform_.scale_ = Vector3::one;
-	//transform_.translation_ = Vector3(120.0f, 22.0f, -100.0f);
-	transform_.translation_ = Vector3(0.0f, 22.0f, 0.0f);
+	transform_.translation_ = Vector3(120.0f, 22.0f, -100.0f);
+	//transform_.translation_ = Vector3(0.0f, 22.0f, 0.0f);
 	transform_.UpdateMatrix();
 	animation_->Initialize();
 	collision_->size = Vector3(1.0f, 2.4f, 1.0f);
@@ -55,11 +56,26 @@ void PlayerManager::Update() {
 	default:
 		// 通常行動
 		BehaviorRootUpdate();
+		if (Input::GetInstance()->GetKey()->TriggerKey(DIK_M) && targetTransform_) {
+			webswing_->SetWeb(targetTransform_->GetPosition(), transform_.GetPosition());
+			behaviorRequest_ = Behavior::kSwing;
+		}
 		break;
 	case Behavior::kAttack:
 		break;
 	case Behavior::kDash:
 		break;
+	case Behavior::kSwing:
+		Vector3 result;
+		bool isSwing = webswing_->Update(transform_.GetPosition(), result);
+		if (isSwing) {
+			behaviorRequest_ = Behavior::kRoot;
+		}
+		transform_.translation_ += result;
+		Move();
+
+		break;
+
 	}
 
 	LimitMoving();
