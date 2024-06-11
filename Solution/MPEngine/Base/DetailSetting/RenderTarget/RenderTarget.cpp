@@ -61,7 +61,7 @@ void RenderTarget::CreatePipelineState() {
 	Microsoft::WRL::ComPtr<IDxcBlob> pixelShader;
 	const std::string VSpath = "Fullscreen.VS.hlsl";
 	const std::string PSpath[] = {
-		"CopyImage.PS.hlsl",
+		"GaussianFilter.PS.hlsl",
 		"Grayscale.PS.hlsl",
 		"Sepiatone.PS.hlsl",
 		"Vignette.PS.hlsl",
