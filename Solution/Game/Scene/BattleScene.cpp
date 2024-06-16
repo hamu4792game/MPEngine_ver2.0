@@ -14,10 +14,10 @@ void BattleScene::Initialize() {
 	cameraTrans_.translation_ = Vector3(0.0f, 0.0f, -10.0f);
 	
 	stage_ = std::make_unique<Stage>();
-	//stage_->Initialize("Stage");
-	LevelData data;
-	auto leveldata = data.Load("box.json");
-	stage_->LevelLoad(leveldata);
+	stage_->Initialize("Stage");
+	//LevelData data;
+	//auto leveldata = data.Load("box.json");
+	//stage_->LevelLoad(leveldata);
 
 	enemy_ = std::make_unique<Enemy>();
 	enemy_->Initialize();
@@ -30,6 +30,8 @@ void BattleScene::Initialize() {
 
 	skybox_ = std::make_unique<SkyBox>();
 	skybox_->SetTexture(ResourceManager::GetInstance()->FindTexture("Airport"));
+	WorldTransform trans(Vector3(300.0f, 300.0f, 300.0f), Vector3::zero, Vector3::zero);
+	skybox_->SetTransform(trans);
 
 	// 音
 	auto rs = ResourceManager::GetInstance();
@@ -70,6 +72,7 @@ void BattleScene::Update() {
 	//if (player_->OnCollision(enemy_->GetCollision())) {
 	//	endRequest_ = true;
 	//}
+	
 
 #ifdef _DEBUG
 	static Vector3 scale = Vector3(300.0f, 300.0f, 300.0f);

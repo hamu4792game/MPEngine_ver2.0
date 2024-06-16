@@ -9,6 +9,9 @@ PlayerManager::PlayerManager() {
 	animation_ = std::make_unique<PlayerAnimation>(&transform_);
 	collision_ = std::make_shared<AABB>();
 	followCamera_ = std::make_shared<FollowCamera>();
+	webswing_ = std::make_unique<WebSwing>();
+	wireTargetMove_ = std::make_unique<WireTargetMove>();
+	playerMove_ = std::make_unique<PlayerMove>();
 }
 
 void PlayerManager::Initialize() {
@@ -16,20 +19,27 @@ void PlayerManager::Initialize() {
 	//global->LoadFile(itemName_);
 	
 	transform_.scale_ = Vector3::one;
-	///transform_.translation_ = Vector3(120.0f, 22.0f, -100.0f);
-	transform_.translation_ = Vector3(0.0f, 22.0f, 0.0f);
+	transform_.translation_ = Vector3(120.0f, 22.0f, -100.0f);
+	//transform_.translation_ = Vector3(0.0f, 22.0f, 0.0f);
 	transform_.UpdateMatrix();
 	animation_->Initialize();
 	collision_->size = Vector3(1.0f, 2.4f, 1.0f);
 	fallParam_.Initialize();
+
+	playerMove_->Initialize(&transform_.rotation_);
 
 	followCamera_->SetTarget(&transform_);
 	followCamera_->Initialize();
 }
 
 void PlayerManager::Update() {
+	// 更新時の初期化処理
 	behaviorFlag_.Initialize();
+	moveVector_ = Vector3::zero;
 	DrawImGui();
+
+	// 入力情報の取得。フラグ管理
+	KeyInput();
 
 	// std::nullopt以外の時通る
 	if (behaviorRequest_) {
@@ -39,7 +49,7 @@ void PlayerManager::Update() {
 		switch (behavior_) {
 		case Behavior::kRoot:
 			followCamera_->SetTarget(&transform_);
-			followCamera_->SetParam(Vector3(0.0f, 2.0f, -10.0f), Vector3(AngleToRadian(5.0f), transform_.rotation_.y, followCamera_->GetTransform().rotation_.z), 0.05f);
+			//followCamera_->SetParam(Vector3(0.0f, 2.0f, -10.0f), Vector3(AngleToRadian(5.0f), transform_.rotation_.y, followCamera_->GetTransform().rotation_.z), 0.05f);
 			break;
 		case Behavior::kAttack:
 			break;
@@ -55,12 +65,38 @@ void PlayerManager::Update() {
 	default:
 		// 通常行動
 		BehaviorRootUpdate();
+		if (inputParam_.isWireMove && targetTransform_) {
+			//webswing_->SetWeb(targetTransform_->GetPosition(), transform_.GetPosition());
+			transform_.UpdateMatrix();
+			wireTargetMove_->Initialize(targetTransform_->GetPosition(), transform_.GetPosition());
+			behaviorRequest_ = Behavior::kSwing;
+		}
 		break;
 	case Behavior::kAttack:
 		break;
 	case Behavior::kDash:
 		break;
+	case Behavior::kSwing:
+		Vector3 result;
+		bool isSwing; //= webswing_->Update(transform_.GetPosition(), result);
+		isSwing = wireTargetMove_->Update(transform_.GetPosition(), result);
+		if (isSwing) {
+			inputParam_.isJump = true;
+			fallParam_.Initialize();
+			Jamp();
+			behaviorRequest_ = Behavior::kRoot;
+		}
+		moveVector_ += result;
+
+		break;
+
 	}
+
+	// 事後処理----------------------------------------
+
+	// 最終的な移動ベクトルをplayerに加算 現状はmoveManagerから取得しているが、のちに攻撃が実装されればいろいろ変わるかも
+	
+	transform_.translation_ += moveVector_;
 
 	LimitMoving();
 	followCamera_->CameraMove();
@@ -112,6 +148,9 @@ void PlayerManager::OnCollisionStage(const AABB* aabb) {
 
 		transform_.translation_ += extrusionVector;
 		TransformUpdate();
+		if (behavior_ == Behavior::kSwing) {
+			behaviorRequest_ = Behavior::kRoot;
+		}
 	}
 }
 
@@ -136,65 +175,12 @@ void PlayerManager::DrawImGui() {
 }
 
 void PlayerManager::Move() {
-	auto input = Input::GetInstance();
-	Vector3 move;
-
-	const float speed = 0.2f;
-	if (input->GetKey()->PressKey(DIK_W)) {
-		move.z += speed;
-	}
-	if (input->GetKey()->PressKey(DIK_S)) {
-		move.z -= speed;
-	}
-	if (input->GetKey()->PressKey(DIK_A)) {
-		move.x -= speed;
-	}
-	if (input->GetKey()->PressKey(DIK_D)) {
-		move.x += speed;
-	}
-
-	if (input->GetPad()->GetPadConnect()) {
-		Vector2 pMove(0.0f, 0.0f);
-		pMove = input->GetPad()->GetPadLStick();
-		//	移動があれば代入する
-		if (pMove.x != 0.0f || pMove.y != 0.0f)
-		{
-			move.x = pMove.x;
-			move.z = pMove.y;
-		}
-	}
-
-	if (move != Vector3::zero) {
-		move = Normalize(move);
-		// 移動ベクトルをカメラの角度だけ回転させる
-		move = TargetOffset(move, Camera3d::GetInstance()->GetTransform().rotation_);
-		move.y = 0.0f;
-		transform_.translation_ += move;
-		//partsTrans_[Parts::Body].rotation_.y = FindAngle(move, Vector3(0.0f, 0.0f, 1.0f));
-		transform_.rotation_.y = FindAngle(move, Vector3(0.0f, 0.0f, 1.0f));
-
-		//animation_->SetAnimation(PlayerAnimation::AnimationType::Run, true);
-		behaviorFlag_.isMoved = true;
-	}
-	else {
-		//animation_->SetAnimation(PlayerAnimation::AnimationType::Wait, true);
-		behaviorFlag_.isWaiting = true;
-	}
+	
 }
 
 void PlayerManager::Jamp() {
-	bool flag = false;
-	auto input = Input::GetInstance();
-	if (input->GetKey()->TriggerKey(DIK_SPACE)) {
-		flag = true;
-	}
-	if (input->GetPad()->GetPadConnect()) {
-		if (input->GetPad()->GetPadButtonDown(XINPUT_GAMEPAD_A)) {
-			flag = true;
-		}
-	}
 
-	if (flag && fallParam_.isJumpable_ && !fallParam_.isFalled_) {
+	if (inputParam_.isJump && fallParam_.isJumpable_ && !fallParam_.isFalled_) {
 		// 初速度を与える
 		fallParam_.isJumpable_ = false;
 		fallParam_.acceleration_ = 1.0f;
@@ -205,7 +191,7 @@ void PlayerManager::Jamp() {
 	const float gravity_ = 0.05f;
 	// 重力を足していく
 	fallParam_.acceleration_ -= gravity_;
-	transform_.translation_.y += fallParam_.acceleration_;
+	moveVector_.y += fallParam_.acceleration_;
 	if (fallParam_.isFalled_) {
 		if (fallParam_.acceleration_ < 0.0f) {
 			// 落下中
@@ -230,7 +216,76 @@ void PlayerManager::LimitMoving() {
 	}
 }
 
+void PlayerManager::KeyInput() {
+	auto input = Input::GetInstance();
+	inputParam_.Initialize();
+#pragma region Jump
+	// ジャンプ用入力
+	if (input->GetKey()->TriggerKey(DIK_SPACE)) {
+		inputParam_.isJump = true;
+	}
+	if (input->GetPad()->GetPadConnect()) {
+		if (input->GetPad()->GetPadButtonDown(XINPUT_GAMEPAD_A)) {
+			inputParam_.isJump = true;
+		}
+	}
+#pragma endregion
+
+#pragma region Move
+	// 通常移動入力
+	// 単位ベクトルで対応
+	const float speed = 1.0f;
+	if (input->GetKey()->PressKey(DIK_W)) {
+		inputParam_.move.z += speed;
+	}
+	if (input->GetKey()->PressKey(DIK_S)) {
+		inputParam_.move.z -= speed;
+	}
+	if (input->GetKey()->PressKey(DIK_A)) {
+		inputParam_.move.x -= speed;
+	}
+	if (input->GetKey()->PressKey(DIK_D)) {
+		inputParam_.move.x += speed;
+	}
+
+	if (input->GetPad()->GetPadConnect()) {
+		Vector2 pmove(0.0f, 0.0f);
+		pmove = input->GetPad()->GetPadLStick();
+		//	移動があれば代入する
+		if (pmove.x != 0.0f || pmove.y != 0.0f)
+		{
+			inputParam_.move.x = pmove.x;
+			inputParam_.move.z = pmove.y;
+		}
+	}
+	inputParam_.move = inputParam_.move.Normalize();
+
+#pragma endregion
+
+#pragma region WireMove
+	
+	if (input->GetKey()->TriggerKey(DIK_M)) {
+		inputParam_.isWireMove = true;
+	}
+	if (input->GetPad()->GetPadConnect()) {
+		if (input->GetPad()->GetPadButtonDown(XINPUT_GAMEPAD_RIGHT_SHOULDER)) {
+			inputParam_.isWireMove = true;
+		}
+	}
+
+#pragma endregion
+
+}
+
 void PlayerManager::BehaviorRootUpdate() {
-	Move();
+	bool isMoved = playerMove_->Update(inputParam_.move);
+	if (isMoved) {
+		behaviorFlag_.isMoved = true;
+	}
+	else {
+		behaviorFlag_.isWaiting = true;
+	}
 	Jamp();
+
+	moveVector_ += playerMove_->GetMoveValue();
 }
