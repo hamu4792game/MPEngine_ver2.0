@@ -135,6 +135,9 @@ void PlayerAnimation::AnimationControl(BehaviorFlag flag) {
 		else if (isFinishedAnimation_) {
 			// アニメーションがおわったらフラグを折る
 			isJumpFrag_ = false;
+			flag.isWaiting = true;
+			flag.isJumped = false;
+			isFinishedAnimation_ = false;
 			AnimationControl(flag);
 		}
 	}

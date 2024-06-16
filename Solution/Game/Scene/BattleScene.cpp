@@ -30,6 +30,8 @@ void BattleScene::Initialize() {
 
 	skybox_ = std::make_unique<SkyBox>();
 	skybox_->SetTexture(ResourceManager::GetInstance()->FindTexture("Airport"));
+	WorldTransform trans(Vector3(300.0f, 300.0f, 300.0f), Vector3::zero, Vector3::zero);
+	skybox_->SetTransform(trans);
 
 	// 音
 	auto rs = ResourceManager::GetInstance();
@@ -70,12 +72,7 @@ void BattleScene::Update() {
 	//if (player_->OnCollision(enemy_->GetCollision())) {
 	//	endRequest_ = true;
 	//}
-	static Vector3 scale = Vector3(300.0f, 300.0f, 300.0f);
-	static Vector3 translate = Vector3(0.0f, 0.0f, 0.0f);
-	ImGui::DragFloat3("BoxScale", &scale.x, 1.0f);
-	ImGui::DragFloat3("BoxTranslate", &translate.x, 1.0f);
-	WorldTransform trans(scale, Vector3::zero, translate);
-	skybox_->SetTransform(trans);
+	
 	skybox_->Update();
 
 	for (auto coll : stage_->GetCollision()) {

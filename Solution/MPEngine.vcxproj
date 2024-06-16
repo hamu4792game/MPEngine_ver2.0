@@ -169,8 +169,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Particle\DustParticle.cpp" />
     <ClCompile Include="Game\Player\PlayerAnimation.cpp" />
     <ClCompile Include="Game\Player\PlayerManager.cpp" />
+    <ClCompile Include="Game\Player\PlayerMove.cpp" />
     <ClCompile Include="Game\Player\PlayerParticle.cpp" />
     <ClCompile Include="Game\Player\WebSwing.cpp" />
+    <ClCompile Include="Game\Player\WireTargetMove.cpp" />
     <ClCompile Include="Game\Scene\BattleScene.cpp" />
     <ClCompile Include="Game\Scene\TitleScene.cpp" />
     <ClCompile Include="Game\Stage\Ground.cpp" />
@@ -246,8 +248,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\Particle\DustParticle.h" />
     <ClInclude Include="Game\Player\PlayerAnimation.h" />
     <ClInclude Include="Game\Player\PlayerManager.h" />
+    <ClInclude Include="Game\Player\PlayerMove.h" />
     <ClInclude Include="Game\Player\PlayerParticle.h" />
     <ClInclude Include="Game\Player\WebSwing.h" />
+    <ClInclude Include="Game\Player\WireTargetMove.h" />
     <ClInclude Include="Game\Scene\BattleScene.h" />
     <ClInclude Include="Game\Scene\TitleScene.h" />
     <ClInclude Include="Game\Stage\Ground.h" />

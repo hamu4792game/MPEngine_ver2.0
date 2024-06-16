@@ -5,6 +5,8 @@
 #include "Game/Camera/FollowCamera.h"
 #include "Math/AABB.h"
 #include "WebSwing.h"
+#include "WireTargetMove.h"
+#include "PlayerMove.h"
 
 class PlayerManager {
 public:
@@ -28,6 +30,7 @@ private:
 	void Jamp(); // 重力処理
 	void TransformUpdate(); // 座標更新処理
 	void LimitMoving(); // 移動制限用
+	void KeyInput(); // プレイヤー入力処理まとめ
 
 	void BehaviorRootUpdate();
 
@@ -35,12 +38,31 @@ private:
 	std::unique_ptr<PlayerAnimation> animation_;
 	PlayerAnimation::BehaviorFlag behaviorFlag_;
 	WorldTransform transform_;
+	float velocity_ = 1.0f;
+	Vector3 moveVector_; // 移動ベクトル
+
+	
+
+	// key入力用一時変数まとめ
+	struct InputParam {
+		Vector3 move; // 入力方向ベクトル
+		bool isJump = false; // ジャンプボタンが押されたか
+		bool isWireMove = false; // ワイヤー移動ボタンが押されたか
+
+		void Initialize() {
+			move = Vector3::zero;
+			isJump = false;
+			isWireMove = false;
+		}
+	};
+	InputParam inputParam_;
 
 	// 落下用ステータス ジャンプも含む
 	struct FallParam {
 		float acceleration_ = 0.0f; // 落下時の加速度
+		bool isJump_ = false; // ジャンプするかのフラグ。キー入力時に立つ
 		bool isJumpable_ = true; // ジャンプ可能かのフラグ
-		bool oldJumpable_ = false; // ジャンプ可能かのフラグ
+		bool oldJumpable_ = false; // 前の状態フラグ
 		bool isFalled_ = false; // 落下中かのフラグ true:落ちている/false:落ちていない
 		void Initialize() {
 			isJumpable_ = true;
@@ -67,8 +89,11 @@ private:
 	std::shared_ptr<AABB> collision_;
 
 	std::unique_ptr<WebSwing> webswing_;
+	std::unique_ptr<WireTargetMove> wireTargetMove_;
 
 	// カメラ関係
 	std::shared_ptr<FollowCamera> followCamera_;
+
+	std::unique_ptr<PlayerMove> playerMove_;
 
 };
