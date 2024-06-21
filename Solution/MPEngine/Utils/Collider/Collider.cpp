@@ -13,7 +13,11 @@ void Collider::Initialize(const WorldTransform& transform, Type type) {
 		break;
 	}
 	for (auto& i : lines_) {
-		i = std::make_unique<Line>();
+		i = std::make_shared<Line>();
+#ifndef _DEBUG
+		// debugだった場合。表示を削除
+		i->isActive_ = false;
+#endif // _DEBUG
 	}
 }
 
@@ -22,6 +26,7 @@ void Collider::Update() {
 	switch (collderType_) {
 	case Collider::Box:
 		boxCollider_->Update(transform_); 
+		boxCollider_->LineUpdate(lines_);
 		break;
 	case Collider::Sphere:
 		break;

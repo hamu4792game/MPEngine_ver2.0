@@ -1,8 +1,10 @@
 #pragma once
 #include "Math/MathUtl.h"
 #include "Utils/WorldTransform/WorldTransform.h"
+#include <vector>
+#include <memory>
 
-struct AACBB {
+struct AABB {
 	Vector3 min; // 最小点
 	Vector3 max; // 最大点
 	Vector3 size = Vector3::one;
@@ -20,6 +22,7 @@ public:
 	~BoxCollider();
 
 	void Update(const WorldTransform& transform);
+	void LineUpdate(std::vector<std::shared_ptr<class Line>> lines);
 
 	bool IsCollision(const BoxCollider& coll, Vector3& minAxis, float& minOverlap);
 
@@ -31,14 +34,21 @@ private:
 
 	enum class Type {
 		AABB,
-		OBB
+		OBB,
 	};
 	Type type_ = Type::AABB;
-	AACBB aabb_;
+	AABB aabb_;
 	OBB obb_;
 
 	WorldTransform transform_;
 
 private:
+	
+	// AABBとAABBの衝突判定
+	static bool IsCollision(const AABB& aabb1, const AABB& aabb2, Vector3& minAxis, float& minOverlap);
+	// AABBとOBBの衝突判定
+	static bool IsCollision(const AABB& aabb, const OBB& obb, Vector3& minAxis, float& minOverlap);
+	// OBBとOBBの衝突判定
 	static bool IsCollision(const OBB& obb1, const OBB& obb2, Vector3& minAxis, float& minOverlap);
+	
 };

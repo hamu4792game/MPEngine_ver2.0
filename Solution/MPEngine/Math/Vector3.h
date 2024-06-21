@@ -36,6 +36,12 @@ public:
 public: // 定数
 	static const Vector3 zero;
 	static const Vector3 one;
+	static const Vector3 up; // 上向きベクトル
+	static const Vector3 down; // 下向きベクトル
+	static const Vector3 left; // 左向きベクトル
+	static const Vector3 right; // 右向きベクトル
+	static const Vector3 front; // 前向きベクトル
+	static const Vector3 back; // 後向きベクトル
 
 	// 取得関数
 	Vector3 Normalize() const;

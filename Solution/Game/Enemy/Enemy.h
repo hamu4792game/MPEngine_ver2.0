@@ -1,6 +1,5 @@
 #pragma once
 #include "Utils/WorldTransform/WorldTransform.h"
-#include "Math/AABB.h"
 #include "Graphics/Model/Model.h"
 #include <memory>
 #include <vector>
@@ -13,7 +12,7 @@ public:
 	void Initialize();
 	void Update();
 	void DrawImGui();
-	AABB* GetCollision() const { return collision_.get(); }
+	//AABB* GetCollision() const { return collision_.get(); }
 private:
 	void TransformUpdate();
 
@@ -27,6 +26,6 @@ private:
 	WorldTransform transform_;
 	std::vector<WorldTransform> partsTrans_;
 	std::vector<std::shared_ptr<Model>> models_;
-	std::shared_ptr<AABB> collision_;
+	//std::shared_ptr<AABB> collision_;
 
 };

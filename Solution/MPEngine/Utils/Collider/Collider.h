@@ -42,6 +42,6 @@ private:
 	std::unique_ptr<BoxCollider> boxCollider_;
 	Type collderType_;
 	WorldTransform transform_;
-	std::vector<std::unique_ptr<Line>> lines_;
+	std::vector<std::shared_ptr<Line>> lines_;
 
 };

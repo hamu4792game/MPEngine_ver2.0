@@ -1,5 +1,5 @@
 #include "Enemy.h"
-#include "externals/imgui/imgui.h"
+#include "ImGuiManager/ImGuiManager.h"
 #include "Base/Manager/ResourceManager/ResourceManager.h"
 
 void Enemy::Initialize() {
@@ -15,7 +15,7 @@ void Enemy::Initialize() {
 	models_.at(Parts::Body)->SetModel(rsManager->FindObject3d("PlayerBody"));
 	models_.at(Parts::Head)->SetModel(rsManager->FindObject3d("PlayerHead"));
 #pragma endregion
-	collision_ = std::make_shared<AABB>();
+	//collision_ = std::make_shared<AABB>();
 	transform_.translation_ = Vector3(-122.0f, 139.0f, 152.0f);
 	transform_.scale_ = Vector3(5.0f, 5.0f, 5.0f);
 	TransformUpdate();
@@ -47,5 +47,5 @@ void Enemy::TransformUpdate() {
 	for (uint32_t index = 0u; index < Parts::kMaxParts; index++) {
 		models_.at(index)->SetTransform(partsTrans_.at(index));
 	}
-	collision_->Update(transform_);
+	//collision_->Update(transform_);
 }

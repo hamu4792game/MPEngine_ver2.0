@@ -124,11 +124,15 @@ void PlayerManager::OnCollisionStage(const Collider& coll) {
 	bool iscoll = collision_->OnCollision(coll, pushBackVec);
 	// 床との衝突判定
 	if (iscoll) {
-		// 地面と当たっているので初期化
-		if (!fallParam_.isJumpable_) {
-			behaviorFlag_.isLanded = true;
+		// 押し戻しが上の処理だった場合
+ 		if (/*pushBackVec.x < pushBackVec.y && pushBackVec.z < pushBackVec.y*/
+			pushBackVec.Normalize() == Vector3::up) {
+			// 地面と当たっているので初期化
+			if (!fallParam_.isJumpable_) {
+				behaviorFlag_.isLanded = true;
+			}
+			fallParam_.Initialize();
 		}
-		fallParam_.Initialize();
 
 		transform_.translation_ += pushBackVec;
 		TransformUpdate();
@@ -259,6 +263,10 @@ void PlayerManager::KeyInput() {
 	}
 
 #pragma endregion
+
+	if (input->GetKey()->TriggerKey(DIK_R)) {
+		Initialize();
+	}
 
 }
 

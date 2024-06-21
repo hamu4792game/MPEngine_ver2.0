@@ -179,9 +179,6 @@
     <ClCompile Include="MPEngine\Utils\Collider\Collider.cpp">
       <Filter>MPEngine\Utils\Collider</Filter>
     </ClCompile>
-    <ClCompile Include="MPEngine\Math\AABB.cpp">
-      <Filter>MPEngine\Utils\Collider\AABB</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Camera\AttackCamera.cpp">
       <Filter>Game\Camera\AttackCamera</Filter>
     </ClCompile>
@@ -428,9 +425,6 @@
     <ClInclude Include="MPEngine\Utils\Collider\Collider.h">
       <Filter>MPEngine\Utils\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="MPEngine\Math\AABB.h">
-      <Filter>MPEngine\Utils\Collider\AABB</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Camera\AttackCamera.h">
       <Filter>Game\Camera\AttackCamera</Filter>
     </ClInclude>
@@ -633,12 +627,6 @@
     </Filter>
     <Filter Include="MPEngine\Utils\Collider">
       <UniqueIdentifier>{b1c4d18d-1ea5-41f2-8ed6-205cb6096e7c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MPEngine\Utils\Collider\AABB">
-      <UniqueIdentifier>{e2687454-65e6-4df4-9e1a-810bf1ad59dc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MPEngine\Utils\Collider\OBB">
-      <UniqueIdentifier>{aeeb6f04-105c-4e03-8f35-4ad78d39286d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\Camera\AttackCamera">
       <UniqueIdentifier>{fe9aa31c-dcd6-4639-8bc2-bcce12cd4b74}</UniqueIdentifier>
