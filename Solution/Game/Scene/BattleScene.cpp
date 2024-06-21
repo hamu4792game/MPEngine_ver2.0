@@ -84,8 +84,8 @@ void BattleScene::Update() {
 #endif // _DEBUG
 	skybox_->Update();
 
-	for (auto coll : stage_->GetCollision()) {
-		player_->OnCollisionStage(coll);
+	for (auto& coll : stage_->GetCollision()) {
+		player_->OnCollisionStage(*coll);
 	}
 	gameUI_->Update();
 

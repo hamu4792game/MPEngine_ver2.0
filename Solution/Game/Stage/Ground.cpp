@@ -24,8 +24,9 @@ void Ground::Initialize(const Vector3& scale, const Vector3& rotate, const Vecto
 	transform_.UpdateMatrix();
 
 	model_->SetTransform(transform_);
-	collision_ = std::make_shared<AABB>();
-	collision_->Update(transform_);
+	collision_ = std::make_unique<Collider>();
+	collision_->Initialize(transform_, Collider::Type::Box);
+	collision_->Update();
 }
 
 void Ground::Initialize(const WorldTransform& transform) {
@@ -36,8 +37,9 @@ void Ground::Initialize(const WorldTransform& transform) {
 	transform_.UpdateMatrix();
 
 	model_->SetTransform(transform_);
-	collision_ = std::make_shared<AABB>();
-	collision_->Update(transform_);
+	collision_ = std::make_unique<Collider>();
+	collision_->Initialize(transform_, Collider::Type::Box);
+	collision_->Update();
 }
 
 const WorldTransform& Ground::GetTrans() {
@@ -51,5 +53,5 @@ void Ground::DrawImGui() {
 	ImGui::DragFloat3("position", &transform_.translation_.x, 0.1f);
 	transform_.UpdateMatrix();
 	model_->SetTransform(transform_);
-	collision_->Update(transform_);
+	collision_->Update();
 }

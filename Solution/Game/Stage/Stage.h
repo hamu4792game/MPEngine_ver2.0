@@ -3,7 +3,7 @@
 #include <memory>
 #include "Game/Stage/Ground.h"
 #include <vector>
-#include "Math/AABB.h"
+#include "Utils/Collider/Collider.h"
 #include <string>
 #include <list>
 #include "Game/Target/Target.h"
@@ -19,7 +19,7 @@ public:
 	void Update();
 	void DrawImGui();
 
-	std::list<AABB*> GetCollision() const { return collisionList_; }
+	std::list<Collider*> GetCollision() const { return collisionList_; }
 	std::list<std::shared_ptr<Target>> GetTargets() const;
 
 	void LevelLoad(LevelData* data);
@@ -28,5 +28,5 @@ private:
 	std::vector<std::shared_ptr<Ground>> boxes_;
 	std::vector<std::shared_ptr<Target>> targets_;
 	std::string itemName_ = "Stage";
-	std::list<AABB*> collisionList_;
+	std::list<Collider*> collisionList_;
 };

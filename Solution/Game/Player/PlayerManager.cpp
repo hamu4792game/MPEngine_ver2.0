@@ -7,7 +7,7 @@
 
 PlayerManager::PlayerManager() {
 	animation_ = std::make_unique<PlayerAnimation>(&transform_);
-	collision_ = std::make_shared<AABB>();
+	collision_ = std::make_unique<Collider>();
 	followCamera_ = std::make_shared<FollowCamera>();
 	webswing_ = std::make_unique<WebSwing>();
 	wireTargetMove_ = std::make_unique<WireTargetMove>();
@@ -23,7 +23,11 @@ void PlayerManager::Initialize() {
 	//transform_.translation_ = Vector3(0.0f, 22.0f, 0.0f);
 	transform_.UpdateMatrix();
 	animation_->Initialize();
-	collision_->size = Vector3(1.0f, 2.4f, 1.0f);
+
+	collTrans_.parent_ = &transform_;
+	collTrans_.scale_ = Vector3(1.0f, 2.4f, 1.0f);
+	collision_->Initialize(collTrans_, Collider::Type::Box);
+	
 	fallParam_.Initialize();
 
 	playerMove_->Initialize(&transform_.rotation_);
@@ -114,39 +118,19 @@ WorldTransform PlayerManager::PostUpdate() {
 	return cameraTrans;
 }
 
-void PlayerManager::OnCollisionStage(const AABB* aabb) {
+void PlayerManager::OnCollisionStage(const Collider& coll) {
 	// ローカル変数にrつけてるだけ
-	bool iscoll = collision_->IsCollision(aabb);
+	Vector3 pushBackVec;
+	bool iscoll = collision_->OnCollision(coll, pushBackVec);
 	// 床との衝突判定
 	if (iscoll) {
-		Vector3 extrusionVector;
 		// 地面と当たっているので初期化
 		if (!fallParam_.isJumpable_) {
 			behaviorFlag_.isLanded = true;
 		}
 		fallParam_.Initialize();
-		// size同士
-		Vector3 rScale = collision_->boxModel_.scale_ + aabb->boxModel_.scale_;
-		// 距離 playerからboxの距離
-		Vector3 rPosA = collision_->boxModel_.GetPosition();
-		Vector3 rPosB = aabb->boxModel_.GetPosition();
-		Vector3 rDistance = rPosA - rPosB;
-		// 距離がsizeよりちいさかったらめり込んでいる 当たっている時点で通るがおまじない
-		// y軸
-		if (std::fabs(rScale.y) > std::fabs(rDistance.y)) {
-			// size - 距離の差分を求めて指定の向きに足す
-			float dis = std::fabs(rScale.y) - std::fabs(rDistance.y);
-			// playerがboxよりも下にあったら
-			if (rPosA.y <= rPosB.y) {
-				extrusionVector.y -= dis;
-			}
-			// playerがboxよりも上にあったら
-			else if (rPosA.y > rPosB.y) {
-				extrusionVector.y += dis;
-			}
-		}
 
-		transform_.translation_ += extrusionVector;
+		transform_.translation_ += pushBackVec;
 		TransformUpdate();
 		if (behavior_ == Behavior::kSwing) {
 			behaviorRequest_ = Behavior::kRoot;
@@ -206,7 +190,8 @@ void PlayerManager::Jamp() {
 
 void PlayerManager::TransformUpdate() {
 	transform_.UpdateMatrix();
-	collision_->Update(transform_);
+	collTrans_.UpdateMatrix();
+	collision_->Update();
 }
 
 void PlayerManager::LimitMoving() {

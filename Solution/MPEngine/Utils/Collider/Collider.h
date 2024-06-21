@@ -3,9 +3,11 @@
 #include "Utils/WorldTransform/WorldTransform.h"
 #include <string>
 #include <memory>
+#include <vector>
+#include "BoxCollider.h"
 
 // 衝突判定用の前方宣言
-class AABB;
+class Line;
 
 class Collider {
 public:
@@ -37,9 +39,9 @@ private:
 
 private:
 	std::string name_; // コライダーの名前
-	std::shared_ptr<AABB> boxCollider_;
+	std::unique_ptr<BoxCollider> boxCollider_;
 	Type collderType_;
 	WorldTransform transform_;
-
+	std::vector<std::unique_ptr<Line>> lines_;
 
 };

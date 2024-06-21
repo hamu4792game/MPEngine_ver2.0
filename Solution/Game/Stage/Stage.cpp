@@ -41,7 +41,7 @@ void Stage::Update() {
 
 	const uint32_t maxCount = static_cast<uint32_t>(boxes_.size());
 	for (uint32_t index = 0u; index < maxCount; index++) {
-		collisionList_.emplace_back(boxes_.at(index)->GetCollision());
+		auto& handle = collisionList_.emplace_back(boxes_.at(index)->GetCollision());
 	}
 	for (auto& i : targets_) {
 		i->Update();

@@ -7,6 +7,7 @@
 #include "WebSwing.h"
 #include "WireTargetMove.h"
 #include "PlayerMove.h"
+#include "Utils/Collider/Collider.h"
 
 class PlayerManager {
 public:
@@ -20,7 +21,7 @@ public:
 	const WorldTransform& GetTransform() const { return transform_; }
 
 	void SetTargetTrans(const WorldTransform* transform) { targetTransform_ = transform; }
-	void OnCollisionStage(const AABB* aabb);
+	void OnCollisionStage(const Collider& coll);
 
 private:
 	const std::string itemName_ = "Player";
@@ -86,7 +87,8 @@ private:
 
 	const WorldTransform* targetTransform_ = nullptr;
 
-	std::shared_ptr<AABB> collision_;
+	std::unique_ptr<Collider> collision_;
+	WorldTransform collTrans_;
 
 	std::unique_ptr<WebSwing> webswing_;
 	std::unique_ptr<WireTargetMove> wireTargetMove_;

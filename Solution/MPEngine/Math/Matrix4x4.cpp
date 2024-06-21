@@ -6,6 +6,10 @@
 
 Matrix4x4::Matrix4x4() : m({ 0.0f }) {}
 
+Matrix4x4::Matrix4x4(const Vector3& scale, const Vector3& rotate, const Vector3& translate) {
+	*this = MakeAffineMatrix(scale, rotate, translate);
+}
+
 //	加算
 Matrix4x4 Matrix4x4::operator+(const Matrix4x4& mat) const
 {
@@ -69,6 +73,10 @@ Matrix4x4& Matrix4x4::operator=(const Matrix4x4& mat)
 {
 	this->m = mat.m;
 	return *this;
+}
+bool Matrix4x4::operator==(const Matrix4x4& mat) const {
+	// 新ならtrue
+	return this->m == mat.m ? true : false;
 }
 Vector3 Matrix4x4::operator*(const Vector3& vec) const {
 	Vector3 result;
@@ -436,5 +444,47 @@ Matrix4x4 DirectionToDirection(const Vector3& from, const Vector3& to) {
 	result.m[2][2] = n.y * n.z * (1 - rcos) - n.x * rsin;
 	result.m[2][1] = powf(n.z, 2) * (1 - rcos) + rcos;
 
+	return result;
+}
+
+Vector3 GetXAxis(Matrix4x4 m) {
+
+	return { m.m[0][0],m.m[0][1],m.m[0][2] };
+}
+Vector3 GetYAxis(Matrix4x4 m) {
+
+	return { m.m[1][0],m.m[1][1],m.m[1][2] };
+}
+Vector3 GetZAxis(Matrix4x4 m) {
+
+	return { m.m[2][0],m.m[2][1],m.m[2][2] };
+}
+
+Matrix4x4 NormalizeMakeRotateMatrix(const Matrix4x4& matrix) {
+	Vector3 xAxis = Normalize(GetXAxis(matrix)); // [0][?]
+	Vector3 yAxis = Normalize(GetYAxis(matrix)); // [1][?]
+	Vector3 zAxis = Normalize(GetZAxis(matrix)); // [2][?]
+	Matrix4x4 result = MakeIdentity4x4();
+	result.m[0][0] = xAxis.x;
+	result.m[0][1] = xAxis.y;
+	result.m[0][2] = xAxis.z;
+	result.m[1][0] = yAxis.x;
+	result.m[1][1] = yAxis.y;
+	result.m[1][2] = yAxis.z;
+	result.m[2][0] = zAxis.x;
+	result.m[2][1] = zAxis.y;
+	result.m[2][2] = zAxis.z;
+
+	return result;
+}
+
+Vector3 MakeScale(const Matrix4x4& matrix) {
+	Vector3 scaleX = { matrix.m[0][0],matrix.m[0][1],matrix.m[0][2] };
+	Vector3 scaleY = { matrix.m[1][0],matrix.m[1][1],matrix.m[1][2] };
+	Vector3 scaleZ = { matrix.m[2][0],matrix.m[2][1],matrix.m[2][2] };
+	Vector3 result;
+	result.x = Length(scaleX);
+	result.y = Length(scaleY);
+	result.z = Length(scaleZ);
 	return result;
 }

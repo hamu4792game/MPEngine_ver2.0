@@ -179,9 +179,6 @@
     <ClCompile Include="MPEngine\Utils\Collider\Collider.cpp">
       <Filter>MPEngine\Utils\Collider</Filter>
     </ClCompile>
-    <ClCompile Include="MPEngine\Utils\Collider\OBB.cpp">
-      <Filter>MPEngine\Utils\Collider\OBB</Filter>
-    </ClCompile>
     <ClCompile Include="MPEngine\Math\AABB.cpp">
       <Filter>MPEngine\Utils\Collider\AABB</Filter>
     </ClCompile>
@@ -229,6 +226,9 @@
     </ClCompile>
     <ClCompile Include="Game\Player\PlayerParticle.cpp">
       <Filter>Game\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\Utils\Collider\BoxCollider.cpp">
+      <Filter>MPEngine\Utils\Collider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -428,9 +428,6 @@
     <ClInclude Include="MPEngine\Utils\Collider\Collider.h">
       <Filter>MPEngine\Utils\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="MPEngine\Utils\Collider\OBB.h">
-      <Filter>MPEngine\Utils\Collider\OBB</Filter>
-    </ClInclude>
     <ClInclude Include="MPEngine\Math\AABB.h">
       <Filter>MPEngine\Utils\Collider\AABB</Filter>
     </ClInclude>
@@ -478,6 +475,9 @@
     </ClInclude>
     <ClInclude Include="Game\Player\PlayerParticle.h">
       <Filter>Game\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Utils\Collider\BoxCollider.h">
+      <Filter>MPEngine\Utils\Collider</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

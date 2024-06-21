@@ -7,6 +7,7 @@ class Quaternion;
 class Matrix4x4 {
 public:
 	Matrix4x4();
+	Matrix4x4(const Vector3& scale, const Vector3& rotate, const Vector3& translate);
 	~Matrix4x4() = default;
 
 public:
@@ -27,6 +28,8 @@ public:
 	Matrix4x4& operator*=(const Matrix4x4& mat);
 	//	行列の代入
 	Matrix4x4& operator=(const Matrix4x4& mat);
+	// 比較演算子
+	bool operator==(const Matrix4x4& mat) const;
 
 	Vector3 operator*(const Vector3& vec) const;
 
@@ -70,3 +73,11 @@ Matrix4x4 MakeOrthographicMatrix(float left, float top, float right, float botto
 Matrix4x4 MakeViewportMatrix(float left, float top, float width, float height, float minDepth, float maxDepth);
 //
 Matrix4x4 DirectionToDirection(const Vector3& from, const Vector3& to);
+
+Vector3 GetXAxis(Matrix4x4 m);
+Vector3 GetYAxis(Matrix4x4 m);
+Vector3 GetZAxis(Matrix4x4 m);
+
+Matrix4x4 NormalizeMakeRotateMatrix(const Matrix4x4& matrix);
+
+Vector3 MakeScale(const Matrix4x4& matrix);

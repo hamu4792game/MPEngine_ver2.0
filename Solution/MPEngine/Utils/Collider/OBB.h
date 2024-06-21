@@ -24,9 +24,8 @@ public:
 	void Update(class WorldTransform& transform);
 
 	bool IsCollision(const AABB* aabb2) const;
-	bool IsCollision(const OBB* obb2) const;
+	bool IsCollision(const OBB* obb2, Vector3& minAxis, float& minOverlap) const;
 
 private:
-	void DrawUpdate();
 
 };
