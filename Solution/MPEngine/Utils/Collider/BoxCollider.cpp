@@ -2,6 +2,7 @@
 #include <cfloat>
 #include <array>
 #include "Graphics/Line/Line.h"
+#undef max
 
 BoxCollider::~BoxCollider() {
 
@@ -21,9 +22,9 @@ void BoxCollider::Update(const WorldTransform& transform) {
 		type_ = Type::OBB;
 		OBBUpdate();
 	}
-	type_ = Type::AABB;
-	AABBUpdate();
-
+	// AABBとOBBが完成していないので、強制OBB
+	type_ = Type::OBB;
+	OBBUpdate();
 }
 
 void BoxCollider::LineUpdate(std::vector<std::shared_ptr<Line>> lines) {
@@ -42,6 +43,7 @@ void BoxCollider::LineUpdate(std::vector<std::shared_ptr<Line>> lines) {
 		vertices[7] = aabb_.size; // 右下奥
 		break;
 	case BoxCollider::Type::OBB:
+		
 		vertices[0] = -obb_.size; // 左上前
 		vertices[1] = Vector3(obb_.size.x, -obb_.size.y, -obb_.size.z); // 右上前
 		vertices[2] = Vector3(-obb_.size.x, -obb_.size.y, obb_.size.z); // 左上奥
@@ -51,6 +53,12 @@ void BoxCollider::LineUpdate(std::vector<std::shared_ptr<Line>> lines) {
 		vertices[5] = Vector3(obb_.size.x, obb_.size.y, -obb_.size.z); // 右下前
 		vertices[6] = Vector3(-obb_.size.x, obb_.size.y, obb_.size.z); // 左下奥
 		vertices[7] = obb_.size; // 右下奥
+
+		Matrix4x4 mat = NormalizeMakeRotateMatrix(transform_.worldMatrix_);
+		for (auto& ver : vertices) {
+			ver = mat * ver;
+		}
+
 		break;
 	}
 	// ワールド座標へ更新
@@ -96,12 +104,14 @@ bool BoxCollider::IsCollision(const BoxCollider& coll, Vector3& minAxis, float& 
 			flag = IsCollision(aabb_, coll.aabb_, minAxis, minOverlap);
 			break;
 		case BoxCollider::Type::OBB:
+			flag = IsCollision(aabb_, coll.obb_, minAxis, minOverlap);
 			break;
 		}
 		break;
 	case BoxCollider::Type::OBB:
 		switch (coll.type_) {
 		case BoxCollider::Type::AABB:
+			flag = IsCollision(coll.aabb_, obb_, minAxis, minOverlap);
 			break;
 		case BoxCollider::Type::OBB:
 			flag = IsCollision(obb_, coll.obb_, minAxis, minOverlap);
@@ -174,8 +184,66 @@ bool BoxCollider::IsCollision(const AABB& aabb1, const AABB& aabb2, Vector3& min
 }
 
 bool BoxCollider::IsCollision(const AABB& aabb, const OBB& obb, Vector3& minAxis, float& minOverlap) {
+	// AABBの向き単位ベクトル
+	Vector3 aabbVec[3];
+	aabbVec[0] = Vector3(1.0f, 0.0f, 0.0f);
+	aabbVec[1] = Vector3(0.0f, 1.0f, 0.0f);
+	aabbVec[2] = Vector3(0.0f, 0.0f, 1.0f);
 
-	return false;
+	// 各軸
+	Vector3 separationAxisCandidate[15];
+	separationAxisCandidate[0] = aabbVec[0];
+	separationAxisCandidate[1] = aabbVec[1];
+	separationAxisCandidate[2] = aabbVec[2];
+	separationAxisCandidate[3] = obb.orientations[0];
+	separationAxisCandidate[4] = obb.orientations[1];
+	separationAxisCandidate[5] = obb.orientations[2];
+	// 各辺のクロス積
+	uint32_t handle = 6;
+	for (uint32_t abIndex = 0u; abIndex < 3u; abIndex++) {
+		for (uint32_t obIndex = 0; obIndex < 3u; obIndex++) {
+			separationAxisCandidate[handle++] = Cross(aabbVec[abIndex], obb.orientations[obIndex]);
+		}
+	}
+
+	minOverlap = std::numeric_limits<float>::max();
+
+	for (auto& axis : separationAxisCandidate) {
+
+		// 軸の長さが0に近い場合は無視
+		if (Dot(axis, axis) < 1e-6) continue;
+
+		Vector3 aCenter = (aabb.min + aabb.max) * 0.5f;
+		Vector3 aExtents = (aabb.max - aabb.min) * 0.5f;
+		float aProj = (aExtents.x * std::fabsf(axis.x)) + (aExtents.y * std::fabsf(axis.y)) + (aExtents.z * std::fabsf(axis.z));
+
+		Vector3 bExtents = obb.size * 0.5f;
+		float bProj = (bExtents.x * std::fabsf(Dot(obb.orientations[0], axis))) +
+			(bExtents.y * std::fabsf(Dot(obb.orientations[1], axis))) +
+			(bExtents.z * std::fabsf(Dot(obb.orientations[2], axis)));
+
+		float distance = std::fabsf(Dot(obb.center - aCenter, axis));
+		bool overlap = distance <= aProj + bProj;
+
+		// 当たっていなければ
+		if (!overlap) {
+			return false;
+		}
+
+		// 重なりの深さを計算
+		float overlapDepth = aProj + bProj - distance;
+		if (overlapDepth < minOverlap) {
+			minOverlap = overlapDepth;
+			minAxis = axis;
+		}
+	}
+
+	// 最小重なり軸の方向を調整
+	Vector3 direction = obb.center - ((aabb.min + aabb.max) * 0.5f);
+	if (Dot(direction, minAxis) < 0) {
+		minAxis = minAxis * -1.0f;
+	}
+	return true;
 }
 
 bool BoxCollider::IsCollision(const OBB& obb1, const OBB& obb2, Vector3& minAxis, float& minOverlap) {

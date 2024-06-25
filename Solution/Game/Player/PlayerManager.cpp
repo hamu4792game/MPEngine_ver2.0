@@ -26,7 +26,7 @@ void PlayerManager::Initialize() {
 
 	collTrans_.parent_ = &transform_;
 	collTrans_.scale_ = Vector3(1.0f, 2.4f, 1.0f);
-	collision_->Initialize(collTrans_, Collider::Type::Box);
+	collision_->Initialize(&collTrans_, Collider::Type::Box);
 	
 	fallParam_.Initialize();
 
@@ -124,6 +124,7 @@ void PlayerManager::OnCollisionStage(const Collider& coll) {
 	bool iscoll = collision_->OnCollision(coll, pushBackVec);
 	// 床との衝突判定
 	if (iscoll) {
+		ImGui::Text("HitTrue");
 		// 押し戻しが上の処理だった場合
  		if (/*pushBackVec.x < pushBackVec.y && pushBackVec.z < pushBackVec.y*/
 			pushBackVec.Normalize() == Vector3::up) {

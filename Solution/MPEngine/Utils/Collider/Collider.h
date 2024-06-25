@@ -21,7 +21,7 @@ public:
 		kMaxNum
 	};
 
-	void Initialize(const WorldTransform& transform, Type type); // 初期化処理
+	void Initialize(WorldTransform* transform, Type type); // 初期化処理
 	void Update(); // 更新処理
 	
 	/// <summary>
@@ -41,7 +41,7 @@ private:
 	std::string name_; // コライダーの名前
 	std::unique_ptr<BoxCollider> boxCollider_;
 	Type collderType_;
-	WorldTransform transform_;
+	WorldTransform* transform_ = nullptr;
 	std::vector<std::shared_ptr<Line>> lines_;
 
 };

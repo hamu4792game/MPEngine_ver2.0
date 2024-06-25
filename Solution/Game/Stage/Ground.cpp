@@ -25,7 +25,7 @@ void Ground::Initialize(const Vector3& scale, const Vector3& rotate, const Vecto
 
 	model_->SetTransform(transform_);
 	collision_ = std::make_unique<Collider>();
-	collision_->Initialize(transform_, Collider::Type::Box);
+	collision_->Initialize(&transform_, Collider::Type::Box);
 	collision_->Update();
 }
 
@@ -38,7 +38,7 @@ void Ground::Initialize(const WorldTransform& transform) {
 
 	model_->SetTransform(transform_);
 	collision_ = std::make_unique<Collider>();
-	collision_->Initialize(transform_, Collider::Type::Box);
+	collision_->Initialize(&transform_, Collider::Type::Box);
 	collision_->Update();
 }
 
