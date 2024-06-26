@@ -14,13 +14,11 @@ PlayerManager::PlayerManager() {
 	playerMove_ = std::make_unique<PlayerMove>();
 }
 
-void PlayerManager::Initialize() {
+void PlayerManager::Initialize(const WorldTransform& respawnpoint) {
 	auto global = GlobalVariables::GetInstance();
 	//global->LoadFile(itemName_);
 	
-	transform_.scale_ = Vector3::one;
-	transform_.translation_ = Vector3(120.0f, 22.0f, -100.0f);
-	//transform_.translation_ = Vector3(0.0f, 22.0f, 0.0f);
+	transform_ = respawnpoint;
 	transform_.UpdateMatrix();
 	animation_->Initialize();
 
@@ -266,7 +264,7 @@ void PlayerManager::KeyInput() {
 #pragma endregion
 
 	if (input->GetKey()->TriggerKey(DIK_R)) {
-		Initialize();
+		Initialize(WorldTransform());
 	}
 
 }

@@ -21,6 +21,7 @@ public:
 
 	std::list<Collider*> GetCollision() const { return collisionList_; }
 	std::list<std::shared_ptr<Target>> GetTargets() const;
+	const WorldTransform& GetPlayerRespawnPoint() const { return playerRespawnpoint_; }
 
 	void LevelLoad(LevelData* data);
 
@@ -29,4 +30,5 @@ private:
 	std::vector<std::shared_ptr<Target>> targets_;
 	std::string itemName_ = "Stage";
 	std::list<Collider*> collisionList_;
+	WorldTransform playerRespawnpoint_;
 };

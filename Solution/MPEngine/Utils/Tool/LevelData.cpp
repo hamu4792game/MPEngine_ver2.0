@@ -64,6 +64,10 @@ void LevelData::ObjectScan(LevelData* levelData, nlohmann::json& object, WorldTr
 		// 今追加した要素の参照を得る
 		LevelData::ObjectData& objectData = levelData->objects.back();
 
+		if (object.contains("name")) {
+			// typenameの取得
+			objectData.typeName = object["name"];
+		}
 		if (object.contains("file_name")) {
 			// ファイル名
 			objectData.fileName = object["file_name"];
@@ -102,17 +106,20 @@ void LevelData::ObjectScan(LevelData* levelData, nlohmann::json& object, WorldTr
 		if (object.contains("collider")) {
 			nlohmann::json& coll = object["collider"];
 			// コライダーのタイプを取得
-			objectData.colliderType = coll.at("type");
+			objectData.collider.colliderType = coll.at("type");
 			// centerを取得
 			Vector3 handle;
 			handle.x = (float)coll.at("center").at(0);
 			handle.y = (float)coll.at("center").at(2);
 			handle.z = (float)coll.at("center").at(1);
+			objectData.collider.center = handle;
 
 			// sizeを取得
 			handle.x = (float)coll.at("size").at(0);
 			handle.y = (float)coll.at("size").at(2);
 			handle.z = (float)coll.at("size").at(1);
+			// こちらと合わせるために、1/2する
+			objectData.collider.size = handle * 0.5f;
 		}
 
 	}

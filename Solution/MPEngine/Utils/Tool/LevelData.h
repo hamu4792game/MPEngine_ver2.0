@@ -12,9 +12,15 @@ public:
 	struct ObjectData {
 		WorldTransform transform; //objectのtransform
 		//本来ならばobjectのmodelFileNameとして使用。
-		// 現在はobjectのTypeName 敵ならEnemy Blockなら箱等...
 		std::string fileName;
-		std::string colliderType;
+		// 現在はobjectのTypeName 敵ならEnemy Blockなら箱等...
+		std::string typeName;
+		struct Collider {
+			Vector3 center;
+			Vector3 size;
+			std::string colliderType;
+		};
+		Collider collider;
 	};
 
 	// ステージデータのロード

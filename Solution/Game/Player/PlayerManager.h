@@ -13,7 +13,7 @@ public:
 	PlayerManager();
 	~PlayerManager() = default;
 
-	void Initialize();
+	void Initialize(const WorldTransform& respawnpoint);
 	void Update();
 	WorldTransform PostUpdate(); // カメラ用更新処理 カメラ座標を返す
 

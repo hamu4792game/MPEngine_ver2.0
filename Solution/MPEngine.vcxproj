@@ -231,6 +231,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="MPEngine\Utils\Collider\Collider.cpp" />
     <ClCompile Include="MPEngine\Utils\Easing\Ease.cpp" />
     <ClCompile Include="MPEngine\Utils\GlobalVariables\GlobalVariables.cpp" />
+    <ClCompile Include="MPEngine\Utils\Template\GameObject.cpp" />
     <ClCompile Include="MPEngine\Utils\Tool\LevelData.cpp" />
     <ClCompile Include="MPEngine\Utils\WorldTransform\WorldTransform.cpp" />
   </ItemGroup>
@@ -314,6 +315,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="MPEngine\Utils\Easing\Ease.h" />
     <ClInclude Include="MPEngine\Utils\Easing\Easing.h" />
     <ClInclude Include="MPEngine\Utils\GlobalVariables\GlobalVariables.h" />
+    <ClInclude Include="MPEngine\Utils\Template\GameObject.h" />
     <ClInclude Include="MPEngine\Utils\Tool\LevelData.h" />
     <ClInclude Include="MPEngine\Utils\WorldTransform\WorldTransform.h" />
     <ClInclude Include="resource.h" />

@@ -227,6 +227,9 @@
     <ClCompile Include="MPEngine\Utils\Collider\BoxCollider.cpp">
       <Filter>MPEngine\Utils\Collider</Filter>
     </ClCompile>
+    <ClCompile Include="MPEngine\Utils\Template\GameObject.cpp">
+      <Filter>MPEngine\Utils\Template</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -473,6 +476,9 @@
     <ClInclude Include="MPEngine\Utils\Collider\BoxCollider.h">
       <Filter>MPEngine\Utils\Collider</Filter>
     </ClInclude>
+    <ClInclude Include="MPEngine\Utils\Template\GameObject.h">
+      <Filter>MPEngine\Utils\Template</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="MPEngine">
@@ -696,6 +702,9 @@
     </Filter>
     <Filter Include="Game\Player\Move">
       <UniqueIdentifier>{7b7addd5-93d2-488b-919a-61d39ff63a02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Utils\Template">
+      <UniqueIdentifier>{94328d05-5052-4d25-a466-4bdb72b98b01}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

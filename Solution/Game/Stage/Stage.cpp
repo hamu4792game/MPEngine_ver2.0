@@ -142,13 +142,18 @@ std::list<std::shared_ptr<Target>> Stage::GetTargets() const {
 
 void Stage::LevelLoad(LevelData* data) {
 	boxes_.clear();
-	for (auto& objectData : data->GetData()) {
+	for (LevelData::ObjectData& objectData : data->GetData()) {
 		// 座標の取得
 		WorldTransform transform;
 		transform = objectData.transform;
 		// ここからはタイプ別に生成
-		if (objectData.fileName.find("Box") != std::string::npos) {
-			boxes_.emplace_back(std::make_shared<Ground>())->Initialize(transform);
+		if (objectData.typeName.find("Ground") != std::string::npos) {
+			// 見つかれば
+			boxes_.emplace_back(std::make_shared<Ground>())->Initialize(objectData);
+		}
+		if (objectData.typeName.find("Player") != std::string::npos) {
+			playerRespawnpoint_ = objectData.transform;
+			playerRespawnpoint_.UpdateMatrix();
 		}
 	}
 }
