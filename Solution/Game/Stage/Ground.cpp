@@ -70,10 +70,12 @@ const WorldTransform& Ground::GetTrans() {
 }
 
 void Ground::DrawImGui() {
+#ifdef _DEBUG
 	ImGui::DragFloat3("scale", &transform_.scale_.x, 0.1f);
 	ImGui::DragFloat3("rotate", &transform_.rotation_.x, AngleToRadian(1.0f));
 	ImGui::DragFloat3("position", &transform_.translation_.x, 0.1f);
 	transform_.UpdateMatrix();
 	model_->SetTransform(transform_);
 	collision_->Update();
+#endif // _DEBUG
 }

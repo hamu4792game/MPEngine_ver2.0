@@ -122,7 +122,6 @@ void PlayerManager::OnCollisionStage(const Collider& coll) {
 	bool iscoll = collision_->OnCollision(coll, pushBackVec);
 	// 床との衝突判定
 	if (iscoll) {
-		ImGui::Text("HitTrue");
 		// 押し戻しが上の処理だった場合
  		if (/*pushBackVec.x < pushBackVec.y && pushBackVec.z < pushBackVec.y*/
 			pushBackVec.Normalize() == Vector3::up) {
