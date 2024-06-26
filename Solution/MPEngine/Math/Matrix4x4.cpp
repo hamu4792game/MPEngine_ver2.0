@@ -464,7 +464,7 @@ Matrix4x4 NormalizeMakeRotateMatrix(const Matrix4x4& matrix) {
 	Vector3 xAxis = Normalize(GetXAxis(matrix)); // [0][?]
 	Vector3 yAxis = Normalize(GetYAxis(matrix)); // [1][?]
 	Vector3 zAxis = Normalize(GetZAxis(matrix)); // [2][?]
-	Matrix4x4 result = MakeIdentity4x4();
+	Matrix4x4 result;
 	result.m[0][0] = xAxis.x;
 	result.m[0][1] = xAxis.y;
 	result.m[0][2] = xAxis.z;
@@ -474,7 +474,6 @@ Matrix4x4 NormalizeMakeRotateMatrix(const Matrix4x4& matrix) {
 	result.m[2][0] = zAxis.x;
 	result.m[2][1] = zAxis.y;
 	result.m[2][2] = zAxis.z;
-
 	return result;
 }
 
