@@ -155,5 +155,8 @@ void Stage::LevelLoad(LevelData* data) {
 			playerRespawnpoint_ = objectData.transform;
 			playerRespawnpoint_.UpdateMatrix();
 		}
+		if (objectData.typeName.find("Target") != std::string::npos) {
+			targets_.emplace_back(std::make_shared<Target>())->Initialize(objectData.transform.GetPosition());
+		}
 	}
 }

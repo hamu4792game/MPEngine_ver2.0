@@ -131,6 +131,14 @@ void PlayerManager::OnCollisionStage(const Collider& coll) {
 			}
 			fallParam_.Initialize();
 		}
+		// 横向きに当たったら
+		else if (pushBackVec.Normalize() == Vector3::left || pushBackVec.Normalize() == Vector3::right) {
+				// 地面と当たっているので初期化
+				if (!fallParam_.isJumpable_) {
+					behaviorFlag_.isLanded = true;
+				}
+				fallParam_.Initialize();
+		}
 
 		transform_.translation_ += pushBackVec;
 		TransformUpdate();
