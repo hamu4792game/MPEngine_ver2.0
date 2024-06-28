@@ -17,6 +17,7 @@ PlayerManager::PlayerManager() {
 void PlayerManager::Initialize(const WorldTransform& respawnpoint) {
 	auto global = GlobalVariables::GetInstance();
 	//global->LoadFile(itemName_);
+	respawnpoint_ = respawnpoint;
 	
 	transform_ = respawnpoint;
 	transform_.UpdateMatrix();
@@ -133,11 +134,7 @@ void PlayerManager::OnCollisionStage(const Collider& coll) {
 		}
 		// 横向きに当たったら
 		else if (pushBackVec.Normalize() == Vector3::left || pushBackVec.Normalize() == Vector3::right) {
-				// 地面と当たっているので初期化
-				if (!fallParam_.isJumpable_) {
-					behaviorFlag_.isLanded = true;
-				}
-				fallParam_.Initialize();
+
 		}
 
 		transform_.translation_ += pushBackVec;
@@ -205,10 +202,10 @@ void PlayerManager::TransformUpdate() {
 }
 
 void PlayerManager::LimitMoving() {
-	transform_.translation_.y = std::clamp(transform_.translation_.y, 15.0f, 10000.0f);
-	if (transform_.translation_.y < 15.0f) {
-		transform_.translation_ = Vector3(0.0f, 22.0f, -100.0f);
+	if (transform_.translation_.y < -10.0f) {
+		Initialize(respawnpoint_);
 	}
+	//transform_.translation_.y = std::clamp(transform_.translation_.y, 15.0f, 10000.0f);
 }
 
 void PlayerManager::KeyInput() {
@@ -271,7 +268,7 @@ void PlayerManager::KeyInput() {
 #pragma endregion
 
 	if (input->GetKey()->TriggerKey(DIK_R)) {
-		Initialize(WorldTransform());
+		Initialize(respawnpoint_);
 	}
 
 }

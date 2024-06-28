@@ -96,5 +96,6 @@ private:
 	std::shared_ptr<FollowCamera> followCamera_;
 
 	std::unique_ptr<PlayerMove> playerMove_;
+	WorldTransform respawnpoint_;
 
 };

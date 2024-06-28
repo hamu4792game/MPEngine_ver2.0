@@ -16,7 +16,7 @@ void Stage::Initialize(std::string fileName) {
 		boxes_.emplace_back(std::make_shared<Ground>())->Initialize(scale, rotate, translate);
 	}
 
-
+	targets_.clear();
 	num = global->GetIntValue(itemName_, "TargetConfirmation");
 	for (int index = 0u; index < num; index++) {
 		Vector3 translate = global->GetVector3Value(itemName_, ("TargetNumber : " + std::to_string(index) + " : Translate").c_str());
@@ -142,6 +142,7 @@ std::list<std::shared_ptr<Target>> Stage::GetTargets() const {
 
 void Stage::LevelLoad(LevelData* data) {
 	boxes_.clear();
+	targets_.clear();
 	for (LevelData::ObjectData& objectData : data->GetData()) {
 		// 座標の取得
 		WorldTransform transform;
