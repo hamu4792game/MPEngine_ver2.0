@@ -20,6 +20,7 @@ bool WebSwing::Update(const Vector3& player, Vector3& result) {
     Vector3 direction = FindVector(player, target_).Normalize(); // 向きベクトル
     const float g = 9.81f; // 重力加速度
 
+    // あとで、逆処理を追加する
     // 距離がロープの長さを超えた場合、スイング運動を計算
     if (distance >= maxLength_) {
         // 張力による力を計算

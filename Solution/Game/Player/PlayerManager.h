@@ -5,7 +5,6 @@
 #include "Game/Camera/FollowCamera.h"
 #include "WebSwing.h"
 #include "WireTargetMove.h"
-#include "PlayerMove.h"
 #include "Utils/Collider/Collider.h"
 
 class PlayerManager {
@@ -26,8 +25,8 @@ private:
 	const std::string itemName_ = "Player";
 private:
 	void DrawImGui(); // ImGui処理
-	void Move(); // 移動処理
-	void Jamp(); // 重力処理
+	void InputMove(); // 移動処理
+	void FalledProcess(); // 重力処理
 	void TransformUpdate(); // 座標更新処理
 	void LimitMoving(); // 移動制限用
 	void KeyInput(); // プレイヤー入力処理まとめ
@@ -57,20 +56,36 @@ private:
 	};
 	InputParam inputParam_;
 
-	// 落下用ステータス ジャンプも含む
-	struct FallParam {
-		float acceleration_ = 0.0f; // 落下時の加速度
-		bool isJump_ = false; // ジャンプするかのフラグ。キー入力時に立つ
-		bool isJumpable_ = true; // ジャンプ可能かのフラグ
-		bool oldJumpable_ = false; // 前の状態フラグ
-		bool isFalled_ = false; // 落下中かのフラグ true:落ちている/false:落ちていない
-		void Initialize() {
-			isJumpable_ = true;
-			isFalled_ = false;
-			oldJumpable_ = false;
-			acceleration_ = 0.0f;
+	// 速度パラメーター
+	struct SpeedParam {
+		float acceleration = 0.0f; // 加速度
+		float accelerationRate = 0.1f; // 加速率
+		float kMinAcceleration = 0.0f; // 最低加速度
+		float kMaxAcceleration = 5.0f; // 最大加速度
+		void Initialize(const float& acc, const float& rate, const float& min, const float& max) {
+			acceleration = acc; // 初速度を与えてる
+			accelerationRate = rate;
+			kMinAcceleration = min;
+			kMaxAcceleration = max;
 		}
 	};
+
+	// 落下用ステータス ジャンプも含む
+	struct FallParam {
+		SpeedParam fall; // 落下時の加速度等
+		bool isFalled = false; // 落下中かのフラグ true:落ちている/false:落ちていない
+		bool isJump = false; // ジャンプするかのフラグ。キー入力時に立つ
+		bool isJumpable = true; // ジャンプ可能かのフラグ
+		bool oldJumpable = false; // 前の状態フラグ
+		// ジャンプ用の初期化処理
+		void JumpInitialize() {
+			isFalled = false;
+			isJumpable = true;
+			oldJumpable = false;
+			fall.acceleration = 0.0f;
+		}
+	};
+
 	FallParam fallParam_;
 
 	// 振る舞い
@@ -95,7 +110,6 @@ private:
 	// カメラ関係
 	std::shared_ptr<FollowCamera> followCamera_;
 
-	std::unique_ptr<PlayerMove> playerMove_;
 	WorldTransform respawnpoint_;
 
 };

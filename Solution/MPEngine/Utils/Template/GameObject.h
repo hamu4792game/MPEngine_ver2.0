@@ -6,13 +6,13 @@
 
 class GameObject {
 public:
-	GameObject();
-	~GameObject();
+	GameObject() = default;
+	~GameObject() = default;
 
 	// レベルエディタを使った場合の初期化
 	virtual void Initialize(LevelData::ObjectData& objectdata);
 	Collider* GetCollision() const { return collision_.get(); }
-	const WorldTransform& GetTrans();
+	const WorldTransform& GetTrans() { return transform_; }
 
 private:
 	std::unique_ptr<Model> model_;

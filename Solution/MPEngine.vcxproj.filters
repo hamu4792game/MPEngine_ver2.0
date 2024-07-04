@@ -212,9 +212,6 @@
     <ClCompile Include="MPEngine\Utils\Tool\LevelData.cpp">
       <Filter>MPEngine\Utils\Tool</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Player\PlayerMove.cpp">
-      <Filter>Game\Player\Move</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Player\WebSwing.cpp">
       <Filter>Game\Player\Move</Filter>
     </ClCompile>
@@ -460,9 +457,6 @@
     </ClInclude>
     <ClInclude Include="MPEngine\Utils\Tool\LevelData.h">
       <Filter>MPEngine\Utils\Tool</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Player\PlayerMove.h">
-      <Filter>Game\Player\Move</Filter>
     </ClInclude>
     <ClInclude Include="Game\Player\WebSwing.h">
       <Filter>Game\Player\Move</Filter>
