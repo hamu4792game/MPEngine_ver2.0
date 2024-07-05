@@ -21,6 +21,7 @@ public:
 		Grayscale,
 		Sepiatone,
 		Vignette,
+		RadialBlur,
 		kMaxNum
 	};
 	static PostEffect nowEffect;

@@ -2,7 +2,6 @@
 #include "MPEngine/Base/Manager/ResourceManager/ResourceManager.h"
 #include "MPEngine/Base/DetailSetting/SwapChain/SwapChain.h"
 #include "MPEngine/Base/Manager/DeviceManager/DeviceManager.h"
-#include <ShaderManager/ShaderManager.h>
 #include "MPEngine/Base/Manager/ShaderManager/ShaderManager.h"
 
 RenderTarget::~RenderTarget() {
@@ -65,6 +64,7 @@ void RenderTarget::CreatePipelineState() {
 		"Grayscale.PS.hlsl",
 		"Sepiatone.PS.hlsl",
 		"Vignette.PS.hlsl",
+		"RadialBlur.PS.hlsl",
 	};
 	auto shaderInstance = ShaderManager::GetInstance();
 	vertexShader = shaderInstance->CompileShader(VSpath, ShaderManager::ShaderType::Vertex);
