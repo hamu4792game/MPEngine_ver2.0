@@ -16,8 +16,12 @@ void Enemy::Initialize() {
 	models_.at(Parts::Head)->SetModel(rsManager->FindObject3d("PlayerHead"));
 #pragma endregion
 	//collision_ = std::make_shared<AABB>();
-	transform_.translation_ = Vector3(-122.0f, 139.0f, 152.0f);
+	transform_.translation_ = Vector3(0.0f, 4.0f, 220.0f);
 	transform_.scale_ = Vector3(5.0f, 5.0f, 5.0f);
+
+	collision_ = std::make_unique<Collider>();
+	collision_->Initialize(&transform_, Collider::Type::Box);
+
 	TransformUpdate();
 }
 
@@ -47,5 +51,5 @@ void Enemy::TransformUpdate() {
 	for (uint32_t index = 0u; index < Parts::kMaxParts; index++) {
 		models_.at(index)->SetTransform(partsTrans_.at(index));
 	}
-	//collision_->Update(transform_);
+	collision_->Update();
 }

@@ -22,6 +22,7 @@ public:
 	void OnCollisionStage(const Collider& coll);
 
 	const uint32_t GetEffectNumber() { return static_cast<uint32_t>(postEffectNum_); }
+	Collider* GetCollision() const { return collision_.get(); }
 
 private:
 	const std::string itemName_ = "Player";

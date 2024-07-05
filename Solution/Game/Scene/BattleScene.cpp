@@ -99,7 +99,9 @@ void BattleScene::Update() {
 		RenderManager::nowEffect = RenderManager::PostEffect::Grayscale;
 	}
 
-	if (Input::GetInstance()->GetKey()->PressKey(DIK_P)) {
+	Vector3 pushBackVec;
+	if (Input::GetInstance()->GetKey()->PressKey(DIK_P) ||
+		player_->GetCollision()->OnCollision(*enemy_->GetCollision(), pushBackVec)) {
 		endRequest_ = true;
 	}
 

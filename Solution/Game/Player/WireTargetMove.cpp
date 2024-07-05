@@ -8,7 +8,8 @@ WireTargetMove::WireTargetMove() {
 void WireTargetMove::Initialize(const Vector3& target, const Vector3& player) {
 	// playerからtargetのベクトルを求めて、
 	direction_ = FindVector(player, target).Normalize();
-	oldDistance_ = Distance(player, target);
+	// 圧倒的な大きさに初期化
+	oldDistance_ = /*Distance(player, target)*/100000.0f;
 	target_ = target;
 	speed_.Initialize(3.0f, 0.1f);
 }
@@ -22,7 +23,7 @@ bool WireTargetMove::Update(const Vector3& player, Vector3& result) {
 
 	const float kDistanceLimit = 10.0f; // 距離制限
 	
-	if (distance <= 3.0f || speed_.acceleration <= 0.0f) {
+	if (distance > oldDistance_ || speed_.acceleration <= 0.0f) {
 		flag = true;
 	}
 	else if (distance <= kDistanceLimit) {
