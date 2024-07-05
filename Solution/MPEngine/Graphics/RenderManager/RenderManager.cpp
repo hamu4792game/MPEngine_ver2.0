@@ -2,10 +2,11 @@
 #include "MPEngine/Math/Matrix4x4.h"
 #include "MPEngine/Base/Manager/ListManager/ListManager.h"
 #include "MPEngine/Base/Manager/ResourceManager/ResourceManager.h"
+#include "MPEngine/Base/DetailSetting/SwapChain/SwapChain.h"
 
 decltype(RenderManager::nowEffect)RenderManager::nowEffect = RenderManager::PostEffect::None;
 
-void RenderManager::Initialize() {
+void RenderManager::Initialize(SwapChain* swapchain) {
 	spriteRender.Initialize();
 	modelRender.Initialize();
 	particleRender.Initialize();
@@ -15,9 +16,12 @@ void RenderManager::Initialize() {
 	camera = std::make_shared<Camera>();
 	camera3d_ = Camera3d::GetInstance();
 	camera3d_->Initialize(2000.0f);
+
+	radialBlur_ = std::make_unique<RadialBlur>();
+	radialBlur_->CreateRenderTexture(DeviceManager::GetInstance(), swapchain, ResourceManager::GetInstance());
 }
 
-void RenderManager::Draw() {
+void RenderManager::Draw(SwapChain* swapchain) {
 	auto list = ListManager::GetInstance()->GetList();
 	auto rsManager = ResourceManager::GetInstance();
 	auto srvHeap = rsManager->GetSRVHeap()->GetDescriptorHeap();
@@ -38,5 +42,10 @@ void RenderManager::Draw() {
 
 	projectionMatrix2D = camera->GetViewProMat();
 	spriteRender.DrawCommand(projectionMatrix2D);
+
+	// SwapChainに対して書き込む
+	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = swapchain->GetRTVHeap()->GetCPUDescriptorHandle(radialBlur_->GetRTVHandle());
+	// 画面クリア
+	radialBlur_->DrawCommand(list,rtvHandle);
 
 }

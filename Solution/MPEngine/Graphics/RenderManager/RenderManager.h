@@ -6,6 +6,7 @@
 #include "MPEngine/Graphics/SkyBoxRender/SkyBoxRender.h"
 #include "Utils/Camera/Camera.h"
 #include "MPEngine/Utils/Camera/Camera3d.h"
+#include "MPEngine/Graphics/PostEffect/RadialBlur.h"
 
 // MPEngineクラスでのみ実体化
 class RenderManager {
@@ -13,8 +14,8 @@ public:
 	RenderManager() = default;
 	~RenderManager() = default;
 
-	void Initialize();
-	void Draw();
+	void Initialize(class SwapChain* swapchain);
+	void Draw(SwapChain* swapchain);
 
 	enum class PostEffect {
 		None,
@@ -35,5 +36,9 @@ private:
 	SkyBoxRender skyBoxRender;
 	std::shared_ptr<Camera> camera;
 	Camera3d* camera3d_ = nullptr;
+
+	// posteffect
+	std::unique_ptr<RadialBlur> radialBlur_;
+
 };
 

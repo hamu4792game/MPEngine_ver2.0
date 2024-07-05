@@ -76,3 +76,8 @@ void SwapChain::Present() {
 	swapChain_->Present(1, 0);
 }
 
+const uint32_t SwapChain::GetCount() {
+	renderCount_++;
+	return renderCount_ - 1u;
+}
+

@@ -2,6 +2,11 @@
 Texture2D<float4> gTexture : register(t0); // 通常テクスチャ
 SamplerState gSampler : register(s0); // サンプラー
 
+cbuffer Parameter : register(b0) {
+    float2 center;
+    float blurWidth;
+};
+
 struct PixelShaderOutput {
     float4 color : SV_TARGET0;
 };

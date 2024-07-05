@@ -11,9 +11,6 @@
 #include "MPEngine/Base/Manager/ImGuiManager/ImGuiManager.h"
 #include "MPEngine/Base/DetailSetting/RenderTarget/RenderTarget.h"
 
-#pragma warning(disable : 820)
-#pragma warning(disable: 820)
-
 GraphicsManager* GraphicsManager::GetInstance() {
 	static GraphicsManager instance;
 	return &instance;
@@ -246,5 +243,5 @@ void GraphicsManager::CreateBarrier(ID3D12Resource* resource, D3D12_RESOURCE_STA
 	barrier.Transition.StateBefore = stateBefore;
 	barrier.Transition.StateAfter = stateAfter;
 	// TransitionBarrierを張る
-	commandList_->GetList()->ResourceBarrier(1, &barrier);
+	ListManager::GetInstance()->GetList()->ResourceBarrier(1, &barrier);
 }

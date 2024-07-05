@@ -66,7 +66,7 @@ void MPEngine::Initialize(const char* title, int width, int height) {
 #endif
 
 	// 描画オブジェクトのための初期化
-	render.Initialize();
+	render.Initialize(graphics_->GetSwapChain());
 
 	// 入力処理の初期化
 	input_ = Input::GetInstance();
@@ -93,7 +93,7 @@ void MPEngine::Update() {
 	game_->Update();
 
 	// 描画処理
-	render.Draw();
+	render.Draw(graphics_->GetSwapChain());
 
 	graphics_->PostDraw();
 
