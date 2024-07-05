@@ -8,6 +8,7 @@ WireTargetMove::WireTargetMove() {
 void WireTargetMove::Initialize(const Vector3& target, const Vector3& player) {
 	// playerからtargetのベクトルを求めて、
 	direction_ = FindVector(player, target).Normalize();
+	oldDistance_ = Distance(player, target);
 	target_ = target;
 	speed_.Initialize(3.0f, 0.1f);
 }
@@ -18,6 +19,7 @@ bool WireTargetMove::Update(const Vector3& player, Vector3& result) {
 	bool flag = false;
 	// 現在の距離がいくつ以下になったら速度を緩める
 	float distance = Distance(player, target_);
+
 	const float kDistanceLimit = 10.0f; // 距離制限
 	
 	if (distance <= 3.0f || speed_.acceleration <= 0.0f) {
@@ -33,6 +35,7 @@ bool WireTargetMove::Update(const Vector3& player, Vector3& result) {
 	speed_.acceleration = std::clamp(speed_.acceleration, speed_.kMinAcceleration, speed_.kMaxAcceleration);
 
 	result = direction_ * speed_.acceleration;
+	oldDistance_ = distance;
 	return flag;
 }
 

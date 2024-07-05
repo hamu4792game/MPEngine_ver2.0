@@ -47,23 +47,24 @@ void BattleScene::Finalize() {
 
 void BattleScene::Update() {
 
-	if (time_++ <= kMaxTimer_ * 60.0f) {
-		RenderManager::nowEffect = RenderManager::PostEffect::Grayscale;
-	}
-	else {
-		RenderManager::nowEffect = RenderManager::PostEffect::None;
-	}
-	time_ = std::min(time_, 300.0f);
-
 	DrawImGui();
 	stage_->Update();
 	std::list<std::shared_ptr<Target>> listData(stage_->GetTargets());
 
 	lockOn_->Update(listData);
 	auto handle = lockOn_->GetTargetTrans();
-	if (handle) {
+	
+	if (time_++ <= kMaxTimer_ * 60.0f) {
+		RenderManager::nowEffect = RenderManager::PostEffect::GaussianFilter;
+	}
+	else if (handle) {
 		RenderManager::nowEffect = RenderManager::PostEffect::Vignette;
 	}
+	else {
+		RenderManager::nowEffect = RenderManager::PostEffect::None;
+	}
+	time_ = std::min(time_, 300.0f);
+
 	player_->SetTargetTrans(handle);
 
 
@@ -89,6 +90,14 @@ void BattleScene::Update() {
 		player_->OnCollisionStage(*coll);
 	}
 	gameUI_->Update();
+
+	uint32_t num = player_->GetEffectNumber();
+	if (num == 1u) {
+		RenderManager::nowEffect = RenderManager::PostEffect::RadialBlur;
+	}
+	else if (num == 2u) {
+		RenderManager::nowEffect = RenderManager::PostEffect::Grayscale;
+	}
 
 	if (Input::GetInstance()->GetKey()->PressKey(DIK_P)) {
 		endRequest_ = true;

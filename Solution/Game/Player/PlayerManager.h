@@ -21,6 +21,8 @@ public:
 	void SetTargetTrans(const WorldTransform* transform) { targetTransform_ = transform; }
 	void OnCollisionStage(const Collider& coll);
 
+	const uint32_t GetEffectNumber() { return static_cast<uint32_t>(postEffectNum_); }
+
 private:
 	const std::string itemName_ = "Player";
 private:
@@ -113,5 +115,19 @@ private:
 	std::shared_ptr<FollowCamera> followCamera_;
 
 	WorldTransform respawnpoint_;
+
+	enum PostEffectNum {
+		None,
+		RadialBlur,
+		GrayScale,
+	};
+	PostEffectNum postEffectNum_;
+
+	float masterSpeed_ = 1.0f;
+	struct FrameCount {
+		float maxFrame = 1.0f;
+		float count = 0.0f;
+	};
+	FrameCount frameCount_;
 
 };

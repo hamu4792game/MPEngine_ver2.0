@@ -64,6 +64,7 @@ void RenderTarget::CreatePipelineState() {
 		"Grayscale.PS.hlsl",
 		"Sepiatone.PS.hlsl",
 		"Vignette.PS.hlsl",
+		"GaussianFilter.PS.hlsl",
 		"RadialBlur.PS.hlsl",
 	};
 	auto shaderInstance = ShaderManager::GetInstance();

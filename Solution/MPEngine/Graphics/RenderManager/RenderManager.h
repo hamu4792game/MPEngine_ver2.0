@@ -21,6 +21,7 @@ public:
 		Grayscale,
 		Sepiatone,
 		Vignette,
+		GaussianFilter,
 		RadialBlur,
 		kMaxNum
 	};

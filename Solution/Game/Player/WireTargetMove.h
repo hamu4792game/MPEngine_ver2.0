@@ -30,6 +30,6 @@ private:
 		}
 	};
 	SpeedParam speed_;
-
+	float oldDistance_ = 0.0f;
 
 };

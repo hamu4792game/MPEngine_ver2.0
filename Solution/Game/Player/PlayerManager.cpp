@@ -60,6 +60,7 @@ void PlayerManager::Update() {
 		case Behavior::kSwing:
 			//followCamera_->SetTarget(nullptr);
 			//followCamera_->SetParam(Vector3(0.0f, 2.0f, -20.0f), followCamera_->GetTransform().rotation_, 0.95f);
+			masterSpeed_ = 1.0f;
 			break;
 		}
 		//	振る舞いリクエストをリセット
@@ -90,6 +91,7 @@ void PlayerManager::Update() {
 			inputParam_.isJump = true;
 			fallParam_.JumpInitialize();
 			FalledProcess();
+			masterSpeed_ = 0.25f;
 			behaviorRequest_ = Behavior::kRoot;
 		}
 		moveVector_ += result;
@@ -112,13 +114,27 @@ void PlayerManager::Update() {
 WorldTransform PlayerManager::PostUpdate() {
 	//アニメーションの更新
 	animation_->Update(behaviorFlag_);
+	postEffectNum_ = PostEffectNum::None;
+
+	if (masterSpeed_ != 1.0f) {
+		frameCount_.count++;
+		postEffectNum_ = PostEffectNum::GrayScale;
+	}
+	if (frameCount_.count >= frameCount_.maxFrame * 60.0f) {
+		frameCount_.count = 0.0f;
+		masterSpeed_ = 1.0f;
+	}
 
 	// followカメラの更新
 	WorldTransform cameraTrans;
-	
+
 	// 速度の計算 (現在座標ー過去座標)/時間 今回は1.0fなので割らない
-	velocity_ = (transform_.GetPosition() - oldPosition_);
-	followCamera_->Update(Length(velocity_));
+	float velocity = Length(transform_.GetPosition() - oldPosition_);
+	/// 仮で、速度が1以上ならエフェクトを
+	if (velocity >= 1.0f && behavior_ == Behavior::kSwing) {
+		postEffectNum_ = PostEffectNum::RadialBlur;
+	}
+	followCamera_->Update(velocity);
 	cameraTrans = followCamera_->GetTransform();
 	return cameraTrans;
 }
@@ -175,7 +191,7 @@ void PlayerManager::InputMove() {
 	if (inputParam_.move != Vector3::zero) {
 		// 移動ベクトルに速度を足す 既に入力の状態で正規化されているのでそのまま
 		const float speed = 0.5f;
-		Vector3 move = inputParam_.move * speed;
+		Vector3 move = inputParam_.move * speed * masterSpeed_;
 
 		// 移動ベクトルをカメラの角度だけ回転させる
 		move = TargetOffset(move, Camera3d::GetInstance()->GetTransform().rotation_);
@@ -202,10 +218,10 @@ void PlayerManager::FalledProcess() {
 	}
 	// 落下更新処理
 	// 重力を足していく
-	fallParam_.fall.acceleration -= fallParam_.fall.accelerationRate;
+	fallParam_.fall.acceleration -= fallParam_.fall.accelerationRate * masterSpeed_;
 	// 速度制限
 	//fallParam_.fall.acceleration = std::max(fallParam_.fall.acceleration, fallParam_.fall.kMaxAcceleration);
-	moveVector_.y += fallParam_.fall.acceleration;
+	moveVector_.y += fallParam_.fall.acceleration * masterSpeed_;
 	if (fallParam_.isFalled) {
 		if (fallParam_.fall.acceleration < 0.0f) {
 			// 落下中
