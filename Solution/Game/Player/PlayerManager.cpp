@@ -30,6 +30,7 @@ void PlayerManager::Initialize(const WorldTransform& respawnpoint) {
 
 	followCamera_->SetTarget(&transform_);
 	followCamera_->Initialize();
+	followCamera_->SetParam(Vector3(0.0f, 2.0f, -20.0f), followCamera_->GetTransform().rotation_, 0.95f);
 }
 
 void PlayerManager::Update() {
@@ -49,7 +50,7 @@ void PlayerManager::Update() {
 		// 振る舞いごとの初期化を実行
 		switch (behavior_) {
 		case Behavior::kRoot:
-			followCamera_->SetTarget(&transform_);
+			//followCamera_->SetTarget(&transform_);
 			//followCamera_->SetParam(Vector3(0.0f, 2.0f, -10.0f), Vector3(AngleToRadian(5.0f), transform_.rotation_.y, followCamera_->GetTransform().rotation_.z), 0.05f);
 			break;
 		case Behavior::kAttack:
@@ -58,7 +59,7 @@ void PlayerManager::Update() {
 			break;
 		case Behavior::kSwing:
 			//followCamera_->SetTarget(nullptr);
-			followCamera_->SetParam(Vector3(0.0f, 2.0f, -20.0f), followCamera_->GetTransform().rotation_, 0.95f);
+			//followCamera_->SetParam(Vector3(0.0f, 2.0f, -20.0f), followCamera_->GetTransform().rotation_, 0.95f);
 			break;
 		}
 		//	振る舞いリクエストをリセット
