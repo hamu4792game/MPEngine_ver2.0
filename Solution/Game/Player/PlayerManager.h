@@ -37,9 +37,10 @@ private:
 	std::unique_ptr<PlayerAnimation> animation_;
 	PlayerAnimation::BehaviorFlag behaviorFlag_;
 	WorldTransform transform_;
-	float velocity_ = 1.0f;
 	Vector3 moveVector_; // 移動ベクトル
 
+	Vector3 velocity_; // 現在の速度
+	Vector3 oldPosition_; // 1つ前のプレイヤーワールド座標
 	
 
 	// key入力用一時変数まとめ
@@ -69,6 +70,7 @@ private:
 			kMaxAcceleration = max;
 		}
 	};
+
 
 	// 落下用ステータス ジャンプも含む
 	struct FallParam {

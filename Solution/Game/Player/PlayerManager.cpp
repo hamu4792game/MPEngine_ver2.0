@@ -34,6 +34,7 @@ void PlayerManager::Initialize(const WorldTransform& respawnpoint) {
 
 void PlayerManager::Update() {
 	// 更新時の初期化処理
+	oldPosition_ = transform_.GetPosition();
 	behaviorFlag_.Initialize();
 	moveVector_ = Vector3::zero;
 	DrawImGui();
@@ -54,6 +55,10 @@ void PlayerManager::Update() {
 		case Behavior::kAttack:
 			break;
 		case Behavior::kDash:
+			break;
+		case Behavior::kSwing:
+			//followCamera_->SetTarget(nullptr);
+			followCamera_->SetParam(Vector3(0.0f, 2.0f, -20.0f), followCamera_->GetTransform().rotation_, 0.95f);
 			break;
 		}
 		//	振る舞いリクエストをリセット
@@ -109,7 +114,10 @@ WorldTransform PlayerManager::PostUpdate() {
 
 	// followカメラの更新
 	WorldTransform cameraTrans;
-	followCamera_->Update();
+	
+	// 速度の計算 (現在座標ー過去座標)/時間 今回は1.0fなので割らない
+	velocity_ = (transform_.GetPosition() - oldPosition_);
+	followCamera_->Update(Length(velocity_));
 	cameraTrans = followCamera_->GetTransform();
 	return cameraTrans;
 }

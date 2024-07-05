@@ -3,7 +3,7 @@
 #include "Input/Input.h"
 #include "Utils/Easing/Easing.h"
 
-FollowCamera::FollowCamera() {
+FollowCamera::FollowCamera() : kMaxOffset_(Vector3(0.0f, 2.0f, -30.0f)) {
 	transform_.rotation_.x = AngleToRadian(5.0f);
 	offset_ = Vector3(0.0f, 2.0f, -20.0f);
 	preOffset_ = offset_;
@@ -23,10 +23,13 @@ void FollowCamera::SetParam(const Vector3& offset, const Vector3& rotate, float 
 	lerpSpeed_ = lerpSpeed;
 }
 
-void FollowCamera::Update() {
+void FollowCamera::Update(const float& speed) {
 	if (target_) {
 		Vector3 lOffset = offset_;
-		preOffset_ = Lerp(preOffset_, offset_, lerpSpeed_);
+		
+		lOffset.z = offset_.z - speed;
+
+		preOffset_ = Lerp(preOffset_, lOffset, lerpSpeed_);
 		preRotate_ = Lerp(preRotate_, postRotate_, lerpSpeed_);
 
 		lOffset = TargetOffset(preOffset_, preRotate_);
