@@ -10,7 +10,8 @@ public:
 
 	// RenderTextureを作成し、そこに書き込むように設定する
 	void CreateRenderTexture(class DeviceManager* device, class SwapChain* swapChain, class ResourceManager* rsManager);
-	void DrawCommand(ID3D12GraphicsCommandList* comList);
+	void PreProcess();
+	void DrawCommand(ID3D12GraphicsCommandList* comList, const uint32_t& handleNum);
 
 	
 protected:

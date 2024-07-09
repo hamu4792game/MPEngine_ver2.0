@@ -34,6 +34,9 @@ public:
 	// 描画前処理
 	void PreDraw();
 
+	// 描画後の描画前処理。主に後でポストエフェクトを行う
+	void PostDrawProcess();
+
 	// 描画後処理
 	void PostDraw();
 

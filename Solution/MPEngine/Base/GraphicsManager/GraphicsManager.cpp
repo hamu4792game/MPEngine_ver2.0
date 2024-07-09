@@ -56,7 +56,7 @@ void GraphicsManager::PreDraw() {
 #endif // _DEBUG
 
 	auto index = renderTarget_->GetHandle();
-	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = swapChain_->GetRTVHeap()->GetCPUDescriptorHandle(2);
+	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = swapChain_->GetRTVHeap()->GetCPUDescriptorHandle(index);
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = depthBuffer_->GetDSVDesc()->GetCPUDescriptorHandle(0);
 	// 描画先のRTVとDSVを設定する
 	commandList_->GetList()->OMSetRenderTargets(1, &rtvHandle, false, &dsvHandle);
@@ -66,18 +66,22 @@ void GraphicsManager::PreDraw() {
 	commandList_->GetList()->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 }
 
-void GraphicsManager::PostDraw() {
+void GraphicsManager::PostDrawProcess() {
 	CreateBarrier(renderTarget_->GetResource(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
-	
+
 	CreateBarrier(swapChain_->GetBackBuffer(), D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
+
 	// SwapChainに対して書き込む
 	auto index = swapChain_->GetSwapChain()->GetCurrentBackBufferIndex();
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = swapChain_->GetRTVHeap()->GetCPUDescriptorHandle(index);
 	// 描画先のRTVを設定する
 	commandList_->GetList()->OMSetRenderTargets(1, &rtvHandle, false, nullptr);
 	// 画面クリア
-	renderTarget_->ClearRenderTarget(commandList_->GetList(), rtvHandle);
+	//renderTarget_->ClearRenderTarget(commandList_->GetList(), rtvHandle);
+}
 
+void GraphicsManager::PostDraw() {
+	
 	ID3D12DescriptorHeap* descriptorHeap[] = { rsManager_->GetSRVHeap()->GetDescriptorHeap() };
 	commandList_->GetList()->SetDescriptorHeaps(_countof(descriptorHeap), descriptorHeap);
 

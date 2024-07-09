@@ -63,14 +63,13 @@ void RadialBlur::CreatePipelineState() {
 #pragma endregion
 }
 
-void RadialBlur::DrawCommand(ID3D12GraphicsCommandList* comList, D3D12_CPU_DESCRIPTOR_HANDLE rtvHeapPointer) {
+void RadialBlur::DrawCommand(ID3D12GraphicsCommandList* comList, const uint32_t& handleNum) {
 	GraphicsManager::CreateBarrier(renderTextureResource_.Get(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 	//BaseEffect::ClearRenderTarget(comList,rtvHeapPointer);
 
 	comList->SetGraphicsRootConstantBufferView(1, cParam_.GetGPUVirtualAddress());
 	// 描画コマンド
-	BaseEffect::DrawCommand(comList);
+	BaseEffect::DrawCommand(comList, handleNum);
 
-	GraphicsManager::CreateBarrier(renderTextureResource_.Get(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
 }
 

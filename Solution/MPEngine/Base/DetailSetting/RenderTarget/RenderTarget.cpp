@@ -20,8 +20,9 @@ void RenderTarget::CreateRenderTexture(DeviceManager* device, SwapChain* swapCha
 	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
 	rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB; // 出力結果をSRGBに変換して書き込む
 	rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D; // 2dテクスチャとして書き込む
+	rtvHandleNum_ = swapChain->GetCount();
 	// RTVの生成
-	device->GetDevice()->CreateRenderTargetView(renderTextureResource_.Get(), &rtvDesc, swapChain->GetRTVHeap()->GetCPUDescriptorHandle(swapChain->GetCount()));
+	device->GetDevice()->CreateRenderTargetView(renderTextureResource_.Get(), &rtvDesc, swapChain->GetRTVHeap()->GetCPUDescriptorHandle(rtvHandleNum_));
 
 	// SRVの設定
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
@@ -46,7 +47,7 @@ void RenderTarget::DrawCommand(ID3D12GraphicsCommandList* comList) {
 	comList->SetGraphicsRootDescriptorTable(0, ResourceManager::GetInstance()->GetSRVHeap()->GetGPUDescriptorHandle(handleNum_));
 	
 	// 頂点3つ描画
-	comList->DrawInstanced(3, 1, 0, 0);
+	//comList->DrawInstanced(3, 1, 0, 0);
 }
 
 void RenderTarget::ClearRenderTarget(ID3D12GraphicsCommandList* comList, D3D12_CPU_DESCRIPTOR_HANDLE rtvHeapPointer) const {

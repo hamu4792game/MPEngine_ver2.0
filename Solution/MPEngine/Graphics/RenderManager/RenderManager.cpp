@@ -43,9 +43,11 @@ void RenderManager::Draw(SwapChain* swapchain) {
 	projectionMatrix2D = camera->GetViewProMat();
 	spriteRender.DrawCommand(projectionMatrix2D);
 
-	// SwapChainに対して書き込む
-	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = swapchain->GetRTVHeap()->GetCPUDescriptorHandle(radialBlur_->GetRTVHandle());
-	// 画面クリア
-	radialBlur_->DrawCommand(list,rtvHandle);
+	radialBlur_->PreProcess();
+}
 
+void RenderManager::PostDraw(SwapChain* swapchain) {
+	auto list = ListManager::GetInstance()->GetList();
+	// 画面クリア
+	radialBlur_->DrawCommand(list, 10u);
 }

@@ -18,7 +18,7 @@ public:
 	void ClearRenderTarget(ID3D12GraphicsCommandList* comList, D3D12_CPU_DESCRIPTOR_HANDLE rtvHeapPointer) const;
 
 	ID3D12Resource* const GetResource() { return renderTextureResource_.Get(); }
-	const uint32_t& GetHandle() const { return handleNum_; }
+	const uint32_t& GetHandle() const { return rtvHandleNum_; }
 
 	// レンダーターゲット用クリアカラー
 	const float clearColor_[4] = { 0.1f,0.25f,0.5f,1.0f }; // 青っぽい色、RGBA
@@ -29,6 +29,7 @@ private:
 private:
 	Microsoft::WRL::ComPtr<ID3D12Resource> renderTextureResource_;
 	uint32_t handleNum_ = 0u;
+	uint32_t rtvHandleNum_ = 0u;
 	
 	std::unique_ptr<RootSignature> rootSignature_;
 	std::array<std::unique_ptr<GraphicsPipeline>, static_cast<int>(RenderManager::PostEffect::kMaxNum)> graphicsPipeline_;

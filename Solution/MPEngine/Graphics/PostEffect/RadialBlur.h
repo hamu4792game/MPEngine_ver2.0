@@ -7,7 +7,7 @@ public:
 	RadialBlur() = default;
 	~RadialBlur() = default;
 
-	void DrawCommand(ID3D12GraphicsCommandList* comList, D3D12_CPU_DESCRIPTOR_HANDLE rtvHeapPointer);
+	void DrawCommand(ID3D12GraphicsCommandList* comList, const uint32_t& handleNum);
 private:
 	void CreatePipelineState() override;
 	

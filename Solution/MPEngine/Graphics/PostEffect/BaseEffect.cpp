@@ -3,6 +3,7 @@
 #include "MPEngine/Base/Manager/ShaderManager/ShaderManager.h"
 #include "ResourceManager/ResourceManager.h"
 #include "MPEngine/Base/DetailSetting/SwapChain/SwapChain.h"
+#include "Base/GraphicsManager/GraphicsManager.h"
 
 BaseEffect::BaseEffect() {
 
@@ -37,14 +38,21 @@ void BaseEffect::CreateRenderTexture(DeviceManager* device, SwapChain* swapChain
 
 	// 必要パラメーターの生成
 	CreatePipelineState();
+
+	GraphicsManager::CreateBarrier(renderTextureResource_.Get(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 }
 
-void BaseEffect::DrawCommand(ID3D12GraphicsCommandList* comList) {
+void BaseEffect::PreProcess() {
+	GraphicsManager::CreateBarrier(renderTextureResource_.Get(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+}
+
+void BaseEffect::DrawCommand(ID3D12GraphicsCommandList* comList, const uint32_t& handleNum) {
 	comList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 	comList->SetGraphicsRootSignature(rootSignature_->GetRootSignature().Get());
 	comList->SetPipelineState(graphicsPipeline_[static_cast<uint32_t>(blendType_)]->GetPipelineState());
-	comList->SetGraphicsRootDescriptorTable(0, ResourceManager::GetInstance()->GetSRVHeap()->GetGPUDescriptorHandle(handleNum_));
-
+	// 読み込むテクスチャの設定
+	comList->SetGraphicsRootDescriptorTable(0, ResourceManager::GetInstance()->GetSRVHeap()->GetGPUDescriptorHandle(handleNum));
+	
 	// 頂点3つ描画
 	comList->DrawInstanced(3, 1, 0, 0);
 }

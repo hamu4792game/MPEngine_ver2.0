@@ -95,6 +95,10 @@ void MPEngine::Update() {
 	// 描画処理
 	render.Draw(graphics_->GetSwapChain());
 
+	graphics_->PostDrawProcess();
+
+	render.PostDraw(graphics_->GetSwapChain());
+
 	graphics_->PostDraw();
 
 }
