@@ -230,6 +230,9 @@
     <ClCompile Include="MPEngine\Graphics\PostEffect\RadialBlur.cpp">
       <Filter>MPEngine\Graphics\PostEffect</Filter>
     </ClCompile>
+    <ClCompile Include="MPEngine\Graphics\PostEffect\Grayscale.cpp">
+      <Filter>MPEngine\Graphics\PostEffect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -477,6 +480,9 @@
       <Filter>MPEngine\Utils\Template</Filter>
     </ClInclude>
     <ClInclude Include="MPEngine\Graphics\PostEffect\RadialBlur.h">
+      <Filter>MPEngine\Graphics\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Graphics\PostEffect\Grayscale.h">
       <Filter>MPEngine\Graphics\PostEffect</Filter>
     </ClInclude>
   </ItemGroup>

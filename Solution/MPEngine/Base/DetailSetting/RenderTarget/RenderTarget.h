@@ -32,7 +32,7 @@ private:
 	uint32_t rtvHandleNum_ = 0u;
 	
 	std::unique_ptr<RootSignature> rootSignature_;
-	std::array<std::unique_ptr<GraphicsPipeline>, static_cast<int>(RenderManager::PostEffect::kMaxNum)> graphicsPipeline_;
+	std::array<std::unique_ptr<GraphicsPipeline>, static_cast<int>(1)> graphicsPipeline_;
 
 	// 描画必要情報
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_{};

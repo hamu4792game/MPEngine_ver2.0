@@ -64,6 +64,9 @@ void GraphicsManager::PreDraw() {
 	renderTarget_->ClearRenderTarget(commandList_->GetList(), rtvHandle);
 	//	指定した深度で画面全体をクリアする
 	commandList_->GetList()->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+
+	ID3D12DescriptorHeap* descriptorHeap[] = { rsManager_->GetSRVHeap()->GetDescriptorHeap() };
+	commandList_->GetList()->SetDescriptorHeaps(_countof(descriptorHeap), descriptorHeap);
 }
 
 void GraphicsManager::PostDrawProcess() {
@@ -82,9 +85,6 @@ void GraphicsManager::PostDrawProcess() {
 
 void GraphicsManager::PostDraw() {
 	
-	ID3D12DescriptorHeap* descriptorHeap[] = { rsManager_->GetSRVHeap()->GetDescriptorHeap() };
-	commandList_->GetList()->SetDescriptorHeaps(_countof(descriptorHeap), descriptorHeap);
-
 	renderTarget_->DrawCommand(commandList_->GetList());
 
 #ifdef _DEBUG

@@ -46,13 +46,15 @@ void BaseEffect::PreProcess() {
 	GraphicsManager::CreateBarrier(renderTextureResource_.Get(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
 }
 
-void BaseEffect::DrawCommand(ID3D12GraphicsCommandList* comList, const uint32_t& handleNum) {
+void BaseEffect::PreDraw(ID3D12GraphicsCommandList* comList, const uint32_t& handleNum) {
 	comList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 	comList->SetGraphicsRootSignature(rootSignature_->GetRootSignature().Get());
 	comList->SetPipelineState(graphicsPipeline_[static_cast<uint32_t>(blendType_)]->GetPipelineState());
 	// 読み込むテクスチャの設定
 	comList->SetGraphicsRootDescriptorTable(0, ResourceManager::GetInstance()->GetSRVHeap()->GetGPUDescriptorHandle(handleNum));
-	
+}
+
+void BaseEffect::DrawCommand(ID3D12GraphicsCommandList* comList) {	
 	// 頂点3つ描画
 	comList->DrawInstanced(3, 1, 0, 0);
 }

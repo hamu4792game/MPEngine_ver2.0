@@ -62,10 +62,6 @@ void RenderTarget::CreatePipelineState() {
 	const std::string VSpath = "Fullscreen.VS.hlsl";
 	const std::string PSpath[] = {
 		"CopyImage.PS.hlsl",
-		"Grayscale.PS.hlsl",
-		"Sepiatone.PS.hlsl",
-		"Vignette.PS.hlsl",
-		"RadialBlur.PS.hlsl",
 	};
 	auto shaderInstance = ShaderManager::GetInstance();
 	vertexShader = shaderInstance->CompileShader(VSpath, ShaderManager::ShaderType::Vertex);
@@ -110,7 +106,7 @@ void RenderTarget::CreatePipelineState() {
 	plDesc.rasterizerDesc_.FillMode = D3D12_FILL_MODE_SOLID;
 	plDesc.rasterizerDesc_.DepthClipEnable = true;
 
-	for (uint8_t i = 0; i < static_cast<uint8_t>(RenderManager::PostEffect::kMaxNum); i++) {
+	for (uint8_t i = 0; i < static_cast<uint8_t>(1u); i++) {
 		pixelShader = shaderInstance->CompileShader(PSpath[i], ShaderManager::ShaderType::Pixel);
 		plDesc.pixelShader_ = pixelShader.Get();
 

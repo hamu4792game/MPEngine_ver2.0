@@ -205,6 +205,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="MPEngine\Graphics\ParticleRender\ParticleRender.cpp" />
     <ClCompile Include="MPEngine\Graphics\Particle\Particle.cpp" />
     <ClCompile Include="MPEngine\Graphics\PostEffect\BaseEffect.cpp" />
+    <ClCompile Include="MPEngine\Graphics\PostEffect\Grayscale.cpp" />
     <ClCompile Include="MPEngine\Graphics\PostEffect\RadialBlur.cpp" />
     <ClCompile Include="MPEngine\Graphics\RenderManager\RenderManager.cpp" />
     <ClCompile Include="MPEngine\Graphics\SkyBoxRender\SkyBoxRender.cpp" />
@@ -287,6 +288,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="MPEngine\Graphics\ParticleRender\ParticleRender.h" />
     <ClInclude Include="MPEngine\Graphics\Particle\Particle.h" />
     <ClInclude Include="MPEngine\Graphics\PostEffect\BaseEffect.h" />
+    <ClInclude Include="MPEngine\Graphics\PostEffect\Grayscale.h" />
     <ClInclude Include="MPEngine\Graphics\PostEffect\RadialBlur.h" />
     <ClInclude Include="MPEngine\Graphics\RenderManager\RenderManager.h" />
     <ClInclude Include="MPEngine\Graphics\SkyBoxRender\SkyBoxRender.h" />

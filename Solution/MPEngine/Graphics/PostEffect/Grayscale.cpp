@@ -1,12 +1,12 @@
-#include "RadialBlur.h"
+#include "Grayscale.h"
 #include "MPEngine/Base/GraphicsManager/GraphicsManager.h"
 
-void RadialBlur::CreatePipelineState() {
+void Grayscale::CreatePipelineState() {
 #pragma region Shader
 	Microsoft::WRL::ComPtr<IDxcBlob> vertexShader;
 	Microsoft::WRL::ComPtr<IDxcBlob> pixelShader;
 	const std::string VSpath = "Fullscreen.VS.hlsl";
-	const std::string PSpath = "RadialBlur.PS.hlsl";
+	const std::string PSpath = "Grayscale.PS.hlsl";
 	auto shaderInstance = ShaderManager::GetInstance();
 	vertexShader = shaderInstance->CompileShader(VSpath, ShaderManager::ShaderType::Vertex);
 	pixelShader = shaderInstance->CompileShader(PSpath, ShaderManager::ShaderType::Pixel);
@@ -63,12 +63,10 @@ void RadialBlur::CreatePipelineState() {
 #pragma endregion
 }
 
-void RadialBlur::DrawCommand(ID3D12GraphicsCommandList* comList, const uint32_t& handleNum) {
+void Grayscale::DrawCommand(ID3D12GraphicsCommandList* comList, const uint32_t& handleNum) {
 	GraphicsManager::CreateBarrier(renderTextureResource_.Get(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 	//BaseEffect::ClearRenderTarget(comList,rtvHeapPointer);
 
-	cParam_->center = Vector2(0.5f, 0.5f);
-	cParam_->blurWidth = -0.01f;
 	BaseEffect::PreDraw(comList, handleNum);
 	comList->SetGraphicsRootConstantBufferView(1, cParam_.GetGPUVirtualAddress());
 	// 描画コマンド
