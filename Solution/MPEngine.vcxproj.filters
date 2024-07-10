@@ -233,6 +233,12 @@
     <ClCompile Include="MPEngine\Graphics\PostEffect\Grayscale.cpp">
       <Filter>MPEngine\Graphics\PostEffect</Filter>
     </ClCompile>
+    <ClCompile Include="MPEngine\Graphics\PostEffect\PostEffectManager.cpp">
+      <Filter>MPEngine\Graphics\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\Graphics\PostEffect\IntermediateRenderTarget.cpp">
+      <Filter>MPEngine\Graphics\PostEffect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -483,6 +489,12 @@
       <Filter>MPEngine\Graphics\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="MPEngine\Graphics\PostEffect\Grayscale.h">
+      <Filter>MPEngine\Graphics\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Graphics\PostEffect\PostEffectManager.h">
+      <Filter>MPEngine\Graphics\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Graphics\PostEffect\IntermediateRenderTarget.h">
       <Filter>MPEngine\Graphics\PostEffect</Filter>
     </ClInclude>
   </ItemGroup>

@@ -23,6 +23,10 @@ void RenderManager::Initialize(SwapChain* swapchain) {
 	grayscale_ = std::make_unique<Grayscale>();
 	grayscale_->CreateRenderTexture(DeviceManager::GetInstance(), swapchain, ResourceManager::GetInstance());
 
+	for (auto& handle : intermediateRenderTarget_) {
+		handle = std::make_unique<IntermediateRenderTarget>(DeviceManager::GetInstance(), swapchain, ResourceManager::GetInstance());
+	}
+
 }
 
 void RenderManager::Draw(SwapChain* swapchain) {
@@ -53,7 +57,27 @@ void RenderManager::Draw(SwapChain* swapchain) {
 
 void RenderManager::PostDraw(SwapChain* swapchain) {
 	auto list = ListManager::GetInstance()->GetList();
-	// 画面クリア
-	radialBlur_->DrawCommand(list, 10u);
-	grayscale_->DrawCommand(list, 10u);
+	
+	// 0枚目をRenderとして使用
+	intermediateRenderTarget_.at(0)->PreProcess(list, intermediateRenderTarget_.at(0)->GetRTVHandle());
+	uint8_t handleNum = 10u; // 最初はRenderのSRV
+	
+	grayscale_->DrawCommand(list, handleNum);
+	
+	// 0枚目をテクスチャとして使用し、SwapChainに書き込み
+	// 状態をテクスチャに
+	intermediateRenderTarget_.at(0)->PostProcess();
+	auto index = swapchain->GetSwapChain()->GetCurrentBackBufferIndex();
+	// 状態を変更せず、描画先をswapchainに変更
+	handleNum = intermediateRenderTarget_.at(0)->PreProcess(list, index, false);
+
+	radialBlur_->DrawCommand(list, handleNum);
+	
+	//intermediateRenderTarget_.at(0)->PostProcess();
+	//intermediateRenderTarget_.at(1)->PostProcess();
+
+	// 1枚目をテクスチャとして使用し、SwapChainに書き込み
+	//handleNum = intermediateRenderTarget_.at(1)->PreProcess(list, intermediateRenderTarget_.at(0)->GetRTVHandle());
+	
+
 }

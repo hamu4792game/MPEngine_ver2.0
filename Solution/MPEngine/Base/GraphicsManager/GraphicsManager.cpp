@@ -85,7 +85,7 @@ void GraphicsManager::PostDrawProcess() {
 
 void GraphicsManager::PostDraw() {
 	
-	renderTarget_->DrawCommand(commandList_->GetList());
+	//renderTarget_->DrawCommand(commandList_->GetList());
 
 #ifdef _DEBUG
 	imguiManager_->End();

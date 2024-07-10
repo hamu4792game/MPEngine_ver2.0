@@ -19,6 +19,7 @@ public:
 
 	ID3D12Resource* const GetResource() { return renderTextureResource_.Get(); }
 	const uint32_t& GetHandle() const { return rtvHandleNum_; }
+	const uint32_t& GetSRVHandle() const { return handleNum_; }
 
 	// レンダーターゲット用クリアカラー
 	const float clearColor_[4] = { 0.1f,0.25f,0.5f,1.0f }; // 青っぽい色、RGBA
