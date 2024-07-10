@@ -13,11 +13,9 @@ private:
 	
 public:
 	struct GrayParameter {
-		Vector2 center;
-		float blurWidth;
+		float grayscalevalue;
 	};
 
 	ConstantBuffer<GrayParameter> cParam_;
-	const uint32_t GetRTVHandle() { return rtvHandleNum_; }
 
 };

@@ -32,9 +32,9 @@ void BaseEffect::CreateRenderTexture(DeviceManager* device, SwapChain* swapChain
 	srvDesc.Format = rtvDesc.Format;
 	srvDesc.Texture2D.MipLevels = 1;
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	handleNum_ = rsManager->GetCount();
+	srvHandleNum_ = rsManager->GetCount();
 	// SRVの生成
-	device->GetDevice()->CreateShaderResourceView(renderTextureResource_.Get(), &srvDesc, rsManager->GetSRVHeap()->GetCPUDescriptorHandle(handleNum_));
+	device->GetDevice()->CreateShaderResourceView(renderTextureResource_.Get(), &srvDesc, rsManager->GetSRVHeap()->GetCPUDescriptorHandle(srvHandleNum_));
 
 	// 必要パラメーターの生成
 	CreatePipelineState();

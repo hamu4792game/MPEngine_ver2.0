@@ -14,7 +14,9 @@ public:
 	void PreDraw(ID3D12GraphicsCommandList* comList, const uint32_t& handleNum);
 	void DrawCommand(ID3D12GraphicsCommandList* comList);
 
-	
+	const uint32_t GetRTVHandle() const { return rtvHandleNum_; }
+	const uint32_t GetSRVHandle() const { return srvHandleNum_; }
+
 protected:
 	virtual void CreatePipelineState() = 0;
 	// 指定色でクリア
@@ -24,7 +26,7 @@ protected:
 	std::array<std::unique_ptr<GraphicsPipeline>, static_cast<int>(BlendMode::BlendCount)> graphicsPipeline_;
 
 	Microsoft::WRL::ComPtr<ID3D12Resource> renderTextureResource_;
-	uint32_t handleNum_ = 0u;
+	uint32_t srvHandleNum_ = 0u;
 	uint32_t rtvHandleNum_ = 0u;
 
 	BlendMode blendType_ = BlendMode::Normal;

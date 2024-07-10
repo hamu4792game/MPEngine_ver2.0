@@ -7,6 +7,7 @@
 #include "Utils/Camera/Camera.h"
 #include "MPEngine/Utils/Camera/Camera3d.h"
 #include "MPEngine/Graphics/PostEffect/RadialBlur.h"
+#include "MPEngine/Graphics/PostEffect/Grayscale.h"
 
 // MPEngineクラスでのみ実体化
 class RenderManager {
@@ -40,6 +41,7 @@ private:
 
 	// posteffect
 	std::unique_ptr<RadialBlur> radialBlur_;
+	std::unique_ptr<Grayscale> grayscale_;
 
 };
 

@@ -19,6 +19,10 @@ void RenderManager::Initialize(SwapChain* swapchain) {
 
 	radialBlur_ = std::make_unique<RadialBlur>();
 	radialBlur_->CreateRenderTexture(DeviceManager::GetInstance(), swapchain, ResourceManager::GetInstance());
+	
+	grayscale_ = std::make_unique<Grayscale>();
+	grayscale_->CreateRenderTexture(DeviceManager::GetInstance(), swapchain, ResourceManager::GetInstance());
+
 }
 
 void RenderManager::Draw(SwapChain* swapchain) {
@@ -43,6 +47,7 @@ void RenderManager::Draw(SwapChain* swapchain) {
 	projectionMatrix2D = camera->GetViewProMat();
 	spriteRender.DrawCommand(projectionMatrix2D);
 
+	grayscale_->PreProcess();
 	radialBlur_->PreProcess();
 }
 
@@ -50,4 +55,5 @@ void RenderManager::PostDraw(SwapChain* swapchain) {
 	auto list = ListManager::GetInstance()->GetList();
 	// 画面クリア
 	radialBlur_->DrawCommand(list, 10u);
+	grayscale_->DrawCommand(list, 10u);
 }

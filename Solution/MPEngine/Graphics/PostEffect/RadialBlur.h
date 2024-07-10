@@ -18,6 +18,5 @@ public:
 	};
 
 	ConstantBuffer<RadialParameter> cParam_;
-	const uint32_t GetRTVHandle() { return rtvHandleNum_; }
 
 };

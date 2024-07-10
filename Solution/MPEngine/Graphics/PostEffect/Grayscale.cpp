@@ -67,6 +67,8 @@ void Grayscale::DrawCommand(ID3D12GraphicsCommandList* comList, const uint32_t& 
 	GraphicsManager::CreateBarrier(renderTextureResource_.Get(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 	//BaseEffect::ClearRenderTarget(comList,rtvHeapPointer);
 
+	cParam_->grayscalevalue = 1.0f;
+
 	BaseEffect::PreDraw(comList, handleNum);
 	comList->SetGraphicsRootConstantBufferView(1, cParam_.GetGPUVirtualAddress());
 	// 描画コマンド
