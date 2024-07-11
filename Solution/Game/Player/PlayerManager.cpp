@@ -139,32 +139,40 @@ WorldTransform PlayerManager::PostUpdate() {
 	return cameraTrans;
 }
 
-void PlayerManager::OnCollisionStage(const Collider& coll) {
-	// ローカル変数にrつけてるだけ
+bool PlayerManager::OnCollisionStage(const Collider& coll) {
 	Vector3 pushBackVec;
 	bool iscoll = collision_->OnCollision(coll, pushBackVec);
-	// 床との衝突判定
+
 	if (iscoll) {
-		// 押し戻しが上の処理だった場合
- 		if (/*pushBackVec.x < pushBackVec.y && pushBackVec.z < pushBackVec.y*/
-			pushBackVec.Normalize() == Vector3::up) {
-			// 地面と当たっているので初期化
-			if (!fallParam_.isJumpable) {
-				behaviorFlag_.isLanded = true;
+		// Goalと当たっていた場合
+		if (coll.GetName() == "Goal") {
+			// 即クリア
+			return true;
+		}
+		// Groundと当たっていた場合
+		else if (coll.GetName() == "Ground") {
+			// 押し戻しの値がyに大きかった場合
+			if (pushBackVec.Normalize().x <= pushBackVec.Normalize().y && pushBackVec.Normalize().z <= pushBackVec.Normalize().y) {
+				// 地面と当たっているので初期化
+				if (!fallParam_.isJumpable) {
+					behaviorFlag_.isLanded = true;
+				}
+				fallParam_.JumpInitialize();
 			}
-			fallParam_.JumpInitialize();
-		}
-		// 横向きに当たったら
-		else if (pushBackVec.Normalize() == Vector3::left || pushBackVec.Normalize() == Vector3::right) {
+			// 横向きに当たったら
+			else if (pushBackVec.Normalize() == Vector3::left || pushBackVec.Normalize() == Vector3::right) {
 
+			}
+			
+			transform_.translation_ += pushBackVec;
+			TransformUpdate();
+			if (behavior_ == Behavior::kSwing) {
+				behaviorRequest_ = Behavior::kRoot;
+			}
 		}
 
-		transform_.translation_ += pushBackVec;
-		TransformUpdate();
-		if (behavior_ == Behavior::kSwing) {
-			behaviorRequest_ = Behavior::kRoot;
-		}
 	}
+	return false;
 }
 
 void PlayerManager::DrawImGui() {

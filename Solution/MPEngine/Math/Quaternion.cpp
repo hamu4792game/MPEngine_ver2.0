@@ -3,6 +3,7 @@
 #include <functional>
 #include "Vector3.h"
 #include "Matrix4x4.h"
+#include <numbers>
 
 Quaternion::Quaternion() {
 	*this = IdentityQuaternion();
@@ -164,4 +165,33 @@ Quaternion Quaternion::MakeFromTwoVector(const Vector3& from, const Vector3& to)
 	Vector3 axis = Cross(from, to);
 	float angle = FindAngle(from, to);
 	return MakeRotateAxisAngleQuaternion(axis, angle);
+}
+
+Vector3 Quaternion::QuaternionToEuler(const Quaternion& quaternion) {
+	Vector3 result;
+
+	// y
+	float sinp = 2.0f * (quaternion.w * quaternion.y - quaternion.z * quaternion.x);
+	if (std::fabsf(sinp) >= 1.0f) {
+		result.y = std::copysign(std::numbers::pi_v<float> *0.5f, sinp);
+	}
+	else {
+		result.y = std::asin(sinp);
+	}
+
+	// zとx
+	if (std::fabsf(sinp) < 1.0f - static_cast<float>(10e-5)) {
+		result.z = std::atan2f(2.0f * (quaternion.w * quaternion.z + quaternion.x * quaternion.y), 1.0f - 2.0f * (quaternion.y * quaternion.y + quaternion.z * quaternion.z));
+		result.x = std::atan2f(2.0f * (quaternion.w * quaternion.x + quaternion.y * quaternion.z), 1.0f - 2.0f * (quaternion.x * quaternion.x + quaternion.y * quaternion.y));
+	}
+	else {
+		result.z = std::atan2f(
+			-2.0f *
+			(quaternion.x * quaternion.y - quaternion.w * quaternion.z),
+			quaternion.w * quaternion.w + quaternion.x * quaternion.x - quaternion.y * quaternion.y - quaternion.z * quaternion.z
+		);
+		result.x = 0.0f;
+	}
+
+	return result;
 }

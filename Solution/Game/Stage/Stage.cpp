@@ -3,6 +3,10 @@
 #include <string>
 #include "Utils/GlobalVariables/GlobalVariables.h"
 
+Stage::Stage() {
+	goal_ = std::make_unique<Goal>();
+}
+
 void Stage::Initialize(std::string fileName) {
 	auto global = GlobalVariables::GetInstance();
 	global->LoadFile(fileName);
@@ -22,7 +26,7 @@ void Stage::Initialize(std::string fileName) {
 		Vector3 translate = global->GetVector3Value(itemName_, ("TargetNumber : " + std::to_string(index) + " : Translate").c_str());
 		targets_.emplace_back(std::make_shared<Target>())->Initialize(translate);
 	}
-
+	goal_->Initialize(Vector3::one, Vector3::zero, Vector3::zero);
 
 }
 
@@ -43,6 +47,12 @@ void Stage::Update() {
 	for (uint32_t index = 0u; index < maxCount; index++) {
 		auto& handle = collisionList_.emplace_back(boxes_.at(index)->GetCollision());
 	}
+	
+	if (goal_) {
+		goal_->Update();
+	}
+	collisionList_.emplace_back(goal_->GetCollision());
+
 	for (auto& i : targets_) {
 		i->Update();
 	}
@@ -152,12 +162,15 @@ void Stage::LevelLoad(LevelData* data) {
 			// 見つかれば
 			boxes_.emplace_back(std::make_shared<Ground>())->Initialize(objectData);
 		}
-		if (objectData.typeName.find("Player") != std::string::npos) {
+		else if (objectData.typeName.find("Player") != std::string::npos) {
 			playerRespawnpoint_ = objectData.transform;
 			playerRespawnpoint_.UpdateMatrix();
 		}
-		if (objectData.typeName.find("Target") != std::string::npos) {
+		else if (objectData.typeName.find("Target") != std::string::npos) {
 			targets_.emplace_back(std::make_shared<Target>())->Initialize(objectData.transform.GetPosition());
+		}
+		else if (objectData.typeName.find("Goal") != std::string::npos) {
+			goal_->Initialize(objectData);
 		}
 	}
 }

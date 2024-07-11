@@ -13,6 +13,8 @@ public:
 		WorldTransform transform; //objectのtransform
 		//本来ならばobjectのmodelFileNameとして使用。
 		std::string fileName;
+		// テクスチャの拡張子を除いたパスの名前
+		std::string textureName;
 		// 現在はobjectのTypeName 敵ならEnemy Blockなら箱等...
 		std::string typeName;
 		struct Collider {

@@ -46,4 +46,6 @@ public:
 
 	static Quaternion MakeFromTwoVector(const Vector3& from, const Vector3& to);
 
+	static Vector3 QuaternionToEuler(const Quaternion& quaternion);
+
 };

@@ -227,6 +227,9 @@
     <ClCompile Include="MPEngine\Utils\Template\GameObject.cpp">
       <Filter>MPEngine\Utils\Template</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Stage\Goal.cpp">
+      <Filter>Game\Stage</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -472,6 +475,9 @@
     </ClInclude>
     <ClInclude Include="MPEngine\Utils\Template\GameObject.h">
       <Filter>MPEngine\Utils\Template</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Stage\Goal.h">
+      <Filter>Game\Stage</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

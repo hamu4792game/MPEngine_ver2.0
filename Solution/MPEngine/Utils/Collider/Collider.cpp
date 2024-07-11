@@ -1,17 +1,18 @@
 #include "Collider.h"
 #include "Graphics/Line/Line.h"
 
-void Collider::Initialize(WorldTransform* transform, Type type) {
+void Collider::Initialize(WorldTransform* transform, Type type, std::string name) {
 	collderType_ = type;
 	transform_ = transform;
+	name_ = name;
 	switch (collderType_) {
-	case Collider::Box:
+	case Collider::Type::Box:
 		if (!boxCollider_) {
 			boxCollider_ = std::make_unique<BoxCollider>();
 		}
 		lines_.resize(12);
 		break;
-	case Collider::Sphere:
+	case Collider::Type::Sphere:
 		break;
 	}
 	for (auto& i : lines_) {
@@ -28,11 +29,11 @@ void Collider::Initialize(WorldTransform* transform, Type type) {
 void Collider::Update() {
 	transform_->UpdateMatrix();
 	switch (collderType_) {
-	case Collider::Box:
+	case Collider::Type::Box:
 		boxCollider_->Update(*transform_); 
 		boxCollider_->LineUpdate(lines_);
 		break;
-	case Collider::Sphere:
+	case Collider::Type::Sphere:
 		break;
 	}
 	
@@ -41,10 +42,10 @@ void Collider::Update() {
 bool Collider::OnCollision(const Collider& coll, Vector3& pushbackVec) {
 	bool flag = false;
 	switch (coll.collderType_) {
-	case Collider::Box:
+	case Collider::Type::Box:
 		flag = BoxCollision(coll, pushbackVec);
 		break;
-	case Collider::Sphere:
+	case Collider::Type::Sphere:
 		break;
 	}
 	return flag;
@@ -55,7 +56,7 @@ bool Collider::BoxCollision(const Collider& coll, Vector3& pushbackVec) {
 	Vector3 minAxis;
 	float minOverlap = 0.0f;
 	switch (collderType_) {
-	case Collider::Box:
+	case Collider::Type::Box:
 		if (boxCollider_->IsCollision(*coll.boxCollider_.get(), minAxis, minOverlap)) {
 			// 当たってたら
 			float dot = Dot(coll.transform_->GetPosition() - this->transform_->GetPosition(), minAxis);
@@ -66,7 +67,7 @@ bool Collider::BoxCollision(const Collider& coll, Vector3& pushbackVec) {
 			return true;
 		}
 		break;
-	case Collider::Sphere:
+	case Collider::Type::Sphere:
 		return false;
 		break;
 	}

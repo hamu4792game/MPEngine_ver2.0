@@ -7,12 +7,13 @@
 #include <string>
 #include <list>
 #include "Game/Target/Target.h"
+#include "Goal.h"
 
 #include "MPEngine/Utils/Tool/LevelData.h"
 
 class Stage {
 public:
-	Stage() = default;
+	Stage();
 	~Stage() = default;
 
 	void Initialize(std::string fileName);
@@ -28,6 +29,7 @@ public:
 private:
 	std::vector<std::shared_ptr<Ground>> boxes_;
 	std::vector<std::shared_ptr<Target>> targets_;
+	std::unique_ptr<Goal> goal_;
 	std::string itemName_ = "Stage";
 	std::list<Collider*> collisionList_;
 	WorldTransform playerRespawnpoint_;

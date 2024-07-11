@@ -72,6 +72,17 @@ void LevelData::ObjectScan(LevelData* levelData, nlohmann::json& object, WorldTr
 			// ファイル名
 			objectData.fileName = object["file_name"];
 		}
+		if (object.contains("texturepath")) {
+			// テクスチャ名の取得
+			objectData.textureName = object["texturepath"];
+			std::string extension = ".png";
+			// 拡張子が見つかった場合、その位置を取得
+			size_t pos = objectData.textureName.find(extension);
+			if (pos != std::string::npos) {
+				// 拡張子の部分を削除
+				objectData.textureName.erase(pos, extension.length());
+			}
+		}
 
 		// トランスフォームのパラメータ読み込み
 		nlohmann::json& transform = object["transform"];
@@ -90,6 +101,11 @@ void LevelData::ObjectScan(LevelData* levelData, nlohmann::json& object, WorldTr
 		objectData.transform.rotation_.x = -(float)transform["rotation"][0];
 		objectData.transform.rotation_.y = -(float)transform["rotation"][2];
 		objectData.transform.rotation_.z = -(float)transform["rotation"][1];
+
+		objectData.transform.rotation_.x = AngleToRadian(objectData.transform.rotation_.x);
+		objectData.transform.rotation_.y = AngleToRadian(objectData.transform.rotation_.y);
+		objectData.transform.rotation_.z = AngleToRadian(objectData.transform.rotation_.z);
+
 		// スケーリング
 		objectData.transform.scale_.x = (float)transform["scaling"][0];
 		objectData.transform.scale_.y = (float)transform["scaling"][2];

@@ -86,8 +86,10 @@ void BattleScene::Update() {
 #endif // _DEBUG
 	skybox_->Update();
 
+	bool gameclear = false;
 	for (auto& coll : stage_->GetCollision()) {
-		player_->OnCollisionStage(*coll);
+		gameclear = player_->OnCollisionStage(*coll);
+		if (gameclear) { break; }
 	}
 	gameUI_->Update();
 
@@ -99,9 +101,7 @@ void BattleScene::Update() {
 		RenderManager::nowEffect = RenderManager::PostEffect::Grayscale;
 	}
 
-	Vector3 pushBackVec;
-	if (Input::GetInstance()->GetKey()->PressKey(DIK_P) ||
-		player_->GetCollision()->OnCollision(*enemy_->GetCollision(), pushBackVec)) {
+	if (Input::GetInstance()->GetKey()->PressKey(DIK_P) || gameclear) {
 		endRequest_ = true;
 	}
 

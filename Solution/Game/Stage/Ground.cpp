@@ -17,7 +17,7 @@
 void Ground::Initialize(const Vector3& scale, const Vector3& rotate, const Vector3& translate) {
 	model_ = std::make_shared<Model>();
 	model_->SetModel(ResourceManager::GetInstance()->FindObject3d("Box"));
-	model_->SetTexture(ResourceManager::GetInstance()->FindTexture("Ground"));
+	model_->SetTexture(ResourceManager::GetInstance()->FindTexture("ground"));
 	transform_.scale_ = scale;
 	transform_.rotation_ = rotate;
 	transform_.translation_ = translate;
@@ -25,28 +25,28 @@ void Ground::Initialize(const Vector3& scale, const Vector3& rotate, const Vecto
 
 	model_->SetTransform(transform_);
 	collision_ = std::make_unique<Collider>();
-	collision_->Initialize(&transform_, Collider::Type::Box);
+	collision_->Initialize(&transform_, Collider::Type::Box, "Ground");
 	collision_->Update();
 }
 
 void Ground::Initialize(const WorldTransform& transform) {
 	model_ = std::make_shared<Model>();
 	model_->SetModel(ResourceManager::GetInstance()->FindObject3d("Box"));
-	model_->SetTexture(ResourceManager::GetInstance()->FindTexture("Ground"));
+	model_->SetTexture(ResourceManager::GetInstance()->FindTexture("ground"));
 	transform_ = transform;
 	transform_.UpdateMatrix();
 
 	model_->SetTransform(transform_);
 	collision_ = std::make_unique<Collider>();
-	collision_->Initialize(&transform_, Collider::Type::Box);
+	collision_->Initialize(&transform_, Collider::Type::Box, "Ground");
 	collision_->Update();
 }
 
 void Ground::Initialize(LevelData::ObjectData& objectdata) {
 	model_ = std::make_shared<Model>();
-	std::string modelName = objectdata.fileName;
+	std::string textureName = objectdata.textureName;
 	model_->SetModel(ResourceManager::GetInstance()->FindObject3d("Box"));
-	model_->SetTexture(ResourceManager::GetInstance()->FindTexture("Ground"));
+	model_->SetTexture(ResourceManager::GetInstance()->FindTexture(textureName));
 	transform_ = objectdata.transform;
 	transform_.UpdateMatrix();
 	model_->SetTransform(transform_);
@@ -58,7 +58,7 @@ void Ground::Initialize(LevelData::ObjectData& objectdata) {
 	collTransform_.translation_ = objectdata.collider.center;
 	collTransform_.UpdateMatrix();
 	if (objectdata.collider.colliderType == "BOX") {
-		collision_->Initialize(&collTransform_, Collider::Type::Box);
+		collision_->Initialize(&collTransform_, Collider::Type::Box, "Ground");
 	}
 	collision_->Update();
 }

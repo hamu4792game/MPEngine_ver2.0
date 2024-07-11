@@ -174,6 +174,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Player\WireTargetMove.cpp" />
     <ClCompile Include="Game\Scene\BattleScene.cpp" />
     <ClCompile Include="Game\Scene\TitleScene.cpp" />
+    <ClCompile Include="Game\Stage\Goal.cpp" />
     <ClCompile Include="Game\Stage\Ground.cpp" />
     <ClCompile Include="Game\Stage\Stage.cpp" />
     <ClCompile Include="Game\Stage\Tower.cpp" />
@@ -252,6 +253,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\Player\WireTargetMove.h" />
     <ClInclude Include="Game\Scene\BattleScene.h" />
     <ClInclude Include="Game\Scene\TitleScene.h" />
+    <ClInclude Include="Game\Stage\Goal.h" />
     <ClInclude Include="Game\Stage\Ground.h" />
     <ClInclude Include="Game\Stage\Stage.h" />
     <ClInclude Include="Game\Stage\Tower.h" />

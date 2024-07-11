@@ -19,7 +19,8 @@ public:
 	const WorldTransform& GetTransform() const { return transform_; }
 
 	void SetTargetTrans(const WorldTransform* transform) { targetTransform_ = transform; }
-	void OnCollisionStage(const Collider& coll);
+	// true ゲームクリア
+	bool OnCollisionStage(const Collider& coll);
 
 	const uint32_t GetEffectNumber() { return static_cast<uint32_t>(postEffectNum_); }
 	Collider* GetCollision() const { return collision_.get(); }

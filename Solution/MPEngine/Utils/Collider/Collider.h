@@ -14,14 +14,14 @@ public:
 	Collider() = default;
 	~Collider() = default;
 
-	enum Type {
+	enum class Type {
 		Box,
 		Sphere,
 
 		kMaxNum
 	};
 
-	void Initialize(WorldTransform* transform, Type type); // 初期化処理
+	void Initialize(WorldTransform* transform, Type type, std::string name = ""); // 初期化処理
 	void Update(); // 更新処理
 	
 	/// <summary>
@@ -32,6 +32,7 @@ public:
 	/// <returns>true:当たっている/false:当たっていない</returns>
 	bool OnCollision(const Collider& coll, Vector3& pushbackVec);
 
+	std::string GetName() const { return name_; }
 private:
 
 	// 箱用の処理

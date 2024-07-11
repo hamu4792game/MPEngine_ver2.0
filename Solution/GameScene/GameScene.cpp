@@ -26,7 +26,10 @@ void GameScene::Initialize() {
 	rs->AddModel("Sphere", "Resources/Model/sphere/sphere.obj");
 	rs->AddModel("Target", "Resources/Model/Test/test.obj");
 	
-	rs->AddTexture("Ground", "Resources/Texture/ground.png");
+	rs->AddTexture("ground", "Resources/Texture/ground.png");
+	rs->AddTexture("ground1", "Resources/Texture/ground1.png");
+	rs->AddTexture("ground2", "Resources/Texture/ground2.png");
+	rs->AddTexture("ground3", "Resources/Texture/ground3.png");
 	rs->AddTexture("Circle", "Resources/Texture/particle.png");
 	rs->AddTexture("ABText", "Resources/Texture/hud/AB.png");
 	
@@ -47,7 +50,7 @@ void GameScene::Initialize() {
 	rs->AddModel("PlayerRightArm", "Resources/Model/Player/RArm/RArm.obj");
 	rs->AddModel("PlayerLegs", "Resources/Model/Player/Legs/limbs.obj");
 	rs->AddModel("PlayerWeapon", "Resources/Model/Player/weapon/weapon.obj");
-	//rs->AddModel("BoxSky", "Resources/Model/boxSky/boxSky.obj");
+	rs->AddModel("Goal", "Resources/Model/GoalWell/GoalWell.obj");
 
 	rs->AddAnimation("Rotate", "Resources/Model/AnimatedCube/AnimatedCube.gltf");
 	rs->AddAnimation("HumanWait", "Resources/Model/human/wait.gltf");
