@@ -86,16 +86,22 @@ void BattleScene::Update() {
 
 	uint32_t num = player_->GetEffectNumber();
 	if (num == 1u) {
-		RenderManager::nowEffect = RenderManager::PostEffect::RadialBlur;
+		RadialBlur::GetInstance()->SetUsed(true);
 	}
-	else if (num == 2u) {
-		RenderManager::nowEffect = RenderManager::PostEffect::Grayscale;
+	else {
+		RadialBlur::GetInstance()->SetUsed(false);
+	}
+	
+	if (num == 2u) {
+		Grayscale::GetInstance()->SetUsed(true);
+	}
+	else {
+		Grayscale::GetInstance()->SetUsed(false);
 	}
 
 	if (Input::GetInstance()->GetKey()->PressKey(DIK_P) || gameclear) {
 		endRequest_ = true;
 	}
-	RenderManager::nowEffect = RenderManager::PostEffect::None;
 
 	SecondUpdate();
 }

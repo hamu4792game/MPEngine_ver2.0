@@ -1,6 +1,11 @@
 #include "Grayscale.h"
 #include "MPEngine/Base/GraphicsManager/GraphicsManager.h"
 
+Grayscale* Grayscale::GetInstance() {
+	static Grayscale instance;
+	return &instance;
+}
+
 void Grayscale::CreatePipelineState() {
 #pragma region Shader
 	Microsoft::WRL::ComPtr<IDxcBlob> vertexShader;

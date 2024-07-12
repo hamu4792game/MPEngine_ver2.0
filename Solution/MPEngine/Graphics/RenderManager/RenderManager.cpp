@@ -17,10 +17,10 @@ void RenderManager::Initialize(SwapChain* swapchain) {
 	camera3d_ = Camera3d::GetInstance();
 	camera3d_->Initialize(2000.0f);
 
-	radialBlur_ = std::make_unique<RadialBlur>();
+	radialBlur_ = RadialBlur::GetInstance();
 	radialBlur_->CreateRenderTexture(DeviceManager::GetInstance(), swapchain, ResourceManager::GetInstance());
 	
-	grayscale_ = std::make_unique<Grayscale>();
+	grayscale_ = Grayscale::GetInstance();
 	grayscale_->CreateRenderTexture(DeviceManager::GetInstance(), swapchain, ResourceManager::GetInstance());
 
 	for (auto& handle : intermediateRenderTarget_) {
@@ -56,6 +56,7 @@ void RenderManager::Draw(SwapChain* swapchain) {
 }
 
 void RenderManager::PostDraw(SwapChain* swapchain) {
+
 	auto list = ListManager::GetInstance()->GetList();
 	
 	// 0枚目をRenderとして使用

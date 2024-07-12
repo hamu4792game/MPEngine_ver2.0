@@ -1,6 +1,12 @@
 #include "RadialBlur.h"
 #include "MPEngine/Base/GraphicsManager/GraphicsManager.h"
 
+
+RadialBlur* RadialBlur::GetInstance() {
+	static RadialBlur instance;
+	return &instance;
+}
+
 void RadialBlur::CreatePipelineState() {
 #pragma region Shader
 	Microsoft::WRL::ComPtr<IDxcBlob> vertexShader;

@@ -7,6 +7,8 @@ public:
 	RadialBlur() = default;
 	~RadialBlur() = default;
 
+	static RadialBlur* GetInstance();
+
 	void DrawCommand(ID3D12GraphicsCommandList* comList, const uint32_t& handleNum);
 private:
 	void CreatePipelineState() override;

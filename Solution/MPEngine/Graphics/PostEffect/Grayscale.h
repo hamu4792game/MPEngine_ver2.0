@@ -7,6 +7,8 @@ public:
 	Grayscale() = default;
 	~Grayscale() = default;
 
+	static Grayscale* GetInstance();
+
 	void DrawCommand(ID3D12GraphicsCommandList* comList, const uint32_t& handleNum);
 private:
 	void CreatePipelineState() override;

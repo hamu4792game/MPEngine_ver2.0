@@ -30,7 +30,6 @@ public:
 		kMaxNum
 	};
 	static PostEffect nowEffect;
-
 private:
 
 	SpriteRender spriteRender;
@@ -42,8 +41,8 @@ private:
 	Camera3d* camera3d_ = nullptr;
 
 	// posteffect
-	std::unique_ptr<RadialBlur> radialBlur_;
-	std::unique_ptr<Grayscale> grayscale_;
+	RadialBlur* radialBlur_ = nullptr;
+	Grayscale* grayscale_ = nullptr;
 	std::array<std::unique_ptr<IntermediateRenderTarget>, 2u> intermediateRenderTarget_;
 
 };
