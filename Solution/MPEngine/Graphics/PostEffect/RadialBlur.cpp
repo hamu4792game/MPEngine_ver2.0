@@ -70,7 +70,9 @@ void RadialBlur::DrawCommand(ID3D12GraphicsCommandList* comList, const uint32_t&
 	cParam_->center = Vector2(0.5f, 0.5f);
 	cParam_->blurWidth = -0.01f;
 	BaseEffect::PreDraw(comList, handleNum);
-	comList->SetGraphicsRootConstantBufferView(1, cParam_.GetGPUVirtualAddress());
+	if (isUsed) {
+		comList->SetGraphicsRootConstantBufferView(1, cParam_.GetGPUVirtualAddress());
+	}
 	// 描画コマンド
 	BaseEffect::DrawCommand(comList);
 
