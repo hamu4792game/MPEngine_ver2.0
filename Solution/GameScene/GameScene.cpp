@@ -43,7 +43,7 @@ void GameScene::Initialize() {
 	rs->AddTexture("Block", "Resources/Texture/ground.png");
 	rs->AddTexture("Airport", "Resources/Texture/rostock_laage_airport_4k.dds");
 
-	rs->AddModel("Human", "Resources/Model/human/run.gltf");
+	rs->AddModel("Human", "Resources/Model/human/wait.gltf");
 	rs->AddModel("PlayerHead", "Resources/Model/Player/Head/head.obj");
 	rs->AddModel("PlayerBody", "Resources/Model/Player/Body/body.obj");
 	rs->AddModel("PlayerLeftArm", "Resources/Model/Player/LArm/LArm.obj");

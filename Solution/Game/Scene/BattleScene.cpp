@@ -8,11 +8,7 @@
 #include "Utils/Tool/LevelData.h"
 
 void BattleScene::Initialize() {
-	cameraTrans_.scale_ = Vector3::one;
-	cameraTrans_.translation_ = Vector3(0.0f, 0.0f, -10.0f);
-	
 	stage_ = std::make_unique<Stage>();
-	//stage_->Initialize("Stage");
 	LevelData data;
 	auto leveldata = data.Load("stage.json");
 	stage_->LevelLoad(leveldata);
@@ -70,12 +66,7 @@ void BattleScene::Update() {
 
 	player_->Update();
 	enemy_->Update();
-	//player_->OnCollisionStage(enemy_->GetCollision());
-	//if (player_->OnCollision(enemy_->GetCollision())) {
-	//	endRequest_ = true;
-	//}
 	
-
 #ifdef _DEBUG
 	static Vector3 scale = Vector3(300.0f, 300.0f, 300.0f);
 	static Vector3 translate = Vector3(0.0f, 0.0f, 0.0f);

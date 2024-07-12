@@ -13,19 +13,17 @@ void TitleScene::Initialize() {
 	titleAudio->SoundPlayWave(true);
 
 	stage_ = std::make_unique<Stage>();
-	stage_->Initialize("TitleStage");
+	LevelData data;
+	auto leveldata = data.Load("stage.json");
+	stage_->LevelLoad(leveldata);
 
-	//player_ = std::make_unique<Player>();
-	//player_->Initialize();
+	player_ = std::make_unique<PlayerManager>();
+	player_->Initialize(stage_->GetPlayerRespawnPoint());
 
-	cameraTransform_.translation_ = Vector3(0.0f, 300.0f, -51.0f);
-	cameraTransform_.rotation_.x = AngleToRadian(90.0f);
 }
 
 void TitleScene::Finalize() {
-	//auto rs = ResourceManager::GetInstance();
-	//std::shared_ptr<Audio> titleAudio = rs->FindAudio("Title");
-	//titleAudio->SoundStop();
+	
 }
 
 void TitleScene::Update() {
@@ -47,9 +45,9 @@ void TitleScene::Update() {
 
 	titleUI_->Update();
 	stage_->Update();
+	player_->PostUpdate();
 
-	cameraTransform_.UpdateMatrix();
-	Camera3d::GetInstance()->SetTransform(cameraTransform_);
+	Camera3d::GetInstance()->SetTransform(stage_->GetCameraRespawnPoint());
 }
 
 void TitleScene::SecondUpdate() {
@@ -58,10 +56,7 @@ void TitleScene::SecondUpdate() {
 
 void TitleScene::DrawImGui() {
 #ifdef _DEBUG
-	ImGui::Begin("camera");
-	ImGui::DragFloat3("translate", &cameraTransform_.translation_.x, 0.1f);
-	ImGui::DragFloat3("rotate", &cameraTransform_.rotation_.x, AngleToRadian(1.0f));
-	ImGui::End();
+	
 #endif // _DEBUG
 }
 

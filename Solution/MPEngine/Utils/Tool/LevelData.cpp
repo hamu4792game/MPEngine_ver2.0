@@ -97,14 +97,14 @@ void LevelData::ObjectScan(LevelData* levelData, nlohmann::json& object, WorldTr
 		objectData.transform.translation_.x = (float)transform["translation"][0];
 		objectData.transform.translation_.y = (float)transform["translation"][2];
 		objectData.transform.translation_.z = (float)transform["translation"][1];
-		// 回転角
-		objectData.transform.rotation_.x = -(float)transform["rotation"][0];
-		objectData.transform.rotation_.y = -(float)transform["rotation"][2];
-		objectData.transform.rotation_.z = -(float)transform["rotation"][1];
 
-		objectData.transform.rotation_.x = AngleToRadian(objectData.transform.rotation_.x);
-		objectData.transform.rotation_.y = AngleToRadian(objectData.transform.rotation_.y);
-		objectData.transform.rotation_.z = AngleToRadian(objectData.transform.rotation_.z);
+		// 回転角 Quaternionで取得し、Euler角に戻して渡す
+		Quaternion quaternion;
+		quaternion.x = -(float)transform["rotation"][0];
+		quaternion.y = -(float)transform["rotation"][2];
+		quaternion.z = -(float)transform["rotation"][1];
+		quaternion.w = (float)transform["rotation"][3];
+		objectData.transform.rotation_ = Quaternion::QuaternionToEuler(quaternion);
 
 		// スケーリング
 		objectData.transform.scale_.x = (float)transform["scaling"][0];
@@ -138,6 +138,45 @@ void LevelData::ObjectScan(LevelData* levelData, nlohmann::json& object, WorldTr
 			objectData.collider.size = handle * 0.5f;
 		}
 
+	}
+	// カメラだった場合
+	else if (type.compare("CAMERA") == 0) {
+		// 要素追加
+		levelData->objects.emplace_back(LevelData::ObjectData());
+		// 今追加した要素の参照を得る
+		LevelData::ObjectData& objectData = levelData->objects.back();
+		if (object.contains("name")) {
+			// typenameの取得
+			objectData.typeName = object["name"];
+		}
+		// トランスフォームのパラメータ読み込み
+		nlohmann::json& transform = object["transform"];
+		// 平行移動
+		objectData.transform.translation_.x = (float)transform["translation"][0];
+		objectData.transform.translation_.y = (float)transform["translation"][2];
+		objectData.transform.translation_.z = (float)transform["translation"][1];
+
+		// 回転角 Quaternionで取得し、Euler角に戻して渡す
+		Quaternion quaternion;
+		quaternion.x = -(float)transform["rotation"][0];
+		quaternion.y = -(float)transform["rotation"][2];
+		quaternion.z = -(float)transform["rotation"][1];
+		quaternion.w = (float)transform["rotation"][3];
+		objectData.transform.rotation_ = Quaternion::QuaternionToEuler(quaternion);
+		// Blender側ではx0の時に下向き。ゲーム側ではx0の時に横向き(普通の視点)なのでx軸に+90度する
+		objectData.transform.rotation_.x += AngleToRadian(90.0f);
+
+		// スケーリング
+		objectData.transform.scale_.x = (float)transform["scaling"][0];
+		objectData.transform.scale_.y = (float)transform["scaling"][2];
+		objectData.transform.scale_.z = (float)transform["scaling"][1];
+
+		// 親子関係
+		if (parent) {
+			objectData.transform.parent_ = parent;
+		}
+		parent_ptr = &objectData.transform;
+		objectData.transform.UpdateMatrix();
 	}
 
 	// オブジェクト走査を再帰関数にまとめ、再帰呼び出しで枝を走査する

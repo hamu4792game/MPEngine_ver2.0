@@ -172,5 +172,9 @@ void Stage::LevelLoad(LevelData* data) {
 		else if (objectData.typeName.find("Goal") != std::string::npos) {
 			goal_->Initialize(objectData);
 		}
+		else if (objectData.typeName.find("Camera") != std::string::npos) {
+			cameraTransform_ = objectData.transform;
+		}
+
 	}
 }
