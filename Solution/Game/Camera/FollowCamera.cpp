@@ -38,6 +38,7 @@ void FollowCamera::Update(const float& speed) {
 		Vector3 end = MakeTranslateMatrix(target_->GetPosition()) * lOffset;
 
 		preTranslate_ = Lerp(preTranslate_, end, T);
+		postTranslate_ = lOffset + end;
 
 		transform_.translation_ = lOffset + preTranslate_;
 		transform_.rotation_ = preRotate_;

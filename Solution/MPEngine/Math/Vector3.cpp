@@ -225,10 +225,19 @@ Vector3 RandNum(Vector3 min, Vector3 max) {
 
 float FindAngle(const Vector3& vecA, const Vector3& vecB) {
 	float dot = Dot(vecA, vecB);
+	// 角度が0の場合は何もしない
+	if (dot >= 1.0f) {
+		return 0.0f;
+	}
+	else if (dot <= -1.0f) {
+		return AngleToRadian(180.0f);
+	}
+
 	float a = Length(vecA);
 	float b = Length(vecB);
+
 	float result = std::acosf(dot / (a * b));
-	if (vecA.x < 0) {
+	if (vecA.x < 0.0f) {
 		result = -result;
 	}
 	return result;

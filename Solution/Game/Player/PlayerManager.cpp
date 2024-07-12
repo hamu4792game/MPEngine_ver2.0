@@ -53,7 +53,7 @@ void PlayerManager::Update() {
 		case Behavior::kRoot:
 			// カメラからターゲットへの向きベクトルを算出
 			if (targetTransform_) {
-				Vector3 vec = FindVector(followCamera_->GetTransform().GetPosition(), targetTransform_->GetPosition());
+				Vector3 vec = FindVector(followCamera_->GetPostposition(), targetTransform_->GetPosition()).Normalize();
 				followCamera_->SetParam(Vector3(0.0f, 0.0f, -10.0f), Vector3(FindAngle(vec, Vector3::up), FindAngle(vec, Vector3::front), followCamera_->GetTransform().rotation_.z), 0.02f);
 			}
 			

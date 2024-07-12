@@ -12,11 +12,13 @@ public:
 
 	void SetTarget(const WorldTransform* target) { target_ = target; }
 	const WorldTransform& GetTransform() const { return transform_; }
+	const Vector3& GetPostposition() const { return postTranslate_; }
 	void CameraMove();
 	WorldTransform transform_;
 private:
 	const WorldTransform* target_ = nullptr;
 	Vector3 preTranslate_;
+	Vector3 postTranslate_;
 	Vector3 offset_;
 	const Vector3 kMaxOffset_;
 	Vector3 preOffset_;
