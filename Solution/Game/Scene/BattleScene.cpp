@@ -95,6 +95,7 @@ void BattleScene::Update() {
 	if (Input::GetInstance()->GetKey()->PressKey(DIK_P) || gameclear) {
 		endRequest_ = true;
 	}
+	RenderManager::nowEffect = RenderManager::PostEffect::None;
 
 	SecondUpdate();
 }

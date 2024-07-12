@@ -34,6 +34,9 @@ public:
 	// 描画前処理
 	void PreDraw();
 
+	// 描画後の描画前処理。主に後でポストエフェクトを行う
+	void PostDrawProcess();
+
 	// 描画後処理
 	void PostDraw();
 
@@ -59,10 +62,12 @@ private:
 
 	// 終了処理
 	void EndProcess();
-
+public:
 	// バリアの作成
-	void CreateBarrier(ID3D12Resource* pResource, D3D12_RESOURCE_STATES stateBefore, D3D12_RESOURCE_STATES stateAfter,
+	static void CreateBarrier(ID3D12Resource* pResource, D3D12_RESOURCE_STATES stateBefore, D3D12_RESOURCE_STATES stateAfter,
 		D3D12_RESOURCE_BARRIER_TYPE type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION, D3D12_RESOURCE_BARRIER_FLAGS flag = D3D12_RESOURCE_BARRIER_FLAG_NONE);
+
+	SwapChain* GetSwapChain() { return swapChain_.get(); }
 
 private:
 	const WindowSupervisor* winSv_ = nullptr;

@@ -227,6 +227,18 @@
     <ClCompile Include="MPEngine\Utils\Template\GameObject.cpp">
       <Filter>MPEngine\Utils\Template</Filter>
     </ClCompile>
+    <ClCompile Include="MPEngine\Graphics\PostEffect\RadialBlur.cpp">
+      <Filter>MPEngine\Graphics\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\Graphics\PostEffect\Grayscale.cpp">
+      <Filter>MPEngine\Graphics\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\Graphics\PostEffect\PostEffectManager.cpp">
+      <Filter>MPEngine\Graphics\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="MPEngine\Graphics\PostEffect\IntermediateRenderTarget.cpp">
+      <Filter>MPEngine\Graphics\PostEffect</Filter>
+    </ClCompile>
     <ClCompile Include="Game\Stage\Goal.cpp">
       <Filter>Game\Stage</Filter>
     </ClCompile>
@@ -475,6 +487,18 @@
     </ClInclude>
     <ClInclude Include="MPEngine\Utils\Template\GameObject.h">
       <Filter>MPEngine\Utils\Template</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Graphics\PostEffect\RadialBlur.h">
+      <Filter>MPEngine\Graphics\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Graphics\PostEffect\Grayscale.h">
+      <Filter>MPEngine\Graphics\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Graphics\PostEffect\PostEffectManager.h">
+      <Filter>MPEngine\Graphics\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Graphics\PostEffect\IntermediateRenderTarget.h">
+      <Filter>MPEngine\Graphics\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="Game\Stage\Goal.h">
       <Filter>Game\Stage</Filter>
