@@ -6,8 +6,8 @@
 #include "Base/GraphicsManager/GraphicsManager.h"
 
 decltype(BaseEffect::isUsed) BaseEffect::isUsed = false;
-decltype(BaseEffect::copyRootSignature_) BaseEffect::copyRootSignature_;
-decltype(BaseEffect::copyGraphicsPipeline_) BaseEffect::copyGraphicsPipeline_;
+decltype(BaseEffect::copyRootSignature_) BaseEffect::copyRootSignature_ = nullptr;
+decltype(BaseEffect::copyGraphicsPipeline_) BaseEffect::copyGraphicsPipeline_ = nullptr;
 
 BaseEffect::BaseEffect() {
 	BaseEffect::CreateCopyPipelineState();
@@ -16,6 +16,14 @@ BaseEffect::BaseEffect() {
 BaseEffect::~BaseEffect() {
 	if (renderTextureResource_) {
 		renderTextureResource_->Release();
+	}
+	if (copyRootSignature_) {
+		copyRootSignature_.reset();
+		copyRootSignature_.release();
+	}
+	if (copyGraphicsPipeline_) {
+		copyGraphicsPipeline_.reset();
+		copyGraphicsPipeline_.release();
 	}
 }
 
