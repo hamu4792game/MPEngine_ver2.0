@@ -47,20 +47,25 @@ void PlayerManager::Update() {
 	if (behaviorRequest_) {
 		// 振る舞いを変更する
 		behavior_ = behaviorRequest_.value();
+		float angle = 0.0f;
 		// 振る舞いごとの初期化を実行
 		switch (behavior_) {
 		case Behavior::kRoot:
-			//followCamera_->SetTarget(&transform_);
-			//followCamera_->SetParam(Vector3(0.0f, 2.0f, -10.0f), Vector3(AngleToRadian(5.0f), transform_.rotation_.y, followCamera_->GetTransform().rotation_.z), 0.05f);
+			// カメラからターゲットへの向きベクトルを算出
+			if (targetTransform_) {
+				Vector3 vec = FindVector(followCamera_->GetTransform().GetPosition(), targetTransform_->GetPosition());
+				followCamera_->SetParam(Vector3(0.0f, 0.0f, -10.0f), Vector3(FindAngle(vec, Vector3::up), FindAngle(vec, Vector3::front), followCamera_->GetTransform().rotation_.z), 0.02f);
+			}
+			
 			break;
 		case Behavior::kAttack:
 			break;
 		case Behavior::kDash:
 			break;
 		case Behavior::kSwing:
-			//followCamera_->SetTarget(nullptr);
-			//followCamera_->SetParam(Vector3(0.0f, 2.0f, -20.0f), followCamera_->GetTransform().rotation_, 0.95f);
 			masterSpeed_ = 1.0f;
+			frameCount_.count = 0.0f;
+			followCamera_->SetParam(Vector3(0.0f, 2.0f, -20.0f), followCamera_->GetTransform().rotation_, 0.95f);
 			break;
 		}
 		//	振る舞いリクエストをリセット
@@ -115,14 +120,19 @@ WorldTransform PlayerManager::PostUpdate() {
 	//アニメーションの更新
 	animation_->Update(behaviorFlag_);
 	postEffectNum_ = PostEffectNum::None;
-
+	bool finishFrag = false;
 	if (masterSpeed_ != 1.0f) {
 		frameCount_.count++;
 		postEffectNum_ = PostEffectNum::GrayScale;
+		// ターゲットがなければ即終了
+		if (!targetTransform_) {
+			finishFrag = true;
+		}
 	}
-	if (frameCount_.count >= frameCount_.maxFrame * 60.0f) {
+	if (frameCount_.count >= frameCount_.maxFrame * 60.0f || finishFrag) {
 		frameCount_.count = 0.0f;
 		masterSpeed_ = 1.0f;
+		followCamera_->SetParam(Vector3(0.0f, 2.0f, -20.0f), followCamera_->GetTransform().rotation_, 0.95f);
 	}
 
 	// followカメラの更新

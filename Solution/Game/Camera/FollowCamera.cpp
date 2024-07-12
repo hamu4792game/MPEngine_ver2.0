@@ -52,6 +52,8 @@ void FollowCamera::DrawImGui() {
 	ImGui::DragFloat3("rotate", &transform_.rotation_.x, 0.1f);
 	ImGui::DragFloat3("scale", &transform_.scale_.x, 0.1f);
 	ImGui::DragFloat3("offset", &offset_.x, 0.1f);
+	ImGui::DragFloat3("postRotate", &postRotate_.x, 0.1f);
+	ImGui::DragFloat("lerpSpeed", &lerpSpeed_, 0.1f);
 	ImGui::End();
 #endif // _DEBUG
 }
