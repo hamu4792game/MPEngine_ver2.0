@@ -5,7 +5,6 @@
 #include "MPEngine/Base/DetailSetting/SwapChain/SwapChain.h"
 #include "Base/GraphicsManager/GraphicsManager.h"
 
-decltype(BaseEffect::isUsed) BaseEffect::isUsed = false;
 decltype(BaseEffect::copyRootSignature_) BaseEffect::copyRootSignature_ = nullptr;
 decltype(BaseEffect::copyGraphicsPipeline_) BaseEffect::copyGraphicsPipeline_ = nullptr;
 

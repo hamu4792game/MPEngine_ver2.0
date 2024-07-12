@@ -17,7 +17,7 @@ public:
 	const uint32_t GetRTVHandle() const { return rtvHandleNum_; }
 	const uint32_t GetSRVHandle() const { return srvHandleNum_; }
 
-	static bool isUsed;
+	void SetUsed(bool flag) { isUsed = flag; }
 
 protected:
 	virtual void CreatePipelineState() = 0;
@@ -36,6 +36,7 @@ protected:
 	uint32_t rtvHandleNum_ = 0u;
 
 	BlendMode blendType_ = BlendMode::Normal;
+	bool isUsed = false;
 
 	// レンダーターゲット用クリアカラー
 	const float clearColor_[4] = { 0.1f,0.25f,0.5f,1.0f }; // 青っぽい色、RGBA
