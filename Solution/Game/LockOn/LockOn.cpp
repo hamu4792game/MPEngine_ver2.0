@@ -79,7 +79,7 @@ void LockOn::Search(const std::list<std::shared_ptr<Target>>& targets) {
 
 		float frame = 30.0f; // x軸
 		float yFrame = 30.0f; // y軸
-		Vector2 distance(50.0f,300.0f); // 最小・最大距離 カメラのオフセット分もある
+		Vector2 distance(70.0f,300.0f); // 最小・最大距離 カメラのオフセット分もある
 		// 距離条件チェック
 		if (-frame <= positionView.x && positionView.x <= frame) {
 			if (-yFrame <= positionView.y && positionView.y <= yFrame) {
