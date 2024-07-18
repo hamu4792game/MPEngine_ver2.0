@@ -24,8 +24,15 @@ void ModelRender::Initialize() {
 		range[0].RegisterSpace = 0;
 		range[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
 		range[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+		
+		D3D12_DESCRIPTOR_RANGE range2[1] = {};
+		range2[0].BaseShaderRegister = 1;
+		range2[0].NumDescriptors = 1; // 必要な数
+		range2[0].RegisterSpace = 0;
+		range2[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+		range2[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
-		const uint8_t paramIndex = 5;
+		const uint8_t paramIndex = 6;
 		D3D12_ROOT_PARAMETER rootParameter[paramIndex] = {};
 		rootParameter[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
 		rootParameter[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
@@ -51,6 +58,12 @@ void ModelRender::Initialize() {
 		rootParameter[4].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
 		rootParameter[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 		rootParameter[4].Descriptor.ShaderRegister = 3;
+
+		// skyBoxのテクスチャ
+		rootParameter[5].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+		rootParameter[5].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+		rootParameter[5].DescriptorTable.pDescriptorRanges = range2;
+		rootParameter[5].DescriptorTable.NumDescriptorRanges = _countof(range2);
 
 		rootSignature_ = std::make_unique<RootSignature>();
 		rootSignature_->CreateRootSignature(rootParameter, paramIndex);
@@ -121,7 +134,14 @@ void ModelRender::Initialize() {
 		range[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
 		range[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
-		const uint8_t paramIndex = 6;
+		D3D12_DESCRIPTOR_RANGE range2[1] = {};
+		range2[0].BaseShaderRegister = 1;
+		range2[0].NumDescriptors = 1; // 必要な数
+		range2[0].RegisterSpace = 0;
+		range2[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+		range2[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+		const uint8_t paramIndex = 7;
 		D3D12_ROOT_PARAMETER rootParameter[paramIndex] = {};
 		rootParameter[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
 		rootParameter[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
@@ -153,6 +173,12 @@ void ModelRender::Initialize() {
 		rootParameter[5].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
 		rootParameter[5].DescriptorTable.pDescriptorRanges = range;
 		rootParameter[5].DescriptorTable.NumDescriptorRanges = _countof(range);
+
+		// skyBoxのテクスチャ
+		rootParameter[6].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+		rootParameter[6].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+		rootParameter[6].DescriptorTable.pDescriptorRanges = range2;
+		rootParameter[6].DescriptorTable.NumDescriptorRanges = _countof(range2);
 
 		skinningRootSignature_ = std::make_unique<RootSignature>();
 		skinningRootSignature_->CreateRootSignature(rootParameter, paramIndex);
@@ -246,10 +272,13 @@ void ModelRender::DrawCommand(Camera3d* cameraPtr) {
 		model->cMat->world = model->transform_.UpdateMatrix();
 		model->cMat->worldInverseTranspose = Inverse(model->cMat->world);
 		model->cMat->wvp = model->cMat->world * viewProjectionMat;
-		model->cMaterial->color = model->color_;
-		model->cMaterial->enableLighting = true;
-		model->cMaterial->shininess = 5.0f;
-		model->cMaterial->phongLighing = false;
+
+		model->cMaterial->environmentCoefficient = model->materials.environmentCoefficient;
+
+		model->cMaterial->color = model->materials.color;
+		model->cMaterial->enableLighting = model->materials.enableLighting;
+		model->cMaterial->shininess = model->materials.shininess;
+		model->cMaterial->phongLighing = model->materials.phongLighing;
 
 		if (model->animation_) {
 			list->SetGraphicsRootSignature(skinningRootSignature_->GetRootSignature().Get());
@@ -267,6 +296,10 @@ void ModelRender::DrawCommand(Camera3d* cameraPtr) {
 		list->SetGraphicsRootConstantBufferView(4, camera->cCamera.GetGPUVirtualAddress()); // cCamera
 		if (model->animation_) {
 			list->SetGraphicsRootDescriptorTable(5, model->animation_->skinCluster_.paletteSrvHandle.GetGPU()); // skinning
+			list->SetGraphicsRootDescriptorTable(6, ResourceManager::GetInstance()->FindTexture("Airport")->GetHandle().GetGPU()); // skybox
+		}
+		else {
+			list->SetGraphicsRootDescriptorTable(5, ResourceManager::GetInstance()->FindTexture("Airport")->GetHandle().GetGPU()); // skybox
 		}
 
 		for (uint32_t index = 0u; index < model->model_->modelDatas_.size(); index++) {

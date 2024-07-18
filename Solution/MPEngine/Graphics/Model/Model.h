@@ -22,8 +22,8 @@ public: // setter
 	/// <param name="texture"></param>
 	/// <param name="number">変更したいモデルテクスチャの番号、-1の場合は全部変わる</param>
 	void SetTexture(Texture* texture, const int32_t number = 0);
-	void SetColor(const Vector4& color) { color_ = color; }
-	void SetColor(const uint32_t& color) { color_ = ChangeColor(color); }
+	void SetColor(const Vector4& color) { materials.color = color; }
+	void SetColor(const uint32_t& color) { materials.color = ChangeColor(color); }
 	void SetTransform(const WorldTransform& transform) { transform_ = transform; }
 	void SetAnimation(ModelAnimation* animation) { animation_ = animation; }
 	void SetBlendType(BlendMode type) { blendType_ = type; }
@@ -41,7 +41,7 @@ private:
 	Object3d* model_ = nullptr;
 	std::vector<Texture*> texture_;
 	BlendMode blendType_ = BlendMode::Normal;
-	Vector4 color_ = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	//Vector4 color_ = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 	WorldTransform transform_; // 座標
 
 	struct TransformationMatrix {
@@ -51,11 +51,16 @@ private:
 	};
 	ConstantBuffer<TransformationMatrix> cMat;
 	struct Material {
-		Vector4 color;
+		Vector4 color = Vector4::one;
 		int enableLighting = true; 
-		float shininess = 0.0f; // 光沢度
+		float shininess = 5.0f; // 光沢度
 		int phongLighing = false;
+		float environmentCoefficient = 0.0f; // 環境マップ
 	};
+public:
+	Material materials;
+
+private:
 	ConstantBuffer<Material> cMaterial;
 
 	ModelAnimation* animation_ = nullptr;

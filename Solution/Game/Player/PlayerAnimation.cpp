@@ -1,6 +1,7 @@
 #include "PlayerAnimation.h"
 #include "Utils/GlobalVariables/GlobalVariables.h"
 #include "PlayerManager.h"
+#include "ImGuiManager/ImGuiManager.h"
 
 PlayerAnimation::PlayerAnimation(const WorldTransform* transform) {
 	auto rsManager = ResourceManager::GetInstance();
@@ -38,9 +39,17 @@ void PlayerAnimation::Initialize() {
 	nowType_ = AnimationType::Wait;
 	oldType_ = AnimationType::kMaxNum;
 	models_.at(static_cast<uint32_t>(Parts::Body))->SetAnimation(animation_.at(static_cast<uint32_t>(nowType_)).get());
+	models_.at(static_cast<uint32_t>(Parts::Body))->materials.environmentCoefficient = 1.0f;
 }
 
 void PlayerAnimation::Update(BehaviorFlag flag) {
+
+#ifdef _DEBUG
+	ImGui::Begin("PlayerMap");
+	ImGui::DragFloat("Map", &models_.at(static_cast<uint32_t>(Parts::Body))->materials.environmentCoefficient, 0.01f, 0.0f, 1.0f);
+	ImGui::End();
+#endif // DEBUG
+
 	// アニメーションの更新
 	float timeHandle = AnimationUpdate(flag);
 	
