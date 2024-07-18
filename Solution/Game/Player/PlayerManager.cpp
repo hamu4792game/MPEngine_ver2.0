@@ -69,7 +69,7 @@ void PlayerManager::Update() {
 					angleX = -angleX;
 				}
 
-				followCamera_->SetParam(Vector3(0.0f, 0.0f, -10.0f), Vector3(angleX, angleY, followCamera_->GetTransform().rotation_.z), 0.02f);
+				followCamera_->SetParam(Vector3(0.0f, 0.0f, -10.0f), Vector3(followCamera_->GetTransform().rotation_.x, angleY, followCamera_->GetTransform().rotation_.z), 0.02f);
 			}
 			
 			break;
