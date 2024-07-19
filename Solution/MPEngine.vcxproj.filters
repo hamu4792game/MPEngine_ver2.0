@@ -242,6 +242,9 @@
     <ClCompile Include="Game\Stage\Goal.cpp">
       <Filter>Game\Stage</Filter>
     </ClCompile>
+    <ClCompile Include="MPEngine\Graphics\Animation\SkinningAnimation.cpp">
+      <Filter>MPEngine\Graphics\Utils\Animation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -502,6 +505,9 @@
     </ClInclude>
     <ClInclude Include="Game\Stage\Goal.h">
       <Filter>Game\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Graphics\Animation\SkinningAnimation.h">
+      <Filter>MPEngine\Graphics\Utils\Animation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

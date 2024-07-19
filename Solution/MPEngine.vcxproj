@@ -197,6 +197,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="MPEngine\Base\WindowSupervisor\WindowSupervisor.cpp" />
     <ClCompile Include="MPEngine\Graphics\Animation\AnimationData.cpp" />
     <ClCompile Include="MPEngine\Graphics\Animation\ModelAnimation.cpp" />
+    <ClCompile Include="MPEngine\Graphics\Animation\SkinningAnimation.cpp" />
     <ClCompile Include="MPEngine\Graphics\Light\DirectionalLight.cpp" />
     <ClCompile Include="MPEngine\Graphics\LineRender\LineRender.cpp" />
     <ClCompile Include="MPEngine\Graphics\Line\Line.cpp" />
@@ -283,6 +284,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="MPEngine\Framework\SceneFrame.h" />
     <ClInclude Include="MPEngine\Graphics\Animation\AnimationData.h" />
     <ClInclude Include="MPEngine\Graphics\Animation\ModelAnimation.h" />
+    <ClInclude Include="MPEngine\Graphics\Animation\SkinningAnimation.h" />
     <ClInclude Include="MPEngine\Graphics\Light\DirectionalLight.h" />
     <ClInclude Include="MPEngine\Graphics\LineRender\LineRender.h" />
     <ClInclude Include="MPEngine\Graphics\Line\Line.h" />

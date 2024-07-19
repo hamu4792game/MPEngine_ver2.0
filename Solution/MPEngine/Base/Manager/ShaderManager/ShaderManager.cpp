@@ -25,6 +25,7 @@ void ShaderManager::DXcInitialize() {
 
 	profile_[ShaderType::Vertex] = L"vs_6_0";
 	profile_[ShaderType::Pixel] = L"ps_6_0";
+	profile_[ShaderType::Compute] = L"cs_6_0";
 }
 
 Microsoft::WRL::ComPtr<IDxcBlob> ShaderManager::CompileShader(const std::string& filePath, ShaderType type) {

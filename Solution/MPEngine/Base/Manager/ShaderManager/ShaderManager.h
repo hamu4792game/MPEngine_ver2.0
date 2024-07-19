@@ -21,6 +21,7 @@ public:
 	enum ShaderType {
 		Vertex,
 		Pixel,
+		Compute,
 
 		kMaxNum, // カウント用
 	};
