@@ -51,8 +51,7 @@ void GraphicsManager::PreDraw() {
 	
 	imguiManager_->Begin();
 
-	// ImGuiデモの表示
-	//ImGui::ShowDemoWindow();
+	
 #endif // _DEBUG
 
 	auto index = renderTarget_->GetHandle();

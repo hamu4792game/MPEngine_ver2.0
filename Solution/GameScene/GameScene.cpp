@@ -41,7 +41,7 @@ void GameScene::Initialize() {
 	rs->AddTexture("ABCD", "Resources/Texture/uvChecker.png");
 	rs->AddTexture("Target", "Resources/Texture/hud/target.png");
 	rs->AddTexture("Block", "Resources/Texture/ground.png");
-	rs->AddTexture("Airport", "Resources/Texture/rostock_laage_airport_4k.dds");
+	rs->AddTexture("Airport", "Resources/Texture/output_image_night.dds");
 
 	rs->AddModel("Human", "Resources/Model/human/wait.gltf");
 	rs->AddModel("PlayerHead", "Resources/Model/Player/Head/head.obj");

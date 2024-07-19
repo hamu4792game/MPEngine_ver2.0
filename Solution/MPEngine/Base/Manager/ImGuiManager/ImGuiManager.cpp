@@ -51,6 +51,10 @@ void ImGuiManager::Begin() {
 	ImGui_ImplDX12_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
+
+	// ImGuiデモの表示
+	//ImGui::ShowDemoWindow();
+
 #endif // _DEBUG
 }
 
