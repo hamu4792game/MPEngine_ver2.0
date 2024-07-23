@@ -12,6 +12,8 @@ cbuffer Material : register(b1) {
 float4 main(VertexOutput input) : SV_TARGET {
     float4 uv = mul(float4(input.texcoord,0.0f,1.0f),uvMat);
     float4 textureColor = gTexture.Sample(gSampler, uv.xy) * color;
-    
+    if (textureColor.a < 0.01f) {
+        discard;
+    }
     return textureColor;
 }

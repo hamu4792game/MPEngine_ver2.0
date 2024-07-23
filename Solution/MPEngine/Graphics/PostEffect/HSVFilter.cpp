@@ -1,18 +1,18 @@
-#include "IntermediateRenderTarget.h"
+#include "HSVFilter.h"
 #include "MPEngine/Base/GraphicsManager/GraphicsManager.h"
-#include "MPEngine/Base/DetailSetting/SwapChain/SwapChain.h"
 
-IntermediateRenderTarget::IntermediateRenderTarget(DeviceManager* device, SwapChain* swapChain, ResourceManager* rsManager) {
-	swapchain_ptr = swapChain;
-	BaseEffect::CreateRenderTexture(device, swapChain, rsManager);
+
+HSVFilter* HSVFilter::GetInstance() {
+	static HSVFilter instance;
+	return &instance;
 }
 
-void IntermediateRenderTarget::CreatePipelineState() {
+void HSVFilter::CreatePipelineState() {
 #pragma region Shader
 	Microsoft::WRL::ComPtr<IDxcBlob> vertexShader;
 	Microsoft::WRL::ComPtr<IDxcBlob> pixelShader;
 	const std::string VSpath = "Fullscreen.VS.hlsl";
-	const std::string PSpath = "CopyImage.PS.hlsl";
+	const std::string PSpath = "HSVFilter.PS.hlsl";
 	auto shaderInstance = ShaderManager::GetInstance();
 	vertexShader = shaderInstance->CompileShader(VSpath, ShaderManager::ShaderType::Vertex);
 	pixelShader = shaderInstance->CompileShader(PSpath, ShaderManager::ShaderType::Pixel);
@@ -25,12 +25,17 @@ void IntermediateRenderTarget::CreatePipelineState() {
 	range[0].RegisterSpace = 0;
 	range[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
 	range[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
-	const uint8_t paramIndex = 1;
+	const uint8_t paramIndex = 2;
 	D3D12_ROOT_PARAMETER rootParameter[paramIndex] = {};
 	rootParameter[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
 	rootParameter[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 	rootParameter[0].DescriptorTable.pDescriptorRanges = range;
 	rootParameter[0].DescriptorTable.NumDescriptorRanges = _countof(range);
+
+	// 定数バッファに送るパラメーター
+	rootParameter[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParameter[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	rootParameter[1].Descriptor.ShaderRegister = 0;
 
 	rootSignature_ = std::make_unique<RootSignature>();
 	rootSignature_->CreateRootSignature(rootParameter, paramIndex);
@@ -64,18 +69,15 @@ void IntermediateRenderTarget::CreatePipelineState() {
 #pragma endregion
 }
 
-uint8_t IntermediateRenderTarget::PreProcess(ID3D12GraphicsCommandList* comList, uint8_t setHandleNumber, bool thisResource) {
-	if (thisResource) {
-		GraphicsManager::CreateBarrier(renderTextureResource_.Get(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
-	}
-	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = swapchain_ptr->GetRTVHeap()->GetCPUDescriptorHandle(setHandleNumber);
-	comList->OMSetRenderTargets(1, &rtvHandle, false, nullptr);
-	return srvHandleNum_;
-}
-
-uint8_t IntermediateRenderTarget::PostProcess() {
+void HSVFilter::DrawCommand(ID3D12GraphicsCommandList* comList, const uint32_t& handleNum) {
 	GraphicsManager::CreateBarrier(renderTextureResource_.Get(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
-	return srvHandleNum_;
-}
 
+	BaseEffect::PreDraw(comList, handleNum);
+	if (isUsed) {
+		comList->SetGraphicsRootConstantBufferView(1, cParam_.GetGPUVirtualAddress());
+	}
+	// 描画コマンド
+	BaseEffect::DrawCommand(comList);
+
+}
 

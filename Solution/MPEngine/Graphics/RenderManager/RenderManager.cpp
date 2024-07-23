@@ -3,6 +3,7 @@
 #include "MPEngine/Base/Manager/ListManager/ListManager.h"
 #include "MPEngine/Base/Manager/ResourceManager/ResourceManager.h"
 #include "MPEngine/Base/DetailSetting/SwapChain/SwapChain.h"
+#include "ImGuiManager/ImGuiManager.h"
 
 decltype(RenderManager::nowEffect)RenderManager::nowEffect = RenderManager::PostEffect::None;
 
@@ -22,6 +23,10 @@ void RenderManager::Initialize(SwapChain* swapchain) {
 	
 	grayscale_ = Grayscale::GetInstance();
 	grayscale_->CreateRenderTexture(DeviceManager::GetInstance(), swapchain, ResourceManager::GetInstance());
+
+	hsvFilter_ = HSVFilter::GetInstance();
+	hsvFilter_->CreateRenderTexture(DeviceManager::GetInstance(), swapchain, ResourceManager::GetInstance());
+
 
 	for (auto& handle : intermediateRenderTarget_) {
 		handle = std::make_unique<IntermediateRenderTarget>(DeviceManager::GetInstance(), swapchain, ResourceManager::GetInstance());
@@ -53,6 +58,18 @@ void RenderManager::Draw(SwapChain* swapchain) {
 
 	grayscale_->PreProcess();
 	radialBlur_->PreProcess();
+	hsvFilter_->PreProcess();
+
+#ifdef _DEBUG
+	ImGui::Begin("HSV");
+	hsvFilter_->SetUsed(true);
+	ImGui::DragFloat("hue", &hsvFilter_->cParam_->hue, 0.01f);
+	ImGui::DragFloat("saturation", &hsvFilter_->cParam_->saturation, 0.01f);
+	ImGui::DragFloat("value", &hsvFilter_->cParam_->value, 0.01f);
+	ImGui::End();
+
+#endif // _DEBUG
+
 }
 
 void RenderManager::PostDraw(SwapChain* swapchain) {
@@ -65,14 +82,22 @@ void RenderManager::PostDraw(SwapChain* swapchain) {
 	
 	grayscale_->DrawCommand(list, handleNum);
 	
-	// 0枚目をテクスチャとして使用し、SwapChainに書き込み
+	// 0枚目をテクスチャとして使用し、1枚目に書き込み
 	// 状態をテクスチャに
-	intermediateRenderTarget_.at(0)->PostProcess();
-	auto index = swapchain->GetSwapChain()->GetCurrentBackBufferIndex();
-	// 状態を変更せず、描画先をswapchainに変更
-	handleNum = intermediateRenderTarget_.at(0)->PreProcess(list, index, false);
+	handleNum = intermediateRenderTarget_.at(0)->PostProcess();
+	// 描画先を1枚目に変更
+	// handleNumは0番目を取得しなきゃいけない
+	intermediateRenderTarget_.at(1)->PreProcess(list, intermediateRenderTarget_.at(1)->GetRTVHandle());
 
 	radialBlur_->DrawCommand(list, handleNum);
+
+	// 1枚目をtextureとして使用
+	handleNum = intermediateRenderTarget_.at(1)->PostProcess();
+	// swapchainに書き込み
+	auto index = swapchain->GetSwapChain()->GetCurrentBackBufferIndex();
+	intermediateRenderTarget_.at(1)->PreProcess(list, index, false);
+
+	hsvFilter_->DrawCommand(list, handleNum);
 	
 	//intermediateRenderTarget_.at(0)->PostProcess();
 	//intermediateRenderTarget_.at(1)->PostProcess();

@@ -34,7 +34,7 @@ void SkinningAnimation::CreatePipeline() {
 		.pShaderBytecode = computeShader->GetBufferPointer(),
 		.BytecodeLength = computeShader->GetBufferSize()
 	};
-	computePipelineStateDesc.pRootSignature = ;
+	computePipelineStateDesc.pRootSignature = rootsignature.GetRootSignature().Get();
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> computePipelineState = nullptr;
 	HRESULT hr = DeviceManager::GetInstance()->GetDevice()->CreateComputePipelineState(&computePipelineStateDesc, IID_PPV_ARGS(&computePipelineState));
 

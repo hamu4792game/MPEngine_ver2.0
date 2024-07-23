@@ -10,7 +10,7 @@ public:
 	~IntermediateRenderTarget() = default;
 
 	uint8_t PreProcess(ID3D12GraphicsCommandList* comList, uint8_t setHandleNumber, bool thisResource = true);
-	void PostProcess();
+	uint8_t PostProcess();
 
 private:
 	void CreatePipelineState() override;

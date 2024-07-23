@@ -8,6 +8,7 @@
 #include "MPEngine/Utils/Camera/Camera3d.h"
 #include "MPEngine/Graphics/PostEffect/RadialBlur.h"
 #include "MPEngine/Graphics/PostEffect/Grayscale.h"
+#include "MPEngine/Graphics/PostEffect/HSVFilter.h"
 #include "MPEngine/Graphics/PostEffect/IntermediateRenderTarget.h"
 
 // MPEngineクラスでのみ実体化
@@ -43,6 +44,7 @@ private:
 	// posteffect
 	RadialBlur* radialBlur_ = nullptr;
 	Grayscale* grayscale_ = nullptr;
+	HSVFilter* hsvFilter_ = nullptr;
 	std::array<std::unique_ptr<IntermediateRenderTarget>, 2u> intermediateRenderTarget_;
 
 };

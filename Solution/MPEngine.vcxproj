@@ -208,6 +208,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="MPEngine\Graphics\Particle\Particle.cpp" />
     <ClCompile Include="MPEngine\Graphics\PostEffect\BaseEffect.cpp" />
     <ClCompile Include="MPEngine\Graphics\PostEffect\Grayscale.cpp" />
+    <ClCompile Include="MPEngine\Graphics\PostEffect\HSVFilter.cpp" />
     <ClCompile Include="MPEngine\Graphics\PostEffect\IntermediateRenderTarget.cpp" />
     <ClCompile Include="MPEngine\Graphics\PostEffect\PostEffectManager.cpp" />
     <ClCompile Include="MPEngine\Graphics\PostEffect\RadialBlur.cpp" />
@@ -295,6 +296,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="MPEngine\Graphics\Particle\Particle.h" />
     <ClInclude Include="MPEngine\Graphics\PostEffect\BaseEffect.h" />
     <ClInclude Include="MPEngine\Graphics\PostEffect\Grayscale.h" />
+    <ClInclude Include="MPEngine\Graphics\PostEffect\HSVFilter.h" />
     <ClInclude Include="MPEngine\Graphics\PostEffect\IntermediateRenderTarget.h" />
     <ClInclude Include="MPEngine\Graphics\PostEffect\PostEffectManager.h" />
     <ClInclude Include="MPEngine\Graphics\PostEffect\RadialBlur.h" />
