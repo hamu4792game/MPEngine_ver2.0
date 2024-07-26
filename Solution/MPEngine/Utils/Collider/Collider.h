@@ -18,6 +18,7 @@ public:
 		Box,
 		Sphere,
 
+		//test
 		kMaxNum
 	};
 
