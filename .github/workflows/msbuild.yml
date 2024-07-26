@@ -35,3 +35,10 @@ jobs:
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run: msbuild /m /p:Configuration=${{ matrix.configuration }} ${{env.SOLUTION_FILE_PATH}}
 
+    - name : Missbuild
+      if: failure()
+      run: |
+        curl -H "Content-Type: application/json" \
+        -d "{\"content\": \"@here Build failed in $GITHUB_REPOSITORY by $GITHUB_ACTOR\", \"username\": \"GitHub Actions\"}" \
+        ${{ secrets.DISCORD_WEBHOOK_URL }}
+
