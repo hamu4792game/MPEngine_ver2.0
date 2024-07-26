@@ -63,17 +63,18 @@ void FollowCamera::CameraMove() {
 	DrawImGui();
 	auto input = Input::GetInstance();
 	Vector2 move;
+	float speed = 2.0f;
 	if (input->GetKey()->PressKey(DIK_LEFT)) {
-		move.y -= AngleToRadian(1.0f);
+		move.y -= AngleToRadian(speed);
 	}
 	if (input->GetKey()->PressKey(DIK_RIGHT)) {
-		move.y += AngleToRadian(1.0f);
+		move.y += AngleToRadian(speed);
 	}
 	if (input->GetKey()->PressKey(DIK_UP)) {
-		move.x += AngleToRadian(1.0f);
+		move.x += AngleToRadian(speed);
 	}
 	if (input->GetKey()->PressKey(DIK_DOWN)) {
-		move.x -= AngleToRadian(1.0f);
+		move.x -= AngleToRadian(speed);
 	}
 
 	if (input->GetPad()->GetPadConnect()) {
@@ -81,16 +82,16 @@ void FollowCamera::CameraMove() {
 		pMove = input->GetPad()->GetPadRStick();
 		//	移動があれば代入する
 		if (pMove.x < -0.5f) {
-			move.y -= AngleToRadian(1.0f);
+			move.y -= AngleToRadian(speed);
 		}
 		else if (pMove.x > 0.5f) {
-			move.y += AngleToRadian(1.0f);
+			move.y += AngleToRadian(speed);
 		}
 		if (pMove.y < -0.5f) {
-			move.x -= AngleToRadian(1.0f);
+			move.x -= AngleToRadian(speed);
 		}
 		else if (pMove.y > 0.5f) {
-			move.x += AngleToRadian(1.0f);
+			move.x += AngleToRadian(speed);
 		}
 	}
 	//transform_.rotation_.x += move.x;
@@ -98,5 +99,9 @@ void FollowCamera::CameraMove() {
 	postRotate_.x += move.x;
 	postRotate_.y += move.y;
 
-	postRotate_.x = std::clamp(postRotate_.x, AngleToRadian(-8.0f), AngleToRadian(75.0f));
+	static Vector2 limit = Vector2(-50.0f, 75.0f);
+#ifdef _DEBUG
+	ImGui::DragFloat2("Limit", &limit.x, 0.1f);
+#endif // _DEBUG
+	postRotate_.x = std::clamp(postRotate_.x, AngleToRadian(limit.x), AngleToRadian(limit.y));
 }
