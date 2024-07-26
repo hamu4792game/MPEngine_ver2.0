@@ -16,9 +16,8 @@ public:
 
 	enum class Type {
 		Box,
-		Sphere,
+		Sphere
 
-		//test
 		kMaxNum
 	};
 
