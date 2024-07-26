@@ -37,8 +37,14 @@ jobs:
 
     - name : Missbuild
       if: failure()
+      env:
+        DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
       run: |
-        curl -H "Content-Type: application/json" \
-        -d "{\"content\": \"@here Build failed in $GITHUB_REPOSITORY by $GITHUB_ACTOR\", \"username\": \"GitHub Actions\"}" \
-        ${{ secrets.DISCORD_WEBHOOK_URL }}
+        $payload = @{
+          content = "@here Build failed in $env:GITHUB_REPOSITORY by $env:GITHUB_ACTOR"
+          username = "GitHub Actions"
+        }
+        $jsonPayload = $payload | ConvertTo-Json -Compress
+        Invoke-RestMethod -Uri $env:DISCORD_WEBHOOK_URL -Method Post -Body $jsonPayload -ContentType 'application/json'
+      shell: pwsh
 
