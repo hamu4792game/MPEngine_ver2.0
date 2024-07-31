@@ -248,7 +248,7 @@
     <ClCompile Include="MPEngine\Graphics\PostEffect\HSVFilter.cpp">
       <Filter>MPEngine\Graphics\PostEffect</Filter>
     </ClCompile>
-    <ClCompile Include="MPEngine\Utils\Collider\UtilsCollider.cpp">
+    <ClCompile Include="MPEngine\Utils\Collider\LineCollider.cpp">
       <Filter>MPEngine\Utils\Collider</Filter>
     </ClCompile>
   </ItemGroup>
@@ -518,7 +518,7 @@
     <ClInclude Include="MPEngine\Graphics\PostEffect\HSVFilter.h">
       <Filter>MPEngine\Graphics\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="MPEngine\Utils\Collider\UtilsCollider.h">
+    <ClInclude Include="MPEngine\Utils\Collider\LineCollider.h">
       <Filter>MPEngine\Utils\Collider</Filter>
     </ClInclude>
   </ItemGroup>
