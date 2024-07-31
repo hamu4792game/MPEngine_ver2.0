@@ -3,6 +3,7 @@
 #include <array>
 #include "Graphics/Line/Line.h"
 #undef max
+#undef min
 
 BoxCollider::~BoxCollider() {
 
@@ -94,7 +95,7 @@ void BoxCollider::LineUpdate(std::vector<std::shared_ptr<Line>> lines) {
 
 }
 
-bool BoxCollider::IsCollision(const BoxCollider& coll, Vector3& minAxis, float& minOverlap) {
+bool BoxCollider::IsCollision(const BoxCollider& coll, Vector3& minAxis, float& minOverlap) const {
 	bool flag = false;
 	
 	switch (type_) {
@@ -120,6 +121,22 @@ bool BoxCollider::IsCollision(const BoxCollider& coll, Vector3& minAxis, float& 
 		break;
 	}
 
+	return flag;
+}
+
+bool BoxCollider::IsCollision(const LineCollider& coll, Vector3& minAxis, float& minOverlap) const {
+	bool flag = false;
+	switch (type_) {
+	case BoxCollider::Type::AABB:
+		break;
+	case BoxCollider::Type::OBB:
+		switch (coll.GetType()) {
+		case LineCollider::Type::Ray:
+			flag = IsCollision(obb_, coll.GetRay(), minAxis);
+			break;
+		}
+		break;
+	}
 	return flag;
 }
 
@@ -355,5 +372,58 @@ bool BoxCollider::IsCollision(const OBB& obb1, const OBB& obb2, Vector3& minAxis
 	minAxis = separationAxisCandidate[axisIndex];
 	minOverlap = minoverlap;
 
+	return true;
+}
+
+bool BoxCollider::IsCollision(const OBB& obb, const Ray& ray, Vector3& hitPoint) {
+	Matrix4x4 obbWorldMatrix;
+	obbWorldMatrix.m = {
+		obb.orientations[0].x, obb.orientations[0].y, obb.orientations[0].z, 0.0f,
+		obb.orientations[1].x, obb.orientations[1].y, obb.orientations[1].z, 0.0f,
+		obb.orientations[2].x, obb.orientations[2].y, obb.orientations[2].z, 0.0f,
+		obb.center.x,          obb.center.y,          obb.center.z,          1.0f };
+	Vector3 p = obb.center - ray.origin;
+	Vector3 f = obbWorldMatrix * ray.diff;
+	Vector3 e = obbWorldMatrix * p;
+
+	float tMin = -INFINITY, tMax = INFINITY;
+
+	if (std::fabsf(f.x) > 1e-6) {
+		float t1 = (e.x + obb.size.x) / f.x;
+		float t2 = (e.x - obb.size.x) / f.x;
+		if (t1 > t2) std::swap(t1, t2);
+		tMin = std::max(tMin, t1);
+		tMax = std::min(tMax, t2);
+		if (tMin > tMax) return false;
+	}
+	else if (-e.x - obb.size.x > 0 || -e.x + obb.size.x < 0) {
+		return false;
+	}
+
+	if (std::fabsf(f.y) > 1e-6) {
+		float t1 = (e.y + obb.size.y) / f.y;
+		float t2 = (e.y - obb.size.y) / f.y;
+		if (t1 > t2) std::swap(t1, t2);
+		tMin = std::max(tMin, t1);
+		tMax = std::min(tMax, t2);
+		if (tMin > tMax) return false;
+	}
+	else if (-e.y - obb.size.y > 0 || -e.y + obb.size.y < 0) {
+		return false;
+	}
+
+	if (std::fabsf(f.z) > 1e-6) {
+		float t1 = (e.z + obb.size.z) / f.z;
+		float t2 = (e.z - obb.size.z) / f.z;
+		if (t1 > t2) std::swap(t1, t2);
+		tMin = std::max(tMin, t1);
+		tMax = std::min(tMax, t2);
+		if (tMin > tMax) return false;
+	}
+	else if (-e.z - obb.size.z > 0 || -e.z + obb.size.z < 0) {
+		return false;
+	}
+
+	hitPoint = ray.origin + ray.diff * tMin;
 	return true;
 }

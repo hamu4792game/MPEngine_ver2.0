@@ -3,6 +3,7 @@
 #include "Utils/WorldTransform/WorldTransform.h"
 #include <vector>
 #include <memory>
+#include "LineCollider.h"
 
 struct AABB {
 	Vector3 min; // 最小点
@@ -24,7 +25,8 @@ public:
 	void Update(const WorldTransform& transform);
 	void LineUpdate(std::vector<std::shared_ptr<class Line>> lines);
 
-	bool IsCollision(const BoxCollider& coll, Vector3& minAxis, float& minOverlap);
+	bool IsCollision(const BoxCollider& coll, Vector3& minAxis, float& minOverlap) const;
+	bool IsCollision(const LineCollider& coll, Vector3& minAxis, float& minOverlap) const;
 
 private:
 	void AABBUpdate();
@@ -50,5 +52,10 @@ private:
 	static bool IsCollision(const AABB& aabb, const OBB& obb, Vector3& minAxis, float& minOverlap);
 	// OBBとOBBの衝突判定
 	static bool IsCollision(const OBB& obb1, const OBB& obb2, Vector3& minAxis, float& minOverlap);
+	
+
+	// OBBとRayの衝突判定
+	static bool IsCollision(const OBB& obb, const Ray& ray, Vector3& hitPoint);
+
 	
 };

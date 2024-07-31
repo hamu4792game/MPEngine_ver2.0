@@ -14,6 +14,12 @@ void Collider::Initialize(WorldTransform* transform, Type type, std::string name
 		break;
 	case Collider::Type::Sphere:
 		break;
+	case Collider::Type::Line:
+		if (!lineCollider_) {
+			lineCollider_ = std::make_unique<LineCollider>();
+		}
+		lines_.resize(1);
+		break;
 	}
 	for (auto& i : lines_) {
 		if (!i) {
@@ -34,6 +40,10 @@ void Collider::Update() {
 		boxCollider_->LineUpdate(lines_);
 		break;
 	case Collider::Type::Sphere:
+		break;
+	case Collider::Type::Line:
+		lineCollider_->Update(*transform_);
+		lineCollider_->LineUpdate(lines_);
 		break;
 	}
 	
@@ -69,6 +79,12 @@ bool Collider::BoxCollision(const Collider& coll, Vector3& pushbackVec) {
 		break;
 	case Collider::Type::Sphere:
 		return false;
+		break;
+	case Collider::Type::Line:
+		if (coll.boxCollider_->IsCollision(*lineCollider_, minAxis, minOverlap)) {
+			pushbackVec = minAxis;
+			return true;
+		}
 		break;
 	}
 	return false;

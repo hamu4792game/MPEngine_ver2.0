@@ -5,6 +5,7 @@
 #include <memory>
 #include <vector>
 #include "BoxCollider.h"
+#include "LineCollider.h"
 
 // 衝突判定用の前方宣言
 class Line;
@@ -17,6 +18,7 @@ public:
 	enum class Type {
 		Box,
 		Sphere,
+		Line,
 
 		kMaxNum
 	};
@@ -41,6 +43,7 @@ private:
 private:
 	std::string name_; // コライダーの名前
 	std::unique_ptr<BoxCollider> boxCollider_;
+	std::unique_ptr<LineCollider> lineCollider_;
 	Type collderType_;
 	WorldTransform* transform_ = nullptr;
 	std::vector<std::shared_ptr<Line>> lines_;
