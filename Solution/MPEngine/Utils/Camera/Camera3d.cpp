@@ -24,9 +24,11 @@ bool Camera3d::OnCollision(const Collider& coll) {
 	if (iscoll) {
 		// Groundと当たっていた場合
 		if (coll.GetName() == "Ground") {
-			collision_->OnCollision(coll, pushBackVec);
-			camera_.transform.translation_ += pushBackVec;
-			camera_.transform.UpdateMatrix();
+			if (Length(pushBackVec) <= Length(Vector3(0.0f, 2.0f, -20.0f))) {
+				camera_.transform.translation_ -= pushBackVec;
+				camera_.transform.UpdateMatrix();
+				collision_->Update();
+			}
 		}
 	}
 	return false;
