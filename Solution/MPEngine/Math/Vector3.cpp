@@ -93,7 +93,7 @@ Vector3& Vector3::operator*=(const float& num) {
 }
 
 bool Vector3::operator==(const Vector3& num) const {
-	return this->x == num.x && this->y == num.y && this->z == num.z;;
+	return this->x == num.x && this->y == num.y && this->z == num.z;
 }
 
 bool Vector3::operator!=(const Vector3& num) const {

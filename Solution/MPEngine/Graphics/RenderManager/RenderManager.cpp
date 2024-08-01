@@ -40,6 +40,7 @@ void RenderManager::Draw(SwapChain* swapchain) {
 	auto srvHeap = rsManager->GetSRVHeap()->GetDescriptorHeap();
 	Matrix4x4 projectionMatrix;
 	Matrix4x4 projectionMatrix2D;
+	camera3d_->DrawImGui();
 
 	list->SetDescriptorHeaps(1, &srvHeap);
 

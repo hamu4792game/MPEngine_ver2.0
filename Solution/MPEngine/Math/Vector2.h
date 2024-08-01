@@ -23,4 +23,7 @@ public:
 
 	Vector2 operator*(const float& num) const;
 	Vector2& operator*=(const float& num);
+
+	bool operator==(const Vector2& num) const;
+	bool operator!=(const Vector2& num) const;
 };

@@ -233,6 +233,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="MPEngine\TimeBaseLoopExecuter\TimeBaseLoopExecuter.cpp" />
     <ClCompile Include="MPEngine\Utils\Camera\Camera.cpp" />
     <ClCompile Include="MPEngine\Utils\Camera\Camera3d.cpp" />
+    <ClCompile Include="MPEngine\Utils\Camera\DebugCamera.cpp" />
     <ClCompile Include="MPEngine\Utils\Collider\BoxCollider.cpp" />
     <ClCompile Include="MPEngine\Utils\Collider\Collider.cpp" />
     <ClCompile Include="MPEngine\Utils\Collider\LineCollider.cpp" />
@@ -323,6 +324,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="MPEngine\TimeBaseLoopExecuter\TimeBaseLoopExecuter.h" />
     <ClInclude Include="MPEngine\Utils\Camera\Camera.h" />
     <ClInclude Include="MPEngine\Utils\Camera\Camera3d.h" />
+    <ClInclude Include="MPEngine\Utils\Camera\DebugCamera.h" />
     <ClInclude Include="MPEngine\Utils\Collider\BoxCollider.h" />
     <ClInclude Include="MPEngine\Utils\Collider\Collider.h" />
     <ClInclude Include="MPEngine\Utils\Collider\LineCollider.h" />

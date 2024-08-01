@@ -2,6 +2,7 @@
 #include "Utils/Camera/Camera.h"
 #include <memory>
 #include "Base/ConstantBuffer.h"
+#include "DebugCamera.h"
 
 class Camera3d {
 private:
@@ -19,12 +20,15 @@ public:
 	void SetTransform(const WorldTransform& transform) { camera_.transform = transform; }
 	const WorldTransform& GetTransform() const { return camera_.transform; }
 	const Camera& GetCamera() const { return camera_; }
+	void DrawImGui();
+private:
 private:
 	Camera camera_;
 	struct CameraForGPU {
 		Vector3 worldPosition;
 	};
+	DebugCamera debugCamera_;
 public:
 	ConstantBuffer<CameraForGPU> cCamera;
-
+	bool useDebugCamera = false;
 };

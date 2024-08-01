@@ -60,3 +60,11 @@ Vector2& Vector2::operator*=(const float& num)
 
 	return *this;
 }
+
+bool Vector2::operator==(const Vector2& num) const {
+	return this->x == num.x && this->y == num.y;
+}
+
+bool Vector2::operator!=(const Vector2& num) const {
+	return !(*this == num);
+}
