@@ -161,6 +161,10 @@ void Stage::LevelLoad(LevelData* data) {
 		if (objectData.typeName.find("Ground") != std::string::npos) {
 			// 見つかれば
 			boxes_.emplace_back(std::make_shared<Ground>())->Initialize(objectData);
+			// 絶対後で消す
+			if (boxes_.size() == 8 || boxes_.size() == 9) {
+				boxes_.back()->Set(0.6f);
+			}
 		}
 		else if (objectData.typeName.find("Player") != std::string::npos) {
 			playerRespawnpoint_ = objectData.transform;

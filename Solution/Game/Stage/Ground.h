@@ -12,6 +12,7 @@ public:
 	void Initialize(const Vector3& scale, const Vector3& rotate, const Vector3& translate);
 	void Initialize(const WorldTransform& transform);
 	void Initialize(LevelData::ObjectData& objectdata);
+	void Set(const float& param) { model_->materials.environmentCoefficient = param; }
 	Collider* GetCollision() const { return collision_.get(); }
 	const WorldTransform& GetTrans();
 	void DrawImGui();

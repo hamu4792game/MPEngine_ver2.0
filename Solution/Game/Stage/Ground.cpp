@@ -74,6 +74,9 @@ void Ground::DrawImGui() {
 	ImGui::DragFloat3("scale", &transform_.scale_.x, 0.1f);
 	ImGui::DragFloat3("rotate", &transform_.rotation_.x, AngleToRadian(1.0f));
 	ImGui::DragFloat3("position", &transform_.translation_.x, 0.1f);
+
+	ImGui::DragFloat("明るさ", &model_->materials.environmentCoefficient, 0.01f, 0.0f, 10.0f);
+
 	transform_.UpdateMatrix();
 	model_->SetTransform(transform_);
 	collision_->Update();
