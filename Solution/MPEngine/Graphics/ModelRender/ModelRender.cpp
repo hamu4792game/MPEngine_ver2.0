@@ -40,8 +40,8 @@ void ModelRender::Initialize() {
 		rootParameter[0].DescriptorTable.NumDescriptorRanges = _countof(range);
 
 		// WVP
-		rootParameter[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_SRV;
-		rootParameter[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+		rootParameter[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+		rootParameter[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
 		rootParameter[1].Descriptor.ShaderRegister = 0;
 
 		// 色などのマテリアル系

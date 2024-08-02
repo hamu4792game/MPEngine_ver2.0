@@ -109,11 +109,9 @@ SkinCluster ModelAnimation::CreateSkinCluster(const Skeleton& skeleton, const Mo
 	WellForGPU* mappedPalette = nullptr;
 	skinCluster.paletteResource->Map(0, nullptr, reinterpret_cast<void**>(&mappedPalette));
 	skinCluster.mappedPalette = { mappedPalette,skeleton.joints.size() };
-	//skinCluster.paletteSrvHandle.first = rsManager->GetSRVHeap()->GetCPUDescriptorHandle(rsManager->GetCount());
-	//skinCluster.paletteSrvHandle.second = rsManager->GetSRVHeap()->GetGPUDescriptorHandle(rsManager->GetCount());
-	skinCluster.paletteSrvHandle.CreateView(rsManager->GetSRVHeap(), rsManager->GetCount());
 
 	// palette用のsrvを作成
+	skinCluster.paletteSrvHandle.CreateView(rsManager->GetSRVHeap(), rsManager->GetCount());
 	D3D12_SHADER_RESOURCE_VIEW_DESC paletteSrvDesc{};
 	paletteSrvDesc.Format = DXGI_FORMAT_UNKNOWN;
 	paletteSrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
@@ -130,6 +128,18 @@ SkinCluster ModelAnimation::CreateSkinCluster(const Skeleton& skeleton, const Mo
 	skinCluster.influenceResource->Map(0, nullptr, reinterpret_cast<void**>(&mappedInfluence));
 	std::memset(mappedInfluence, 0, sizeof(VertexInfluence) * modelData.vertices.size());
 	skinCluster.mappedInfluence = { mappedInfluence,modelData.vertices.size() };
+
+	// influence用のSRVを作成
+	skinCluster.influenceSrvHandle.CreateView(rsManager->GetSRVHeap(), rsManager->GetCount());
+	D3D12_SHADER_RESOURCE_VIEW_DESC influenceSrvDesc{};
+	influenceSrvDesc.Format = DXGI_FORMAT_UNKNOWN;
+	influenceSrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	influenceSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
+	influenceSrvDesc.Buffer.FirstElement = 0;
+	influenceSrvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
+	influenceSrvDesc.Buffer.NumElements = UINT(skeleton.joints.size());
+	influenceSrvDesc.Buffer.StructureByteStride = sizeof(WellForGPU);
+	DeviceManager::GetInstance()->GetDevice()->CreateShaderResourceView(skinCluster.influenceResource.Get(), &influenceSrvDesc, skinCluster.influenceSrvHandle.GetCPU());
 
 	// influence用のVBVを作成
 	skinCluster.influenceBufferView.BufferLocation = skinCluster.influenceResource->GetGPUVirtualAddress();

@@ -12,14 +12,14 @@ public:
 	virtual void Initialize(Model* model);
 	void UpdateProcess(Model* model);
 
-private:
+protected:
 	virtual void CreateRootSignature();
 	virtual void CreatePipeline();
 
-private:
+protected:
 	std::unique_ptr<RootSignature> rootSignature_;
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> computePipeline_ = nullptr;
 	Microsoft::WRL::ComPtr<ID3D12Resource> outputVertexResource_ = nullptr;
-	std::unique_ptr<DescriptorHandle> outputVertexHandle_;
+	DescriptorHandle outputVertexHandle_;
 
 };

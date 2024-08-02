@@ -257,6 +257,9 @@
     <ClCompile Include="MPEngine\Compute\BaseComputeShader.cpp">
       <Filter>MPEngine\Compute</Filter>
     </ClCompile>
+    <ClCompile Include="MPEngine\Compute\SkinningCompute.cpp">
+      <Filter>MPEngine\Compute</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -531,6 +534,9 @@
       <Filter>MPEngine\Utils\Camera</Filter>
     </ClInclude>
     <ClInclude Include="MPEngine\Compute\BaseComputeShader.h">
+      <Filter>MPEngine\Compute</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Compute\SkinningCompute.h">
       <Filter>MPEngine\Compute</Filter>
     </ClInclude>
   </ItemGroup>
