@@ -46,6 +46,8 @@ void Object3d::Initialize() {
 	indexResource_.resize(modelDatas_.size());
 	indexBufferView_.resize(modelDatas_.size());
 
+	auto rsManager = ResourceManager::GetInstance();
+	srvHandle_.CreateView(rsManager->GetSRVHeap(), rsManager->GetCount());
 	CreateVertexResource();
 	UploadVertexData();
 }

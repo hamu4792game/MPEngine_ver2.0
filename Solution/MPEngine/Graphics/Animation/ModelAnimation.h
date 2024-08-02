@@ -27,6 +27,7 @@ struct SkinCluster {
 	Microsoft::WRL::ComPtr<ID3D12Resource> influenceResource;
 	D3D12_VERTEX_BUFFER_VIEW influenceBufferView;
 	std::span<VertexInfluence> mappedInfluence;
+	DescriptorHandle influenceSrvHandle;
 	Microsoft::WRL::ComPtr<ID3D12Resource> paletteResource;
 	std::span<WellForGPU> mappedPalette;
 	//std::pair<D3D12_CPU_DESCRIPTOR_HANDLE, D3D12_GPU_DESCRIPTOR_HANDLE> paletteSrvHandle;
@@ -47,6 +48,7 @@ class Model;
 class ModelAnimation {
 	friend class ResourceManager;
 	friend class ModelRender;
+	friend class BaseComputeShader;
 public:
 	ModelAnimation() = default;
 	~ModelAnimation();

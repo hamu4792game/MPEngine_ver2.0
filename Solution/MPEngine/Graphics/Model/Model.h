@@ -30,6 +30,8 @@ public: // setter
 
 	const WorldTransform& GetTransform() const { return transform_; }
 	ModelAnimation* GetAnimation() const { return animation_; }
+	Object3d* GetModel() const { return model_; }
+
 private:
 	
 

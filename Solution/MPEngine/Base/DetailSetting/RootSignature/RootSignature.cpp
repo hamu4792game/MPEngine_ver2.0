@@ -40,3 +40,30 @@ void RootSignature::CreateRootSignature(D3D12_ROOT_PARAMETER* rootParameter, UIN
 	}
 	signatureBlob->Release();
 }
+
+void RootSignature::CreateComputeRootSignature(D3D12_ROOT_PARAMETER* rootParameter, UINT num) {
+	// ルートシグネチャーの作成
+	D3D12_ROOT_SIGNATURE_DESC sigDesc{};
+	sigDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
+
+	sigDesc.pParameters = rootParameter;
+	sigDesc.NumParameters = num;
+
+	// シリアライズしてバイナリにする
+	ID3DBlob* signatureBlob = nullptr;
+	ID3DBlob* errorBlob = nullptr;
+	HRESULT hr = D3D12SerializeRootSignature(&sigDesc, D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob, &errorBlob);
+	if (FAILED(hr)) {
+		Log(reinterpret_cast<char*>(errorBlob->GetBufferPointer()));
+		assert(false);
+	}
+	// バイナリを元に生成
+	rootSignature_ = nullptr;
+	auto device = DeviceManager::GetInstance();
+	hr = device->GetDevice()->CreateRootSignature(0, signatureBlob->GetBufferPointer(), signatureBlob->GetBufferSize(), IID_PPV_ARGS(rootSignature_.GetAddressOf()));
+	assert(SUCCEEDED(hr));
+	if (errorBlob) {
+		errorBlob->Release();
+	}
+	signatureBlob->Release();
+}

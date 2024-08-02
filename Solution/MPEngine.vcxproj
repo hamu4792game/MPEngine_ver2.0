@@ -195,6 +195,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="MPEngine\Base\Manager\ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="MPEngine\Base\Manager\ShaderManager\ShaderManager.cpp" />
     <ClCompile Include="MPEngine\Base\WindowSupervisor\WindowSupervisor.cpp" />
+    <ClCompile Include="MPEngine\Compute\BaseComputeShader.cpp" />
     <ClCompile Include="MPEngine\Graphics\Animation\AnimationData.cpp" />
     <ClCompile Include="MPEngine\Graphics\Animation\ModelAnimation.cpp" />
     <ClCompile Include="MPEngine\Graphics\Animation\SkinningAnimation.cpp" />
@@ -283,6 +284,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="MPEngine\Base\Manager\ResourceManager\ResourceManager.h" />
     <ClInclude Include="MPEngine\Base\Manager\ShaderManager\ShaderManager.h" />
     <ClInclude Include="MPEngine\Base\WindowSupervisor\WindowSupervisor.h" />
+    <ClInclude Include="MPEngine\Compute\BaseComputeShader.h" />
     <ClInclude Include="MPEngine\Framework\GameFrame.h" />
     <ClInclude Include="MPEngine\Framework\SceneFrame.h" />
     <ClInclude Include="MPEngine\Graphics\Animation\AnimationData.h" />

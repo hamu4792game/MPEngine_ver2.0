@@ -13,6 +13,7 @@ public:
 	~RootSignature() = default;
 	// RootSignatureの生成
 	void CreateRootSignature(D3D12_ROOT_PARAMETER* rootParameter, UINT num);
+	void CreateComputeRootSignature(D3D12_ROOT_PARAMETER* rootParameter, UINT num);
 
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> GetRootSignature() const { return rootSignature_; }
 

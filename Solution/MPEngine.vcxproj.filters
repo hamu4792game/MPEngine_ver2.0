@@ -254,6 +254,9 @@
     <ClCompile Include="MPEngine\Utils\Camera\DebugCamera.cpp">
       <Filter>MPEngine\Utils\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="MPEngine\Compute\BaseComputeShader.cpp">
+      <Filter>MPEngine\Compute</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -527,6 +530,9 @@
     <ClInclude Include="MPEngine\Utils\Camera\DebugCamera.h">
       <Filter>MPEngine\Utils\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="MPEngine\Compute\BaseComputeShader.h">
+      <Filter>MPEngine\Compute</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="MPEngine">
@@ -753,6 +759,9 @@
     </Filter>
     <Filter Include="MPEngine\Utils\Template">
       <UniqueIdentifier>{94328d05-5052-4d25-a466-4bdb72b98b01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MPEngine\Compute">
+      <UniqueIdentifier>{195e643d-37d3-4de6-991d-70b4858a3f16}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

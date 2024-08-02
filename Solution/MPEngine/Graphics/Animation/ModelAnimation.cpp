@@ -32,21 +32,6 @@ void ModelAnimation::Play(const bool& flag) {
 	animationTime_ = 0.0f;
 }
 
-/*Matrix4x4 ModelAnimation::Update() {
-	if (isPlay_ == true) {
-		// 固定フレーム
-		static float kFrame = 1.0f / 60.0f;
-		animationTime_ += kFrame; // のちに可変フレームに対応
-		animationTime_ = std::fmod(animationTime_, data_->duration); // 最後まで行ったらリピート再生
-		NodeAnimation rootNodeAnimation = data_->nodeAnimations.at(model_->model_->GetModel().rootNode.name); // rootnodeのanimationを取得
-		Vector3 translate = CalculateValue(rootNodeAnimation.translate.keyframes, animationTime_);
-		Quaternion rotate = CalculateValue(rootNodeAnimation.rotate.keyframes, animationTime_);
-		Vector3 scale = CalculateValue(rootNodeAnimation.scale.keyframes, animationTime_);
-		localMatrix = MakeAffineMatrix(scale, rotate, translate);
-	}	
-	return localMatrix;
-}*/
-
 void ModelAnimation::Update(const WorldTransform& transform) {
 	Update(skeleton_);
 	Update(skinCluster_, skeleton_);
