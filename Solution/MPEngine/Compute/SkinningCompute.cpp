@@ -3,6 +3,41 @@
 #include "MPEngine/Base/Manager/DeviceManager/DeviceManager.h"
 #include "MPEngine/Base/Manager/ListManager/ListManager.h"
 
+void SkinningCompute::Initialize(Model* model) {
+	auto rsManager = ResourceManager::GetInstance();
+	outputVertexHandle_.CreateView(rsManager->GetSRVHeap(), rsManager->GetCount());
+
+	D3D12_UNORDERED_ACCESS_VIEW_DESC uavDesc{};
+	uavDesc.Format = DXGI_FORMAT_UNKNOWN;
+	uavDesc.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
+	uavDesc.Buffer.FirstElement = 0;
+	uavDesc.Buffer.NumElements = (UINT)model->GetModel()->GetModel().vertices.size(); // 頂点数
+	uavDesc.Buffer.CounterOffsetInBytes = 0;
+	uavDesc.Buffer.Flags = D3D12_BUFFER_UAV_FLAG_NONE;
+	uavDesc.Buffer.StructureByteStride = sizeof(VertexData);
+
+	auto device = DeviceManager::GetInstance()->GetDevice();
+	// Resourceの作成
+	device->CreateUnorderedAccessView(outputVertexResource_.Get(), nullptr, &uavDesc, outputVertexHandle_.GetCPU());
+
+	cSkinningInfomation_->numVertices = static_cast<uint32_t>(model->GetModel()->GetModel().vertices.size());
+	model_ = model;
+}
+
+void SkinningCompute::UpdateProcess() {
+	auto list = ListManager::GetInstance()->GetList();
+
+	list->SetComputeRootSignature(rootSignature_->GetRootSignature().Get());
+	list->SetPipelineState(computePipeline_.Get());
+	list->SetComputeRootDescriptorTable(0, model_->GetAnimation()->GetSkinCluster().paletteSrvHandle.GetGPU());
+	list->SetComputeRootDescriptorTable(1, model_->GetModel()->GetHandle().GetGPU());
+	list->SetComputeRootDescriptorTable(2, model_->GetAnimation()->GetSkinCluster().influenceSrvHandle.GetGPU());
+	list->SetComputeRootDescriptorTable(3, outputVertexHandle_.GetGPU());
+	list->SetComputeRootDescriptorTable(4, cSkinningInfomation_.GetHandle().GetGPU());
+
+	list->Dispatch(UINT(cSkinningInfomation_->numVertices + 1023) / 1024, 1, 1);
+}
+
 void SkinningCompute::CreateRootSignature() {
 	D3D12_DESCRIPTOR_RANGE range[1] = {};
 	range[0].BaseShaderRegister = 0;

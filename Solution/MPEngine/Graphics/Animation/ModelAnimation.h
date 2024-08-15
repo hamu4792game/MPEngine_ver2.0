@@ -48,7 +48,6 @@ class Model;
 class ModelAnimation {
 	friend class ResourceManager;
 	friend class ModelRender;
-	friend class BaseComputeShader;
 public:
 	ModelAnimation() = default;
 	~ModelAnimation();
@@ -67,6 +66,8 @@ public:
 	void Update(const WorldTransform& transform);
 	float ApplyAnimation(const float& animationTime);
 	void Draw(const WorldTransform& transform);
+
+	const SkinCluster& GetSkinCluster() const { return skinCluster_; }
 
 private:
 	static Skeleton CreateSkeleton(const Node& rootNode);

@@ -7,10 +7,10 @@
 class BaseComputeShader {
 public:
 	BaseComputeShader();
-	~BaseComputeShader();
+	~BaseComputeShader() = default;
 
-	virtual void Initialize(Model* model);
-	void UpdateProcess(Model* model);
+	virtual void Initialize(Model* model) {};
+	virtual void UpdateProcess() {};
 
 protected:
 	virtual void CreateRootSignature();
@@ -19,7 +19,5 @@ protected:
 protected:
 	std::unique_ptr<RootSignature> rootSignature_;
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> computePipeline_ = nullptr;
-	Microsoft::WRL::ComPtr<ID3D12Resource> outputVertexResource_ = nullptr;
-	DescriptorHandle outputVertexHandle_;
 
 };

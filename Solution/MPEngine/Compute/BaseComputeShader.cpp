@@ -7,33 +7,6 @@ BaseComputeShader::BaseComputeShader() {
 
 }
 
-void BaseComputeShader::Initialize(Model* model) {
-	D3D12_UNORDERED_ACCESS_VIEW_DESC uavDesc{};
-	uavDesc.Format = DXGI_FORMAT_UNKNOWN;
-	uavDesc.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
-	uavDesc.Buffer.FirstElement = 0;
-	uavDesc.Buffer.NumElements = (UINT)model->GetModel()->GetModel().vertices.size(); // 頂点数
-	uavDesc.Buffer.CounterOffsetInBytes = 0;
-	uavDesc.Buffer.Flags = D3D12_BUFFER_UAV_FLAG_NONE;
-	uavDesc.Buffer.StructureByteStride = sizeof(VertexData);
-
-	auto device = DeviceManager::GetInstance()->GetDevice();
-	device->CreateUnorderedAccessView(outputVertexResource_.Get(), nullptr, &uavDesc, outputVertexHandle_.GetCPU());
-
-}
-
-void BaseComputeShader::UpdateProcess(Model* model) {
-	auto list = ListManager::GetInstance()->GetList();
-
-	list->SetComputeRootSignature(rootSignature_->GetRootSignature().Get());
-	list->SetPipelineState(computePipeline_.Get());
-	list->SetComputeRootDescriptorTable(0, model->GetAnimation()->skinCluster_.paletteSrvHandle.GetGPU());
-	list->SetComputeRootDescriptorTable(1, model->GetModel()->GetHandle().GetGPU());
-	list->SetComputeRootDescriptorTable(2, model->GetAnimation()->skinCluster_.influenceSrvHandle.GetGPU());
-	list->SetComputeRootDescriptorTable(3, outputVertexHandle_.GetGPU());
-
-}
-
 void BaseComputeShader::CreateRootSignature() {
 	D3D12_DESCRIPTOR_RANGE range[1] = {};
 	range[0].BaseShaderRegister = 0;
