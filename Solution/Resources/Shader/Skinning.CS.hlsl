@@ -28,6 +28,7 @@ ConstantBuffer<SkinningInfomation> gSkinningInfomation : register(b0);
 [numthreads(1024,1,1)]
 void main(uint32_t3 DTid : SV_DispatchThreadID) {
     uint32_t vertexIndex = DTid.x;
+    // モデルの頂点以上なのか判別
     if (vertexIndex < gSkinningInfomation.numVertices) {
         // skinningの計算処理
         // 必要なデータをStructuredBufferから取ってくる

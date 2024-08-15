@@ -4,6 +4,10 @@
 #include "DeviceManager/DeviceManager.h"
 #include <algorithm>
 
+ModelAnimation::ModelAnimation() {
+
+}
+
 ModelAnimation::~ModelAnimation() {
 	
 }
@@ -12,19 +16,13 @@ void ModelAnimation::Load(const AnimationData* data, const Model* model) {
 	data_ = data;
 	model_ = model;
 	skeleton_ = CreateSkeleton(model_->model_->GetModel().rootNode);
-	/*for (Joint& joint : skeleton_.joints) {
-		if (!joint.parent && lines_.empty()) { continue; }
-		auto& line = lines_.emplace_back(std::make_unique<Line>());
-	}*/
+
 	skinCluster_ = CreateSkinCluster(skeleton_, model_->model_->GetModel());
 
-	/*joints_.resize(skeleton_.joints.size());
-	for (auto& joint : joints_) {
-		joint = std::make_unique<Model>();
-		joint->SetModel(ResourceManager::GetInstance()->FindObject3d("Box"));
-		joint->SetTexture(ResourceManager::GetInstance()->FindTexture("UVChecker"));
-		joint->transform_.scale_ = Vector3(0.1f, 0.1f, 0.1f);
-	}*/
+	// cs用
+	skinning_c = std::make_unique<SkinningCompute>();
+	skinning_c->Initialize(model_);
+
 }
 
 void ModelAnimation::Play(const bool& flag) {
@@ -35,7 +33,10 @@ void ModelAnimation::Play(const bool& flag) {
 void ModelAnimation::Update(const WorldTransform& transform) {
 	Update(skeleton_);
 	Update(skinCluster_, skeleton_);
-	Draw(transform);
+}
+
+void ModelAnimation::UpdateCS(const WorldTransform& transform) {
+
 }
 
 float ModelAnimation::ApplyAnimation(const float& animationTime) {
@@ -51,25 +52,6 @@ float ModelAnimation::ApplyAnimation(const float& animationTime) {
 		}
 	}
 	return result;
-}
-
-void ModelAnimation::Draw(const WorldTransform& transform) {
-	/*for (Joint& joint : skeleton_.joints) {
-		if (!joint.parent && lines_.empty()) { continue; }
-		auto& line = lines_.emplace_back(std::make_unique<Line>());
-		int32_t handle = joint.parent.value();
-		line->SetLine(skeleton_.joints[handle].skeletonSpaceMatrix.GetPosition(), skeleton_.joints[joint.index].skeletonSpaceMatrix.GetPosition());
-	}*/
-	int index = 0;
-	for (Joint& joint : skeleton_.joints) {
-		if (!joint.parent.has_value()) { continue; }
-		int32_t handle = joint.parent.value();
-		// JointのWorldMatrixは skeletonSpaceMatrix * worldMatrix のため、変換色はこうなる
-		Matrix4x4 mat1 = skeleton_.joints[handle].skeletonSpaceMatrix * transform.worldMatrix_;
-		//Matrix4x4 mat2 = skeleton_.joints[joint.index].skeletonSpaceMatrix * transform.worldMatrix_;
-		//lines_.at(index++)->SetLine(mat1.GetPosition(), mat2.GetPosition());
-		//joints_.at(index++)->transform_.parent_ = &transform;
-	}
 }
 
 Skeleton ModelAnimation::CreateSkeleton(const Node& rootNode) {

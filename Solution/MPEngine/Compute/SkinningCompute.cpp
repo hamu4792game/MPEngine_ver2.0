@@ -2,8 +2,16 @@
 #include "MPEngine/Base/Manager/ShaderManager/ShaderManager.h"
 #include "MPEngine/Base/Manager/DeviceManager/DeviceManager.h"
 #include "MPEngine/Base/Manager/ListManager/ListManager.h"
+#include "MPEngine/Base/GraphicsManager/GraphicsManager.h"
 
-void SkinningCompute::Initialize(Model* model) {
+SkinningCompute::~SkinningCompute() {
+	if (outputVertexResource_) {
+		outputVertexResource_.Reset();
+		outputVertexResource_->Release();
+	}
+}
+
+void SkinningCompute::Initialize(const Model* model) {
 	auto rsManager = ResourceManager::GetInstance();
 	outputVertexHandle_.CreateView(rsManager->GetSRVHeap(), rsManager->GetCount());
 
@@ -25,6 +33,8 @@ void SkinningCompute::Initialize(Model* model) {
 }
 
 void SkinningCompute::UpdateProcess() {
+	GraphicsManager::CreateBarrier(outputVertexResource_.Get(), D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+
 	auto list = ListManager::GetInstance()->GetList();
 
 	list->SetComputeRootSignature(rootSignature_->GetRootSignature().Get());
@@ -36,6 +46,8 @@ void SkinningCompute::UpdateProcess() {
 	list->SetComputeRootDescriptorTable(4, cSkinningInfomation_.GetHandle().GetGPU());
 
 	list->Dispatch(UINT(cSkinningInfomation_->numVertices + 1023) / 1024, 1, 1);
+
+	GraphicsManager::CreateBarrier(outputVertexResource_.Get(), D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
 }
 
 void SkinningCompute::CreateRootSignature() {

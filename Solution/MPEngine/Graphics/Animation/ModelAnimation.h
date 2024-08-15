@@ -9,6 +9,7 @@
 #include "Graphics/Line/Line.h"
 #include "MPEngine/Base/DetailSetting/DescriptorHandle/DescriptorHandle.h"
 #include "Graphics/Particle/Particle.h"
+#include "MPEngine/Compute/SkinningCompute.h"
 
 
 const uint32_t kNumMaxInfluence = 4;
@@ -49,7 +50,7 @@ class ModelAnimation {
 	friend class ResourceManager;
 	friend class ModelRender;
 public:
-	ModelAnimation() = default;
+	ModelAnimation();
 	~ModelAnimation();
 
 	enum AnimationType {
@@ -64,8 +65,8 @@ public:
 	//Matrix4x4 Update();
 	const Matrix4x4& GetMatrix() const { return localMatrix; }
 	void Update(const WorldTransform& transform);
+	void UpdateCS(const WorldTransform& transform);
 	float ApplyAnimation(const float& animationTime);
-	void Draw(const WorldTransform& transform);
 
 	const SkinCluster& GetSkinCluster() const { return skinCluster_; }
 
@@ -90,4 +91,6 @@ private:
 	bool isPlay_ = true;
 
 	std::vector<std::unique_ptr<Model>> joints_;
+
+	std::unique_ptr<SkinningCompute> skinning_c;
 };

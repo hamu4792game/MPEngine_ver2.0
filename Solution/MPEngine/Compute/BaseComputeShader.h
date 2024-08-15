@@ -9,7 +9,7 @@ public:
 	BaseComputeShader();
 	~BaseComputeShader() = default;
 
-	virtual void Initialize(Model* model) {};
+	virtual void Initialize(const Model* model) {};
 	virtual void UpdateProcess() {};
 
 protected:

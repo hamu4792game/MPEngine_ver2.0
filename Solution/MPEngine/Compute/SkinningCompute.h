@@ -4,10 +4,11 @@
 #include "MPEngine/Graphics/Model/Model.h"
 
 class SkinningCompute : public BaseComputeShader{
-	SkinningCompute();
+public:
+	SkinningCompute() = default;
 	~SkinningCompute();
 
-	void Initialize(Model* model) override;
+	void Initialize(const Model* model) override;
 	void UpdateProcess() override;
 
 private:
@@ -22,6 +23,6 @@ private:
 		uint32_t numVertices;
 	};
 	ConstantBuffer<SkinningInfomation> cSkinningInfomation_;
-	Model* model_;
+	const Model* model_;
 
 };
