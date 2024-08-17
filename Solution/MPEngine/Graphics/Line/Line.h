@@ -25,6 +25,10 @@ private:
 		Vector3 start; // 始点
 		Vector3 end; // 終点
 	};
+	struct Vertex {
+		Matrix4x4 wvp;
+		Vector4 color;
+	};
 	LineVertex pos_;
 	
 };

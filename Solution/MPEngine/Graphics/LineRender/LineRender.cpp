@@ -7,10 +7,6 @@
 #include "MPEngine/Base/Manager/ResourceManager/ResourceManager.h"
 
 LineRender::~LineRender() {
-	if (vertexResource_) {
-		vertexResource_->Release();
-		vertexResource_.Reset();
-	}
 	if (instancingResource_) {
 		instancingResource_->Release();
 		instancingResource_.Reset();
@@ -83,7 +79,6 @@ void LineRender::Initialize() {
 #pragma endregion
 
 	// リソースの生成
-	CreateVertexResource();
 	CreateInstancing();
 }
 
@@ -102,48 +97,16 @@ void LineRender::DrawCommand(const Matrix4x4& viewProjectionMat) {
 			activeList.push_back(line);
 		}
 
-		UINT verticesSize = UploadVertexData(activeList);
+		UINT verticesSize = static_cast<UINT>(activeList.size());
 		UploadInstancingData(activeList, viewProjectionMat);
 
 		list->SetPipelineState(graphicsPipeline_->GetPipelineState());
-		list->IASetVertexBuffers(0, 1, &vertexBufferView_);
 		auto rsManager = ResourceManager::GetInstance();
 		list->SetGraphicsRootDescriptorTable(0, instancingSrvHandle_.GetGPU()); // wvp・color
 
 		// 描画
 		list->DrawInstanced(2u, verticesSize, 0u, 0u);
 	}
-}
-
-void LineRender::CreateVertexResource() {
-	auto rsManager = ResourceManager::GetInstance();
-	auto device = DeviceManager::GetInstance()->GetDevice();
-	if (vertexResource_) {
-		vertexResource_->Release();
-		vertexResource_.Reset();
-	}
-	vertexResource_ = rsManager->CreateBufferResource(device, sizeof(Line::LineVertex) * kMaxNumInstance_);
-
-	vertexBufferView_.BufferLocation = vertexResource_->GetGPUVirtualAddress();
-	vertexBufferView_.SizeInBytes = UINT(sizeof(Line::LineVertex) * kMaxNumInstance_);
-	vertexBufferView_.StrideInBytes = sizeof(Line::LineVertex);
-}
-
-UINT LineRender::UploadVertexData(std::list<Line*> lineList) {
-	//auto& lineList = Line::lineLists_;
-	std::vector<Line::LineVertex> vertices;
-	// ライン頂点データを収集
-	for (auto line : lineList) {
-		if (!line->isActive_) { continue; } // 早期リターン
-		vertices.push_back({ line->pos_.start, line->pos_.end });
-	}
-	const uint32_t vertexBufferSize = static_cast<uint32_t>(sizeof(Line::LineVertex) * vertices.size());
-	// 送る
-	Line::LineVertex* mapData = nullptr;
-	vertexResource_->Map(0, nullptr, reinterpret_cast<void**>(&mapData));
-	std::memcpy(mapData, vertices.data(), vertexBufferSize);
-	vertexResource_->Unmap(0, nullptr);
-	return static_cast<UINT>(vertices.size());
 }
 
 void LineRender::CreateInstancing() {
@@ -161,7 +124,7 @@ void LineRender::CreateInstancing() {
 	instancingSrvDesc.Buffer.FirstElement = 0;
 	instancingSrvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
 	instancingSrvDesc.Buffer.NumElements = kMaxNumInstance_;
-	instancingSrvDesc.Buffer.StructureByteStride = sizeof(kMaxNumInstance_);
+	instancingSrvDesc.Buffer.StructureByteStride = sizeof(InstancingStruct);
 
 	// ビューの生成
 	instancingSrvHandle_.CreateView(rsManager->GetSRVHeap(), rsManager->GetCount());

@@ -159,6 +159,11 @@ void Stage::LevelLoad(LevelData* data) {
 		transform = objectData.transform;
 		// ここからはタイプ別に生成
 		if (objectData.typeName.find("Ground") != std::string::npos) {
+
+			if (objectData.typeName.find("15") != std::string::npos) {
+				auto size = boxes_.size();
+			}
+
 			// 見つかれば
 			boxes_.emplace_back(std::make_shared<Ground>())->Initialize(objectData);
 			// 絶対後で消す
