@@ -14,7 +14,7 @@ void TitleScene::Initialize() {
 
 	stage_ = std::make_unique<Stage>();
 	LevelData data;
-	auto leveldata = data.Load("stage.json");
+	auto leveldata = data.Load("title.json");
 	stage_->LevelLoad(leveldata);
 
 	player_ = std::make_unique<PlayerManager>();

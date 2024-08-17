@@ -12,4 +12,8 @@ Line::~Line() {
 void Line::SetLine(const Vector3& start, const Vector3& end) {
 	pos_.start = start;
 	pos_.end = end;
+	if (pos_.start == pos_.end) {
+		pos_.start = start;
+		return;
+	}
 }

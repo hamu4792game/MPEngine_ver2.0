@@ -67,14 +67,9 @@ void BattleScene::Update() {
 	player_->Update();
 	enemy_->Update();
 	
-#ifdef _DEBUG
 	static Vector3 scale = Vector3(300.0f, 300.0f, 300.0f);
-	static Vector3 translate = Vector3(0.0f, 0.0f, 0.0f);
-	ImGui::DragFloat3("BoxScale", &scale.x, 1.0f);
-	ImGui::DragFloat3("BoxTranslate", &translate.x, 1.0f);
-	WorldTransform trans(scale, Vector3::zero, translate);
+	WorldTransform trans(scale, Vector3::zero, player_->GetTransform().GetPosition());
 	skybox_->SetTransform(trans);
-#endif // _DEBUG
 	skybox_->Update();
 
 	bool gameclear = false;

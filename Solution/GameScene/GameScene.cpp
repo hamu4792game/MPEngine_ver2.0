@@ -41,7 +41,7 @@ void GameScene::Initialize() {
 	rs->AddTexture("ABCD", "Resources/Texture/uvChecker.png");
 	rs->AddTexture("Target", "Resources/Texture/hud/target.png");
 	rs->AddTexture("Block", "Resources/Texture/ground.png");
-	rs->AddTexture("Airport", "Resources/Texture/output_image_night.dds");
+	rs->AddTexture("Airport", "Resources/Texture/output_image.dds");
 
 	rs->AddModel("Human", "Resources/Model/human/wait.gltf");
 	rs->AddModel("PlayerHead", "Resources/Model/Player/Head/head.obj");
@@ -60,7 +60,7 @@ void GameScene::Initialize() {
 	//rs->AddAudio("Title", "./Resources/Sound/w006.wav");
 	rs->AddAudio("Battle", "Resources/Audio/mLoop1.mp3");
 
-	sceneRequest_ = Scene::TITLE;
+	sceneRequest_ = Scene::BATTLE;
 	transition_ = std::make_unique<Transition>();
 }
 
