@@ -49,6 +49,12 @@ void Collider::Update() {
 	
 }
 
+void Collider::SetLineColor(Vector4 color) {
+	for (auto& i : lines_) {
+		i->SetColor(color);
+	}
+}
+
 bool Collider::OnCollision(const Collider& coll, Vector3& pushbackVec) {
 	bool flag = false;
 	switch (coll.collderType_) {

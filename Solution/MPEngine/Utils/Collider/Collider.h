@@ -26,6 +26,8 @@ public:
 	void Initialize(WorldTransform* transform, Type type, std::string name = ""); // 初期化処理
 	void Update(); // 更新処理
 	
+	void SetLineColor(Vector4 color);
+
 	/// <summary>
 	/// 衝突判定
 	/// </summary>

@@ -21,14 +21,12 @@ public:
 	const WorldTransform& GetTransform() const { return camera_.transform; }
 	const Camera& GetCamera() const { return camera_; }
 
-	bool OnCollision(const Collider& coll);
-
 private:
 	Camera camera_;
 	struct CameraForGPU {
 		Vector3 worldPosition;
 	};
-	std::unique_ptr<Collider> collision_;
+	
 public:
 	ConstantBuffer<CameraForGPU> cCamera;
 
