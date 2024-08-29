@@ -53,11 +53,13 @@ private:
 		Vector3 move; // 入力方向ベクトル
 		bool isJump = false; // ジャンプボタンが押されたか
 		bool isWireMove = false; // ワイヤー移動ボタンが押されたか
+		bool isDashMove = false; // ダッシュボタンが押されたか
 
 		void Initialize() {
 			move = Vector3::zero;
 			isJump = false;
 			isWireMove = false;
+			isDashMove = false;
 		}
 	};
 	InputParam inputParam_;
@@ -74,8 +76,16 @@ private:
 			kMinAcceleration = min;
 			kMaxAcceleration = max;
 		}
+		void AccelInit() {
+			acceleration = 0.0f;
+		}
+		void AddUpdate(); // 加算更新
 	};
 
+	// 移動関係速度
+	SpeedParam moveParameter_;
+
+	Vector3 oldMoveVector; // 1f前の移動ベクトル
 
 	// 落下用ステータス ジャンプも含む
 	struct FallParam {

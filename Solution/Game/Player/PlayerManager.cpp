@@ -5,6 +5,11 @@
 #include "Input/Input.h"
 #include <algorithm>
 
+void PlayerManager::SpeedParam::AddUpdate() {
+	acceleration += accelerationRate;
+	acceleration = std::clamp(acceleration, kMinAcceleration, kMaxAcceleration);
+}
+
 PlayerManager::PlayerManager() {
 	animation_ = std::make_unique<PlayerAnimation>(&transform_);
 	collision_ = std::make_unique<Collider>();
@@ -31,6 +36,9 @@ void PlayerManager::Initialize(const WorldTransform& respawnpoint) {
 	followCamera_->SetTarget(&transform_);
 	followCamera_->Initialize();
 	followCamera_->SetParam(Vector3(0.0f, 2.0f, -20.0f), followCamera_->GetTransform().rotation_, 0.95f);
+
+	moveParameter_.Initialize(0.0f, 0.01f, 0.0f, 0.5f);
+
 }
 
 void PlayerManager::Update() {
@@ -226,9 +234,24 @@ void PlayerManager::DrawImGui() {
 }
 
 void PlayerManager::InputMove() {
-	if (inputParam_.move != Vector3::zero) {
+
+	// ダッシュの有無
+	if (inputParam_.isDashMove) {
+		moveParameter_.kMaxAcceleration = 1.0f;
+		moveParameter_.accelerationRate = 0.08f;
+	}
+	else {
+		moveParameter_.kMaxAcceleration = 0.5f;
+		moveParameter_.accelerationRate = 0.05f;
+	}
+
+	// 移動入力している場合
+	if (inputParam_.move != Vector3::zero && fallParam_.isJumpable) {
+
+		moveParameter_.AddUpdate();
+
 		// 移動ベクトルに速度を足す 既に入力の状態で正規化されているのでそのまま
-		const float speed = 0.5f;
+		float speed = moveParameter_.acceleration;
 		Vector3 move = inputParam_.move * speed * masterSpeed_;
 
 		// 移動ベクトルをカメラの角度だけ回転させる
@@ -239,9 +262,17 @@ void PlayerManager::InputMove() {
 
 		// 移動しているので
 		behaviorFlag_.isMoved = true;
+		oldMoveVector = move;
+	}
+	else if (!fallParam_.isJumpable) {
+		moveVector_ += oldMoveVector;
+		// 移動しているので
+		behaviorFlag_.isMoved = true;
 	}
 	else {
+		moveParameter_.AccelInit();
 		behaviorFlag_.isWaiting = true;
+		oldMoveVector = inputParam_.move;
 	}
 }
 
@@ -315,6 +346,9 @@ void PlayerManager::KeyInput() {
 	}
 	if (input->GetKey()->PressKey(DIK_D)) {
 		inputParam_.move.x += speed;
+	}
+	if (input->GetKey()->PressKey(DIK_LSHIFT)) {
+		inputParam_.isDashMove = true;
 	}
 
 	if (input->GetPad()->GetPadConnect()) {
