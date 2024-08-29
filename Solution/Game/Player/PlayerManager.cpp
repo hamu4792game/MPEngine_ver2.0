@@ -200,6 +200,11 @@ bool PlayerManager::OnCollisionStage(const Collider& coll) {
 	return false;
 }
 
+WorldTransform PlayerManager::OnCollisionCameraToStage(const Collider& coll) {
+	followCamera_->OnCollision(coll);
+	return followCamera_->GetTransform();
+}
+
 void PlayerManager::DrawImGui() {
 #ifdef _DEBUG
 	ImGui::Begin(itemName_.c_str(), nullptr, ImGuiWindowFlags_MenuBar);

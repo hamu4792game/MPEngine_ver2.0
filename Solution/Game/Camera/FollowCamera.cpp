@@ -9,12 +9,18 @@ FollowCamera::FollowCamera() : kMaxOffset_(Vector3(0.0f, 2.0f, -30.0f)) {
 	preOffset_ = offset_;
 	preRotate_ = transform_.rotation_;
 	postRotate_ = transform_.rotation_;
+
+	collision_ = std::make_unique<Collider>();
+	collision_->Initialize(&transform_, Collider::Type::Line, "followCamera");
 }
 
 void FollowCamera::Initialize(const WorldTransform& transform) {
 	transform_ = transform;
 	preTranslate_ = target_->worldMatrix_ * TargetOffset(offset_, transform_.rotation_);
 	lerpSpeed_ = 0.2f;
+
+	collision_->GetLine().at(0)->SetLine(target_->GetPosition(), transform_.GetPosition());
+	collision_->GetLine().at(0)->SetColor(0xff0000ff);
 }
 
 void FollowCamera::SetParam(const Vector3& offset, const Vector3& rotate, float lerpSpeed) {
@@ -44,6 +50,7 @@ void FollowCamera::Update(const float& speed) {
 		transform_.rotation_ = preRotate_;
 	}
 	transform_.UpdateMatrix();
+	collision_->Update();
 }
 
 void FollowCamera::DrawImGui() {
@@ -104,4 +111,22 @@ void FollowCamera::CameraMove() {
 	ImGui::DragFloat2("Limit", &limit.x, 0.1f);
 #endif // _DEBUG
 	postRotate_.x = std::clamp(postRotate_.x, AngleToRadian(limit.x), AngleToRadian(limit.y));
+}
+
+bool FollowCamera::OnCollision(const Collider& coll) {
+	Vector3 pushBackVec;
+	bool iscoll = collision_->OnCollision(coll, pushBackVec);
+	if (iscoll) {
+		// Groundと当たっていた場合
+		if (coll.GetName() == "Ground") {
+			float push = Length(pushBackVec);
+			float off = Length(offset_);
+			if (push <= off) {
+				transform_.translation_ -= pushBackVec;
+				transform_.UpdateMatrix();
+				collision_->Update();
+			}
+		}
+	}
+	return false;
 }

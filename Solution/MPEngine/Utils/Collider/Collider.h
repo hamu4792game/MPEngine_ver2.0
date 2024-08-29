@@ -6,9 +6,10 @@
 #include <vector>
 #include "BoxCollider.h"
 #include "LineCollider.h"
+#include "Graphics/Line/Line.h"
 
 // 衝突判定用の前方宣言
-class Line;
+//class Line;
 
 class Collider {
 public:
@@ -26,6 +27,8 @@ public:
 	void Initialize(WorldTransform* transform, Type type, std::string name = ""); // 初期化処理
 	void Update(); // 更新処理
 	
+	std::vector<std::shared_ptr<Line>> GetLine() { return lines_; }
+
 	/// <summary>
 	/// 衝突判定
 	/// </summary>

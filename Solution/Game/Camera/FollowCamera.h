@@ -1,5 +1,6 @@
 #pragma once
 #include "Utils/WorldTransform/WorldTransform.h"
+#include "Utils/Collider/Collider.h"
 
 class FollowCamera {
 public:
@@ -15,6 +16,10 @@ public:
 	const Vector3& GetPostposition() const { return postTranslate_; }
 	void CameraMove();
 	WorldTransform transform_;
+
+
+	bool OnCollision(const Collider& coll);
+
 private:
 	const WorldTransform* target_ = nullptr;
 	Vector3 preTranslate_;
@@ -25,4 +30,6 @@ private:
 	Vector3 preRotate_;
 	Vector3 postRotate_;
 	float lerpSpeed_ = 0.0f;
+
+	std::unique_ptr<Collider> collision_;
 };

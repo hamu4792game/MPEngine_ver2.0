@@ -3,6 +3,7 @@
 #include <memory>
 #include "Base/ConstantBuffer.h"
 #include "DebugCamera.h"
+#include "Utils/Collider/Collider.h"
 
 class Camera3d {
 private:

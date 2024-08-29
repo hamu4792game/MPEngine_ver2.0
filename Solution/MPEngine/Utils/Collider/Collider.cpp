@@ -1,5 +1,4 @@
 #include "Collider.h"
-#include "Graphics/Line/Line.h"
 
 void Collider::Initialize(WorldTransform* transform, Type type, std::string name) {
 	collderType_ = type;

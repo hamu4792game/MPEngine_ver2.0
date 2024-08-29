@@ -50,15 +50,6 @@ void BattleScene::Update() {
 	lockOn_->Update(listData);
 	auto handle = lockOn_->GetTargetTrans();
 	
-	if (time_++ <= kMaxTimer_ * 60.0f) {
-		RenderManager::nowEffect = RenderManager::PostEffect::GaussianFilter;
-	}
-	else if (handle) {
-		RenderManager::nowEffect = RenderManager::PostEffect::Vignette;
-	}
-	else {
-		RenderManager::nowEffect = RenderManager::PostEffect::None;
-	}
 	time_ = std::min(time_, 300.0f);
 
 	player_->SetTargetTrans(handle);
@@ -102,7 +93,15 @@ void BattleScene::Update() {
 }
 
 void BattleScene::SecondUpdate() {
-	Camera3d::GetInstance()->SetTransform(player_->PostUpdate());
+	// ここでレイキャストする
+	Camera3d* camera = Camera3d::GetInstance();
+	WorldTransform cameraTransform = player_->PostUpdate();
+	// 一旦うまくいかないのでしない
+	//for (auto& coll : stage_->GetCollision()) {
+	//	cameraTransform = player_->OnCollisionCameraToStage(*coll);
+	//}
+	camera->SetTransform(cameraTransform);
+
 }
 
 void BattleScene::DrawImGui() {
