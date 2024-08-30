@@ -17,6 +17,8 @@ public:
 	void CameraMove();
 	WorldTransform transform_;
 
+	// 特定フレーム追従停止
+	void StopFollow(const float& frame);
 
 	bool OnCollision(const Collider& coll);
 
@@ -30,6 +32,8 @@ private:
 	Vector3 preRotate_;
 	Vector3 postRotate_;
 	float lerpSpeed_ = 0.0f;
+
+	bool isFollowStop_ = false;
 
 	std::unique_ptr<Collider> collision_;
 };

@@ -30,7 +30,7 @@ void FollowCamera::SetParam(const Vector3& offset, const Vector3& rotate, float 
 }
 
 void FollowCamera::Update(const float& speed) {
-	if (target_) {
+	if (target_ && !isFollowStop_) {
 		Vector3 lOffset = offset_;
 		
 		lOffset.z = offset_.z - speed;
@@ -111,6 +111,11 @@ void FollowCamera::CameraMove() {
 	ImGui::DragFloat2("Limit", &limit.x, 0.1f);
 #endif // _DEBUG
 	postRotate_.x = std::clamp(postRotate_.x, AngleToRadian(limit.x), AngleToRadian(limit.y));
+}
+
+void FollowCamera::StopFollow(const float& frame) {
+	isFollowStop_ = true;
+	frame;
 }
 
 bool FollowCamera::OnCollision(const Collider& coll) {
