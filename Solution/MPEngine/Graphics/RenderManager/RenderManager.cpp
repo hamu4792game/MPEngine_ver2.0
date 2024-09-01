@@ -39,7 +39,6 @@ void RenderManager::Draw(SwapChain* swapchain) {
 	auto rsManager = ResourceManager::GetInstance();
 	auto srvHeap = rsManager->GetSRVHeap()->GetDescriptorHeap();
 	Matrix4x4 projectionMatrix;
-	Matrix4x4 projectionMatrix2D;
 	camera3d_->DrawImGui();
 
 	list->SetDescriptorHeaps(1, &srvHeap);
@@ -53,9 +52,6 @@ void RenderManager::Draw(SwapChain* swapchain) {
 	lineRender.DrawCommand(projectionMatrix);
 
 	skyBoxRender.DrawCommand(projectionMatrix);
-
-	projectionMatrix2D = camera->GetViewProMat();
-	spriteRender.DrawCommand(projectionMatrix2D);
 
 	grayscale_->PreProcess();
 	radialBlur_->PreProcess();
@@ -106,5 +102,13 @@ void RenderManager::PostDraw(SwapChain* swapchain) {
 	// 1枚目をテクスチャとして使用し、SwapChainに書き込み
 	//handleNum = intermediateRenderTarget_.at(1)->PreProcess(list, intermediateRenderTarget_.at(0)->GetRTVHandle());
 	
+	HudDraw();
+
+}
+
+void RenderManager::HudDraw() {
+	Matrix4x4 projectionMatrix2D; 
+	projectionMatrix2D = camera->GetViewProMat();
+	spriteRender.DrawCommand(projectionMatrix2D);
 
 }

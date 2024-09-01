@@ -34,6 +34,11 @@ private:
 	float lerpSpeed_ = 0.0f;
 
 	bool isFollowStop_ = false;
+	struct Timer {
+		float nowFrame; // 今の時間
+		float maxFrame; // 最大時間
+	};
+	Timer timer_;
 
 	std::unique_ptr<Collider> collision_;
 };

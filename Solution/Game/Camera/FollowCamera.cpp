@@ -30,6 +30,12 @@ void FollowCamera::SetParam(const Vector3& offset, const Vector3& rotate, float 
 }
 
 void FollowCamera::Update(const float& speed) {
+	timer_.nowFrame += 1.0f;
+	if (timer_.nowFrame>= timer_.maxFrame) {
+		timer_.nowFrame = timer_.maxFrame;
+		isFollowStop_ = false;
+	}
+
 	if (target_ && !isFollowStop_) {
 		Vector3 lOffset = offset_;
 		
@@ -115,7 +121,8 @@ void FollowCamera::CameraMove() {
 
 void FollowCamera::StopFollow(const float& frame) {
 	isFollowStop_ = true;
-	frame;
+	timer_.maxFrame = frame;
+	timer_.nowFrame = 0.0f;
 }
 
 bool FollowCamera::OnCollision(const Collider& coll) {

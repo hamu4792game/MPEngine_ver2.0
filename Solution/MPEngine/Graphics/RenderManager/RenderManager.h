@@ -20,6 +20,7 @@ public:
 	void Initialize(class SwapChain* swapchain);
 	void Draw(SwapChain* swapchain);
 	void PostDraw(SwapChain* swapchain);
+	void HudDraw();
 
 	enum class PostEffect {
 		None,

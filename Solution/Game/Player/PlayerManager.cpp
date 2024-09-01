@@ -4,6 +4,7 @@
 #include "Utils/Camera/Camera3d.h"
 #include "Input/Input.h"
 #include <algorithm>
+#include "Graphics/PostEffect/RadialBlur.h"
 
 void PlayerManager::SpeedParam::AddUpdate() {
 	acceleration += accelerationRate;
@@ -79,6 +80,8 @@ void PlayerManager::Update() {
 				
 				followCamera_->SetParam(Vector3(0.0f, 0.0f, -10.0f), Vector3(followCamera_->GetTransform().rotation_.x, angleY, followCamera_->GetTransform().rotation_.z), 0.05f);
 			}
+			oldMoveVector = Vector3::zero;
+			moveParameter_.AccelInit();
 			
 			break;
 		case Behavior::kAttack:
@@ -152,7 +155,7 @@ WorldTransform PlayerManager::PostUpdate() {
 			finishFrag = true;
 		}
 	}
-	if (frameCount_.count >= frameCount_.maxFrame * 60.0f || finishFrag) {
+	if (frameCount_.count >= frameCount_.maxFrame * 60.0f || finishFrag || (behavior_ == Behavior::kSwing && behaviorFlag_.isLanded)) {
 		frameCount_.count = 0.0f;
 		masterSpeed_ = 1.0f;
 		followCamera_->SetParam(Vector3(0.0f, 2.0f, -20.0f), followCamera_->GetTransform().rotation_, 0.95f);
@@ -162,10 +165,18 @@ WorldTransform PlayerManager::PostUpdate() {
 	WorldTransform cameraTrans;
 
 	// 速度の計算 (現在座標ー過去座標)/時間 今回は1.0fなので割らない
-	float velocity = Length(transform_.GetPosition() - oldPosition_);
+	float velocity = moveParameter_.acceleration;
+	if (behavior_ == Behavior::kSwing) {
+		velocity = Length(transform_.GetPosition() - oldPosition_);
+		if (velocity >= 1.0f) {
+			velocity = 1.0f;
+		}
+	}
 	/// 仮で、速度が1以上ならエフェクトを
-	if (velocity >= 1.0f && behavior_ == Behavior::kSwing) {
+	if (velocity > 0.5f) {
 		postEffectNum_ = PostEffectNum::RadialBlur;
+		RadialBlur::GetInstance()->cParam_->blurWidth = -(velocity * 0.01f);
+		
 	}
 	followCamera_->Update(velocity);
 	cameraTrans = followCamera_->GetTransform();
@@ -230,6 +241,9 @@ void PlayerManager::DrawImGui() {
 	}
 	ImGui::End();
 
+	static float wid = 0.0f;
+	ImGui::DragFloat("bluerWid", &wid, 0.001f);
+	RadialBlur::GetInstance()->cParam_->blurWidth = wid;
 #endif // _DEBUG
 }
 
@@ -275,8 +289,9 @@ void PlayerManager::InputMove() {
 		oldMoveVector = inputParam_.move;
 	}
 
-	if (moveParameter_.acceleration >= moveParameter_.kMaxAcceleration && inputParam_.isJump) {
-
+	// ダッシュ中の速度が最大の時にジャンプをした場合
+	if (moveParameter_.acceleration >= moveParameter_.kMaxAcceleration && inputParam_.isJump && fallParam_.isJumpable && !fallParam_.isFalled && inputParam_.isDashMove) {
+		followCamera_->StopFollow(10.0f);
 	}
 
 }
