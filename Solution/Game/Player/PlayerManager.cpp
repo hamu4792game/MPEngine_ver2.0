@@ -172,6 +172,9 @@ WorldTransform PlayerManager::PostUpdate() {
 			velocity = 1.0f;
 		}
 	}
+	else {
+		velocity = 0.0f;
+	}
 	/// 仮で、速度が1以上ならエフェクトを
 	if (velocity > 0.5f) {
 		postEffectNum_ = PostEffectNum::RadialBlur;
@@ -291,7 +294,7 @@ void PlayerManager::InputMove() {
 
 	// ダッシュ中の速度が最大の時にジャンプをした場合
 	if (moveParameter_.acceleration >= moveParameter_.kMaxAcceleration && inputParam_.isJump && fallParam_.isJumpable && !fallParam_.isFalled && inputParam_.isDashMove) {
-		followCamera_->StopFollow(10.0f);
+		//followCamera_->StopFollow(10.0f);
 	}
 
 }
