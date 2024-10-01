@@ -23,7 +23,7 @@ MPEngine* MPEngine::GetInstance() {
 void MPEngine::Run(GameFrame* game) {
 	game_ = game;
 	int32_t windowWidth = 1280; int32_t windowHeight = 720;
-	Initialize("LE2A_20_マツイ_ユウセイ", windowWidth, windowHeight);
+	Initialize("疾走", windowWidth, windowHeight);
 
 	//	ウィンドウの×ボタンが押されるまでループ
 	while (!winSv_->ProcessMessage()) {
