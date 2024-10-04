@@ -7,6 +7,7 @@
 // 半直線
 struct Ray {
 	Vector3 origin; // 始点
+	Vector3 end; // 終点
 	Vector3 diff;	// 終点への差分ベクトル
 };
 
@@ -15,7 +16,7 @@ public:
 	LineCollider() = default;
 	~LineCollider() = default;
 
-	void Update(const WorldTransform& transform);
+	void Update(const WorldTransform& transform,const WorldTransform& targetTrans);
 	void LineUpdate(std::vector<std::shared_ptr<class Line>> lines);
 
 	enum class Type {

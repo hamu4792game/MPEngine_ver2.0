@@ -56,7 +56,9 @@ void FollowCamera::Update(const float& speed) {
 		transform_.rotation_ = preRotate_;
 	}
 	transform_.UpdateMatrix();
-	collision_->Update();
+	if (target_) {
+		collision_->Update(*target_);
+	}
 }
 
 void FollowCamera::DrawImGui() {
@@ -127,16 +129,19 @@ void FollowCamera::StopFollow(const float& frame) {
 
 bool FollowCamera::OnCollision(const Collider& coll) {
 	Vector3 pushBackVec;
+	// 当たっているかのフラグ
 	bool iscoll = collision_->OnCollision(coll, pushBackVec);
 	if (iscoll) {
 		// Groundと当たっていた場合
 		if (coll.GetName() == "Ground") {
 			float push = Length(pushBackVec);
 			float off = Length(offset_);
+			ImGui::Text("HIT");
 			if (push <= off) {
 				transform_.translation_ -= pushBackVec;
 				transform_.UpdateMatrix();
-				collision_->Update();
+				collision_->Update(*target_);
+
 			}
 		}
 	}

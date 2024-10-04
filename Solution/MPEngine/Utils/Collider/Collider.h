@@ -26,6 +26,8 @@ public:
 
 	void Initialize(WorldTransform* transform, Type type, std::string name = ""); // 初期化処理
 	void Update(); // 更新処理
+	void Update(const WorldTransform& targetTrans);
+	void SetLineColor(Vector4 color);
 	
 	std::vector<std::shared_ptr<Line>> GetLine() { return lines_; }
 
@@ -47,7 +49,7 @@ private:
 	std::string name_; // コライダーの名前
 	std::unique_ptr<BoxCollider> boxCollider_;
 	std::unique_ptr<LineCollider> lineCollider_;
-	Type collderType_;
+	Type colliderType_;
 	WorldTransform* transform_ = nullptr;
 	std::vector<std::shared_ptr<Line>> lines_;
 

@@ -15,6 +15,8 @@ struct OBB {
 	Vector3 center; // 中心点
 	Vector3 orientations[3]; // 座標軸。正規化・直公必須
 	Vector3 size = Vector3::one; // 座標軸方向の長さの半分。中心から面までの距離
+
+	Matrix4x4 Generate() const;
 };
 
 class BoxCollider {
@@ -45,17 +47,17 @@ private:
 	WorldTransform transform_;
 
 private:
-	
+
 	// AABBとAABBの衝突判定
 	static bool IsCollision(const AABB& aabb1, const AABB& aabb2, Vector3& minAxis, float& minOverlap);
 	// AABBとOBBの衝突判定
 	static bool IsCollision(const AABB& aabb, const OBB& obb, Vector3& minAxis, float& minOverlap);
 	// OBBとOBBの衝突判定
 	static bool IsCollision(const OBB& obb1, const OBB& obb2, Vector3& minAxis, float& minOverlap);
-	
+
 
 	// OBBとRayの衝突判定
 	static bool IsCollision(const OBB& obb, const Ray& ray, Vector3& hitPoint);
 
-	
+
 };

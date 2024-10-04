@@ -44,7 +44,7 @@ void BoxCollider::LineUpdate(std::vector<std::shared_ptr<Line>> lines) {
 		vertices[7] = aabb_.size; // 右下奥
 		break;
 	case BoxCollider::Type::OBB:
-		
+
 		vertices[0] = -obb_.size; // 左上前
 		vertices[1] = Vector3(obb_.size.x, -obb_.size.y, -obb_.size.z); // 右上前
 		vertices[2] = Vector3(-obb_.size.x, -obb_.size.y, obb_.size.z); // 左上奥
@@ -66,7 +66,7 @@ void BoxCollider::LineUpdate(std::vector<std::shared_ptr<Line>> lines) {
 	for (auto& ver : vertices) {
 		ver += transform_.GetPosition();
 	}
-	
+
 	// 描画
 	// 上前
 	lines[0]->SetLine(vertices[0], vertices[1]);
@@ -97,7 +97,7 @@ void BoxCollider::LineUpdate(std::vector<std::shared_ptr<Line>> lines) {
 
 bool BoxCollider::IsCollision(const BoxCollider& coll, Vector3& minAxis, float& minOverlap) const {
 	bool flag = false;
-	
+
 	switch (type_) {
 	case BoxCollider::Type::AABB:
 		switch (coll.type_) {
@@ -181,7 +181,7 @@ bool BoxCollider::IsCollision(const AABB& aabb1, const AABB& aabb2, Vector3& min
 	overlap.y = std::fminf(aMax.y, bMax.y) - std::fmaxf(aMin.y, bMin.y);
 	overlap.z = std::fminf(aMax.z, bMax.z) - std::fmaxf(aMin.z, bMin.z);
 
-	if(overlap.x < overlap.y && overlap.x < overlap.z) {
+	if (overlap.x < overlap.y && overlap.x < overlap.z) {
 		// X軸方向に押し戻し
 		minAxis = { overlap.x, 0, 0 };
 		minOverlap = overlap.x;
@@ -284,13 +284,13 @@ bool BoxCollider::IsCollision(const OBB& obb1, const OBB& obb2, Vector3& minAxis
 	separationAxisCandidate[14] = Normalize(Cross(obb1.orientations[2], obb2.orientations[2]));
 	// 頂点
 	Matrix4x4 obb1WorldMatrix;
-	obb1WorldMatrix .m = {
+	obb1WorldMatrix.m = {
 		obb1.orientations[0].x, obb1.orientations[0].y, obb1.orientations[0].z, 0.0f,
 		obb1.orientations[1].x, obb1.orientations[1].y, obb1.orientations[1].z, 0.0f,
 		obb1.orientations[2].x, obb1.orientations[2].y, obb1.orientations[2].z, 0.0f,
 		obb1.center.x,          obb1.center.y,          obb1.center.z,          1.0f };
 	Matrix4x4 obb2WorldMatrix;
-	obb2WorldMatrix .m = {
+	obb2WorldMatrix.m = {
 		obb2.orientations[0].x, obb2.orientations[0].y, obb2.orientations[0].z, 0.0f,
 		obb2.orientations[1].x, obb2.orientations[1].y, obb2.orientations[1].z, 0.0f,
 		obb2.orientations[2].x, obb2.orientations[2].y, obb2.orientations[2].z, 0.0f,
@@ -340,8 +340,8 @@ bool BoxCollider::IsCollision(const OBB& obb1, const OBB& obb2, Vector3& minAxis
 		// 差分が形状を分離軸に射影した長さ
 		float L1, L2;
 		// すべての頂点を射影した値
-		float Dot1[8];
-		float Dot2[8];
+		float Dot1[8]{};
+		float Dot2[8]{};
 		// 各頂点
 		for (int j = 0; j < 8; j++) {
 			Dot1[j] = Dot(separationAxisCandidate[i], vertices1[j]);
@@ -376,54 +376,61 @@ bool BoxCollider::IsCollision(const OBB& obb1, const OBB& obb2, Vector3& minAxis
 }
 
 bool BoxCollider::IsCollision(const OBB& obb, const Ray& ray, Vector3& hitPoint) {
+	// OBBのワールド行列を作成
 	Matrix4x4 obbWorldMatrix;
 	obbWorldMatrix.m = {
 		obb.orientations[0].x, obb.orientations[0].y, obb.orientations[0].z, 0.0f,
 		obb.orientations[1].x, obb.orientations[1].y, obb.orientations[1].z, 0.0f,
 		obb.orientations[2].x, obb.orientations[2].y, obb.orientations[2].z, 0.0f,
-		obb.center.x,          obb.center.y,          obb.center.z,          1.0f };
-	Vector3 p = obb.center - ray.origin;
-	Vector3 f = obbWorldMatrix * ray.diff;
-	Vector3 e = obbWorldMatrix * p;
+		obb.center.x, obb.center.y, obb.center.z, 1.0f
+	};
 
-	float tMin = -INFINITY, tMax = INFINITY;
+	Matrix4x4 inverse = Inverse(obbWorldMatrix);
+	Ray fixRay{
+		.origin = (inverse * ray.origin),
+		.diff = (TransformNormal(ray.diff,inverse)).Normalize()
+	};
 
-	if (std::fabsf(f.x) > 1e-6) {
-		float t1 = (e.x + obb.size.x) / f.x;
-		float t2 = (e.x - obb.size.x) / f.x;
-		if (t1 > t2) std::swap(t1, t2);
-		tMin = std::max(tMin, t1);
-		tMax = std::min(tMax, t2);
-		if (tMin > tMax) return false;
-	}
-	else if (-e.x - obb.size.x > 0 || -e.x + obb.size.x < 0) {
-		return false;
-	}
+	// レイの始点と方向をワールド空間に変換
+	Vector3 p = fixRay.origin; // OBBの中心とレイの始点のベクトル
+	Vector3 f = fixRay.diff; // レイの方向ベクトル
+	f = f.Normalize(); // 方向ベクトルを正規化
 
-	if (std::fabsf(f.y) > 1e-6) {
-		float t1 = (e.y + obb.size.y) / f.y;
-		float t2 = (e.y - obb.size.y) / f.y;
-		if (t1 > t2) std::swap(t1, t2);
-		tMin = std::max(tMin, t1);
-		tMax = std::min(tMax, t2);
-		if (tMin > tMax) return false;
-	}
-	else if (-e.y - obb.size.y > 0 || -e.y + obb.size.y < 0) {
-		return false;
-	}
+	// OBBのワールド空間におけるpを計算
+	Vector3 e = p;
 
-	if (std::fabsf(f.z) > 1e-6) {
-		float t1 = (e.z + obb.size.z) / f.z;
-		float t2 = (e.z - obb.size.z) / f.z;
-		if (t1 > t2) std::swap(t1, t2);
-		tMin = std::max(tMin, t1);
-		tMax = std::min(tMax, t2);
-		if (tMin > tMax) return false;
-	}
-	else if (-e.z - obb.size.z > 0 || -e.z + obb.size.z < 0) {
-		return false;
+	float tMin = 0.0f; // 0で初期化する
+	float tMax = INFINITY; // 無限大で初期化する
+
+	//	媒介変数を求める
+	Vector3 tmin{}; Vector3 tmax{};
+	tmin = ((obb.center - (obb.size * 0.5f)) - fixRay.origin) / fixRay.diff;
+	tmax = ((obb.center + (obb.size * 0.5f)) - fixRay.origin) / fixRay.diff;
+	//	衝突点の近い方と遠い方(tの大きさ)を求める
+	Vector3 tNear{}; Vector3 tFar{};
+	tNear.x = (std::min)(tmin.x, tmax.x); tNear.y = (std::min)(tmin.y, tmax.y); tNear.z = (std::min)(tmin.z, tmax.z);
+	tFar.x = (std::max)(tmin.x, tmax.x); tFar.y = (std::max)(tmin.y, tmax.y); tFar.z = (std::max)(tmin.z, tmax.z);
+
+	float tmin_ = (std::max)((std::max)(tNear.x, tNear.y), tNear.z);
+	float tmax_ = (std::min)((std::min)(tFar.x, tFar.y), tFar.z);
+
+	//	衝突
+	if (0.0f <= tmax_ && tmin_ <= tmax_ && tmin_ <= 1.0f)
+	{
+		return true;
 	}
 
-	hitPoint = ray.origin + ray.diff * tMin;
-	return true;
+	return false;
+
+	//
+	hitPoint = fixRay.origin + f * tMin; // 衝突点を計算
+
+	return true; // 衝突があった
+}
+
+Matrix4x4 OBB::Generate() const
+{
+	return Matrix4x4{
+		// obb.orientations[0].x, obb.orientations[0].y, obb.orientations[0].z
+	};
 }

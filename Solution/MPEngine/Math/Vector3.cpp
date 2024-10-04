@@ -42,6 +42,14 @@ Vector3 Vector3::operator-(const Vector3& num) const {
 	return result;
 }
 
+Vector3 Vector3::operator/(const Vector3& num) const {
+	Vector3 result;
+	result.x = this->x / num.x;
+	result.y = this->y / num.y;
+	result.z = this->z / num.z;
+	return result;
+}
+
 Vector3 Vector3::operator-() const {
 	return Vector3(-this->x, -this->y, -this->z);
 }
