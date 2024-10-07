@@ -97,9 +97,9 @@ void BattleScene::SecondUpdate() {
 	Camera3d* camera = Camera3d::GetInstance();
 	WorldTransform cameraTransform = player_->PostUpdate();
 	// 一旦うまくいかないのでしない
-	//for (auto& coll : stage_->GetCollision()) {
-	//	cameraTransform = player_->OnCollisionCameraToStage(*coll);
-	//}
+	for (auto& coll : stage_->GetCollision()) {
+		cameraTransform = player_->OnCollisionCameraToStage(*coll);
+	}
 	camera->SetTransform(cameraTransform);
 
 }
