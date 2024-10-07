@@ -223,7 +223,7 @@ bool PlayerManager::OnCollisionStage(const Collider& coll) {
 			}
 			// 横向きに当たったら
 			else if (nBigVec == nPushBackVec.x || nBigVec == nPushBackVec.z) {
-				ImGui::Text("pushBack %f,d%f,%f", pushBackVec.x, pushBackVec.y, pushBackVec.z);
+				//ImGui::Text("pushBack %f,d%f,%f", pushBackVec.x, pushBackVec.y, pushBackVec.z);
 				// 地面と当たっているので初期化
 				if (!fallParam_.isJumpable) {
 					behaviorFlag_.isLanded = true;
