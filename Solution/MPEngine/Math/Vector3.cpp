@@ -113,6 +113,24 @@ Vector3 Vector3::Normalize() const {
 	return result;
 }
 
+float Vector3::GetBigVector() const {
+	Vector3 vec = this->Normalize();
+	float result = 0.0f;
+	// xとyの比較
+	if (std::fabsf(vec.x) >= std::fabsf(vec.y)) {
+		result = vec.x;
+	}
+	else if (std::fabsf(vec.x) < std::fabsf(vec.y)) {
+		result = vec.y;
+	}
+	// resultとzの比較
+	if (std::fabsf(result) <= std::fabsf(vec.z)) {
+		result = vec.z;
+	}
+
+	return result;
+}
+
 float Length(const Vector3& vec) {
 	return sqrtf((vec.x * vec.x) + (vec.y * vec.y) + (vec.z * vec.z));
 }

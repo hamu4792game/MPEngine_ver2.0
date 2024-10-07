@@ -135,6 +135,19 @@ void PlayerManager::Update() {
 
 	// 最終的な移動ベクトルをplayerに加算 現状はmoveManagerから取得しているが、のちに攻撃が実装されればいろいろ変わるかも
 	
+	if (hittingObjectNormal_ != Vector3::zero) {
+		Vector3 lMoveVec = moveVector_.Normalize();
+		Vector3 lNormalVec = hittingObjectNormal_.Normalize();
+		// 角度の計算
+		float angle = std::acosf(Vector3::up * lNormalVec);
+		// 回転軸の計算
+		Vector3 rotAxis = Cross(Vector3::up, lNormalVec).Normalize();
+		Quaternion qur = Quaternion::MakeRotateAxisAngleQuaternion(rotAxis, angle);
+		// 移動ベクトルを回転
+		moveVector_ = qur * lMoveVec;
+		hittingObjectNormal_ = Vector3::zero;
+	}
+
 	transform_.translation_ += moveVector_;
 
 	LimitMoving();
@@ -189,7 +202,6 @@ WorldTransform PlayerManager::PostUpdate() {
 bool PlayerManager::OnCollisionStage(const Collider& coll) {
 	Vector3 pushBackVec;
 	bool iscoll = collision_->OnCollision(coll, pushBackVec);
-
 	if (iscoll) {
 		// Goalと当たっていた場合
 		if (coll.GetName() == "Goal") {
@@ -198,8 +210,12 @@ bool PlayerManager::OnCollisionStage(const Collider& coll) {
 		}
 		// Groundと当たっていた場合
 		else if (coll.GetName() == "Ground") {
+
+			Vector3 nPushBackVec = pushBackVec.Normalize();
+			float nBigVec = pushBackVec.GetBigVector();
+
 			// 押し戻しの値がyに大きかった場合
-			if (pushBackVec.Normalize().x <= pushBackVec.Normalize().y && pushBackVec.Normalize().z <= pushBackVec.Normalize().y) {
+			if (nBigVec == std::fabsf(nPushBackVec.y)) {
 				// 地面と当たっているので初期化
 				if (!fallParam_.isJumpable) {
 					behaviorFlag_.isLanded = true;
@@ -207,8 +223,14 @@ bool PlayerManager::OnCollisionStage(const Collider& coll) {
 				fallParam_.JumpInitialize();
 			}
 			// 横向きに当たったら
-			else if (pushBackVec.Normalize() == Vector3::left || pushBackVec.Normalize() == Vector3::right) {
-
+			else if (nBigVec == nPushBackVec.x || nBigVec == nPushBackVec.z) {
+				ImGui::Text("pushBack %f,d%f,%f", pushBackVec.x, pushBackVec.y, pushBackVec.z);
+				// 地面と当たっているので初期化
+				if (!fallParam_.isJumpable) {
+					behaviorFlag_.isLanded = true;
+				}
+				fallParam_.JumpInitialize();
+				hittingObjectNormal_ = nPushBackVec;
 			}
 			
 			transform_.translation_ += pushBackVec;

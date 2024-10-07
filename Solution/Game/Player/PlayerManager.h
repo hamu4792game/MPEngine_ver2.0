@@ -143,4 +143,5 @@ private:
 	};
 	FrameCount frameCount_;
 
+	Vector3 hittingObjectNormal_; // 衝突している物体の法線ベクトル
 };

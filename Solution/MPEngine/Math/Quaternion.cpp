@@ -29,6 +29,12 @@ Quaternion Quaternion::operator*(const Quaternion& quaternion) const {
 	return result;
 }
 
+Vector3 Quaternion::operator*(const Vector3& vec) const {
+	Quaternion p = Quaternion(vec.x, vec.y, vec.z, 0.0f);
+	Quaternion result = (*this * p) * this->Conjugate();
+	return Vector3(result.x, result.y, result.z);
+}
+
 Quaternion Quaternion::operator-() const {
 	return Quaternion(-this->x, -this->y, -this->z, -this->w);
 }
