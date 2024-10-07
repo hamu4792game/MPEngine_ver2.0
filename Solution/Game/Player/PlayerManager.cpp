@@ -104,7 +104,6 @@ void PlayerManager::Update() {
 		// 通常行動
 		BehaviorRootUpdate();
 		if (inputParam_.isWireMove && targetTransform_) {
-			//webswing_->SetWeb(targetTransform_->GetPosition(), transform_.GetPosition());
 			transform_.UpdateMatrix();
 			wireTargetMove_->Initialize(targetTransform_->GetPosition(), transform_.GetPosition());
 			behaviorRequest_ = Behavior::kSwing;
@@ -135,8 +134,8 @@ void PlayerManager::Update() {
 
 	// 最終的な移動ベクトルをplayerに加算 現状はmoveManagerから取得しているが、のちに攻撃が実装されればいろいろ変わるかも
 	
+	// 壁に横向きで当たっている場合
 	if (hittingObjectNormal_ != Vector3::zero) {
-		Vector3 lMoveVec = moveVector_.Normalize();
 		Vector3 lNormalVec = hittingObjectNormal_.Normalize();
 		// 角度の計算
 		float angle = std::acosf(Vector3::up * lNormalVec);
@@ -144,7 +143,7 @@ void PlayerManager::Update() {
 		Vector3 rotAxis = Cross(Vector3::up, lNormalVec).Normalize();
 		Quaternion qur = Quaternion::MakeRotateAxisAngleQuaternion(rotAxis, angle);
 		// 移動ベクトルを回転
-		moveVector_ = qur * lMoveVec;
+		moveVector_ = qur * moveVector_;
 		hittingObjectNormal_ = Vector3::zero;
 	}
 
@@ -285,7 +284,7 @@ void PlayerManager::InputMove() {
 	}
 
 	// 移動入力している場合
-	if (inputParam_.move != Vector3::zero && fallParam_.isJumpable) {
+	if (inputParam_.move != Vector3::zero) {
 
 		moveParameter_.AddUpdate();
 
