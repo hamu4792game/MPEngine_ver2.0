@@ -135,10 +135,13 @@ bool FollowCamera::OnCollision(const Collider& coll) {
 		// Groundと当たっていた場合
 		if (coll.GetName() == "Ground") {
 			float push = Length(pushBackVec);
-			float off = Length(offset_);
+			float off = Length(transform_.GetPosition() - target_->GetPosition());
+			//pushBackVec = (transform_.GetPosition() - pushBackVec).Normalize() * (offset_.z + Length(transform_.translation_ - pushBackVec));
 			ImGui::Text("HIT");
 			if (push <= off) {
-				transform_.translation_ -= pushBackVec;
+				ImGui::DragFloat3("IsHIT:PushBackVec", &pushBackVec.x, 0.1f);
+				ImGui::Text("IsHIT");
+				transform_.translation_ += pushBackVec;
 				transform_.UpdateMatrix();
 				collision_->Update(*target_);
 

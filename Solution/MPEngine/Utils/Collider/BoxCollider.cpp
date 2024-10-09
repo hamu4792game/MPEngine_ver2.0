@@ -382,31 +382,25 @@ bool BoxCollider::IsCollision(const OBB& obb, const Ray& ray, Vector3& hitPoint)
 		obb.orientations[0].x, obb.orientations[0].y, obb.orientations[0].z, 0.0f,
 		obb.orientations[1].x, obb.orientations[1].y, obb.orientations[1].z, 0.0f,
 		obb.orientations[2].x, obb.orientations[2].y, obb.orientations[2].z, 0.0f,
-		obb.center.x, obb.center.y, obb.center.z, 1.0f
+		1.0f,1.0f,1.0f, 1.0f
 	};
 
 	Matrix4x4 inverse = Inverse(obbWorldMatrix);
 	Ray fixRay{
-		.origin = (inverse * ray.origin),
+		.origin = inverse * (ray.origin - obb.center),
 		.diff = (TransformNormal(ray.diff,inverse)).Normalize()
 	};
 
-	// レイの始点と方向をワールド空間に変換
-	Vector3 p = fixRay.origin; // OBBの中心とレイの始点のベクトル
-	Vector3 f = fixRay.diff; // レイの方向ベクトル
-	f = f.Normalize(); // 方向ベクトルを正規化
+	AABB aabb{
+		.min{-obb.size},
+		.max{obb.size},
+	};
 
-	// OBBのワールド空間におけるpを計算
-	Vector3 e = p;
-
-	float tMin = 0.0f; // 0で初期化する
-	float tMax = INFINITY; // 無限大で初期化する
-
-	//	媒介変数を求める
+	// 媒介変数を求める
 	Vector3 tmin{}; Vector3 tmax{};
-	tmin = ((obb.center - (obb.size * 0.5f)) - fixRay.origin) / fixRay.diff;
-	tmax = ((obb.center + (obb.size * 0.5f)) - fixRay.origin) / fixRay.diff;
-	//	衝突点の近い方と遠い方(tの大きさ)を求める
+	tmin = (aabb.min - fixRay.origin) / fixRay.diff;
+	tmax = (aabb.max - fixRay.origin) / fixRay.diff;
+	// 衝突点の近い方と遠い方(tの大きさ)を求める
 	Vector3 tNear{}; Vector3 tFar{};
 	tNear.x = (std::min)(tmin.x, tmax.x); tNear.y = (std::min)(tmin.y, tmax.y); tNear.z = (std::min)(tmin.z, tmax.z);
 	tFar.x = (std::max)(tmin.x, tmax.x); tFar.y = (std::max)(tmin.y, tmax.y); tFar.z = (std::max)(tmin.z, tmax.z);
@@ -414,16 +408,14 @@ bool BoxCollider::IsCollision(const OBB& obb, const Ray& ray, Vector3& hitPoint)
 	float tmin_ = (std::max)((std::max)(tNear.x, tNear.y), tNear.z);
 	float tmax_ = (std::min)((std::min)(tFar.x, tFar.y), tFar.z);
 
-	//	衝突
-	if (0.0f <= tmax_ && tmin_ <= tmax_ && tmin_ <= 1.0f)
-	{
-		return true;
+	// 衝突していない
+	if (tmin_ > tmax_ || tmin_ < 0.0f) {
+		return false;
 	}
 
-	return false;
 
-	//
-	hitPoint = fixRay.origin + f * tMin; // 衝突点を計算
+	// ray.originから衝突してる部分までのベクトルを返している、衝突店を知りたい場合は、+ray.originで求まる
+	hitPoint = (fixRay.diff * tmin_);
 
 	return true; // 衝突があった
 }
