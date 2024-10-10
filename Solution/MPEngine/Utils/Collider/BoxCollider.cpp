@@ -376,19 +376,19 @@ bool BoxCollider::IsCollision(const OBB& obb1, const OBB& obb2, Vector3& minAxis
 }
 
 bool BoxCollider::IsCollision(const OBB& obb, const Ray& ray, Vector3& hitPoint) {
-	// OBBのワールド行列を作成
+	// OBBのワールド行列を作成 (回転と平行移動)
 	Matrix4x4 obbWorldMatrix;
 	obbWorldMatrix.m = {
 		obb.orientations[0].x, obb.orientations[0].y, obb.orientations[0].z, 0.0f,
 		obb.orientations[1].x, obb.orientations[1].y, obb.orientations[1].z, 0.0f,
 		obb.orientations[2].x, obb.orientations[2].y, obb.orientations[2].z, 0.0f,
-		1.0f,1.0f,1.0f, 1.0f
+		obb.center.x, obb.center.y, obb.center.z, 1.0f
 	};
 
 	Matrix4x4 inverse = Inverse(obbWorldMatrix);
 	Ray fixRay{
-		.origin = inverse * (ray.origin - obb.center),
-		.diff = (TransformNormal(ray.diff,inverse)).Normalize()
+		.origin = Transform(ray.origin,inverse),
+		.diff = Transform(ray.origin + ray.diff,inverse) - fixRay.origin,
 	};
 
 	AABB aabb{
@@ -413,9 +413,8 @@ bool BoxCollider::IsCollision(const OBB& obb, const Ray& ray, Vector3& hitPoint)
 		return false;
 	}
 
-
 	// ray.originから衝突してる部分までのベクトルを返している、衝突店を知りたい場合は、+ray.originで求まる
-	hitPoint = (fixRay.diff * tmin_);
+	hitPoint = (ray.diff * tmin_);
 
 	return true; // 衝突があった
 }
