@@ -254,6 +254,9 @@
     <ClCompile Include="MPEngine\Utils\Camera\DebugCamera.cpp">
       <Filter>MPEngine\Utils\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="MPEngine\Utils\Collider\ColliderFunction.cpp">
+      <Filter>MPEngine\Utils\Collider</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -526,6 +529,9 @@
     </ClInclude>
     <ClInclude Include="MPEngine\Utils\Camera\DebugCamera.h">
       <Filter>MPEngine\Utils\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="MPEngine\Utils\Collider\ColliderFunction.h">
+      <Filter>MPEngine\Utils\Collider</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

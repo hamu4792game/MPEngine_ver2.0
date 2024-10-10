@@ -236,6 +236,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="MPEngine\Utils\Camera\DebugCamera.cpp" />
     <ClCompile Include="MPEngine\Utils\Collider\BoxCollider.cpp" />
     <ClCompile Include="MPEngine\Utils\Collider\Collider.cpp" />
+    <ClCompile Include="MPEngine\Utils\Collider\ColliderFunction.cpp" />
     <ClCompile Include="MPEngine\Utils\Collider\LineCollider.cpp" />
     <ClCompile Include="MPEngine\Utils\Easing\Ease.cpp" />
     <ClCompile Include="MPEngine\Utils\GlobalVariables\GlobalVariables.cpp" />
@@ -327,6 +328,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="MPEngine\Utils\Camera\DebugCamera.h" />
     <ClInclude Include="MPEngine\Utils\Collider\BoxCollider.h" />
     <ClInclude Include="MPEngine\Utils\Collider\Collider.h" />
+    <ClInclude Include="MPEngine\Utils\Collider\ColliderFunction.h" />
     <ClInclude Include="MPEngine\Utils\Collider\LineCollider.h" />
     <ClInclude Include="MPEngine\Utils\Easing\Ease.h" />
     <ClInclude Include="MPEngine\Utils\Easing\Easing.h" />

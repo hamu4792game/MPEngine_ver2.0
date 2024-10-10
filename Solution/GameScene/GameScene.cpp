@@ -16,6 +16,7 @@ void (GameScene::* GameScene::SceneInitializeTable[])() = {
 };
 
 void GameScene::Initialize() {
+	// 必要なResourceのLoad
 	auto rs = ResourceManager::GetInstance();
 	std::string directryPath = "Resources/Model/";
 	rs->AddTexture("white2x2", "Resources/Texture/white2x2.png");
@@ -60,7 +61,7 @@ void GameScene::Initialize() {
 	//rs->AddAudio("Title", "./Resources/Sound/w006.wav");
 	rs->AddAudio("Battle", "Resources/Audio/mLoop1.mp3");
 
-	sceneRequest_ = Scene::TITLE;
+	sceneRequest_ = Scene::BATTLE;
 	transition_ = std::make_unique<Transition>();
 }
 

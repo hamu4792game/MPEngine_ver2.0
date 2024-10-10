@@ -1,10 +1,10 @@
 #include "Collider.h"
 
 void Collider::Initialize(WorldTransform* transform, Type type, std::string name) {
-	collderType_ = type;
+	colliderType_ = type;
 	transform_ = transform;
 	name_ = name;
-	switch (collderType_) {
+	switch (colliderType_) {
 	case Collider::Type::Box:
 		if (!boxCollider_) {
 			boxCollider_ = std::make_unique<BoxCollider>();
@@ -33,7 +33,7 @@ void Collider::Initialize(WorldTransform* transform, Type type, std::string name
 
 void Collider::Update() {
 	transform_->UpdateMatrix();
-	switch (collderType_) {
+	switch (colliderType_) {
 	case Collider::Type::Box:
 		boxCollider_->Update(*transform_); 
 		boxCollider_->LineUpdate(lines_);
@@ -41,16 +41,31 @@ void Collider::Update() {
 	case Collider::Type::Sphere:
 		break;
 	case Collider::Type::Line:
-		lineCollider_->Update(*transform_);
+		//lineCollider_->Update(*transform_);
 		lineCollider_->LineUpdate(lines_);
 		break;
 	}
 	
 }
 
+void Collider::Update(const WorldTransform& targetTrans) {
+	// line以外早期リターン
+	if (colliderType_ != Collider::Type::Line) { return; }
+
+	lineCollider_->Update(*transform_, targetTrans);
+	lineCollider_->LineUpdate(lines_);
+
+}
+
+void Collider::SetLineColor(Vector4 color) {
+	for (auto& i : lines_) {
+		i->SetColor(color);
+	}
+}
+
 bool Collider::OnCollision(const Collider& coll, Vector3& pushbackVec) {
 	bool flag = false;
-	switch (coll.collderType_) {
+	switch (coll.colliderType_) {
 	case Collider::Type::Box:
 		flag = BoxCollision(coll, pushbackVec);
 		break;
@@ -64,7 +79,7 @@ bool Collider::BoxCollision(const Collider& coll, Vector3& pushbackVec) {
 	pushbackVec = Vector3::zero;
 	Vector3 minAxis;
 	float minOverlap = 0.0f;
-	switch (collderType_) {
+	switch (colliderType_) {
 	case Collider::Type::Box:
 		if (boxCollider_->IsCollision(*coll.boxCollider_.get(), minAxis, minOverlap)) {
 			// 当たってたら
