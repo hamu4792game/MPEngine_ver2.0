@@ -47,6 +47,7 @@ void PlayerAnimation::Update(BehaviorFlag flag) {
 #ifdef _DEBUG
 	ImGui::Begin("PlayerMap");
 	ImGui::DragFloat("Map", &models_.at(static_cast<uint32_t>(Parts::Body))->materials.environmentCoefficient, 0.01f, 0.0f, 1.0f);
+	ImGui::DragFloat4("Color", &models_.at(static_cast<uint32_t>(Parts::Body))->materials.color.x, 0.01f, 0.0f, 1.0f);
 	ImGui::End();
 #endif // DEBUG
 

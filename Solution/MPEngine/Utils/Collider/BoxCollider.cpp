@@ -388,7 +388,7 @@ bool BoxCollider::IsCollision(const OBB& obb, const Ray& ray, Vector3& hitPoint)
 	Matrix4x4 inverse = Inverse(obbWorldMatrix);
 	Ray fixRay{
 		.origin = Transform(ray.origin,inverse),
-		.diff = Transform(ray.origin + ray.diff,inverse) - fixRay.origin,
+		.diff = (Transform(ray.origin + ray.diff,inverse) - fixRay.origin).Normalize(),
 	};
 
 	AABB aabb{
@@ -409,12 +409,13 @@ bool BoxCollider::IsCollision(const OBB& obb, const Ray& ray, Vector3& hitPoint)
 	float tmax_ = (std::min)((std::min)(tFar.x, tFar.y), tFar.z);
 
 	// 衝突していない
-	if (tmin_ > tmax_ || tmin_ < 0.0f) {
+	if (tmin_ > tmax_ || tmin_ <= 0.0f && tmax_ <= 0.0f) {
 		return false;
 	}
 
 	// ray.originから衝突してる部分までのベクトルを返している、衝突店を知りたい場合は、+ray.originで求まる
-	hitPoint = (ray.diff * tmin_);
+	// とてもよくないがレイキャストに使用したい都合上、外側の衝突点tmax_を採用。後で構造体Infoにして直す
+	hitPoint = (ray.diff * tmax_);
 
 	return true; // 衝突があった
 }
