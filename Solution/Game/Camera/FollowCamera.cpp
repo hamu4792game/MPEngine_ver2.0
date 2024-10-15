@@ -30,6 +30,8 @@ void FollowCamera::SetParam(const Vector3& offset, const Vector3& rotate, float 
 }
 
 void FollowCamera::Update(const float& speed) {
+	// offsetとtargetのカメラの更新
+
 	timer_.nowFrame += 1.0f;
 	if (timer_.nowFrame>= timer_.maxFrame) {
 		timer_.nowFrame = timer_.maxFrame;
@@ -44,7 +46,7 @@ void FollowCamera::Update(const float& speed) {
 		preOffset_ = Lerp(preOffset_, lOffset, lerpSpeed_);
 		preRotate_ = Lerp(preRotate_, postRotate_, lerpSpeed_);
 
-		lOffset = TargetOffset(preOffset_, preRotate_);
+		lOffset = TargetOffset(offset_, postRotate_);
 		float T = Easing::EaseInSine(0.5f);
 
 		Vector3 end = MakeTranslateMatrix(target_->GetPosition()) * lOffset;
@@ -52,8 +54,8 @@ void FollowCamera::Update(const float& speed) {
 		preTranslate_ = Lerp(preTranslate_, end, T);
 		postTranslate_ = lOffset + end;
 
-		transform_.translation_ = lOffset + preTranslate_;
-		transform_.rotation_ = preRotate_;
+		transform_.translation_ = lOffset + end;
+		transform_.rotation_ = postRotate_;
 	}
 	transform_.UpdateMatrix();
 	if (target_) {
@@ -72,6 +74,11 @@ void FollowCamera::DrawImGui() {
 	ImGui::DragFloat("lerpSpeed", &lerpSpeed_, 0.1f);
 	ImGui::End();
 #endif // _DEBUG
+}
+
+void FollowCamera::LastUpdate() {
+	// カメラの遅延を含めた座標補間をここでやる
+	
 }
 
 void FollowCamera::CameraMove() {
@@ -136,11 +143,11 @@ bool FollowCamera::OnCollision(const Collider& coll) {
 		if (coll.GetName() == "Ground") {
 			float push = Length(pushBackVec);
 			float off = Length(transform_.GetPosition() - target_->GetPosition());
-			//pushBackVec = (transform_.GetPosition() - pushBackVec).Normalize() * (offset_.z + Length(transform_.translation_ - pushBackVec));
-			ImGui::Text("HIT");
 			if (push <= off) {
+#ifdef _DEBUG
 				ImGui::DragFloat3("IsHIT:PushBackVec", &pushBackVec.x, 0.1f);
 				ImGui::Text("IsHIT");
+#endif // DEBUG
 				transform_.translation_ += pushBackVec;
 				transform_.UpdateMatrix();
 				collision_->Update(*target_);

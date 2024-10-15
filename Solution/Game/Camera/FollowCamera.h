@@ -11,6 +11,8 @@ public:
 	void Update(const float& speed);
 	void DrawImGui();
 
+	void LastUpdate();
+
 	void SetTarget(const WorldTransform* target) { target_ = target; }
 	const WorldTransform& GetTransform() const { return transform_; }
 	const Vector3& GetPostposition() const { return postTranslate_; }
