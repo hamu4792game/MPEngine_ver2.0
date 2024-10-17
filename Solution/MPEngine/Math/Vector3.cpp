@@ -101,6 +101,20 @@ Vector3& Vector3::operator*=(const float& num) {
 	return *this;
 }
 
+Vector3 Vector3::operator/(const float& num) const {
+	Vector3 result;
+	result.x = this->x / num;
+	result.y = this->y / num;
+	result.z = this->z / num;
+	return result;
+}
+
+Vector3& Vector3::operator/=(const float& num) {
+	*this = *this / num;
+
+	return *this;
+}
+
 bool Vector3::operator==(const Vector3& num) const {
 	return this->x == num.x && this->y == num.y && this->z == num.z;
 }

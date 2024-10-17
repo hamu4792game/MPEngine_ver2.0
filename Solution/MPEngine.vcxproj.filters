@@ -257,6 +257,12 @@
     <ClCompile Include="MPEngine\Utils\Collider\ColliderFunction.cpp">
       <Filter>MPEngine\Utils\Collider</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Spring\Spring.cpp">
+      <Filter>Game\Spring</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene\TestScene.cpp">
+      <Filter>GameScene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -533,6 +539,12 @@
     <ClInclude Include="MPEngine\Utils\Collider\ColliderFunction.h">
       <Filter>MPEngine\Utils\Collider</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Spring\Spring.h">
+      <Filter>Game\Spring</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene\TestScene.h">
+      <Filter>GameScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="MPEngine">
@@ -759,6 +771,9 @@
     </Filter>
     <Filter Include="MPEngine\Utils\Template">
       <UniqueIdentifier>{94328d05-5052-4d25-a466-4bdb72b98b01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Spring">
+      <UniqueIdentifier>{dc442b3e-08db-47f8-992e-4bb39ff11ebd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

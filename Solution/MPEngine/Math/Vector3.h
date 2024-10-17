@@ -30,6 +30,8 @@ public:
 
 	Vector3 operator*(const float& num) const;
 	Vector3& operator*=(const float& num);
+	Vector3 operator/(const float& num) const;
+	Vector3& operator/=(const float& num);
 
 	bool operator==(const Vector3& num) const;
 	bool operator!=(const Vector3& num) const;

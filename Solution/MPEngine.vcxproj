@@ -158,6 +158,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GameScene\GameScene.cpp" />
+    <ClCompile Include="GameScene\TestScene.cpp" />
     <ClCompile Include="GameScene\Transition.cpp" />
     <ClCompile Include="Game\BoxSky\BoxSky.cpp" />
     <ClCompile Include="Game\Camera\AttackCamera.cpp" />
@@ -174,6 +175,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Player\WireTargetMove.cpp" />
     <ClCompile Include="Game\Scene\BattleScene.cpp" />
     <ClCompile Include="Game\Scene\TitleScene.cpp" />
+    <ClCompile Include="Game\Spring\Spring.cpp" />
     <ClCompile Include="Game\Stage\Goal.cpp" />
     <ClCompile Include="Game\Stage\Ground.cpp" />
     <ClCompile Include="Game\Stage\Stage.cpp" />
@@ -246,6 +248,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameScene\GameScene.h" />
+    <ClInclude Include="GameScene\TestScene.h" />
     <ClInclude Include="GameScene\Transition.h" />
     <ClInclude Include="Game\BoxSky\BoxSky.h" />
     <ClInclude Include="Game\Camera\AttackCamera.h" />
@@ -262,6 +265,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\Player\WireTargetMove.h" />
     <ClInclude Include="Game\Scene\BattleScene.h" />
     <ClInclude Include="Game\Scene\TitleScene.h" />
+    <ClInclude Include="Game\Spring\Spring.h" />
     <ClInclude Include="Game\Stage\Goal.h" />
     <ClInclude Include="Game\Stage\Ground.h" />
     <ClInclude Include="Game\Stage\Stage.h" />
