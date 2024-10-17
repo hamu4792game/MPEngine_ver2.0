@@ -125,7 +125,7 @@ bool Vector3::operator!=(const Vector3& num) const {
 
 Vector3 Vector3::Normalize() const {
 	Vector3 result;
-	float w = Length(*this);
+	float w = this->Length();
 	if (w == 0) {
 		return Vector3(0.0f, 0.0f, 0.0f);
 	}
@@ -134,6 +134,10 @@ Vector3 Vector3::Normalize() const {
 	result.y = this->y * w;
 	result.z = this->z * w;
 	return result;
+}
+
+float Vector3::Length() const {
+	return sqrtf((this->x * this->x) + (this->y * this->y) + (this->z * this->z));
 }
 
 float Vector3::GetBigVector() const {

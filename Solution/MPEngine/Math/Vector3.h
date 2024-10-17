@@ -48,6 +48,7 @@ public: // 定数
 
 	// 取得関数
 	Vector3 Normalize() const;
+	float Length() const;
 
 	// 正規化された絶対値が一番大きなベクトルの値を返す
 	float GetBigVector() const;

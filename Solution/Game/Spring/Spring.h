@@ -30,8 +30,12 @@ private:
 		Vector3 acceleration; // ボールの加速度
 		float mass = 0.0f; // ボールの質量
 		float radius = 0.0f; // ボールの半径
+		Vector3 moveVector; // 移動ベクトル
 	};
 	Ball ball;
+
+	// swing中か
+	bool isSwing_ = true;
 
 	std::unique_ptr<Line> springLine_;
 	std::unique_ptr<Model> ballModel_;
