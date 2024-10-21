@@ -5,6 +5,7 @@
 #include "Game/Camera/FollowCamera.h"
 #include "WebSwing.h"
 #include "WireTargetMove.h"
+#include "WebSwing.h"
 #include "Utils/Collider/Collider.h"
 
 class PlayerManager {
@@ -23,7 +24,7 @@ public:
 	bool OnCollisionStage(const Collider& coll);
 	WorldTransform OnCollisionCameraToStage(const Collider& coll);
 
-	const uint32_t GetEffectNumber() { return static_cast<uint32_t>(postEffectNum_); }
+	const uint32_t GetEffectNumber() const { return static_cast<uint32_t>(postEffectNum_); }
 	Collider* GetCollision() const { return collision_.get(); }
 
 private:
@@ -54,12 +55,14 @@ private:
 		bool isJump = false; // ジャンプボタンが押されたか
 		bool isWireMove = false; // ワイヤー移動ボタンが押されたか
 		bool isDashMove = false; // ダッシュボタンが押されたか
+		bool isSwingMove = false; // ウェブスイングをするか
 
 		void Initialize() {
 			move = Vector3::zero;
 			isJump = false;
 			isWireMove = false;
 			isDashMove = false;
+			isSwingMove = false;
 		}
 	};
 	InputParam inputParam_;
@@ -108,9 +111,9 @@ private:
 	// 振る舞い
 	enum class Behavior {
 		kRoot,	// 通常行動
-		kAttack,// 攻撃中
+		kWebSwing,	// ウェブスイング
 		kDash,	// ダッシュ中
-		kSwing,	// スイング中
+		kWireMove,	// ワイヤー移動中
 	};
 	Behavior behavior_ = Behavior::kRoot;
 	// 次の振る舞いリクエスト
@@ -144,4 +147,9 @@ private:
 	FrameCount frameCount_;
 
 	Vector3 hittingObjectNormal_; // 衝突している物体の法線ベクトル
+
+
+	// ウェブスイング用
+	bool isWebSwing_ = false;
+
 };

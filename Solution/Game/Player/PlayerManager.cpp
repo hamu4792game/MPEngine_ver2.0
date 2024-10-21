@@ -84,11 +84,11 @@ void PlayerManager::Update() {
 			moveParameter_.AccelInit();
 			
 			break;
-		case Behavior::kAttack:
+		case Behavior::kWebSwing:
 			break;
 		case Behavior::kDash:
 			break;
-		case Behavior::kSwing:
+		case Behavior::kWireMove:
 			masterSpeed_ = 1.0f;
 			frameCount_.count = 0.0f;
 			followCamera_->SetParam(Vector3(0.0f, 2.0f, -20.0f), followCamera_->GetTransform().rotation_, 0.95f);
@@ -106,14 +106,14 @@ void PlayerManager::Update() {
 		if (inputParam_.isWireMove && targetTransform_) {
 			transform_.UpdateMatrix();
 			wireTargetMove_->Initialize(targetTransform_->GetPosition(), transform_.GetPosition());
-			behaviorRequest_ = Behavior::kSwing;
+			behaviorRequest_ = Behavior::kWireMove;
 		}
 		break;
-	case Behavior::kAttack:
+	case Behavior::kWebSwing:
 		break;
 	case Behavior::kDash:
 		break;
-	case Behavior::kSwing:
+	case Behavior::kWireMove:
 		Vector3 result;
 		bool isSwing; //= webswing_->Update(transform_.GetPosition(), result);
 		isSwing = wireTargetMove_->Update(transform_.GetPosition(), result);
@@ -147,6 +147,7 @@ void PlayerManager::Update() {
 		hittingObjectNormal_ = Vector3::zero;
 	}
 
+	oldMoveVector = moveVector_;
 	transform_.translation_ += moveVector_;
 
 	LimitMoving();
@@ -167,7 +168,7 @@ WorldTransform PlayerManager::PostUpdate() {
 			finishFrag = true;
 		}
 	}
-	if (frameCount_.count >= frameCount_.maxFrame * 60.0f || finishFrag || (behavior_ == Behavior::kSwing && behaviorFlag_.isLanded)) {
+	if (frameCount_.count >= frameCount_.maxFrame * 60.0f || finishFrag || (behavior_ == Behavior::kWireMove && behaviorFlag_.isLanded)) {
 		frameCount_.count = 0.0f;
 		masterSpeed_ = 1.0f;
 		followCamera_->SetParam(Vector3(0.0f, 2.0f, -20.0f), followCamera_->GetTransform().rotation_, 0.95f);
@@ -178,7 +179,7 @@ WorldTransform PlayerManager::PostUpdate() {
 
 	// 速度の計算 (現在座標ー過去座標)/時間 今回は1.0fなので割らない
 	float velocity = moveParameter_.acceleration;
-	if (behavior_ == Behavior::kSwing) {
+	if (behavior_ == Behavior::kWireMove) {
 		velocity = Length(transform_.GetPosition() - oldPosition_);
 		if (velocity >= 1.0f) {
 			velocity = 1.0f;
@@ -223,7 +224,6 @@ bool PlayerManager::OnCollisionStage(const Collider& coll) {
 			}
 			// 横向きに当たったら
 			else if (nBigVec == nPushBackVec.x || nBigVec == nPushBackVec.z) {
-				//ImGui::Text("pushBack %f,d%f,%f", pushBackVec.x, pushBackVec.y, pushBackVec.z);
 				// 地面と当たっているので初期化
 				if (!fallParam_.isJumpable) {
 					behaviorFlag_.isLanded = true;
@@ -234,7 +234,7 @@ bool PlayerManager::OnCollisionStage(const Collider& coll) {
 			
 			transform_.translation_ += pushBackVec;
 			TransformUpdate();
-			if (behavior_ == Behavior::kSwing) {
+			if (behavior_ == Behavior::kWireMove) {
 				behaviorRequest_ = Behavior::kRoot;
 			}
 		}
@@ -264,10 +264,6 @@ void PlayerManager::DrawImGui() {
 		ImGui::EndMenuBar();
 	}
 	ImGui::End();
-
-	static float wid = 0.0f;
-	ImGui::DragFloat("bluerWid", &wid, 0.001f);
-	RadialBlur::GetInstance()->cParam_->blurWidth = wid;
 #endif // _DEBUG
 }
 
@@ -301,11 +297,6 @@ void PlayerManager::InputMove() {
 		// 移動しているので
 		behaviorFlag_.isMoved = true;
 		oldMoveVector = move;
-	}
-	else if (!fallParam_.isJumpable) {
-		moveVector_ += oldMoveVector;
-		// 移動しているので
-		behaviorFlag_.isMoved = true;
 	}
 	else {
 		moveParameter_.AccelInit();
@@ -420,9 +411,13 @@ void PlayerManager::KeyInput() {
 		}
 	}
 
+	if (input->GetKey()->PressKey(DIK_N)) {
+		inputParam_.isSwingMove = true;
+	}
+
 #pragma endregion
 
-	if (input->GetKey()->TriggerKey(DIK_R)) {
+	if (input->GetKey()->PressKey(DIK_R)) {
 		Initialize(respawnpoint_);
 	}
 
@@ -430,5 +425,24 @@ void PlayerManager::KeyInput() {
 
 void PlayerManager::BehaviorRootUpdate() {
 	InputMove();
-	FalledProcess();
+
+	// webswingが押された場合
+	if (inputParam_.isSwingMove && !isWebSwing_) {
+		if (targetTransform_) {
+			webswing_->Initialize(targetTransform_->GetPosition(), transform_.GetPosition(), moveVector_);
+			isWebSwing_ = true;
+		}
+	}
+	else if(!inputParam_.isSwingMove) {
+		isWebSwing_ = false;
+	}
+
+	// ウェブスイング中か
+	if (isWebSwing_) {
+		moveVector_ = webswing_->Update(transform_.GetPosition());
+	}
+	else {
+		FalledProcess();
+	}
+
 }
