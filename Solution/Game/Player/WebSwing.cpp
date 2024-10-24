@@ -10,6 +10,7 @@ void WebSwing::Initialize(const Vector3& anchor, const Vector3& playerPos, const
     anchor_ = anchor;
     naturalLength_ = (playerPos - anchor).Length(); // 紐の長さを設定
     ball_.velocity = firstVel; // 初速度の設定
+	ball_.mass = 50.0f;
 
 	stiffness_ = 100.0f;
 	dampingCoefficient_ = 2.0f;
@@ -60,7 +61,7 @@ bool WebSwing::Update(const Vector3& player, Vector3& result) {
 }
 
 Vector3 WebSwing::Update(const Vector3& playerPos) {
-	const float deltaTime = 1.0f / 60.0f;
+	const float deltaTime = 1.0f;
 	static const Vector3 kGravity(0.0f, -9.8f, 0.0f);
 	
 	if (!isSwing_) {
@@ -72,9 +73,7 @@ Vector3 WebSwing::Update(const Vector3& playerPos) {
 		if (length > 0.0f) {
 			Vector3 direction = diff.Normalize();
 			// ウェブの張力（アンカーに引っ張られる力）
-			Vector3 restoringForce = direction * (-stiffness_ * (length - naturalLength_));
-			// ダンピングの計算（減衰力）
-			Vector3 dampingForce = ball_.velocity * -dampingCoefficient_;
+ 			Vector3 restoringForce = direction * (-stiffness_ * (length - naturalLength_));
 			// 合力の計算
 			Vector3 force = restoringForce + kGravity + ball_.moveVector;
 
@@ -93,21 +92,33 @@ Vector3 WebSwing::Update(const Vector3& playerPos) {
 
 			// 速度と移動ベクトルの計算
 			ball_.velocity = ball_.velocity - velocityAlongRope;
-			moveVec_ += ball_.velocity * deltaTime;
+			moveVec_ = ball_.velocity * deltaTime;
 
 			// 常に自然長を保つ
-			Vector3 toAnchor = playerPos - anchor_;
+			Vector3 toAnchor = (moveVec_ + playerPos) - anchor_;
 			float newLength = toAnchor.Length();
 
 			// スイングのアーチ状の動きを保持するために、ウェブの長さを自然長に制約
 			if (newLength > naturalLength_) {
 				// 長さを調整し、スイングの円運動を保つ
-				Vector3 resultPos = anchor_ + toAnchor.Normalize() * naturalLength_;
-				moveVec_ = resultPos - playerPos;
+				Vector3 resultPos = (toAnchor.Normalize() * naturalLength_);
+				resultPos += anchor_;
+				moveVec_ = resultPos - playerPos ;
 			}
 		}
 	}
-	springLine_->SetLine(anchor_, playerPos + moveVec_);
+
+#ifdef _DEBUG
+	ImGui::Begin("WebSwing");
+	ImGui::Text("NaturalLength %f", naturalLength_);
+	ImGui::Text("nowLength %f", ((moveVec_ + playerPos) - anchor_).Length());
+	ImGui::DragFloat("mass", &ball_.mass, 0.1f);
+	ImGui::DragFloat("stiffness", &stiffness_, 0.1f);
+	ImGui::End();
+#endif // _DEBUG
+
+	
+	springLine_->SetLine(anchor_, moveVec_ + playerPos);
 	
     return moveVec_;
 }

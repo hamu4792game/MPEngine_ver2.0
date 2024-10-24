@@ -439,7 +439,7 @@ void PlayerManager::BehaviorRootUpdate() {
 
 	// ウェブスイング中か
 	if (isWebSwing_) {
-		moveVector_ = webswing_->Update(transform_.GetPosition());
+		moveVector_ += webswing_->Update(transform_.GetPosition());
 	}
 	else {
 		FalledProcess();

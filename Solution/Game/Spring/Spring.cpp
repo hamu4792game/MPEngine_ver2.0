@@ -8,7 +8,7 @@ void Spring::Initialize() {
 	stiffness = 100.0f;
 	dampingCoefficient = 2.0f;
 
-	ball.position = Vector3(0.0f, 0.7f, 0.8f);
+	ball.position = Vector3(0.2f, 0.7f, 0.0f);
 	ball.mass = 2.0f;
 	ball.radius = 0.05f;
 
@@ -39,7 +39,7 @@ void Spring::Update() {
 			// ダンピングの計算（減衰力）
 			Vector3 dampingForce = ball.velocity * -dampingCoefficient;
 			// 合力の計算
-			Vector3 force = restoringForce + kGravity + ball.moveVector;
+			Vector3 force = restoringForce + kGravity + ball.moveVector + dampingCoefficient;
 
 			// 速度と位置の更新
 			ball.acceleration = force / ball.mass;
@@ -109,7 +109,14 @@ void Spring::Move() {
 	}
 
 	if (input->TriggerKey(DIK_SPACE)) {
-		anchor += Vector3(1.0f, 0.0f, 0.0f);
+
+		if (anchor.x >= ball.position.x) {
+			anchor -= Vector3(1.0f, 0.0f, 0.0f);
+		}
+		else {
+			anchor += Vector3(1.0f, 0.0f, 0.0f);
+		}
+
 		float len = (ball.position - anchor).Length();
 		naturalLength = len;
 	}
