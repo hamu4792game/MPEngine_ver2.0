@@ -211,6 +211,8 @@ bool PlayerManager::OnCollisionStage(const Collider& coll) {
 		// Groundと当たっていた場合
 		else if (coll.GetName() == "Ground") {
 
+			isWebSwing_ = false;
+
 			Vector3 nPushBackVec = pushBackVec.Normalize();
 			float nBigVec = pushBackVec.GetBigVector();
 
@@ -410,6 +412,7 @@ void PlayerManager::KeyInput() {
 			inputParam_.isWireMove = true;
 		}
 	}
+
 
 	if (input->GetKey()->PressKey(DIK_N)) {
 		inputParam_.isSwingMove = true;
