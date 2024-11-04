@@ -436,7 +436,7 @@ void PlayerManager::BehaviorRootUpdate() {
 			isWebSwing_ = true;
 		}
 		else {
-			webswing_->Initialize(transform_.GetPosition() + Vector3(0.0f,15.0f,10.0f), transform_.GetPosition(), moveVector_);
+			webswing_->Initialize(transform_.GetPosition() + Vector3(0.0f, 15.0f, 20.0f), transform_.GetPosition(), moveVector_);
 			isWebSwing_ = true;
 		}
 	}
