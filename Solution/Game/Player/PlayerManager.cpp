@@ -435,6 +435,10 @@ void PlayerManager::BehaviorRootUpdate() {
 			webswing_->Initialize(targetTransform_->GetPosition(), transform_.GetPosition(), moveVector_);
 			isWebSwing_ = true;
 		}
+		else {
+			webswing_->Initialize(transform_.GetPosition() + Vector3(0.0f,15.0f,10.0f), transform_.GetPosition(), moveVector_);
+			isWebSwing_ = true;
+		}
 	}
 	else if(!inputParam_.isSwingMove) {
 		isWebSwing_ = false;

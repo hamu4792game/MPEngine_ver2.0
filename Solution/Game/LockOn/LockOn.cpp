@@ -77,13 +77,14 @@ void LockOn::Search(const std::list<std::shared_ptr<Target>>& targets) {
 		Matrix4x4 view = Camera3d::GetInstance()->GetCamera().GetViewMat();
 		Vector3 positionView = Transform(positionWorld, view);
 
-		float frame = 30.0f; // x軸
-		float yFrame = 30.0f; // y軸
-		Vector2 distance(70.0f,300.0f); // 最小・最大距離 カメラのオフセット分もある
+
+		// 最小範囲と最大範囲
+		Vector3 min = Vector3(-30.0f, -30.0f, 70.0f);
+		Vector3 max = Vector3(30.0f, 30.0f, 300.0f);
 		// 距離条件チェック
-		if (-frame <= positionView.x && positionView.x <= frame) {
-			if (-yFrame <= positionView.y && positionView.y <= yFrame) {
-				if (distance.x <= positionView.z && positionView.z <= distance.y) {
+		if (min.x <= positionView.x && positionView.x <= max.x) {
+			if (min.y <= positionView.y && positionView.y <= max.y) {
+				if (min.z <= positionView.z && positionView.z <= max.z) {
 					targets_.emplace_back(std::make_pair(positionView.z, enemy.get()));
 				}
 			}
