@@ -37,6 +37,9 @@ private:
 	float stiffness_ = 0.0f; // 剛性、ばね定数k
 	float dampingCoefficient_ = 0.0f; // 減衰係数
 
+	float hangTimeCounter = 0.0f;  // 滞空時間用のカウンター
+	bool isHanging = false;  // 滞空状態のフラグ
+
 	struct PlayerParam {
 		Vector3 position; // playerの現在地
 		Vector3 velocity; // ボールの速度

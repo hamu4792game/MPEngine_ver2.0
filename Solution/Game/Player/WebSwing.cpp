@@ -71,6 +71,19 @@ Vector3 WebSwing::Update(const Vector3& playerPos) {
 		Vector3 diff = playerPos - anchor_;
 		float length = Length(diff);
 		if (length > 0.0f) {
+
+			const float speedThreshold = 0.1f;  // 滞空の閾値速度
+			const float hangTimeDuration = 10.0f / 60.0f;  // 滞空時間
+			// 滞空状態の処理
+			if (isHanging) {
+				hangTimeCounter += deltaTime;
+				if (hangTimeCounter >= hangTimeDuration) {
+					isHanging = false;         // 滞空時間が終了したら滞空状態を解除
+					hangTimeCounter = 0.0f;    // カウンターをリセット
+				}
+				return Vector3(); // 滞空中は物理演算を行わない
+			}
+
 			Vector3 direction = diff.Normalize();
 			// ウェブの張力（アンカーに引っ張られる力）
  			Vector3 restoringForce = direction * (-stiffness_ * (length - naturalLength_));
@@ -104,6 +117,12 @@ Vector3 WebSwing::Update(const Vector3& playerPos) {
 				Vector3 resultPos = (toAnchor.Normalize() * naturalLength_);
 				resultPos += anchor_;
 				moveVec_ = resultPos - playerPos ;
+			}
+
+			// 速度が閾値以下なら滞空状態に入る
+			float leg = ball_.velocity.Length();
+			if (leg < speedThreshold) {
+				isHanging = true;
 			}
 		}
 	}

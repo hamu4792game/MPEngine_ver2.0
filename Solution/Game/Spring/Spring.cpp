@@ -3,12 +3,12 @@
 #include "Input/Input.h"
 
 void Spring::Initialize() {
-	anchor = Vector3(0.0f,1.0f,0.0f);
+	anchor = Vector3(0.0f,0.0f,10.0f);
 	naturalLength = 0.7f;
 	stiffness = 100.0f;
 	dampingCoefficient = 2.0f;
 
-	ball.position = Vector3(0.2f, 0.7f, 0.0f);
+	ball.position = Vector3(1.0f, -1.0f, 10.0f);
 	ball.mass = 2.0f;
 	ball.radius = 0.05f;
 
@@ -30,22 +30,40 @@ void Spring::Update() {
 		ball.position += ball.velocity * deltaTime;
 	}
 	else {
+		const float speedThreshold = 0.02f;  // 滞空の閾値速度
+		const float hangTimeDuration = 10.0f / 60.0f;  // 滞空時間
+		
+
 		Vector3 diff = ball.position - anchor;
 		float length = Length(diff);
+
 		if (length > 0.0f) {
 			Vector3 direction = diff.Normalize();
+
+			// 滞空状態の処理
+			if (isHanging) {
+				hangTimeCounter += deltaTime;
+				if (hangTimeCounter >= hangTimeDuration) {
+					isHanging = false;         // 滞空時間が終了したら滞空状態を解除
+					hangTimeCounter = 0.0f;    // カウンターをリセット
+				}
+				return; // 滞空中は物理演算を行わない
+			}
+
 			// ウェブの張力（アンカーに引っ張られる力）
 			Vector3 restoringForce = direction * (-stiffness * (length - naturalLength));
-			// ダンピングの計算（減衰力）
-			Vector3 dampingForce = ball.velocity * -dampingCoefficient;
+
+			// ダンピングの計算（減衰力）を強めに設定
+			Vector3 dampingForce = ball.velocity * -dampingCoefficient * 1.5f;
+
 			// 合力の計算
-			Vector3 force = restoringForce + kGravity + ball.moveVector + dampingCoefficient;
+			Vector3 force = restoringForce + kGravity + ball.moveVector;
 
-			// 速度と位置の更新
+			// 加速度と速度を更新
 			ball.acceleration = force / ball.mass;
-			ball.velocity += (ball.acceleration) * deltaTime;
+			ball.velocity += ball.acceleration * deltaTime;
 
-			// 張力方向に沿った痩躯度成分を除去して振り子運動を維持
+			// 張力方向に沿った速度成分を除去して、振り子運動を維持
 			Vector3 velocityAlongRope;
 			float dotProduct = ball.velocity.x * direction.x + ball.velocity.y * direction.y + ball.velocity.z * direction.z;
 			float lengthSq = direction.Length();
@@ -55,6 +73,7 @@ void Spring::Update() {
 			}
 			ball.velocity = ball.velocity - velocityAlongRope;
 
+			// ボールの位置を更新
 			ball.position += ball.velocity * deltaTime;
 
 			// 常に自然長を保つ
@@ -63,8 +82,13 @@ void Spring::Update() {
 
 			// スイングのアーチ状の動きを保持するために、ウェブの長さを自然長に制約
 			if (newLength > naturalLength) {
-				// 長さを調整し、スイングの円運動を保つ
 				ball.position = anchor + toAnchor.Normalize() * naturalLength;
+			}
+
+			// 速度が閾値以下なら滞空状態に入る
+			float leg = ball.velocity.Length();
+			if (leg < speedThreshold) {
+				isHanging = true;
 			}
 		}
 	}
