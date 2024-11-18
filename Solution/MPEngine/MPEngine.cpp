@@ -130,7 +130,7 @@ void MPEngine::D3DResourceLeakChecker::EnableDebugLayer() {
 		//	デバッグレイヤーを有効可する
 		debugController->EnableDebugLayer();
 		//	さらにGPU側でもチェックを行うようにする
-		debugController->SetEnableGPUBasedValidation(true);
+		debugController->SetEnableGPUBasedValidation(FALSE);
 	}
 }
 

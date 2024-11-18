@@ -13,9 +13,25 @@ public:
 	void Update();
 
 private:
+	struct Ball {
+		Vector3 position; // ボールの位置
+		Vector3 velocity; // ボールの速度
+		Vector3 acceleration; // ボールの加速度
+		float mass = 0.0f; // ボールの質量
+		float radius = 0.0f; // ボールの半径
+		Vector3 moveVector; // 移動ベクトル
+	};
+
+
 	void ImGuiProcess();
 
 	void Move();
+
+private:
+
+	Vector3 ReleaseWeb(Ball& ball, Vector3 anchor, Vector3& swingDirection);
+
+	Vector3 ApplyAirMovement(Ball& ball, float airDamping);
 
 private:
 
@@ -27,14 +43,6 @@ private:
 	float hangTimeCounter = 0.0f;  // 滞空時間用のカウンター
 	bool isHanging = false;  // 滞空状態のフラグ
 
-	struct Ball {
-		Vector3 position; // ボールの位置
-		Vector3 velocity; // ボールの速度
-		Vector3 acceleration; // ボールの加速度
-		float mass = 0.0f; // ボールの質量
-		float radius = 0.0f; // ボールの半径
-		Vector3 moveVector; // 移動ベクトル
-	};
 	Ball ball;
 
 	// swing中か

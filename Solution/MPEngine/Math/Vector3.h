@@ -100,4 +100,5 @@ int RandNum(int min, int max);
 float RandNum(float min, float max);
 Vector3 RandNum(Vector3 min, Vector3 max);
 
+// 2つのvecから角度を求める
 float FindAngle(const Vector3& vecA, const Vector3& vecB);

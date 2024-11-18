@@ -26,8 +26,8 @@ void Spring::Update() {
 	static const Vector3 kGravity(0.0f, -9.8f, 0.0f);
 
 	if (!isSwing_) {
-		//ball.velocity += (ball.acceleration + kGravity) * deltaTime;
-		ball.position += ball.velocity * deltaTime;
+		ApplyAirMovement(ball, 0.98f);
+		//ball.position += ball.velocity * deltaTime;
 	}
 	else {
 		const float speedThreshold = 0.02f;  // 滞空の閾値速度
@@ -46,6 +46,8 @@ void Spring::Update() {
 				if (hangTimeCounter >= hangTimeDuration) {
 					isHanging = false;         // 滞空時間が終了したら滞空状態を解除
 					hangTimeCounter = 0.0f;    // カウンターをリセット
+					isSwing_ = false;
+					ReleaseWeb(ball, anchor, direction);
 				}
 				return; // 滞空中は物理演算を行わない
 			}
@@ -86,10 +88,18 @@ void Spring::Update() {
 			}
 
 			// 速度が閾値以下なら滞空状態に入る
+			// 多分後で消えて、離された時に力をそのまま渡すみたいな感じになりそう
 			float leg = ball.velocity.Length();
 			if (leg < speedThreshold) {
+				//isHanging = true;
+			}
+
+			// 角度が90°以上なら滞空状態に入る
+			float angle = FindAngle(Vector3::down, direction);
+			if (std::fabsf(angle) >= AngleToRadian(90.0f)) {
 				isHanging = true;
 			}
+
 		}
 	}
 
@@ -144,8 +154,41 @@ void Spring::Move() {
 		float len = (ball.position - anchor).Length();
 		naturalLength = len;
 	}
-	if (input->TriggerKey(DIK_P)) {
-		isSwing_ = !isSwing_;
+	if (input->TriggerKey(DIK_R)) {
+		isSwing_ = true;
+
+		anchor = Vector3(0.0f, 0.0f, 10.0f);
+		naturalLength = 0.7f;
+		stiffness = 100.0f;
+		dampingCoefficient = 2.0f;
+
+		ball.position = Vector3(1.0f, -1.0f, 10.0f);
+		ball.velocity = Vector3::zero;
+		ball.mass = 2.0f;
 	}
 
+}
+
+Vector3 Spring::ReleaseWeb(Ball& ball, Vector3 anchor, Vector3& swingDirection) {
+	const float jumpStrength = 0.1f;  // ジャンプ初速の強さ
+	const float airDamping = 0.98f;    // 空中での減衰効果
+
+	// スイング方向に基づいて初速を設定
+	Vector3 jumpVelocity = (swingDirection + Vector3::up).Normalize() * jumpStrength;
+	ball.velocity = jumpVelocity;
+
+	// 空中挙動（ジャンプ中の更新処理）
+	return ApplyAirMovement(ball, airDamping);
+}
+
+Vector3 Spring::ApplyAirMovement(Ball& ball, float airDamping) {
+	const float deltaTime = 0.1f;
+	static const Vector3 kGravity(0.0f, -0.00098f, 0.0f);
+
+	// 空中での減衰と重力の影響
+	ball.velocity *= airDamping;
+	ball.velocity += kGravity;
+	ball.position += ball.velocity;
+
+	return ball.velocity;
 }

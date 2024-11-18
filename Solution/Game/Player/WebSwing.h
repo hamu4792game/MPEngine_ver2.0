@@ -23,11 +23,26 @@ public:
 	/// 更新処理
 	/// </summary>
 	/// <param name="player">playerの座標</param>
-	/// <param name="result">引数に返す移動ベクトル</param>
-	/// <returns>処理終了:true/処理中:false</returns>
-	bool Update(const Vector3& player, Vector3& result);
+	/// <returns>返す移動ベクトル</returns>
+	Vector3 Update(const Vector3& playerPos, bool& flag);
 
-	Vector3 Update(const Vector3& playerPos);
+
+private: /// 構造体
+	struct PlayerParam {
+		Vector3 position; // playerの現在地
+		Vector3 velocity; // ボールの速度
+		Vector3 acceleration; // ボールの加速度
+		float mass = 2.0f; // ボールの質量
+		Vector3 moveVector; // キーで動かす移動ベクトル
+	};
+
+private:
+
+	Vector3 ReleaseWeb(PlayerParam& ball, Vector3 anchor, Vector3& swingDirection);
+
+public:
+	Vector3 ApplyAirMovement(PlayerParam& ball, float airDamping);
+
 
 private:
 	Vector3 target_;
@@ -40,13 +55,7 @@ private:
 	float hangTimeCounter = 0.0f;  // 滞空時間用のカウンター
 	bool isHanging = false;  // 滞空状態のフラグ
 
-	struct PlayerParam {
-		Vector3 position; // playerの現在地
-		Vector3 velocity; // ボールの速度
-		Vector3 acceleration; // ボールの加速度
-		float mass = 2.0f; // ボールの質量
-		Vector3 moveVector; // キーで動かす移動ベクトル
-	};
+	
 	PlayerParam ball_;
 
 	// swing中か

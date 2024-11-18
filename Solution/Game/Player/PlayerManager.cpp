@@ -211,8 +211,6 @@ bool PlayerManager::OnCollisionStage(const Collider& coll) {
 		// Groundと当たっていた場合
 		else if (coll.GetName() == "Ground") {
 
-			isWebSwing_ = false;
-
 			Vector3 nPushBackVec = pushBackVec.Normalize();
 			float nBigVec = pushBackVec.GetBigVector();
 
@@ -432,26 +430,33 @@ void PlayerManager::BehaviorRootUpdate() {
 	// webswingが押された場合
 	if (inputParam_.isSwingMove && !isWebSwing_) {
 		if (targetTransform_) {
-			webswing_->Initialize(targetTransform_->GetPosition(), transform_.GetPosition(), moveVector_);
+
+			Vector3 targetVec = targetTransform_->GetPosition() - transform_.GetPosition();
+			Vector3 jumpDirection = (targetVec.Normalize()).Normalize();
+
+			webswing_->Initialize(targetTransform_->GetPosition(), transform_.GetPosition(), jumpDirection);
 			isWebSwing_ = true;
 		}
 		else {
-			webswing_->Initialize(transform_.GetPosition() + Vector3(0.0f, 15.0f, 0.0f), transform_.GetPosition(), moveVector_);
+			// playerの正面ベクトルを回転させた値
+			Vector3 pl = MakeRotateMatrix(transform_.rotation_) * Vector3(0.0f, 15.0f, 5.0f);
+			Vector3 pvec = MakeRotateMatrix(transform_.rotation_) * Vector3::front;
+
+			webswing_->Initialize(transform_.GetPosition() + pl, transform_.GetPosition(), pvec.Normalize() * 3.0f);
 			isWebSwing_ = true;
 		}
 	}
-	else if(!inputParam_.isSwingMove) {
+	else if (!inputParam_.isSwingMove) {
 		isWebSwing_ = false;
 	}
 
 	// ウェブスイング中か
 	if (isWebSwing_) {
-		moveVector_ = webswing_->Update(transform_.GetPosition());
-		if (moveVector_ == Vector3::zero) {
-
-		}
+		moveVector_ = webswing_->Update(transform_.GetPosition(), isWebSwing_);
+		
 	}
 	else {
+
 		FalledProcess();
 	}
 
