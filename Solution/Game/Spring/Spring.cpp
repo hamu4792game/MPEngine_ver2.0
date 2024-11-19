@@ -118,7 +118,7 @@ void Spring::ImGuiProcess() {
 	ImGui::DragFloat3("ball.position", &ball.position.x, 0.1f);
 	ImGui::DragFloat3("ball.velocity", &ball.velocity.x, 0.1f);
 	ImGui::DragFloat3("ball.acceleration", &ball.acceleration.x, 0.1f);
-	ImGui::DragFloat("ball.mass", &ball.mass, 0.1f);
+	ImGui::DragFloat("ball.mass", &ball.mass, 0.1f, 0.0f, 10.0f);
 	ImGui::DragFloat("ball.radius", &ball.radius, 0.1f);
 	ImGui::End();
 

@@ -56,6 +56,7 @@ private:
 		bool isWireMove = false; // ワイヤー移動ボタンが押されたか
 		bool isDashMove = false; // ダッシュボタンが押されたか
 		bool isSwingMove = false; // ウェブスイングをするか
+		bool isPushSwing = false; // ウェブスイングを押した瞬間
 
 		void Initialize() {
 			move = Vector3::zero;
@@ -63,6 +64,7 @@ private:
 			isWireMove = false;
 			isDashMove = false;
 			isSwingMove = false;
+			isPushSwing = false;
 		}
 	};
 	InputParam inputParam_;

@@ -62,6 +62,7 @@ Vector3 WebSwing::Update(const Vector3& playerPos, bool& flag) {
 			// 速度と位置の更新
 			ball_.acceleration = force / ball_.mass;
 			ball_.velocity += (ball_.acceleration) * deltaTime;
+			ball_.mass += 1.0f;
 
 			// 張力方向に沿った痩躯度成分を除去して振り子運動を維持
 			Vector3 velocityAlongRope;

@@ -10,7 +10,7 @@
 void BattleScene::Initialize() {
 	stage_ = std::make_unique<Stage>();
 	LevelData data;
-	auto leveldata = data.Load("test.json");
+	auto leveldata = data.Load("stage.json");
 	stage_->LevelLoad(leveldata);
 
 	player_ = std::make_unique<PlayerManager>();

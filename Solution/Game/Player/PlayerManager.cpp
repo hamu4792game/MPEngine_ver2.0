@@ -415,6 +415,9 @@ void PlayerManager::KeyInput() {
 	if (input->GetKey()->PressKey(DIK_N)) {
 		inputParam_.isSwingMove = true;
 	}
+	if (input->GetKey()->TriggerKey(DIK_N)) {
+		inputParam_.isPushSwing = true;
+	}
 
 #pragma endregion
 
@@ -428,7 +431,7 @@ void PlayerManager::BehaviorRootUpdate() {
 	InputMove();
 
 	// webswingが押された場合
-	if (inputParam_.isSwingMove && !isWebSwing_) {
+	if (inputParam_.isPushSwing && !isWebSwing_) {
 		if (targetTransform_) {
 
 			Vector3 targetVec = targetTransform_->GetPosition() - transform_.GetPosition();
@@ -442,7 +445,7 @@ void PlayerManager::BehaviorRootUpdate() {
 			Vector3 pl = MakeRotateMatrix(transform_.rotation_) * Vector3(0.0f, 15.0f, 5.0f);
 			Vector3 pvec = MakeRotateMatrix(transform_.rotation_) * Vector3::front;
 
-			webswing_->Initialize(transform_.GetPosition() + pl, transform_.GetPosition(), pvec.Normalize() * 3.0f);
+			webswing_->Initialize(transform_.GetPosition() + pl, transform_.GetPosition(), pvec.Normalize() * 2.0f);
 			isWebSwing_ = true;
 		}
 	}
@@ -452,7 +455,7 @@ void PlayerManager::BehaviorRootUpdate() {
 
 	// ウェブスイング中か
 	if (isWebSwing_) {
-		moveVector_ = webswing_->Update(transform_.GetPosition(), isWebSwing_);
+		moveVector_ += webswing_->Update(transform_.GetPosition(), isWebSwing_);
 		
 	}
 	else {
