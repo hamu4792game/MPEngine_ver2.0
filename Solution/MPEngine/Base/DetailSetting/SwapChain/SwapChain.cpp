@@ -9,7 +9,8 @@ SwapChain::~SwapChain() {
 
 void SwapChain::Finalize() {
 	if (rtvDescriptorHeap_) {
-		rtvDescriptorHeap_->Release();
+		// なぜかReleaseBildでエラーになるため消している
+		//rtvDescriptorHeap_->Release();
 	}
 }
 
