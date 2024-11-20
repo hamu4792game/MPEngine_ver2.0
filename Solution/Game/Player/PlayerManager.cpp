@@ -1,5 +1,5 @@
 #include "PlayerManager.h"
-#include <Utils/GlobalVariables/GlobalVariables.h>
+#include "Utils/GlobalVariables/GlobalVariables.h"
 #include "ImGuiManager/ImGuiManager.h"
 #include "Utils/Camera/Camera3d.h"
 #include "Input/Input.h"
@@ -22,6 +22,8 @@ PlayerManager::PlayerManager() {
 void PlayerManager::Initialize(const WorldTransform& respawnpoint) {
 	auto global = GlobalVariables::GetInstance();
 	//global->LoadFile(itemName_);
+
+
 	respawnpoint_ = respawnpoint;
 	
 	transform_ = respawnpoint;
@@ -290,9 +292,11 @@ void PlayerManager::InputMove() {
 
 		// 移動ベクトルをカメラの角度だけ回転させる
 		move = TargetOffset(move, Camera3d::GetInstance()->GetTransform().rotation_);
+		// y軸には移動しないため0を代入
 		move.y = 0.0f;
+
 		moveVector_ += move;
-		transform_.rotation_.y = FindAngle(move, Vector3(0.0f, 0.0f, 1.0f));
+		transform_.rotation_.y = FindAngle(move, Vector3::front);
 
 		// 移動しているので
 		behaviorFlag_.isMoved = true;
@@ -463,4 +467,17 @@ void PlayerManager::BehaviorRootUpdate() {
 		FalledProcess();
 	}
 
+}
+
+void PlayerManager::SetGlobalVariables() {
+	GlobalVariables* gv = GlobalVariables::GetInstance();
+	
+	//float a = gv->GetFloatValue();
+
+}
+
+void PlayerManager::AddGlobalVariables() {
+	GlobalVariables* gv = GlobalVariables::GetInstance();
+
+	gv->SetValue(itemName_, "pl", transform_.translation_);
 }

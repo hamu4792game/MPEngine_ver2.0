@@ -39,15 +39,10 @@ private:
 
 	void BehaviorRootUpdate();
 
-private:
-	std::unique_ptr<PlayerAnimation> animation_;
-	PlayerAnimation::BehaviorFlag behaviorFlag_;
-	WorldTransform transform_;
-	Vector3 moveVector_; // 移動ベクトル
+	void SetGlobalVariables(); // データの値を外部ファイルからセット
+	void AddGlobalVariables(); // データを外部ファイルに出力
 
-	Vector3 velocity_; // 現在の速度
-	Vector3 oldPosition_; // 1つ前のプレイヤーワールド座標
-	
+private: // パラメータ構造体まとめ
 
 	// key入力用一時変数まとめ
 	struct InputParam {
@@ -67,7 +62,6 @@ private:
 			isPushSwing = false;
 		}
 	};
-	InputParam inputParam_;
 
 	// 速度パラメーター
 	struct SpeedParam {
@@ -87,11 +81,6 @@ private:
 		void AddUpdate(); // 加算更新
 	};
 
-	// 移動関係速度
-	SpeedParam moveParameter_;
-
-	Vector3 oldMoveVector; // 1f前の移動ベクトル
-
 	// 落下用ステータス ジャンプも含む
 	struct FallParam {
 		SpeedParam fall; // 落下時の加速度等
@@ -107,6 +96,38 @@ private:
 			fall.acceleration = 0.0f;
 		}
 	};
+
+	// webswing用ステータス
+	struct WebSwingParam {
+		Vector3 position; // playerの現在地
+		Vector3 velocity; // ボールの速度
+		Vector3 acceleration; // ボールの加速度
+		float mass = 2.0f; // ボールの質量
+		Vector3 moveVector; // キーで動かす移動ベクトル
+	};
+	
+
+private:
+	std::unique_ptr<PlayerAnimation> animation_;
+	PlayerAnimation::BehaviorFlag behaviorFlag_;
+	WorldTransform transform_;
+	Vector3 moveVector_; // 移動ベクトル
+
+	Vector3 velocity_; // 現在の速度
+	Vector3 oldPosition_; // 1つ前のプレイヤーワールド座標
+	
+
+	
+	InputParam inputParam_;
+
+	
+
+	// 移動関係速度
+	SpeedParam moveParameter_;
+
+	Vector3 oldMoveVector; // 1f前の移動ベクトル
+
+	
 
 	FallParam fallParam_;
 
