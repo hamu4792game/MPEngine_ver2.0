@@ -23,7 +23,6 @@ void PlayerManager::Initialize(const WorldTransform& respawnpoint) {
 	auto global = GlobalVariables::GetInstance();
 	//global->LoadFile(itemName_);
 
-
 	respawnpoint_ = respawnpoint;
 	
 	transform_ = respawnpoint;
@@ -460,10 +459,8 @@ void PlayerManager::BehaviorRootUpdate() {
 	// ウェブスイング中か
 	if (isWebSwing_) {
 		moveVector_ += webswing_->Update(transform_.GetPosition(), isWebSwing_);
-		
 	}
 	else {
-
 		FalledProcess();
 	}
 

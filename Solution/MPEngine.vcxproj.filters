@@ -218,9 +218,6 @@
     <ClCompile Include="Game\Player\WireTargetMove.cpp">
       <Filter>Game\Player\Move</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Player\PlayerParticle.cpp">
-      <Filter>Game\Player</Filter>
-    </ClCompile>
     <ClCompile Include="MPEngine\Utils\Collider\BoxCollider.cpp">
       <Filter>MPEngine\Utils\Collider</Filter>
     </ClCompile>
@@ -499,9 +496,6 @@
     </ClInclude>
     <ClInclude Include="Game\Player\WireTargetMove.h">
       <Filter>Game\Player\Move</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Player\PlayerParticle.h">
-      <Filter>Game\Player</Filter>
     </ClInclude>
     <ClInclude Include="MPEngine\Utils\Collider\BoxCollider.h">
       <Filter>MPEngine\Utils\Collider</Filter>

@@ -4,7 +4,6 @@
 #include "Game/TitleUI/TitleUI.h"
 #include "Game/Stage/Stage.h"
 #include "Game/Player/PlayerManager.h"
-#include "Game/Stage/Stage.h"
 #include "Game/Target/Target.h"
 
 class TitleScene : public SceneFrame {
