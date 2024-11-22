@@ -42,7 +42,7 @@
 このゲームは「Marvel's Spider-Man」を参考にし、プレイヤーがワイヤーで、ターゲットの位置に移動したり、振り子挙動のようにスイングをしながら、起伏が激しいステージを自由に移動するゲームとなっています。
 
 プレイヤーの手触りがよく、疾走感あふれるビュンビュンとした動きをお楽しみください
-![疾走](Solution/Resources/Promotion/play1.png)
+![疾走](Promotion/play1.png)
 
 ## 制作者のこだわり
 このゲームは[「Marvel's Spider-Man」](https://store.steampowered.com/app/1817070/Marvels_SpiderMan_Remastered/?l=japanese)を参考にし、カメラワークとプレイヤーの手触りを重視し作られています。
