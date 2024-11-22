@@ -1,17 +1,14 @@
 #include "WireTargetMove.h"
 #include <algorithm>
+#include <limits>
 
-WireTargetMove::WireTargetMove() {
-
-}
-
-void WireTargetMove::Initialize(const Vector3& target, const Vector3& player) {
+void WireTargetMove::Execute(const Vector3& target, const Vector3& player) {
 	// playerからtargetのベクトルを求めて、
 	direction_ = FindVector(player, target).Normalize();
 	// 圧倒的な大きさに初期化
-	oldDistance_ = /*Distance(player, target)*/100000.0f;
+	oldDistance_ = std::numeric_limits<float>::max();
 	target_ = target;
-	speed_.Initialize(3.0f, 0.1f);
+	param_->AccelInit(3.0f);
 }
 
 bool WireTargetMove::Update(const Vector3& player, Vector3& result) {
@@ -23,24 +20,20 @@ bool WireTargetMove::Update(const Vector3& player, Vector3& result) {
 
 	const float kDistanceLimit = 10.0f; // 距離制限
 	
-	if (distance > oldDistance_ || speed_.acceleration <= 0.0f) {
+	if (distance > oldDistance_ || param_->acceleration <= 0.0f) {
 		flag = true;
 	}
 	else if (distance <= kDistanceLimit) {
 		// 距離が一定以下なら
-		speed_.accelerationRate = -0.1f;
+		param_->accelerationRate = -param_->accelerationRate;
 	}
 
 	// 加速
-	speed_.acceleration += speed_.accelerationRate;
-	speed_.acceleration = std::clamp(speed_.acceleration, speed_.kMinAcceleration, speed_.kMaxAcceleration);
+	param_->acceleration += param_->accelerationRate;
+	param_->acceleration = std::clamp(param_->acceleration, param_->kMinAcceleration, param_->kMaxAcceleration);
 
-	result = direction_ * speed_.acceleration;
+	result = direction_ * param_->acceleration;
 	oldDistance_ = distance;
 	return flag;
 }
 
-void WireTargetMove::MoveUpdate() {
-	
-
-}

@@ -6,26 +6,25 @@
 #include <algorithm>
 #include "Graphics/PostEffect/RadialBlur.h"
 
-void PlayerManager::SpeedParam::AddUpdate() {
-	acceleration += accelerationRate;
-	acceleration = std::clamp(acceleration, kMinAcceleration, kMaxAcceleration);
-}
-
 PlayerManager::PlayerManager() {
 	animation_ = std::make_unique<PlayerAnimation>(&transform_);
 	collision_ = std::make_unique<Collider>();
 	followCamera_ = std::make_shared<FollowCamera>();
 	webswing_ = std::make_unique<WebSwing>();
-	wireTargetMove_ = std::make_unique<WireTargetMove>();
+	moveCom_ = std::make_unique<MoveCommand>(itemName_);
 }
 
 void PlayerManager::Initialize(const WorldTransform& respawnpoint) {
 	auto global = GlobalVariables::GetInstance();
-	//global->LoadFile(itemName_);
+	MoveParam moveparam;
+	SetGlobalVariables(moveparam);
+	moveCom_->Initialize(moveparam, &masterSpeed_);
+	debugMoveParam_ = moveparam;
 
 	respawnpoint_ = respawnpoint;
 	
 	transform_ = respawnpoint;
+	transform_.isQuaternion_ = true;
 	transform_.UpdateMatrix();
 	animation_->Initialize();
 
@@ -40,6 +39,8 @@ void PlayerManager::Initialize(const WorldTransform& respawnpoint) {
 	followCamera_->SetParam(Vector3(0.0f, 2.0f, -20.0f), followCamera_->GetTransform().rotation_, 0.95f);
 
 	moveParameter_.Initialize(0.0f, 0.01f, 0.0f, 0.5f);
+	
+	
 
 }
 
@@ -106,18 +107,14 @@ void PlayerManager::Update() {
 		BehaviorRootUpdate();
 		if (inputParam_.isWireMove && targetTransform_) {
 			transform_.UpdateMatrix();
-			wireTargetMove_->Initialize(targetTransform_->GetPosition(), transform_.GetPosition());
+			moveCom_->ExWireTargetMove(targetTransform_->GetPosition(), transform_.GetPosition());
 			behaviorRequest_ = Behavior::kWireMove;
 		}
-		break;
-	case Behavior::kWebSwing:
-		break;
-	case Behavior::kDash:
 		break;
 	case Behavior::kWireMove:
 		Vector3 result;
 		bool isSwing; //= webswing_->Update(transform_.GetPosition(), result);
-		isSwing = wireTargetMove_->Update(transform_.GetPosition(), result);
+		isSwing = moveCom_->UpWireTargetMove(transform_.GetPosition(), result);
 		if (isSwing) {
 			inputParam_.isJump = true;
 			fallParam_.JumpInitialize();
@@ -262,56 +259,18 @@ void PlayerManager::DrawImGui() {
 			}
 			ImGui::EndMenu();
 		}
+		if (ImGui::BeginMenu("Param")) {
+			if (ImGui::Button("Save")) {
+				AddGlobalVariables(moveCom_->GetParameter());
+			}
+			moveCom_->ImGuiProc();
+			ImGui::EndMenu();
+		}
+
 		ImGui::EndMenuBar();
 	}
 	ImGui::End();
 #endif // _DEBUG
-}
-
-void PlayerManager::InputMove() {
-
-	// ダッシュの有無
-	if (inputParam_.isDashMove) {
-		moveParameter_.kMaxAcceleration = 1.0f;
-		moveParameter_.accelerationRate = 0.08f;
-	}
-	else {
-		moveParameter_.kMaxAcceleration = 0.5f;
-		moveParameter_.accelerationRate = 0.05f;
-	}
-
-	// 移動入力している場合
-	if (inputParam_.move != Vector3::zero) {
-
-		moveParameter_.AddUpdate();
-
-		// 移動ベクトルに速度を足す 既に入力の状態で正規化されているのでそのまま
-		float speed = moveParameter_.acceleration;
-		Vector3 move = inputParam_.move * speed * masterSpeed_;
-
-		// 移動ベクトルをカメラの角度だけ回転させる
-		move = TargetOffset(move, Camera3d::GetInstance()->GetTransform().rotation_);
-		// y軸には移動しないため0を代入
-		move.y = 0.0f;
-
-		moveVector_ += move;
-		transform_.rotation_.y = FindAngle(move, Vector3::front);
-
-		// 移動しているので
-		behaviorFlag_.isMoved = true;
-		oldMoveVector = move;
-	}
-	else {
-		moveParameter_.AccelInit();
-		behaviorFlag_.isWaiting = true;
-		oldMoveVector = inputParam_.move;
-	}
-
-	// ダッシュ中の速度が最大の時にジャンプをした場合
-	if (moveParameter_.acceleration >= moveParameter_.kMaxAcceleration && inputParam_.isJump && fallParam_.isJumpable && !fallParam_.isFalled && inputParam_.isDashMove) {
-		//followCamera_->StopFollow(10.0f);
-	}
-
 }
 
 void PlayerManager::FalledProcess() {
@@ -348,10 +307,10 @@ void PlayerManager::TransformUpdate() {
 }
 
 void PlayerManager::LimitMoving() {
-	if (transform_.translation_.y < -10.0f) {
-		Initialize(respawnpoint_);
-	}
-	//transform_.translation_.y = std::clamp(transform_.translation_.y, 15.0f, 10000.0f);
+	transform_.translation_.y = std::clamp(transform_.translation_.y, 15.0f, 10000.0f);
+	//if (transform_.translation_.y < -10.0f) {
+	//	Initialize(respawnpoint_);
+	//}
 }
 
 void PlayerManager::KeyInput() {
@@ -431,7 +390,12 @@ void PlayerManager::KeyInput() {
 }
 
 void PlayerManager::BehaviorRootUpdate() {
-	InputMove();
+	WorldTransform handle;
+	bool isMoving = moveCom_->UpInputNormalMove(inputParam_.move, handle);
+	isMoving ? behaviorFlag_.isMoved = true : behaviorFlag_.isWaiting = true;
+	moveVector_ += handle.translation_;
+	transform_.rotationQuat_ = handle.rotationQuat_;
+
 
 	// webswingが押された場合
 	if (inputParam_.isPushSwing && !isWebSwing_) {
@@ -466,15 +430,30 @@ void PlayerManager::BehaviorRootUpdate() {
 
 }
 
-void PlayerManager::SetGlobalVariables() {
+void PlayerManager::SetGlobalVariables(MoveParam& param) {
 	GlobalVariables* gv = GlobalVariables::GetInstance();
 	
-	//float a = gv->GetFloatValue();
+	param.inputMoveParam.accelerationRate = gv->GetFloatValue(itemName_,"InputMoveParam_accelerationRate");
+	param.inputMoveParam.kMinAcceleration = gv->GetFloatValue(itemName_,"InputMoveParam_kMinAcceleration");
+	param.inputMoveParam.kMaxAcceleration = gv->GetFloatValue(itemName_,"InputMoveParam_kMaxAcceleration");
+	
+
+	param.wireMoveParam.accelerationRate = gv->GetFloatValue(itemName_,"WireMoveParam_accelerationRate");
+	param.wireMoveParam.kMinAcceleration = gv->GetFloatValue(itemName_,"WireMoveParam_kMinAcceleration");
+	param.wireMoveParam.kMaxAcceleration = gv->GetFloatValue(itemName_,"WireMoveParam_kMaxAcceleration");
 
 }
 
-void PlayerManager::AddGlobalVariables() {
+void PlayerManager::AddGlobalVariables(const MoveParam& param) {
 	GlobalVariables* gv = GlobalVariables::GetInstance();
 
-	gv->SetValue(itemName_, "pl", transform_.translation_);
+	gv->SetValue(itemName_, "InputMoveParam_accelerationRate", param.inputMoveParam.accelerationRate);
+	gv->SetValue(itemName_, "InputMoveParam_kMinAcceleration", param.inputMoveParam.kMinAcceleration);
+	gv->SetValue(itemName_, "InputMoveParam_kMaxAcceleration", param.inputMoveParam.kMaxAcceleration);
+
+	gv->SetValue(itemName_, "WireMoveParam_accelerationRate", param.wireMoveParam.accelerationRate);
+	gv->SetValue(itemName_, "WireMoveParam_kMinAcceleration", param.wireMoveParam.kMinAcceleration);
+	gv->SetValue(itemName_, "WireMoveParam_kMaxAcceleration", param.wireMoveParam.kMaxAcceleration);
+
+	gv->SaveFile(itemName_);
 }

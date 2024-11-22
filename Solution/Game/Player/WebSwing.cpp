@@ -121,7 +121,7 @@ Vector3 WebSwing::Update(const Vector3& playerPos, bool& flag) {
 
 Vector3 WebSwing::ReleaseWeb(PlayerParam& ball, Vector3 anchor, Vector3& swingDirection) {
 	const float jumpStrength = 3.0f;  // ジャンプ初速の強さ
-	const float airDamping = 0.00098f;    // 空中での減衰効果
+	const float airDamping = 1.0f;    // 空中での減衰効果
 
 	// スイング方向に基づいて初速を設定
 	Vector3 jumpVelocity = swingDirection * jumpStrength;

@@ -42,11 +42,17 @@ public:
 	static Matrix4x4 MakeQuaternionRotateMatrix(const Quaternion& quaternion);
 	// 内積
 	static float Dot(const Quaternion& q0, const Quaternion& q1);
-
+	// 球面補間
 	static Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, const float& t);
-
+	/// <summary>
+	/// 2つのベクトルから回転を求める
+	/// </summary>
+	/// <param name="from">基準となるベクトル Upとか</param>
+	/// <param name="to">もう一つのベクトル　移動ベクトルとか</param>
+	/// <returns>Quaternion</returns>
 	static Quaternion MakeFromTwoVector(const Vector3& from, const Vector3& to);
 
+	// Quaternionからオイラー角へ変換
 	static Vector3 QuaternionToEuler(const Quaternion& quaternion);
 
 };

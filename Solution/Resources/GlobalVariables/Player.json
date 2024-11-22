@@ -1,53 +1,11 @@
 {
      "Player": {
+          "InputMoveParam_accelerationRate": 0.10000000149011612,
+          "InputMoveParam_kMaxAcceleration": 5.0,
+          "InputMoveParam_kMinAcceleration": 0.0,
           "PartsTrans : rotate0": [
                0.0,
                0.0,
-               0.0
-          ],
-          "PartsTrans : rotate1": [
-               0.0,
-               0.0,
-               0.0
-          ],
-          "PartsTrans : rotate2": [
-               0.0,
-               0.0,
-               0.0
-          ],
-          "PartsTrans : rotate3": [
-               0.0,
-               0.0,
-               0.0
-          ],
-          "PartsTrans : rotate4": [
-               0.0,
-               0.0,
-               0.0
-          ],
-          "PartsTrans : rotate5": [
-               0.0,
-               0.0,
-               0.0
-          ],
-          "PartsTrans : rotate6": [
-               0.0,
-               0.0,
-               0.0
-          ],
-          "PartsTrans : rotate7": [
-               0.0,
-               0.7155621647834778,
-               0.0
-          ],
-          "PartsTrans : rotate8": [
-               0.0,
-               2.809953212738037,
-               0.0
-          ],
-          "PartsTrans : rotate9": [
-               0.0,
-               4.904348373413086,
                0.0
           ],
           "PartsTrans : scale0": [
@@ -55,100 +13,13 @@
                1.7000000476837158,
                1.7000000476837158
           ],
-          "PartsTrans : scale1": [
-               1.0,
-               1.0,
-               1.0
-          ],
-          "PartsTrans : scale2": [
-               1.0,
-               1.0,
-               1.0
-          ],
-          "PartsTrans : scale3": [
-               1.0,
-               1.0,
-               1.0
-          ],
-          "PartsTrans : scale4": [
-               1.0,
-               1.0,
-               1.0
-          ],
-          "PartsTrans : scale5": [
-               1.0,
-               1.0,
-               1.0
-          ],
-          "PartsTrans : scale6": [
-               0.5,
-               0.5,
-               0.5
-          ],
-          "PartsTrans : scale7": [
-               2.0,
-               2.0,
-               2.0
-          ],
-          "PartsTrans : scale8": [
-               2.0,
-               2.0,
-               2.0
-          ],
-          "PartsTrans : scale9": [
-               2.0,
-               2.0,
-               2.0
-          ],
           "PartsTrans : translate0": [
                0.0,
                -2.4000000953674316,
                0.0
           ],
-          "PartsTrans : translate1": [
-               0.0,
-               2.0,
-               0.0
-          ],
-          "PartsTrans : translate2": [
-               0.800000011920929,
-               1.0,
-               0.0
-          ],
-          "PartsTrans : translate3": [
-               -0.800000011920929,
-               1.0,
-               0.0
-          ],
-          "PartsTrans : translate4": [
-               0.5,
-               0.30000001192092896,
-               0.0
-          ],
-          "PartsTrans : translate5": [
-               -0.5,
-               0.30000001192092896,
-               0.0
-          ],
-          "PartsTrans : translate6": [
-               0.0,
-               0.5,
-               1.5
-          ],
-          "PartsTrans : translate7": [
-               2.5,
-               2.5,
-               0.0
-          ],
-          "PartsTrans : translate8": [
-               2.5,
-               2.5,
-               0.0
-          ],
-          "PartsTrans : translate9": [
-               2.5,
-               2.5,
-               0.0
-          ]
+          "WireMoveParam_accelerationRate": 0.10000000149011612,
+          "WireMoveParam_kMaxAcceleration": 5.0,
+          "WireMoveParam_kMinAcceleration": 0.0
      }
 }

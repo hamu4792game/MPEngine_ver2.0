@@ -260,6 +260,9 @@
     <ClCompile Include="GameScene\TestScene.cpp">
       <Filter>GameScene</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Player\MoveCommand.cpp">
+      <Filter>Game\Player\Move</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -539,6 +542,12 @@
     <ClInclude Include="GameScene\TestScene.h">
       <Filter>GameScene</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Player\MoveCommand.h">
+      <Filter>Game\Player\Move</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Global\AllParameter.h">
+      <Filter>Game\Global</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="MPEngine">
@@ -768,6 +777,9 @@
     </Filter>
     <Filter Include="Game\Spring">
       <UniqueIdentifier>{dc442b3e-08db-47f8-992e-4bb39ff11ebd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Global">
+      <UniqueIdentifier>{7c5f0a88-09d4-4d4c-a2bb-6b899a49c969}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
