@@ -20,6 +20,8 @@ public:
 	Quaternion operator-() const;
 	Quaternion& operator=(const Quaternion& quaternion);
 	Quaternion& operator=(const Vector3& vec);
+	bool operator==(const Quaternion& quaternion) const;
+	bool operator!=(const Quaternion& quaternion) const;
 
 public:
 	// 積

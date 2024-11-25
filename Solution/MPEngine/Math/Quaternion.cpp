@@ -54,6 +54,17 @@ Quaternion& Quaternion::operator=(const Vector3& vec) {
 	return *this;
 }
 
+bool Quaternion::operator==(const Quaternion& quaternion) const {
+	if (this->x == quaternion.x && this->y == quaternion.y && this->z == quaternion.z && this->w == quaternion.w) {
+		return true;
+	}
+	return false;
+}
+
+bool Quaternion::operator!=(const Quaternion& quaternion) const {
+	return !(*this == quaternion);
+}
+
 Quaternion Quaternion::Multiply(const Quaternion& quaternion) const {
 	Quaternion result;
 	Vector3 qVec(this->x, this->y, this->z);

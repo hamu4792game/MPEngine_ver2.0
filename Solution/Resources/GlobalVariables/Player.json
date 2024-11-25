@@ -1,7 +1,10 @@
 {
      "Player": {
+          "FallParam_accelerationRate": 0.0,
+          "FallParam_kMaxAcceleration": 0.05000000074505806,
+          "FallParam_kMinAcceleration": 0.0,
           "InputMoveParam_accelerationRate": 0.10000000149011612,
-          "InputMoveParam_kMaxAcceleration": 5.0,
+          "InputMoveParam_kMaxAcceleration": 2.0,
           "InputMoveParam_kMinAcceleration": 0.0,
           "PartsTrans : rotate0": [
                0.0,

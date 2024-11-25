@@ -55,12 +55,13 @@ struct SpeedParam {
 struct FallParam {
 	SpeedParam fall; // 落下時の加速度等
 	bool isFalled = false; // 落下中かのフラグ true:落ちている/false:落ちていない
-	bool isJump = false; // ジャンプするかのフラグ。キー入力時に立つ
+	bool isJumped = false; // 上昇中か
 	bool isJumpable = true; // ジャンプ可能かのフラグ
 	bool oldJumpable = false; // 前の状態フラグ
 	// ジャンプ用の初期化処理
 	void JumpInitialize() {
 		isFalled = false;
+		isJumped = true;
 		isJumpable = true;
 		oldJumpable = false;
 		fall.acceleration = 0.0f;
@@ -79,4 +80,5 @@ struct WebSwingParam {
 struct MoveParam {
 	SpeedParam inputMoveParam; // 通常移動時のパラメーター
 	SpeedParam wireMoveParam; // ワイヤー移動のパラメーター
+	SpeedParam fallParam; // 重力系のパラメーター
 };

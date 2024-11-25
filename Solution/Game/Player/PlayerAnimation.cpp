@@ -5,16 +5,16 @@
 
 PlayerAnimation::PlayerAnimation(const WorldTransform* transform) {
 	auto rsManager = ResourceManager::GetInstance();
-	auto global = GlobalVariables::GetInstance();
-	global->LoadFile(itemName_);
+	auto gv = GlobalVariables::GetInstance();
+	gv->LoadFile(itemName_);
 	// Modelの生成と読み込み
 	uint32_t index = 0u;
 	for (auto& model : models_) {
 		model = std::make_unique<Model>();
 		model->SetModel(rsManager->FindObject3d("Human"));
-		Vector3 scale = global->GetVector3Value(itemName_, ("PartsTrans : scale" + std::to_string(index)).c_str());
-		Vector3 rotation = global->GetVector3Value(itemName_, ("PartsTrans : rotate" + std::to_string(index)).c_str());
-		Vector3 translation = global->GetVector3Value(itemName_, ("PartsTrans : translate" + std::to_string(index)).c_str());
+		Vector3 scale = gv->GetVector3Value(itemName_, ("PartsTrans : scale" + std::to_string(index)).c_str());
+		Vector3 rotation = gv->GetVector3Value(itemName_, ("PartsTrans : rotate" + std::to_string(index)).c_str());
+		Vector3 translation = gv->GetVector3Value(itemName_, ("PartsTrans : translate" + std::to_string(index)).c_str());
 		WorldTransform trans = WorldTransform(scale, rotation, translation);
 		trans.parent_ = transform;
 		model->SetTransform(trans);

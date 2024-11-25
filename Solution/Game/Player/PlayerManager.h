@@ -31,7 +31,6 @@ private:
 	const std::string itemName_ = "Player";
 private:
 	void DrawImGui(); // ImGui処理
-	void FalledProcess(); // 重力処理
 	void TransformUpdate(); // 座標更新処理
 	void LimitMoving(); // 移動制限用
 	void KeyInput(); // プレイヤー入力処理まとめ
@@ -46,7 +45,7 @@ private:
 	PlayerAnimation::BehaviorFlag behaviorFlag_;
 	WorldTransform transform_;
 	Vector3 moveVector_; // 移動ベクトル
-	std::unique_ptr<class MoveCommand> moveCom_; // 移動コマンド
+	std::unique_ptr<MoveCommand> moveCom_; // 移動コマンド
 
 	Vector3 velocity_; // 現在の速度
 	Vector3 oldPosition_; // 1つ前のプレイヤーワールド座標

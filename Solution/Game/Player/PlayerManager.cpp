@@ -15,7 +15,6 @@ PlayerManager::PlayerManager() {
 }
 
 void PlayerManager::Initialize(const WorldTransform& respawnpoint) {
-	auto global = GlobalVariables::GetInstance();
 	MoveParam moveparam;
 	SetGlobalVariables(moveparam);
 	moveCom_->Initialize(moveparam, &masterSpeed_);
@@ -80,7 +79,7 @@ void PlayerManager::Update() {
 					angleX = -angleX;
 				}
 				
-				followCamera_->SetParam(Vector3(0.0f, 0.0f, -10.0f), Vector3(followCamera_->GetTransform().rotation_.x, angleY, followCamera_->GetTransform().rotation_.z), 0.05f);
+				//followCamera_->SetParam(Vector3(0.0f, 0.0f, -10.0f), Vector3(followCamera_->GetTransform().rotation_.x, angleY, followCamera_->GetTransform().rotation_.z), 0.05f);
 			}
 			oldMoveVector = Vector3::zero;
 			moveParameter_.AccelInit();
@@ -118,7 +117,6 @@ void PlayerManager::Update() {
 		if (isSwing) {
 			inputParam_.isJump = true;
 			fallParam_.JumpInitialize();
-			FalledProcess();
 			masterSpeed_ = 0.25f;
 			behaviorRequest_ = Behavior::kRoot;
 		}
@@ -273,32 +271,6 @@ void PlayerManager::DrawImGui() {
 #endif // _DEBUG
 }
 
-void PlayerManager::FalledProcess() {
-
-	if (inputParam_.isJump && fallParam_.isJumpable && !fallParam_.isFalled) {
-		// 初速度を与える
-		fallParam_.isJumpable = false;
-		fallParam_.isFalled = true;
-		fallParam_.fall.Initialize(1.0f, 0.05f, 0.0f, -3.0f);
-		fallParam_.fall.acceleration = 1.0f;
-	}
-	// 落下更新処理
-	// 重力を足していく
-	fallParam_.fall.acceleration -= fallParam_.fall.accelerationRate * masterSpeed_;
-	// 速度制限
-	//fallParam_.fall.acceleration = std::max(fallParam_.fall.acceleration, fallParam_.fall.kMaxAcceleration);
-	moveVector_.y += fallParam_.fall.acceleration * masterSpeed_;
-	if (fallParam_.isFalled) {
-		if (fallParam_.fall.acceleration < 0.0f) {
-			// 落下中
-			behaviorFlag_.isFalled = true;
-		}
-		else {
-			// 上昇中
-			behaviorFlag_.isJumped = true;
-		}
-	}
-}
 
 void PlayerManager::TransformUpdate() {
 	transform_.UpdateMatrix();
@@ -307,7 +279,7 @@ void PlayerManager::TransformUpdate() {
 }
 
 void PlayerManager::LimitMoving() {
-	transform_.translation_.y = std::clamp(transform_.translation_.y, 15.0f, 10000.0f);
+	transform_.translation_.y = std::clamp(transform_.translation_.y, 2.4f, 10000.0f);
 	//if (transform_.translation_.y < -10.0f) {
 	//	Initialize(respawnpoint_);
 	//}
@@ -391,10 +363,21 @@ void PlayerManager::KeyInput() {
 
 void PlayerManager::BehaviorRootUpdate() {
 	WorldTransform handle;
+	// 通常移動処理
 	bool isMoving = moveCom_->UpInputNormalMove(inputParam_.move, handle);
-	isMoving ? behaviorFlag_.isMoved = true : behaviorFlag_.isWaiting = true;
-	moveVector_ += handle.translation_;
-	transform_.rotationQuat_ = handle.rotationQuat_;
+	if (isMoving) {
+		transform_.rotationQuat_ = handle.rotationQuat_;
+		moveVector_ += handle.translation_;
+		behaviorFlag_.isMoved = true;
+	}
+	else {
+		behaviorFlag_.isWaiting = true;
+	}
+
+	// ジャンプを押した場合
+	if (inputParam_.isJump) {
+		moveCom_->ExJump(fallParam_);
+	}
 
 
 	// webswingが押された場合
@@ -425,7 +408,10 @@ void PlayerManager::BehaviorRootUpdate() {
 		moveVector_ += webswing_->Update(transform_.GetPosition(), isWebSwing_);
 	}
 	else {
-		FalledProcess();
+		// 重力落下処理
+		moveVector_ += moveCom_->UpFalling(fallParam_);
+		behaviorFlag_.isJumped = fallParam_.isJumped;
+		behaviorFlag_.isFalled = fallParam_.isFalled;
 	}
 
 }
@@ -437,10 +423,13 @@ void PlayerManager::SetGlobalVariables(MoveParam& param) {
 	param.inputMoveParam.kMinAcceleration = gv->GetFloatValue(itemName_,"InputMoveParam_kMinAcceleration");
 	param.inputMoveParam.kMaxAcceleration = gv->GetFloatValue(itemName_,"InputMoveParam_kMaxAcceleration");
 	
-
 	param.wireMoveParam.accelerationRate = gv->GetFloatValue(itemName_,"WireMoveParam_accelerationRate");
 	param.wireMoveParam.kMinAcceleration = gv->GetFloatValue(itemName_,"WireMoveParam_kMinAcceleration");
 	param.wireMoveParam.kMaxAcceleration = gv->GetFloatValue(itemName_,"WireMoveParam_kMaxAcceleration");
+	
+	param.fallParam.accelerationRate = gv->GetFloatValue(itemName_,"FallParamParam_accelerationRate");
+	param.fallParam.kMinAcceleration = gv->GetFloatValue(itemName_,"FallParamParam_kMinAcceleration");
+	param.fallParam.kMaxAcceleration = gv->GetFloatValue(itemName_,"FallParamParam_kMaxAcceleration");
 
 }
 
@@ -454,6 +443,11 @@ void PlayerManager::AddGlobalVariables(const MoveParam& param) {
 	gv->SetValue(itemName_, "WireMoveParam_accelerationRate", param.wireMoveParam.accelerationRate);
 	gv->SetValue(itemName_, "WireMoveParam_kMinAcceleration", param.wireMoveParam.kMinAcceleration);
 	gv->SetValue(itemName_, "WireMoveParam_kMaxAcceleration", param.wireMoveParam.kMaxAcceleration);
+
+	gv->SetValue(itemName_, "FallParam_accelerationRate", param.fallParam.accelerationRate);
+	gv->SetValue(itemName_, "FallParam_kMinAcceleration", param.fallParam.kMinAcceleration);
+	gv->SetValue(itemName_, "FallParam_kMaxAcceleration", param.fallParam.kMaxAcceleration);
+
 
 	gv->SaveFile(itemName_);
 }

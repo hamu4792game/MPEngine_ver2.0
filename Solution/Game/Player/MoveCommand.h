@@ -1,13 +1,13 @@
 #pragma once
 #include <memory>
+#include <string>
 #include "WireTargetMove.h"
 #include "Game/Global/AllParameter.h"
 
 class MoveCommand {
-private:
+public:
 	MoveCommand() = default;
 	~MoveCommand() = default;
-public:
 	MoveCommand(const std::string& itemName);
 
 	// Ex = 実行処理、初期化と同義
@@ -29,6 +29,11 @@ public:
 	// ターゲットまでワイヤー移動を行う更新
 	bool UpWireTargetMove(const Vector3& player, Vector3& result);
 
+	// ジャンプ処理
+	bool ExJump(FallParam& param);
+
+	// 落下処理
+	Vector3 UpFalling(FallParam& param);
 
 public: // ゲッター
 	const MoveParam& GetParameter() const { return param_; }
