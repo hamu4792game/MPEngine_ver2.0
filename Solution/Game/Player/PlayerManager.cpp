@@ -31,6 +31,7 @@ void PlayerManager::Initialize(const WorldTransform& respawnpoint) {
 	collTrans_.scale_ = Vector3(1.0f, 2.4f, 1.0f);
 	collision_->Initialize(&collTrans_, Collider::Type::Box);
 	
+	fallParam_.fall.Initialize(moveparam.fallParam.acceleration, moveparam.fallParam.accelerationRate, moveparam.fallParam.kMinAcceleration, moveparam.fallParam.kMaxAcceleration);
 	fallParam_.JumpInitialize();
 
 	followCamera_->SetTarget(&transform_);
@@ -363,12 +364,20 @@ void PlayerManager::KeyInput() {
 
 void PlayerManager::BehaviorRootUpdate() {
 	WorldTransform handle;
+	bool isLanded = false;
+	// 地面についているなら
+	if (!fallParam_.isFalled) {
+		isLanded = true;
+	}
 	// 通常移動処理
-	bool isMoving = moveCom_->UpInputNormalMove(inputParam_.move, handle);
+	bool isMoving = moveCom_->UpInputMove(inputParam_.move, handle, isLanded);
 	if (isMoving) {
 		transform_.rotationQuat_ = handle.rotationQuat_;
 		moveVector_ += handle.translation_;
-		behaviorFlag_.isMoved = true;
+		// 地面についているなら
+		if (isLanded) {
+			behaviorFlag_.isMoved = true;
+		}
 	}
 	else {
 		behaviorFlag_.isWaiting = true;
@@ -382,22 +391,8 @@ void PlayerManager::BehaviorRootUpdate() {
 
 	// webswingが押された場合
 	if (inputParam_.isPushSwing && !isWebSwing_) {
-		if (targetTransform_) {
-
-			Vector3 targetVec = targetTransform_->GetPosition() - transform_.GetPosition();
-			Vector3 jumpDirection = (targetVec.Normalize()).Normalize();
-
-			webswing_->Initialize(targetTransform_->GetPosition(), transform_.GetPosition(), jumpDirection);
-			isWebSwing_ = true;
-		}
-		else {
-			// playerの正面ベクトルを回転させた値
-			Vector3 pl = MakeRotateMatrix(transform_.rotation_) * Vector3(0.0f, 15.0f, 5.0f);
-			Vector3 pvec = MakeRotateMatrix(transform_.rotation_) * Vector3::front;
-
-			webswing_->Initialize(transform_.GetPosition() + pl, transform_.GetPosition(), pvec.Normalize() * 2.0f);
-			isWebSwing_ = true;
-		}
+		isWebSwing_ = true;
+		moveCom_->ExWebSwing(transform_, 2.0f);
 	}
 	else if (!inputParam_.isSwingMove) {
 		isWebSwing_ = false;
@@ -405,13 +400,21 @@ void PlayerManager::BehaviorRootUpdate() {
 
 	// ウェブスイング中か
 	if (isWebSwing_) {
-		moveVector_ += webswing_->Update(transform_.GetPosition(), isWebSwing_);
+		//moveVector_ += webswing_->Update(transform_.GetPosition(), isWebSwing_);
+		moveVector_ += moveCom_->UpWebSwing(transform_.GetPosition(), isWebSwing_);
 	}
 	else {
-		// 重力落下処理
+		// 重力落下処理 Y軸の座標移動
 		moveVector_ += moveCom_->UpFalling(fallParam_);
 		behaviorFlag_.isJumped = fallParam_.isJumped;
 		behaviorFlag_.isFalled = fallParam_.isFalled;
+
+		// ここでxz座標の移動をする
+		// 落ちているなら減衰処理を
+		if (fallParam_.isFalled) {
+			moveVector_ += moveCom_->UpPostWebSwing();
+		}
+
 	}
 
 }
@@ -422,15 +425,17 @@ void PlayerManager::SetGlobalVariables(MoveParam& param) {
 	param.inputMoveParam.accelerationRate = gv->GetFloatValue(itemName_,"InputMoveParam_accelerationRate");
 	param.inputMoveParam.kMinAcceleration = gv->GetFloatValue(itemName_,"InputMoveParam_kMinAcceleration");
 	param.inputMoveParam.kMaxAcceleration = gv->GetFloatValue(itemName_,"InputMoveParam_kMaxAcceleration");
+	param.airMoveVelocity = gv->GetFloatValue(itemName_, "InputMoveParam_AirMoveVelocity");
 	
 	param.wireMoveParam.accelerationRate = gv->GetFloatValue(itemName_,"WireMoveParam_accelerationRate");
 	param.wireMoveParam.kMinAcceleration = gv->GetFloatValue(itemName_,"WireMoveParam_kMinAcceleration");
 	param.wireMoveParam.kMaxAcceleration = gv->GetFloatValue(itemName_,"WireMoveParam_kMaxAcceleration");
 	
-	param.fallParam.accelerationRate = gv->GetFloatValue(itemName_,"FallParamParam_accelerationRate");
-	param.fallParam.kMinAcceleration = gv->GetFloatValue(itemName_,"FallParamParam_kMinAcceleration");
-	param.fallParam.kMaxAcceleration = gv->GetFloatValue(itemName_,"FallParamParam_kMaxAcceleration");
+	param.fallParam.accelerationRate = gv->GetFloatValue(itemName_,"FallParam_accelerationRate");
+	param.fallParam.kMinAcceleration = gv->GetFloatValue(itemName_,"FallParam_kMinAcceleration");
+	param.fallParam.kMaxAcceleration = gv->GetFloatValue(itemName_,"FallParam_kMaxAcceleration");
 
+	param.jumpFirstVelocity = gv->GetFloatValue(itemName_, "JumpFirstVelocity");
 }
 
 void PlayerManager::AddGlobalVariables(const MoveParam& param) {
@@ -439,6 +444,7 @@ void PlayerManager::AddGlobalVariables(const MoveParam& param) {
 	gv->SetValue(itemName_, "InputMoveParam_accelerationRate", param.inputMoveParam.accelerationRate);
 	gv->SetValue(itemName_, "InputMoveParam_kMinAcceleration", param.inputMoveParam.kMinAcceleration);
 	gv->SetValue(itemName_, "InputMoveParam_kMaxAcceleration", param.inputMoveParam.kMaxAcceleration);
+	gv->SetValue(itemName_, "InputMoveParam_AirMoveVelocity", param.airMoveVelocity);
 
 	gv->SetValue(itemName_, "WireMoveParam_accelerationRate", param.wireMoveParam.accelerationRate);
 	gv->SetValue(itemName_, "WireMoveParam_kMinAcceleration", param.wireMoveParam.kMinAcceleration);
@@ -448,6 +454,7 @@ void PlayerManager::AddGlobalVariables(const MoveParam& param) {
 	gv->SetValue(itemName_, "FallParam_kMinAcceleration", param.fallParam.kMinAcceleration);
 	gv->SetValue(itemName_, "FallParam_kMaxAcceleration", param.fallParam.kMaxAcceleration);
 
+	gv->SetValue(itemName_, "JumpFirstVelocity", param.jumpFirstVelocity);
 
 	gv->SaveFile(itemName_);
 }

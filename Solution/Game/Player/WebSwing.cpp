@@ -15,6 +15,7 @@ void WebSwing::Initialize(const Vector3& anchor, const Vector3& playerPos, const
 	stiffness_ = 100.0f;
 	dampingCoefficient_ = 2.0f;
 	isSwing_ = true;
+	isHanging = false;
 }
 
 void WebSwing::SetWeb(const Vector3& target, const Vector3& player) {
@@ -49,9 +50,9 @@ Vector3 WebSwing::Update(const Vector3& playerPos, bool& flag) {
 					isHanging = false;         // 滞空時間が終了したら滞空状態を解除
 					hangTimeCounter = 0.0f;    // カウンターをリセット
 					isSwing_ = false;
-					ReleaseWeb(ball_, anchor_, direction);
+					moveVec_ = ReleaseWeb(ball_, anchor_, direction);
 				}
-				return ball_.velocity; // 滞空中は物理演算を行わない
+				return moveVec_; // 滞空中は物理演算を行わない
 			}
 
 			// ウェブの張力（アンカーに引っ張られる力）
@@ -133,11 +134,9 @@ Vector3 WebSwing::ReleaseWeb(PlayerParam& ball, Vector3 anchor, Vector3& swingDi
 
 Vector3 WebSwing::ApplyAirMovement(PlayerParam& ball, float airDamping) {
 	const float deltaTime = 1.0f;
-	static const Vector3 kGravity(0.0f, -0.00098f, 0.0f);
 
 	// 空中での減衰と重力の影響
 	ball.velocity *= airDamping;
-	ball.velocity += kGravity;
 	moveVec_ = ball.velocity;
 
 	return moveVec_;

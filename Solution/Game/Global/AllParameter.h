@@ -81,4 +81,6 @@ struct MoveParam {
 	SpeedParam inputMoveParam; // 通常移動時のパラメーター
 	SpeedParam wireMoveParam; // ワイヤー移動のパラメーター
 	SpeedParam fallParam; // 重力系のパラメーター
+	float jumpFirstVelocity = 0.0f; // ジャンプする際の初速度
+	float airMoveVelocity = 0.0f; // 滞空時にWASDで動かせる速度
 };

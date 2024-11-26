@@ -1,6 +1,9 @@
 #include "MoveCommand.h"
 #include "Utils/Camera/Camera3d.h"
 #include "ImGuiManager/ImGuiManager.h"
+#include <algorithm>
+#undef min
+#undef max
 
 MoveCommand::MoveCommand(const std::string& itemName) : itemName_(itemName) {
 	
@@ -8,15 +11,22 @@ MoveCommand::MoveCommand(const std::string& itemName) : itemName_(itemName) {
 
 void MoveCommand::Initialize(MoveParam param, const float* masterSpeed) {
 	param_ = param;
-	wireTargetMove_ = std::make_unique<WireTargetMove>(&param_.wireMoveParam);
 	masterSpeed_ptr = masterSpeed;
+	wireTargetMove_ = std::make_unique<WireTargetMove>(&param_.wireMoveParam);
+	webSwing_ = std::make_unique<WebSwing>();
 }
 
-bool MoveCommand::UpInputNormalMove(Vector3 inputMove, WorldTransform& moveVolume) {
+bool MoveCommand::UpInputMove(Vector3 inputMove, WorldTransform& moveVolume, const bool& isLanded) {
 	// 移動入力している場合
 	if (inputMove != Vector3::zero) {
-
-		param_.inputMoveParam.AddUpdate();
+		// 地に足ついてる時の処理
+		if (isLanded) {
+			param_.inputMoveParam.AddUpdate();
+		}
+		// 空中の処理
+		else {
+			param_.inputMoveParam.acceleration = param_.airMoveVelocity;
+		}
 
 		// 移動ベクトルに速度を足す 既に入力の状態で正規化されているのでそのまま
 		float speed = param_.inputMoveParam.acceleration;
@@ -29,7 +39,6 @@ bool MoveCommand::UpInputNormalMove(Vector3 inputMove, WorldTransform& moveVolum
 
 		moveVolume.translation_ += move;
 		moveVolume.rotationQuat_ = Quaternion::MakeFromTwoVector(Vector3::front,move.Normalize());
-		//moveVolume.rotation_.y = FindAngle(move, Vector3::front);
 
 		// 移動しているので
 		return true;
@@ -55,8 +64,8 @@ bool MoveCommand::ExJump(FallParam& param) {
 		// 初速度を与える
 		param.isJumpable = false;
 		param.isFalled = true;
-		param.fall.Initialize(1.0f, 0.05f, 0.0f, -3.0f);
-		param.fall.acceleration = 1.0f;
+		param.fall.AccelInit(param_.jumpFirstVelocity);
+		webswingDirection_ = Vector3::zero;
 	}
 	return false;
 }
@@ -65,9 +74,9 @@ Vector3 MoveCommand::UpFalling(FallParam& param) {
 	Vector3 result;
 	// 落下更新処理
 	// 重力を足していく
-	param.fall.acceleration -= param.fall.accelerationRate * *masterSpeed_ptr;
+	param.fall.acceleration -= param_.fallParam.accelerationRate * *masterSpeed_ptr;
 	// 速度制限
-	//fallParam_.fall.acceleration = std::max(fallParam_.fall.acceleration, fallParam_.fall.kMaxAcceleration);
+	param.fall.acceleration = std::clamp(param.fall.acceleration, param_.fallParam.kMinAcceleration, param_.fallParam.kMaxAcceleration);
 	result.y += param.fall.acceleration * *masterSpeed_ptr;
 	if (param.isFalled) {
 		if (param.fall.acceleration < 0.0f) {
@@ -86,12 +95,40 @@ Vector3 MoveCommand::UpFalling(FallParam& param) {
 	return result;
 }
 
+void MoveCommand::ExWebSwing(const WorldTransform& player, const float& firstVel) {
+	// playerの正面ベクトルを回転させた値 このマジックナンバーは後で消す
+	Vector3 pl = player.rotationQuat_ * Vector3(0.0f, 15.0f, 5.0f);
+	Vector3 pvec = player.rotationQuat_ * Vector3::front;
+
+	webSwing_->Initialize(player.GetPosition() + pl, player.GetPosition(), pvec.Normalize() * firstVel);
+}
+
+Vector3 MoveCommand::UpWebSwing(const Vector3& playerPos, bool& isWebSwing) {
+	isWebSwing = false;
+	Vector3 moveVec = webSwing_->Update(playerPos, isWebSwing);
+	// ウェブスイングが終わっていたら
+	if (!isWebSwing) {
+		// その向きに合わせて動き続ける
+		webswingDirection_ = moveVec;
+	}
+	return moveVec;
+}
+
+Vector3 MoveCommand::UpPostWebSwing() {
+	return Vector3(webswingDirection_.x, 0.0f, webswingDirection_.z);
+}
+
 void MoveCommand::ImGuiProc() {
 #ifdef _DEBUG
 	if (ImGui::TreeNode("Input")) {
-		ImGui::DragFloat("accelerationRate", &param_.inputMoveParam.accelerationRate, 0.01f);
-		ImGui::DragFloat("kMinAcceleration", &param_.inputMoveParam.kMinAcceleration, 0.01f);
-		ImGui::DragFloat("kMaxAcceleration", &param_.inputMoveParam.kMaxAcceleration, 0.01f);
+		if (ImGui::TreeNode("Ground")) {
+			ImGui::DragFloat("accelerationRate", &param_.inputMoveParam.accelerationRate, 0.01f);
+			ImGui::DragFloat("kMinAcceleration", &param_.inputMoveParam.kMinAcceleration, 0.01f);
+			ImGui::DragFloat("kMaxAcceleration", &param_.inputMoveParam.kMaxAcceleration, 0.01f);
+			ImGui::TreePop();
+		}
+		
+		ImGui::DragFloat("airMoveVelocity", &param_.airMoveVelocity, 0.01f);
 		ImGui::TreePop();
 	}
 	if (ImGui::TreeNode("Wire")) {
@@ -104,6 +141,10 @@ void MoveCommand::ImGuiProc() {
 		ImGui::DragFloat("accelerationRate", &param_.fallParam.accelerationRate, 0.01f);
 		ImGui::DragFloat("kMinAcceleration", &param_.fallParam.kMinAcceleration, 0.01f);
 		ImGui::DragFloat("kMaxAcceleration", &param_.fallParam.kMaxAcceleration, 0.01f);
+		ImGui::TreePop();
+	}
+	if (ImGui::TreeNode("Jump")) {
+		ImGui::DragFloat("jumpFirstVelocity", &param_.jumpFirstVelocity, 0.01f);
 		ImGui::TreePop();
 	}
 

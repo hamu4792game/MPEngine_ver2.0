@@ -1,8 +1,9 @@
 #pragma once
 #include <memory>
 #include <string>
-#include "WireTargetMove.h"
 #include "Game/Global/AllParameter.h"
+#include "WireTargetMove.h"
+#include "WebSwing.h"
 
 class MoveCommand {
 public:
@@ -20,9 +21,15 @@ public:
 	/// 通常入力の移動処理
 	/// </summary>
 	/// <param name="inputMove">入力された移動ベクトル</param>
+	
+	/// <summary>
+	/// 入力時の移動
+	/// </summary>
+	/// <param name="inputMove">入力された移動ベクトル</param>
 	/// <param name="moveVolume">移動量やその他のパラメーターを参照渡しする</param>
+	/// <param name="isLanded">true:地面についている/false:滞空状態</param>
 	/// <returns>true:移動している/false:移動していない</returns>
-	bool UpInputNormalMove(Vector3 inputMove, WorldTransform& moveVolume);
+	bool UpInputMove(Vector3 inputMove, WorldTransform& moveVolume, const bool& isLanded);
 
 	// 実行するための初期化用
 	void ExWireTargetMove(const Vector3& target, const Vector3& player);
@@ -35,6 +42,13 @@ public:
 	// 落下処理
 	Vector3 UpFalling(FallParam& param);
 
+	// ウェブスイングの初期化用
+	void ExWebSwing(const WorldTransform& player, const float& firstVel);
+	// ウェブスイングの更新処理
+	Vector3 UpWebSwing(const Vector3& playerPos, bool& isWebSwing);
+
+	// ウェブスイングの事後処理、離された後の座標移動
+	Vector3 UpPostWebSwing();
 public: // ゲッター
 	const MoveParam& GetParameter() const { return param_; }
 
@@ -43,7 +57,12 @@ private: // ローカル関数
 
 private:
 	const std::string itemName_;
+	// 入れ子 基本const扱いする
 	MoveParam param_;
 	std::unique_ptr<WireTargetMove> wireTargetMove_;
+	std::unique_ptr<WebSwing> webSwing_;
 	const float* masterSpeed_ptr = nullptr;
+
+	Vector3 webswingDirection_;
+
 };
