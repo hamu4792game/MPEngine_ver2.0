@@ -52,6 +52,8 @@ public: // public関数
 
 	const bool& GetFinishedAnimation() const { return isFinishedAnimation_; }
 
+	void SetQuaternion(const Quaternion& qua);
+
 private: // private関数
 	float AnimationUpdate(BehaviorFlag flag); // アニメーションの更新
 	void SetAnimation(); // アニメーション切り替えの更新

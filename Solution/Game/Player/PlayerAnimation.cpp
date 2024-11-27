@@ -92,6 +92,13 @@ void PlayerAnimation::SetAnimation(AnimationType type, const bool flag) {
 	}
 }
 
+void PlayerAnimation::SetQuaternion(const Quaternion& qua) {
+	WorldTransform trans = models_.at(static_cast<uint32_t>(Parts::Body))->GetTransform();
+	trans.isQuaternion_ = true;
+	trans.rotationQuat_ = qua;
+	models_.at(static_cast<uint32_t>(Parts::Body))->SetTransform(trans);
+}
+
 float PlayerAnimation::AnimationUpdate(BehaviorFlag flag) {
 	AnimationControl(flag);
 	SetAnimation();

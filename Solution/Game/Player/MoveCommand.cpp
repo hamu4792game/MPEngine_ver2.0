@@ -29,7 +29,7 @@ bool MoveCommand::UpInputMove(Vector3 inputMove, WorldTransform& moveVolume, con
 		}
 
 		// 移動ベクトルに速度を足す 既に入力の状態で正規化されているのでそのまま
-		float speed = param_.inputMoveParam.acceleration;
+		float speed = param_.inputMoveParam.acceleration * *masterSpeed_ptr;
 		Vector3 move = inputMove * speed;
 
 		// 移動ベクトルをカメラの角度だけ回転させる

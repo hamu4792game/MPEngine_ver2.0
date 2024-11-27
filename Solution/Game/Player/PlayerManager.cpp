@@ -132,17 +132,20 @@ void PlayerManager::Update() {
 	// 最終的な移動ベクトルをplayerに加算 現状はmoveManagerから取得しているが、のちに攻撃が実装されればいろいろ変わるかも
 	
 	// 壁に横向きで当たっている場合
+	Quaternion qur;
 	if (hittingObjectNormal_ != Vector3::zero) {
 		Vector3 lNormalVec = hittingObjectNormal_.Normalize();
 		// 角度の計算
 		float angle = std::acosf(Vector3::up * lNormalVec);
 		// 回転軸の計算
 		Vector3 rotAxis = Cross(Vector3::up, lNormalVec).Normalize();
-		Quaternion qur = Quaternion::MakeRotateAxisAngleQuaternion(rotAxis, angle);
+		qur = Quaternion::MakeRotateAxisAngleQuaternion(rotAxis, angle);
 		// 移動ベクトルを回転
 		moveVector_ = qur * moveVector_;
 		hittingObjectNormal_ = Vector3::zero;
+		//qur = Quaternion::MakeFromTwoVector(lNormalVec, rotAxis);
 	}
+	//animation_->SetQuaternion(qur);
 
 	oldMoveVector = moveVector_;
 	transform_.translation_ += moveVector_;
@@ -400,7 +403,6 @@ void PlayerManager::BehaviorRootUpdate() {
 
 	// ウェブスイング中か
 	if (isWebSwing_) {
-		//moveVector_ += webswing_->Update(transform_.GetPosition(), isWebSwing_);
 		moveVector_ += moveCom_->UpWebSwing(transform_.GetPosition(), isWebSwing_);
 	}
 	else {
@@ -414,7 +416,6 @@ void PlayerManager::BehaviorRootUpdate() {
 		if (fallParam_.isFalled) {
 			moveVector_ += moveCom_->UpPostWebSwing();
 		}
-
 	}
 
 }
