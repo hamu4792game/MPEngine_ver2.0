@@ -146,6 +146,10 @@ void Stage::DrawImGui() {
 #endif // _DEBUG
 }
 
+std::list<std::shared_ptr<Ground>> Stage::GetGrounds() const {
+	return std::list<std::shared_ptr<Ground>>(boxes_.begin(), boxes_.end());
+}
+
 std::list<std::shared_ptr<Target>> Stage::GetTargets() const {
 	return std::list<std::shared_ptr<Target>>(targets_.begin(),targets_.end());
 }

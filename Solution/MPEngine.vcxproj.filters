@@ -263,8 +263,11 @@
     <ClCompile Include="Game\Player\MoveCommand.cpp">
       <Filter>Game\Player\Move</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Pouse\Pause.cpp">
-      <Filter>Game\Pouse</Filter>
+    <ClCompile Include="Game\Pause\Pause.cpp">
+      <Filter>Game\Pause</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\LockOn\PointOfGazeSearch.cpp">
+      <Filter>Game\LockOn</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -551,8 +554,11 @@
     <ClInclude Include="Game\Global\AllParameter.h">
       <Filter>Game\Global</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Pouse\Pause.h">
-      <Filter>Game\Pouse</Filter>
+    <ClInclude Include="Game\Pause\Pause.h">
+      <Filter>Game\Pause</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\LockOn\PointOfGazeSearch.h">
+      <Filter>Game\LockOn</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -787,7 +793,7 @@
     <Filter Include="Game\Global">
       <UniqueIdentifier>{7c5f0a88-09d4-4d4c-a2bb-6b899a49c969}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Pouse">
+    <Filter Include="Game\Pause">
       <UniqueIdentifier>{6d007153-29a7-424d-9667-e8662c4c7492}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

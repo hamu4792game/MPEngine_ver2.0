@@ -21,6 +21,7 @@ public:
 	void DrawImGui();
 
 	std::list<Collider*> GetCollision() const { return collisionList_; }
+	std::list<std::shared_ptr<Ground>> GetGrounds() const;
 	std::list<std::shared_ptr<Target>> GetTargets() const;
 	const WorldTransform& GetPlayerRespawnPoint() const { return playerRespawnpoint_; }
 	const WorldTransform& GetCameraRespawnPoint() const { return cameraTransform_; }

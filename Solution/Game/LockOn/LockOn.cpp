@@ -70,9 +70,9 @@ void LockOn::Search(const std::list<std::shared_ptr<Target>>& targets) {
 	// ロックオン対象の絞り込み
 	targets_.clear();
 	// 全ての敵に対してロックオン判定
-	for (const std::shared_ptr<Target>& enemy : targets) {
+	for (const std::shared_ptr<Target>& target : targets) {
 
-		Vector3 positionWorld = enemy->GetTransform().GetPosition();
+		Vector3 positionWorld = target->GetTransform().GetPosition();
 		// ワールドからビューへ変換
 		Matrix4x4 view = Camera3d::GetInstance()->GetCamera().GetViewMat();
 		Vector3 positionView = Transform(positionWorld, view);
@@ -85,7 +85,7 @@ void LockOn::Search(const std::list<std::shared_ptr<Target>>& targets) {
 		if (min.x <= positionView.x && positionView.x <= max.x) {
 			if (min.y <= positionView.y && positionView.y <= max.y) {
 				if (min.z <= positionView.z && positionView.z <= max.z) {
-					targets_.emplace_back(std::make_pair(positionView.z, enemy.get()));
+					targets_.emplace_back(std::make_pair(positionView.z, target.get()));
 				}
 			}
 		}

@@ -9,7 +9,7 @@
 #include "Game/Enemy/Enemy.h"
 #include "Game/GameUI/GameUI.h"
 #include "MPEngine/Graphics/SkyBox/SkyBox.h"
-#include "Game/Pouse/Pause.h"
+#include "Game/Pause/Pause.h"
 
 class BattleScene : public SceneFrame {
 public:
