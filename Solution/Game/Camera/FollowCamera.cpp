@@ -100,7 +100,7 @@ void FollowCamera::CameraMove() {
 	}
 
 	Vector2 mouseMove = input->GetMouse()->GetMouseMove();
-	static float cameraspeed = 0.5f;
+	static float cameraspeed = 0.2f;
 #ifdef _DEBUG
 	ImGui::DragFloat("CameraSpeed", &cameraspeed, 0.1f);
 #endif // _DEBUG

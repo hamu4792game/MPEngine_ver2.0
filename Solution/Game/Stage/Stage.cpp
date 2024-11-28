@@ -47,11 +47,6 @@ void Stage::Update() {
 		auto& handle = collisionList_.emplace_back(boxes_.at(index)->GetCollision());
 	}
 	
-	if (goal_) {
-		goal_->Update();
-	}
-	collisionList_.emplace_back(goal_->GetCollision());
-
 	for (auto& i : targets_) {
 		i->Update();
 	}
@@ -59,12 +54,25 @@ void Stage::Update() {
 	for (uint32_t index = 0u; index < static_cast<uint32_t>(collectionObject_.size()); index++) {
 		bool isAlive = collectionObject_.at(index)->Update();
 		if (!isAlive) {
+			// 要素の削除
 			collectionObject_.erase(collectionObject_.begin() + index);
+			maxCollectionNum_--;
+			if (maxCollectionNum_ <= 0u) {
+				// 全てのオブジェクトを取ったらゴール可能に
+				isCanGoal_ = true;
+			}
 		}
 		else {
 			auto& handle = collisionList_.emplace_back(collectionObject_.at(index)->GetCollision());
 		}
 	}
+
+	// ゴール可能ならの処理
+	if (isCanGoal_) {
+		goal_->Update();
+		collisionList_.emplace_back(goal_->GetCollision());
+	}
+
 }
 
 void Stage::DrawImGui() {
@@ -212,8 +220,8 @@ void Stage::LevelLoad(LevelData* data) {
 		else if (objectData.typeName.find("CollectionObject") != std::string::npos) {
 			collectionObject_.emplace_back(std::make_shared<CollectionObject>())->Initialize(objectData);
 		}
-
 	}
+	maxCollectionNum_ = static_cast<uint32_t>(collectionObject_.size());
 }
 
 void Stage::OnCollition(const Collider& coll) {

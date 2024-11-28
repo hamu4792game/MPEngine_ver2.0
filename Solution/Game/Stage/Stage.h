@@ -41,4 +41,7 @@ private:
 	std::list<Collider*> collisionList_;
 	WorldTransform playerRespawnpoint_;
 	WorldTransform cameraTransform_;
+
+	uint32_t maxCollectionNum_ = 0u;
+	bool isCanGoal_ = false; // ゴール可能かどうか
 };

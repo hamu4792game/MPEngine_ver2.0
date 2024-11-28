@@ -2050,6 +2050,42 @@
                 ]
             },
             "texturepath": "ground.png"
+        },
+        {
+            "type": "MESH",
+            "name": "CollectionObject.001",
+            "transform": {
+                "translation": [
+                    0.0,
+                    40.0,
+                    3.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ]
+            },
+            "texturepath": "ground.png"
         }
     ]
 }
