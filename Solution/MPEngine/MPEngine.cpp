@@ -33,7 +33,7 @@ void MPEngine::Run(GameFrame* game) {
 		fpsManager.TimeAdjustment();
 		
 		if (Input::GetInstance()->GetKey()->TriggerKey(DIK_ESCAPE)) {
-			break;
+			//break;
 		}
 	}
 

@@ -30,6 +30,8 @@ void BattleScene::Initialize() {
 	WorldTransform trans(Vector3(300.0f, 300.0f, 300.0f), Vector3::zero, Vector3::zero);
 	skybox_->SetTransform(trans);
 
+	pause_ = std::make_unique<Pause>();
+
 	// 音
 	auto rs = ResourceManager::GetInstance();
 	Audio* bgm = rs->FindAudio("Battle");
@@ -44,6 +46,19 @@ void BattleScene::Finalize() {
 void BattleScene::Update() {
 
 	DrawImGui();
+
+	if (Input::GetInstance()->GetKey()->TriggerKey(DIK_ESCAPE)) {
+		isPause_ = !isPause_;
+	}
+
+	// ポーズ状態の時
+	if (isPause_) {
+		PauseMenu();
+
+		//　早期リターン
+		return;
+	}
+
 	stage_->Update();
 	std::list<std::shared_ptr<Target>> listData(stage_->GetTargets());
 
@@ -108,4 +123,20 @@ void BattleScene::DrawImGui() {
 #ifdef _DEBUG
 
 #endif // _DEBUG
+}
+
+void BattleScene::PauseMenu() {
+	bool flag = false;
+	Pause::Menu menu = pause_->Update(flag);
+	// フラグが立った時
+	if (flag) {
+		if (menu == Pause::Menu::Restart) {
+			player_->Initialize(stage_->GetPlayerRespawnPoint());
+			isPause_ = false;
+		}
+		else if (menu == Pause::Menu::End) {
+			endRequest_ = true;
+		}
+	}
+
 }
