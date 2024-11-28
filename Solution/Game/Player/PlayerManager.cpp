@@ -340,6 +340,10 @@ void PlayerManager::KeyInput() {
 
 #pragma region WireMove
 	
+	if (input->GetMouse()->TriggerMouse(MouseInput::RIGHT)) {
+		inputParam_.isWireMove = true;
+	}
+
 	if (input->GetKey()->TriggerKey(DIK_M)) {
 		inputParam_.isWireMove = true;
 	}
@@ -349,6 +353,12 @@ void PlayerManager::KeyInput() {
 		}
 	}
 
+	if (input->GetMouse()->PressMouse(MouseInput::LEFT)) {
+		inputParam_.isSwingMove = true;
+	}
+	if (input->GetMouse()->TriggerMouse(MouseInput::LEFT)) {
+		inputParam_.isPushSwing = true;
+	}
 
 	if (input->GetKey()->PressKey(DIK_N)) {
 		inputParam_.isSwingMove = true;
