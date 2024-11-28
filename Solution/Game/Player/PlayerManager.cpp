@@ -238,7 +238,9 @@ bool PlayerManager::OnCollisionStage(const Collider& coll) {
 				behaviorRequest_ = Behavior::kRoot;
 			}
 		}
-
+		else if (coll.GetName() == "CollectionObject") {
+			
+		}
 	}
 	return false;
 }
@@ -354,10 +356,10 @@ void PlayerManager::KeyInput() {
 	}
 
 	if (input->GetMouse()->PressMouse(MouseInput::LEFT)) {
-		inputParam_.isSwingMove = true;
+		//inputParam_.isSwingMove = true;
 	}
 	if (input->GetMouse()->TriggerMouse(MouseInput::LEFT)) {
-		inputParam_.isPushSwing = true;
+		//inputParam_.isPushSwing = true;
 	}
 
 	if (input->GetKey()->PressKey(DIK_N)) {

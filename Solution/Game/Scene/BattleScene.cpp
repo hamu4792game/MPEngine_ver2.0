@@ -83,6 +83,7 @@ void BattleScene::Update() {
 		gameclear = player_->OnCollisionStage(*coll);
 		if (gameclear) { break; }
 	}
+	stage_->OnCollition(*player_->GetCollision());
 	gameUI_->Update();
 
 	uint32_t num = player_->GetEffectNumber();

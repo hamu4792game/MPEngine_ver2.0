@@ -40,7 +40,6 @@ void Stage::Update() {
 		if (box->GetTrans().parent_) {
 			bool is = true;
 		}
-
 	}
 
 	const uint32_t maxCount = static_cast<uint32_t>(boxes_.size());
@@ -55,6 +54,16 @@ void Stage::Update() {
 
 	for (auto& i : targets_) {
 		i->Update();
+	}
+
+	for (uint32_t index = 0u; index < static_cast<uint32_t>(collectionObject_.size()); index++) {
+		bool isAlive = collectionObject_.at(index)->Update();
+		if (!isAlive) {
+			collectionObject_.erase(collectionObject_.begin() + index);
+		}
+		else {
+			auto& handle = collisionList_.emplace_back(collectionObject_.at(index)->GetCollision());
+		}
 	}
 }
 
@@ -139,6 +148,18 @@ void Stage::DrawImGui() {
 			}
 			ImGui::EndMenu();
 		}
+		if (ImGui::BeginMenu("CollectionObject")) {
+			for (int i = 0; i < collectionObject_.size(); i++) {
+				if (ImGui::TreeNode(("CollectionObjectNumber : " + std::to_string(i)).c_str())) {
+					collectionObject_.at(i)->DrawImGui();
+					if (ImGui::Button("Delete")) {
+						collectionObject_.erase(collectionObject_.begin() + i);
+					}
+					ImGui::TreePop();
+				}
+			}
+			ImGui::EndMenu();
+		}
 		ImGui::EndMenuBar();
 	}
 
@@ -188,6 +209,21 @@ void Stage::LevelLoad(LevelData* data) {
 		else if (objectData.typeName.find("Camera") != std::string::npos) {
 			cameraTransform_ = objectData.transform;
 		}
+		else if (objectData.typeName.find("CollectionObject") != std::string::npos) {
+			collectionObject_.emplace_back(std::make_shared<CollectionObject>())->Initialize(objectData);
+		}
 
+	}
+}
+
+void Stage::OnCollition(const Collider& coll) {
+	for (auto& object : collectionObject_) {
+		Vector3 pushbackVec;
+		bool iscollision = object->GetCollision()->OnCollision(coll, pushbackVec);
+
+		if (iscollision) {
+			// 衝突していたら
+			object->Death();
+		}
 	}
 }

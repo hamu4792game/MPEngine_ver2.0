@@ -8,6 +8,7 @@
 #include <list>
 #include "Game/Target/Target.h"
 #include "Goal.h"
+#include "CollectionObject.h"
 
 #include "MPEngine/Utils/Tool/LevelData.h"
 
@@ -28,10 +29,14 @@ public:
 
 	void LevelLoad(LevelData* data);
 
+	// 衝突時の処理
+	void OnCollition(const Collider& coll);
+
 private:
 	std::vector<std::shared_ptr<Ground>> boxes_;
 	std::vector<std::shared_ptr<Target>> targets_;
 	std::unique_ptr<Goal> goal_;
+	std::vector<std::shared_ptr<CollectionObject>> collectionObject_;
 	std::string itemName_ = "Stage";
 	std::list<Collider*> collisionList_;
 	WorldTransform playerRespawnpoint_;

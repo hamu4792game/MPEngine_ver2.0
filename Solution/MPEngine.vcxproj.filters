@@ -269,6 +269,12 @@
     <ClCompile Include="Game\LockOn\PointOfGazeSearch.cpp">
       <Filter>Game\LockOn</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Stage\CollectionObject.cpp">
+      <Filter>Game\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Stage\ObjectFrame.cpp">
+      <Filter>Game\Stage</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -559,6 +565,12 @@
     </ClInclude>
     <ClInclude Include="Game\LockOn\PointOfGazeSearch.h">
       <Filter>Game\LockOn</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Stage\CollectionObject.h">
+      <Filter>Game\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Stage\ObjectFrame.h">
+      <Filter>Game\Stage</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
