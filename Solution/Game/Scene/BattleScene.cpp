@@ -69,12 +69,17 @@ void BattleScene::Update() {
 
 	lockOn_->Update(listData);
 	//auto handle = lockOn_->GetTargetTrans();
-	WorldTransform handle = pointOfGazeSearch_->Update(groundListData);
+	Vector3* target = pointOfGazeSearch_->Update(groundListData, player_->GetTransform().GetPosition());
+	WorldTransform* handle = nullptr;
+	if (target) {
+		WorldTransform tg = WorldTransform(Vector3::one, Vector3::zero, *target);
+		handle = &tg;
+	}
 	
+	player_->SetTargetTrans(handle);
+
+
 	time_ = std::min(time_, 300.0f);
-
-	player_->SetTargetTrans(&handle);
-
 
 	player_->Update();
 	enemy_->Update();

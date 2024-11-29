@@ -16,6 +16,10 @@ Quaternion::Quaternion(const float& x, const float& y, const float& z, const flo
 	this->w = w;
 }
 
+Quaternion::Quaternion(const Matrix4x4& matrix) {
+	*this = Quaternion::FromRotationMatrix4x4(matrix);
+}
+
 Quaternion Quaternion::operator*(const float& num) const {
 	return Quaternion(this->x * num, this->y * num, this->z * num, this->w * num);
 }
@@ -208,6 +212,43 @@ Vector3 Quaternion::QuaternionToEuler(const Quaternion& quaternion) {
 			quaternion.w * quaternion.w + quaternion.x * quaternion.x - quaternion.y * quaternion.y - quaternion.z * quaternion.z
 		);
 		result.x = 0.0f;
+	}
+
+	return result;
+}
+
+Quaternion Quaternion::FromRotationMatrix4x4(const Matrix4x4& matrix) {
+	Quaternion result;
+	// 3x3の回転部分のトレースを計算
+	float trace = matrix.m[0][0] + matrix.m[1][1] + matrix.m[2][2];
+
+	if (trace > 0.0f) {
+		float S = sqrtf(trace + 1.0f) * 2.0f; // S=4*result.w
+		result.w = 0.25f * S;
+		result.x = (matrix.m[2][1] - matrix.m[1][2]) / S;
+		result.y = (matrix.m[0][2] - matrix.m[2][0]) / S;
+		result.z = (matrix.m[1][0] - matrix.m[0][1]) / S;
+	}
+	else if ((matrix.m[0][0] > matrix.m[1][1]) && (matrix.m[0][0] > matrix.m[2][2])) {
+		float S = sqrtf(1.0f + matrix.m[0][0] - matrix.m[1][1] - matrix.m[2][2]) * 2.0f; // S=4*result.x
+		result.w = (matrix.m[2][1] - matrix.m[1][2]) / S;
+		result.x = 0.25f * S;
+		result.y = (matrix.m[0][1] + matrix.m[1][0]) / S;
+		result.z = (matrix.m[0][2] + matrix.m[2][0]) / S;
+	}
+	else if (matrix.m[1][1] > matrix.m[2][2]) {
+		float S = sqrtf(1.0f + matrix.m[1][1] - matrix.m[0][0] - matrix.m[2][2]) * 2.0f; // S=4*result.y
+		result.w = (matrix.m[0][2] - matrix.m[2][0]) / S;
+		result.x = (matrix.m[0][1] + matrix.m[1][0]) / S;
+		result.y = 0.25f * S;
+		result.z = (matrix.m[1][2] + matrix.m[2][1]) / S;
+	}
+	else {
+		float S = sqrtf(1.0f + matrix.m[2][2] - matrix.m[0][0] - matrix.m[1][1]) * 2.0f; // S=4*result.z
+		result.w = (matrix.m[1][0] - matrix.m[0][1]) / S;
+		result.x = (matrix.m[0][2] + matrix.m[2][0]) / S;
+		result.y = (matrix.m[1][2] + matrix.m[2][1]) / S;
+		result.z = 0.25f * S;
 	}
 
 	return result;

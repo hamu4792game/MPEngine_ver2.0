@@ -56,6 +56,8 @@ void FollowCamera::Update(const float& speed) {
 
 		transform_.translation_ = lOffset + end;
 		transform_.rotation_ = postRotate_;
+
+		//transform_.rotationQuat_ = Quaternion::FromRotationMatrix4x4(MakeRotateMatrix(transform_.rotation_));
 	}
 	transform_.UpdateMatrix();
 	if (target_) {

@@ -7,6 +7,7 @@ class Quaternion {
 public:
 	Quaternion();
 	Quaternion(const float& x, const float& y, const float& z, const float& w);
+	Quaternion(const Matrix4x4& matrix);
 	~Quaternion() = default;
 
 public:
@@ -56,5 +57,8 @@ public:
 
 	// Quaternionからオイラー角へ変換
 	static Vector3 QuaternionToEuler(const Quaternion& quaternion);
+
+	// 回転行列からクオータニオンへ変換
+	static Quaternion FromRotationMatrix4x4(const Matrix4x4& matrix);
 
 };

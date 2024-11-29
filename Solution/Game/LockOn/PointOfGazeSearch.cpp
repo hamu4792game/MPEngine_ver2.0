@@ -3,10 +3,12 @@
 #include "MPEngine.h"
 #include <limits>
 #undef max
+#include "ImGuiManager/ImGuiManager.h"
 
 void PointOfGazeSearch::Initialize() {
     collision_ = std::make_unique<Collider>();
     collision_->Initialize(&collTrans_, Collider::Type::Line, "CameraRay");
+    collision_->SetLineColor(Vector4(0.0f, 0.0f, 1.0f, 1.0f));
 
     lockOnMark_ = std::make_shared<Sprite>();
     lockOnMark_->SetTexture(ResourceManager::GetInstance()->FindTexture("Target"));
@@ -14,15 +16,25 @@ void PointOfGazeSearch::Initialize() {
     lockOnMark_->SetScale(Vector2(64.0f, 64.0f));
 }
 
-WorldTransform PointOfGazeSearch::Update(const std::list<std::shared_ptr<Ground>>& targets) {
+Vector3* PointOfGazeSearch::Update(const std::list<std::shared_ptr<Ground>>& targets, const Vector3& playerPos) {
 	auto& camera = Camera3d::GetInstance()->GetTransform();
+    direction_ = FindVector(camera.GetPosition(), playerPos).Normalize();
     lockOnMark_->SetIsActive(false);
+
+    // カメラの正面ベクトルを取得
+    collTrans_.translation_ = camera.GetPosition();
+    collTrans_.UpdateMatrix();
+    WorldTransform trans;
+    // diffのために長さを設定し送る
+    trans.translation_ = playerPos;
+    trans.UpdateMatrix();
+    collision_->Update(trans);
 
     Search(targets);
     if (target_) {
-        return WorldTransform(Vector3::one, Vector3::zero, *target_);
+        return (Vector3*)&target_;
     }
-    return WorldTransform();
+    return nullptr;
 }
 
 Vector2 PointOfGazeSearch::ChangeScreen(const Vector3& worldPos) {
@@ -96,19 +108,10 @@ void PointOfGazeSearch::Search(const std::list<std::shared_ptr<Ground>>& targets
             }
 
             // カメラからのレイを飛ばし、最近接点を求める
-            // カメラからポイントまでの向きベクトルを求める
-            Vector3 direction = (minPoint - camera->GetTransform().GetPosition()).Normalize();
-            // カメラの正面ベクトルを取得
-            collTrans_.translation_ = camera->GetTransform().GetPosition();
-            collTrans_.UpdateMatrix();
-            WorldTransform trans;
-            // diffのために長さを設定し送る
-            trans.translation_ = collTrans_.translation_ + Quaternion::RotateVector(Vector3::front, camera->GetTransform().rotationQuat_) * 10.0f;
-            trans.UpdateMatrix();
-            collision_->Update(trans);
+            
             Vector3 pushBackVec;
             if (!collision_->OnCollision(*target.second->GetCollision(), pushBackVec)) {
-                continue;
+                break;
             }
 
             // 取得したベクトルに始点を足して最近接点を求める
@@ -117,8 +120,9 @@ void PointOfGazeSearch::Search(const std::list<std::shared_ptr<Ground>>& targets
             if (recentlyContact.y != points.front().y) {
                 recentlyContact.y = points.front().y;
             }
-            float dist = Distance(recentlyContact, collTrans_.GetPosition());
-
+            if (DistanceCheck(recentlyContact, handle)) {
+                break;
+            }
             // ターゲット
             target_ = &recentlyContact;
 
@@ -132,7 +136,7 @@ void PointOfGazeSearch::Search(const std::list<std::shared_ptr<Ground>>& targets
                 lockOnMark_->SetRotate(rot += 0.05f);
                 lockOnMark_->SetIsActive(true);
             }
-
+            ImGui::Text("TargetOn");
             break;
         }
     }
