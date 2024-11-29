@@ -10,6 +10,7 @@
 #include "Game/GameUI/GameUI.h"
 #include "MPEngine/Graphics/SkyBox/SkyBox.h"
 #include "Game/Pause/Pause.h"
+#include "Game/LockOn/PointOfGazeSearch.h"
 
 class BattleScene : public SceneFrame {
 public:
@@ -29,6 +30,7 @@ private:
 	std::unique_ptr<PlayerManager> player_;
 	std::unique_ptr<Stage> stage_;
 	std::unique_ptr<LockOn> lockOn_;
+	std::unique_ptr<PointOfGazeSearch> pointOfGazeSearch_;
 	std::unique_ptr<Enemy> enemy_;
 	std::unique_ptr<GameUI> gameUI_;
 

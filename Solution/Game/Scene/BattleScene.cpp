@@ -21,6 +21,10 @@ void BattleScene::Initialize() {
 
 	lockOn_ = std::make_unique<LockOn>();
 	lockOn_->Initialize();
+	
+	pointOfGazeSearch_ = std::make_unique<PointOfGazeSearch>();
+	pointOfGazeSearch_->Initialize();
+
 
 	gameUI_ = std::make_unique<GameUI>();
 	gameUI_->Initialize();
@@ -61,13 +65,15 @@ void BattleScene::Update() {
 
 	stage_->Update();
 	std::list<std::shared_ptr<Target>> listData(stage_->GetTargets());
+	std::list<std::shared_ptr<Ground>> groundListData(stage_->GetGrounds());
 
 	lockOn_->Update(listData);
-	auto handle = lockOn_->GetTargetTrans();
+	//auto handle = lockOn_->GetTargetTrans();
+	WorldTransform handle = pointOfGazeSearch_->Update(groundListData);
 	
 	time_ = std::min(time_, 300.0f);
 
-	player_->SetTargetTrans(handle);
+	player_->SetTargetTrans(&handle);
 
 
 	player_->Update();

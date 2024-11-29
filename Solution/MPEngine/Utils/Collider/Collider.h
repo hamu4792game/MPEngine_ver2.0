@@ -40,6 +40,9 @@ public:
 	bool OnCollision(const Collider& coll, Vector3& pushbackVec);
 
 	std::string GetName() const { return name_; }
+
+	const WorldTransform& GetTransform() const { return *transform_; }
+
 private:
 
 	// 箱用の処理
