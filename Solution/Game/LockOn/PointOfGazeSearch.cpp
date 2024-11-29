@@ -103,10 +103,13 @@ void PointOfGazeSearch::Search(const std::list<std::shared_ptr<Ground>>& targets
             collTrans_.UpdateMatrix();
             WorldTransform trans;
             // diffのために長さを設定し送る
-            trans.translation_ = collTrans_.translation_ + Quaternion::RotateVector(Vector3::front, camera->GetTransform().rotationQuat_);
+            trans.translation_ = collTrans_.translation_ + Quaternion::RotateVector(Vector3::front, camera->GetTransform().rotationQuat_) * 10.0f;
+            trans.UpdateMatrix();
             collision_->Update(trans);
             Vector3 pushBackVec;
-            collision_->OnCollision(*target.second->GetCollision(), pushBackVec);
+            if (!collision_->OnCollision(*target.second->GetCollision(), pushBackVec)) {
+                continue;
+            }
 
             // 取得したベクトルに始点を足して最近接点を求める
             Vector3 recentlyContact = pushBackVec + collTrans_.GetPosition();
@@ -114,6 +117,7 @@ void PointOfGazeSearch::Search(const std::list<std::shared_ptr<Ground>>& targets
             if (recentlyContact.y != points.front().y) {
                 recentlyContact.y = points.front().y;
             }
+            float dist = Distance(recentlyContact, collTrans_.GetPosition());
 
             // ターゲット
             target_ = &recentlyContact;

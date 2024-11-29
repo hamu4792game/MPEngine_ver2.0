@@ -27,7 +27,7 @@ private:
 	bool DistanceCheck(Vector3 pos, float& distanceToCenter) const;
 
 private:
-	Vector3 minDistance_ = Vector3(-30.0f, -30.0f, 70.0f); // 感知する最大範囲
+	Vector3 minDistance_ = Vector3(-30.0f, -30.0f, 30.0f); // 感知する最大範囲
 	Vector3 maxDistance_ = Vector3(30.0f, 30.0f, 300.0f); // 感知する最小範囲
 
 	std::shared_ptr<Sprite> lockOnMark_;
