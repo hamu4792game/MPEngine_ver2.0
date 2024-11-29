@@ -122,12 +122,12 @@ void BattleScene::Update() {
 void BattleScene::SecondUpdate() {
 	// ここでレイキャストする
 	Camera3d* camera = Camera3d::GetInstance();
-	WorldTransform cameraTransform = player_->PostUpdate();
+	cameraTransform_ = player_->PostUpdate();
 	// 一旦うまくいかないのでしない
 	for (auto& coll : stage_->GetCollision()) {
-		cameraTransform = player_->OnCollisionCameraToStage(*coll);
+		cameraTransform_ = player_->OnCollisionCameraToStage(*coll);
 	}
-	camera->SetTransform(cameraTransform);
+	camera->SetTransform(cameraTransform_);
 
 }
 

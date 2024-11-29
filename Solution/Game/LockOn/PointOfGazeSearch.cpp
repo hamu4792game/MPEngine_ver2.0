@@ -18,15 +18,17 @@ void PointOfGazeSearch::Initialize() {
 
 Vector3* PointOfGazeSearch::Update(const std::list<std::shared_ptr<Ground>>& targets, const Vector3& playerPos) {
 	auto& camera = Camera3d::GetInstance()->GetTransform();
-    direction_ = FindVector(camera.GetPosition(), playerPos).Normalize();
+    Quaternion qua = Quaternion::FromRotationMatrix4x4(MakeRotateMatrix(camera.rotation_));
+    direction_ = Quaternion::RotateVector(Vector3::front, qua).Normalize();
     lockOnMark_->SetIsActive(false);
+    ImGui::DragFloat3("Direction", &direction_.x, 0.1f);
 
     // カメラの正面ベクトルを取得
-    collTrans_.translation_ = camera.GetPosition();
+    collTrans_.translation_ = playerPos;
     collTrans_.UpdateMatrix();
     WorldTransform trans;
     // diffのために長さを設定し送る
-    trans.translation_ = playerPos;
+    trans.translation_ = Quaternion::RotateVector(collTrans_.translation_, qua);
     trans.UpdateMatrix();
     collision_->Update(trans);
 
@@ -81,7 +83,7 @@ void PointOfGazeSearch::Search(const std::list<std::shared_ptr<Ground>>& targets
         for (auto& target : targets_) {
             // Y座標が上の部分を取得
             Vector3 pos = target.second->GetCollision()->GetTransform().GetPosition();
-            Vector3 scale = target.second->GetCollision()->GetTransform().scale_ / 2.0f;
+            Vector3 scale = target.second->GetCollision()->GetTransform().scale_;
             std::array<Vector3, 4> points{
                 pos + scale,
                 Vector3(pos.x + scale.x, pos.y + scale.y, pos.z - scale.z),
@@ -120,7 +122,7 @@ void PointOfGazeSearch::Search(const std::list<std::shared_ptr<Ground>>& targets
             if (recentlyContact.y != points.front().y) {
                 recentlyContact.y = points.front().y;
             }
-            if (DistanceCheck(recentlyContact, handle)) {
+            if (!DistanceCheck(recentlyContact, handle)) {
                 break;
             }
             // ターゲット
@@ -140,10 +142,6 @@ void PointOfGazeSearch::Search(const std::list<std::shared_ptr<Ground>>& targets
             break;
         }
     }
-}
-
-void PointOfGazeSearch::SearchPoint() {
-
 }
 
 bool PointOfGazeSearch::DistanceCheck(Vector3 pos, float& distanceToCenter) const {

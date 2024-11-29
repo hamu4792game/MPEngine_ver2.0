@@ -41,4 +41,5 @@ private:
 
 	bool isPause_ = false;
 	std::unique_ptr<Pause> pause_;
+	WorldTransform cameraTransform_;
 };

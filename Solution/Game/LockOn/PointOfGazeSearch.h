@@ -20,9 +20,6 @@ private:
 	// 一番近いターゲットを見つける
 	void Search(const std::list<std::shared_ptr<Ground>>& targets);
 
-	// ターゲットの移動するポイントを見つける
-	void SearchPoint();
-
 	// 距離をはかる
 	bool DistanceCheck(Vector3 pos, float& distanceToCenter) const;
 
