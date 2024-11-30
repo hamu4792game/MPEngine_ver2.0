@@ -16,10 +16,10 @@ void PointOfGazeSearch::Initialize() {
     lockOnMark_->SetScale(Vector2(64.0f, 64.0f));
 }
 
-Vector3* PointOfGazeSearch::Update(const std::list<std::shared_ptr<Ground>>& targets, const Vector3& playerPos) {
+Vector3* PointOfGazeSearch::Update(const std::list<std::shared_ptr<Ground>>& targets, const Vector3& playerPos, const WorldTransform& cameraTrans) {
 	auto& camera = Camera3d::GetInstance()->GetTransform();
-    Quaternion qua = Quaternion::FromRotationMatrix4x4(MakeRotateMatrix(camera.rotation_));
-    direction_ = Quaternion::RotateVector(Vector3::front, qua).Normalize();
+    Quaternion qua = Quaternion::FromRotationMatrix4x4(MakeRotateMatrix(cameraTrans.rotation_));
+    direction_ = FindVector(cameraTrans.GetPosition(), playerPos).Normalize();
     lockOnMark_->SetIsActive(false);
     ImGui::DragFloat3("Direction", &direction_.x, 0.1f);
 
@@ -28,13 +28,13 @@ Vector3* PointOfGazeSearch::Update(const std::list<std::shared_ptr<Ground>>& tar
     collTrans_.UpdateMatrix();
     WorldTransform trans;
     // diffのために長さを設定し送る
-    trans.translation_ = Quaternion::RotateVector(collTrans_.translation_, qua);
+    trans.translation_ = collTrans_.GetPosition() + (direction_ * 100.0f);
     trans.UpdateMatrix();
     collision_->Update(trans);
 
     Search(targets);
     if (target_) {
-        return (Vector3*)&target_;
+        return target_;
     }
     return nullptr;
 }
@@ -42,13 +42,13 @@ Vector3* PointOfGazeSearch::Update(const std::list<std::shared_ptr<Ground>>& tar
 Vector2 PointOfGazeSearch::ChangeScreen(const Vector3& worldPos) {
     auto camera = Camera3d::GetInstance();
     //	ビューポート行列
-    Matrix4x4 matViewport = MakeViewportMatrix(0, 0, static_cast<float>(MPEngine::GetInstance()->windowWidth_), static_cast<float>(MPEngine::GetInstance()->windowHeight_), 0, 1);
+    static const  Matrix4x4 matViewport = MakeViewportMatrix(0, 0, static_cast<float>(MPEngine::GetInstance()->windowWidth_), static_cast<float>(MPEngine::GetInstance()->windowHeight_), 0, 1);
     //	ビュー行列とプロジェクション行列、ビューポート行列を合成する
     Matrix4x4 matViewProjectionViewport = camera->GetViewProMat() * matViewport;
     //	ワールドからスクリーン座標へ変換（ここで2Dから3Dになる）
     Vector3 result = Transform(worldPos, matViewProjectionViewport);
 
-    Matrix4x4 ortho = MakeOrthographicMatrix(-float(MPEngine::GetInstance()->windowWidth_ / 2), float(MPEngine::GetInstance()->windowHeight_ / 2),
+    static const Matrix4x4 ortho = MakeOrthographicMatrix(-float(MPEngine::GetInstance()->windowWidth_ / 2), float(MPEngine::GetInstance()->windowHeight_ / 2),
         float(MPEngine::GetInstance()->windowWidth_ / 2), -float(MPEngine::GetInstance()->windowHeight_ / 2), 0.01f, 100.0f);
     Matrix4x4 in = Inverse(MakeIdentity4x4() * ortho * matViewport);
 
@@ -117,7 +117,7 @@ void PointOfGazeSearch::Search(const std::list<std::shared_ptr<Ground>>& targets
             }
 
             // 取得したベクトルに始点を足して最近接点を求める
-            Vector3 recentlyContact = pushBackVec + collTrans_.GetPosition();
+            Vector3 recentlyContact = (collTrans_.GetPosition() + (direction_ * 100.0f)) - pushBackVec;
             // 最近接点が求まったので、y座標を上に合わせる
             if (recentlyContact.y != points.front().y) {
                 recentlyContact.y = points.front().y;
@@ -158,7 +158,11 @@ bool PointOfGazeSearch::DistanceCheck(Vector3 pos, float& distanceToCenter) cons
     // 距離条件チェック (Z方向が視錐台内か確認)
     // 距離条件チェック
     if (minDistance_.z <= positionView.z && positionView.z <= maxDistance_.z) {
-        return true;
+        if (minDistance_.y <= positionView.y && positionView.y <= maxDistance_.y) {
+            if (minDistance_.x <= positionView.x && positionView.x <= maxDistance_.x) {
+                return true;
+            }
+        }
     }
     return false;
 }

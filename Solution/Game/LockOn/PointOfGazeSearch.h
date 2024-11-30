@@ -12,7 +12,7 @@ public:
 	~PointOfGazeSearch() = default;
 
 	void Initialize();
-	Vector3* Update(const std::list<std::shared_ptr<Ground>>& targets, const Vector3& playerPos);
+	Vector3* Update(const std::list<std::shared_ptr<Ground>>& targets, const Vector3& playerPos, const WorldTransform& cameraTrans);
 
 
 private:
@@ -31,7 +31,7 @@ private:
 	// 目標
 	std::list<std::pair<float, const Ground*>> targets_;
 	// ロックオン対象
-	const Vector3* target_ = nullptr;
+	Vector3* target_ = nullptr;
 	Vector3 direction_;
 
 	std::unique_ptr<Collider> collision_;

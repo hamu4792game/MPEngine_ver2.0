@@ -40,6 +40,7 @@ void BattleScene::Initialize() {
 	auto rs = ResourceManager::GetInstance();
 	Audio* bgm = rs->FindAudio("Battle");
 	bgm->SoundPlayWave(true);
+	bgm->SetVolume(0.02f);
 
 }
 
@@ -67,9 +68,10 @@ void BattleScene::Update() {
 	std::list<std::shared_ptr<Target>> listData(stage_->GetTargets());
 	std::list<std::shared_ptr<Ground>> groundListData(stage_->GetGrounds());
 
+	// ターゲットの更新
 	lockOn_->Update(listData);
 	//auto handle = lockOn_->GetTargetTrans();
-	Vector3* target = pointOfGazeSearch_->Update(groundListData, player_->GetTransform().GetPosition());
+	Vector3* target = pointOfGazeSearch_->Update(groundListData, player_->GetTransform().GetPosition(), cameraTransform_);
 	WorldTransform* handle = nullptr;
 	if (target) {
 		WorldTransform tg = WorldTransform(Vector3::one, Vector3::zero, *target);
