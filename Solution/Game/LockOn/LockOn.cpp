@@ -39,7 +39,6 @@ void LockOn::Update(const std::list<std::shared_ptr<Target>>& targets) {
 	else {
 		lockOnMark_->SetIsActive(false);
 	}
-	lockOnMark_->SetIsActive(false);
 }
 
 WorldTransform* LockOn::GetTargetTrans() const {

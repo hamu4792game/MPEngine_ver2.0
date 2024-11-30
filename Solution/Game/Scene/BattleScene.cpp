@@ -70,13 +70,13 @@ void BattleScene::Update() {
 
 	// ターゲットの更新
 	lockOn_->Update(listData);
-	//auto handle = lockOn_->GetTargetTrans();
-	Vector3* target = pointOfGazeSearch_->Update(groundListData, player_->GetTransform().GetPosition(), cameraTransform_);
 	WorldTransform* handle = nullptr;
-	if (target) {
-		WorldTransform tg = WorldTransform(Vector3::one, Vector3::zero, *target);
-		handle = &tg;
-	}
+	handle = lockOn_->GetTargetTrans();
+	//Vector3* target = pointOfGazeSearch_->Update(groundListData, player_->GetTransform().GetPosition(), cameraTransform_);
+	//if (target) {
+	//	WorldTransform tg = WorldTransform(Vector3::one, Vector3::zero, *target);
+	//	handle = &tg;
+	//}
 	
 	player_->SetTargetTrans(handle);
 

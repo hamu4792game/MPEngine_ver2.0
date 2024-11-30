@@ -4,6 +4,7 @@
 
 Pause::Menu Pause::Update(bool& flag) {
 	InputKey(flag);
+#ifdef _DEBUG
 
 	ImGui::Begin("MENU");
 	
@@ -17,6 +18,7 @@ Pause::Menu Pause::Update(bool& flag) {
 	}
 
 	ImGui::End();
+#endif // _DEBUG
 
 	// 
 	return nowMenu_;

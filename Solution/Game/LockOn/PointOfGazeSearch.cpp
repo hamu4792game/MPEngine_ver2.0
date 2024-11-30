@@ -14,6 +14,7 @@ void PointOfGazeSearch::Initialize() {
     lockOnMark_->SetTexture(ResourceManager::GetInstance()->FindTexture("Target"));
 
     lockOnMark_->SetScale(Vector2(64.0f, 64.0f));
+    lockOnMark_->SetIsActive(false);
 }
 
 Vector3* PointOfGazeSearch::Update(const std::list<std::shared_ptr<Ground>>& targets, const Vector3& playerPos, const WorldTransform& cameraTrans) {
@@ -21,7 +22,9 @@ Vector3* PointOfGazeSearch::Update(const std::list<std::shared_ptr<Ground>>& tar
     Quaternion qua = Quaternion::FromRotationMatrix4x4(MakeRotateMatrix(cameraTrans.rotation_));
     direction_ = FindVector(cameraTrans.GetPosition(), playerPos).Normalize();
     lockOnMark_->SetIsActive(false);
+#ifdef _DEBUG
     ImGui::DragFloat3("Direction", &direction_.x, 0.1f);
+#endif // _DEBUG
 
     // カメラの正面ベクトルを取得
     collTrans_.translation_ = playerPos;
@@ -138,7 +141,9 @@ void PointOfGazeSearch::Search(const std::list<std::shared_ptr<Ground>>& targets
                 lockOnMark_->SetRotate(rot += 0.05f);
                 lockOnMark_->SetIsActive(true);
             }
+#ifdef _DEBUG
             ImGui::Text("TargetOn");
+#endif // _DEBUG
             break;
         }
     }
