@@ -27,6 +27,7 @@ public: // setter
 	void SetTransform(const WorldTransform& transform) { transform_ = transform; }
 	void SetAnimation(ModelAnimation* animation) { animation_ = animation; }
 	void SetBlendType(BlendMode type) { blendType_ = type; }
+	void SetUVMatrix(const Matrix4x4& uvMat) { cMaterial->uvMatrix = uvMat; }
 
 	const WorldTransform& GetTransform() const { return transform_; }
 	ModelAnimation* GetAnimation() const { return animation_; }
@@ -54,8 +55,9 @@ private:
 		Vector4 color = Vector4::one;
 		int enableLighting = true; 
 		float shininess = 5.0f; // 光沢度
-		int phongLighing = false;
+		int phongLighing = true;
 		float environmentCoefficient = 0.0f; // 環境マップ
+		Matrix4x4 uvMatrix = Matrix4x4(Vector3::one, Vector3::zero, Vector3::zero);
 	};
 public:
 	Material materials;

@@ -3,6 +3,7 @@ decltype(Model::modelLists_) Model::modelLists_;
 
 Model::Model() {
 	modelLists_.emplace_back(this);
+	cMaterial->uvMatrix = MakeIdentity4x4();
 }
 
 Model::~Model() {

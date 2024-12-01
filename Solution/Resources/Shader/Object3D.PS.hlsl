@@ -10,6 +10,7 @@ struct Material {
     float shininess;
     int phongLighing;
     float32_t environmentCoefficient;
+    float4x4 uvMat;
 };
 
 ConstantBuffer<Material> gMaterial : register(b1);
@@ -17,7 +18,10 @@ ConstantBuffer<Material> gMaterial : register(b1);
 ConstantBuffer<DirectionalLight> gDirectionalLight : register(b2);
 
 float4 main(VertexOutput input) : SV_TARGET {
-    float4 textureColor = gTexture.Sample(gSampler, input.texcoord) * gMaterial.color;
+    float4 uv = mul(float4(input.texcoord,0.0f,1.0f),gMaterial.uvMat);
+    // 2Dテクスチャのためにxy成分のみを使用
+    float2 uv2D = (uv.xy) - floor((uv.xy));
+    float4 textureColor = gTexture.Sample(gSampler, uv2D) * gMaterial.color;
     float3 diffuse;
 
     if (gMaterial.enableLighting != 0) {
