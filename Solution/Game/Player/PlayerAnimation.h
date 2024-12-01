@@ -53,6 +53,7 @@ public: // public関数
 	const bool& GetFinishedAnimation() const { return isFinishedAnimation_; }
 
 	void SetQuaternion(const Quaternion& qua);
+	void SetColor(const Vector4& color) { models_.front()->SetColor(color); }
 
 private: // private関数
 	float AnimationUpdate(BehaviorFlag flag); // アニメーションの更新

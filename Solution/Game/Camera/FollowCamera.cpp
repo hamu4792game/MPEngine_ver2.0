@@ -165,9 +165,8 @@ bool FollowCamera::OnCollision(const Collider& coll) {
 				transform_.translation_ += pushBackVec;
 				transform_.UpdateMatrix();
 				collision_->Update(*target_);
-
 			}
 		}
 	}
-	return false;
+	return iscoll;
 }

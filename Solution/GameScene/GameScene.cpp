@@ -33,6 +33,7 @@ void GameScene::Initialize() {
 	rs->AddTexture("ground3", "Resources/Texture/ground3.png");
 	rs->AddTexture("Circle", "Resources/Texture/particle.png");
 	rs->AddTexture("ABText", "Resources/Texture/hud/AB.png");
+	rs->AddTexture("CircleShadow", "Resources/Texture/shadow.png");
 	
 	rs->AddTexture("MonsterBall", "Resources/Texture/monsterBall.png");
 	rs->AddTexture("CheckerBoard", "Resources/Texture/checkerBoard.png");

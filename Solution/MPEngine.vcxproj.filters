@@ -275,6 +275,9 @@
     <ClCompile Include="Game\Stage\ObjectFrame.cpp">
       <Filter>Game\Stage</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Shadow\CircleShadow.cpp">
+      <Filter>Game\Shadow</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -572,6 +575,9 @@
     <ClInclude Include="Game\Stage\ObjectFrame.h">
       <Filter>Game\Stage</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Shadow\CircleShadow.h">
+      <Filter>Game\Shadow</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="MPEngine">
@@ -807,6 +813,9 @@
     </Filter>
     <Filter Include="Game\Pause">
       <UniqueIdentifier>{6d007153-29a7-424d-9667-e8662c4c7492}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Shadow">
+      <UniqueIdentifier>{ef482deb-c333-496c-9dac-5fbb91632f62}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

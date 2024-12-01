@@ -91,6 +91,10 @@ void BattleScene::Update() {
 	bool gameclear = false;
 	for (auto& coll : stage_->GetCollision()) {
 		gameclear = player_->OnCollisionStage(*coll);
+		Vector3 hitPoint;
+		if (player_->OnCollisionDownRayToStage(*coll, hitPoint)) {
+			
+		}
 		if (gameclear) { break; }
 	}
 	stage_->OnCollition(*player_->GetCollision());

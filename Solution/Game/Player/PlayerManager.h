@@ -7,6 +7,7 @@
 #include "Utils/Collider/Collider.h"
 #include "Game/Global/AllParameter.h"
 #include "MoveCommand.h"
+#include "Game/Shadow/CircleShadow.h"
 
 class PlayerManager {
 public:
@@ -22,6 +23,8 @@ public:
 	void SetTargetTrans(const WorldTransform* transform) { targetTransform_ = transform; }
 	// true ゲームクリア
 	bool OnCollisionStage(const Collider& coll);
+	// 下向きのレイとステージの衝突判定
+	bool OnCollisionDownRayToStage(const Collider& coll, Vector3& hitPoint);
 	WorldTransform OnCollisionCameraToStage(const Collider& coll);
 
 	const uint32_t GetEffectNumber() const { return static_cast<uint32_t>(postEffectNum_); }
@@ -77,6 +80,9 @@ private:
 	std::unique_ptr<Collider> collision_;
 	WorldTransform collTrans_;
 
+	// 下向きのレイ
+	std::unique_ptr<Collider> downCollision_;
+
 	std::unique_ptr<WebSwing> webswing_;
 
 	// カメラ関係
@@ -105,5 +111,8 @@ private:
 	bool isWebSwing_ = false;
 
 	MoveParam debugMoveParam_;
+
+	std::unique_ptr<CircleShadow> circleShadow_;
+	float minDistance_ = 1000.0f;
 
 };

@@ -9,9 +9,11 @@
 PlayerManager::PlayerManager() {
 	animation_ = std::make_unique<PlayerAnimation>(&transform_);
 	collision_ = std::make_unique<Collider>();
+	downCollision_ = std::make_unique<Collider>();
 	followCamera_ = std::make_shared<FollowCamera>();
 	webswing_ = std::make_unique<WebSwing>();
 	moveCom_ = std::make_unique<MoveCommand>(itemName_);
+	circleShadow_ = std::make_unique<CircleShadow>();
 }
 
 void PlayerManager::Initialize(const WorldTransform& respawnpoint) {
@@ -30,6 +32,8 @@ void PlayerManager::Initialize(const WorldTransform& respawnpoint) {
 	collTrans_.parent_ = &transform_;
 	collTrans_.scale_ = Vector3(1.0f, 2.4f, 1.0f);
 	collision_->Initialize(&collTrans_, Collider::Type::Box);
+
+	downCollision_->Initialize(&transform_, Collider::Type::Line);
 	
 	fallParam_.fall.Initialize(moveparam.fallParam.acceleration, moveparam.fallParam.accelerationRate, moveparam.fallParam.kMinAcceleration, moveparam.fallParam.kMaxAcceleration);
 	fallParam_.JumpInitialize();
@@ -40,7 +44,7 @@ void PlayerManager::Initialize(const WorldTransform& respawnpoint) {
 
 	moveParameter_.Initialize(0.0f, 0.01f, 0.0f, 0.5f);
 	
-	
+	circleShadow_->Initialize();
 
 }
 
@@ -153,6 +157,8 @@ void PlayerManager::Update() {
 	LimitMoving();
 	followCamera_->CameraMove();
 	TransformUpdate();
+	animation_->SetColor(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+	minDistance_ = 10000.0f;
 }
 
 WorldTransform PlayerManager::PostUpdate() {
@@ -165,7 +171,7 @@ WorldTransform PlayerManager::PostUpdate() {
 		postEffectNum_ = PostEffectNum::GrayScale;
 		// ターゲットがなければ即終了
 		if (!targetTransform_) {
-			finishFrag = true;
+			//finishFrag = true;
 		}
 	}
 	if (frameCount_.count >= frameCount_.maxFrame * 60.0f || finishFrag || (behavior_ == Behavior::kWireMove && behaviorFlag_.isLanded)) {
@@ -245,8 +251,36 @@ bool PlayerManager::OnCollisionStage(const Collider& coll) {
 	return false;
 }
 
+bool PlayerManager::OnCollisionDownRayToStage(const Collider& coll, Vector3& hitPoint) {
+	Vector3 pushBackVec = transform_.GetPosition();
+	hitPoint = transform_.GetPosition();
+	WorldTransform tra = WorldTransform(Vector3::one, Vector3::zero, transform_.GetPosition() + Vector3::down);
+	downCollision_->Update(tra);
+	bool iscoll = downCollision_->OnCollision(coll, pushBackVec);
+
+	if (iscoll && coll.GetName() == "Ground") {
+		// 衝突点を返す
+		hitPoint.y = (coll.GetTransform().GetPosition().y + (MakeScale(coll.GetTransform().worldMatrix_).y)) + 0.11f;
+
+		float distance = Length(FindVector(transform_.GetPosition(), hitPoint));
+		if (minDistance_ > distance) {
+			// 最小値の更新
+			minDistance_ = distance;
+			circleShadow_->Update(hitPoint);
+		}
+		
+	}
+	return iscoll;
+}
+
 WorldTransform PlayerManager::OnCollisionCameraToStage(const Collider& coll) {
-	followCamera_->OnCollision(coll);
+	if (followCamera_->OnCollision(coll)) {
+		float dis = Length(transform_.GetPosition() - followCamera_->GetTransform().GetPosition());
+		if (dis <= 40.0f) {
+			dis /= 40.0f;
+			animation_->SetColor(Vector4(1.0f, 1.0f, 1.0f, dis));
+		}
+	}
 	return followCamera_->GetTransform();
 }
 
@@ -285,7 +319,7 @@ void PlayerManager::TransformUpdate() {
 }
 
 void PlayerManager::LimitMoving() {
-	transform_.translation_.y = std::clamp(transform_.translation_.y, 2.4f, 10000.0f);
+	transform_.translation_.y = std::clamp(transform_.translation_.y, 0.0f, 10000.0f);
 	
 }
 
