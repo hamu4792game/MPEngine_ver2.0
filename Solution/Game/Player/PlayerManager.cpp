@@ -286,9 +286,7 @@ void PlayerManager::TransformUpdate() {
 
 void PlayerManager::LimitMoving() {
 	transform_.translation_.y = std::clamp(transform_.translation_.y, 2.4f, 10000.0f);
-	//if (transform_.translation_.y < -10.0f) {
-	//	Initialize(respawnpoint_);
-	//}
+	
 }
 
 void PlayerManager::KeyInput() {

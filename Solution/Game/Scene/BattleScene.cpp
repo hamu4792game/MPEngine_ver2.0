@@ -9,15 +9,13 @@
 
 void BattleScene::Initialize() {
 	stage_ = std::make_unique<Stage>();
+	stage_->initialize();
 	LevelData data;
 	auto leveldata = data.Load("stage.json");
 	stage_->LevelLoad(leveldata);
 
 	player_ = std::make_unique<PlayerManager>();
 	player_->Initialize(stage_->GetPlayerRespawnPoint());
-
-	enemy_ = std::make_unique<Enemy>();
-	enemy_->Initialize();
 
 	lockOn_ = std::make_unique<LockOn>();
 	lockOn_->Initialize();
@@ -84,7 +82,6 @@ void BattleScene::Update() {
 	time_ = std::min(time_, 300.0f);
 
 	player_->Update();
-	enemy_->Update();
 	
 	static Vector3 scale = Vector3(300.0f, 300.0f, 300.0f);
 	WorldTransform trans(scale, Vector3::zero, player_->GetTransform().GetPosition());

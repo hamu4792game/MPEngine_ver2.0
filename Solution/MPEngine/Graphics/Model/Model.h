@@ -55,7 +55,7 @@ private:
 		Vector4 color = Vector4::one;
 		int enableLighting = true; 
 		float shininess = 5.0f; // 光沢度
-		int phongLighing = true;
+		int phongLighing = false;
 		float environmentCoefficient = 0.0f; // 環境マップ
 		Matrix4x4 uvMatrix = Matrix4x4(Vector3::one, Vector3::zero, Vector3::zero);
 	};

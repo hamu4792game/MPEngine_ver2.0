@@ -18,6 +18,7 @@ public:
 	~Stage() = default;
 
 	void Initialize(std::string fileName);
+	void initialize();
 	void Update();
 	void DrawImGui();
 
@@ -44,4 +45,12 @@ private:
 
 	uint32_t maxCollectionNum_ = 0u;
 	bool isCanGoal_ = false; // ゴール可能かどうか
+
+	// 床のためのもの
+	struct PlaneGround {
+		std::shared_ptr<Model> model_;
+		WorldTransform transform_;
+	};
+	PlaneGround planeGround_;
+
 };

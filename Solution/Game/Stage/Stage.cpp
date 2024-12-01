@@ -30,6 +30,21 @@ void Stage::Initialize(std::string fileName) {
 
 }
 
+void Stage::initialize() {
+	planeGround_.model_ = std::make_shared<Model>();
+	planeGround_.model_->SetModel(ResourceManager::GetInstance()->FindObject3d("Plane"));
+	planeGround_.model_->SetTexture(ResourceManager::GetInstance()->FindTexture("ground1"));
+	planeGround_.transform_ = WorldTransform(Vector3(1000.0f, 1000.0f, 1.0f), Vector3(AngleToRadian(-90.0f), 0.0f, 0.0f), Vector3(0.0f, 0.1f, 0.0f));
+	planeGround_.transform_.UpdateMatrix();
+
+	planeGround_.model_->isActive_ = true;
+	planeGround_.model_->SetTransform(planeGround_.transform_);
+	planeGround_.model_->materials.enableLighting = false;
+	planeGround_.model_->materials.phongLighing = false;
+	Matrix4x4 mat = MakeScaleMatrix(Vector3(1000.0f, 1000.0f, 1.0f));
+	planeGround_.model_->SetUVMatrix(mat);
+}
+
 void Stage::Update() {
 	DrawImGui();
 	collisionList_.clear();
