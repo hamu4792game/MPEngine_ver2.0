@@ -27,6 +27,7 @@ public:
 	std::list<std::shared_ptr<Target>> GetTargets() const;
 	const WorldTransform& GetPlayerRespawnPoint() const { return playerRespawnpoint_; }
 	const WorldTransform& GetCameraRespawnPoint() const { return cameraTransform_; }
+	const uint32_t& GetCollectionNum() const { return maxCollectionNum_; }
 
 	void LevelLoad(LevelData* data);
 

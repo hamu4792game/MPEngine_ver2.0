@@ -44,6 +44,8 @@ void RenderManager::Draw(SwapChain* swapchain) {
 	list->SetDescriptorHeaps(1, &srvHeap);
 
 	projectionMatrix = camera3d_->GetViewProMat();
+	skyBoxRender.DrawCommand(projectionMatrix);
+
 	modelRender.DrawCommand(camera3d_);
 	
 	Matrix4x4 billboardMat = camera3d_->GetBillboardMat();
@@ -51,7 +53,6 @@ void RenderManager::Draw(SwapChain* swapchain) {
 
 	lineRender.DrawCommand(projectionMatrix);
 
-	skyBoxRender.DrawCommand(projectionMatrix);
 
 	grayscale_->PreProcess();
 	radialBlur_->PreProcess();

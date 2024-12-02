@@ -138,16 +138,8 @@ void PlayerManager::Update() {
 	// 壁に横向きで当たっている場合
 	Quaternion qur;
 	if (hittingObjectNormal_ != Vector3::zero) {
-		Vector3 lNormalVec = hittingObjectNormal_.Normalize();
-		// 角度の計算
-		float angle = std::acosf(Vector3::up * lNormalVec);
-		// 回転軸の計算
-		Vector3 rotAxis = Cross(Vector3::up, lNormalVec).Normalize();
-		qur = Quaternion::MakeRotateAxisAngleQuaternion(rotAxis, angle);
-		// 移動ベクトルを回転
-		moveVector_ = qur * moveVector_;
+		//moveVector_ = moveCom_->UpWallMove(hittingObjectNormal_, moveVector_);
 		hittingObjectNormal_ = Vector3::zero;
-		//qur = Quaternion::MakeFromTwoVector(lNormalVec, rotAxis);
 	}
 	//animation_->SetQuaternion(qur);
 
@@ -374,7 +366,7 @@ void PlayerManager::KeyInput() {
 
 #pragma region WireMove
 	
-	if (input->GetMouse()->TriggerMouse(MouseInput::RIGHT)) {
+	if (input->GetMouse()->TriggerMouse(MouseInput::LEFT)) {
 		inputParam_.isWireMove = true;
 	}
 

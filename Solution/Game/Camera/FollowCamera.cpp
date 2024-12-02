@@ -106,11 +106,9 @@ void FollowCamera::CameraMove() {
 #ifdef _DEBUG
 	ImGui::DragFloat("CameraSpeed", &cameraspeed, 0.1f);
 #endif // _DEBUG
-	if (input->GetMouse()->PressMouse(input->GetMouse()->CENTER)) {
-		if (mouseMove != Vector2::zero) {
-			move.y += AngleToRadian(mouseMove.x * cameraspeed);
-			move.x += AngleToRadian(mouseMove.y * cameraspeed);
-		}
+	if (mouseMove != Vector2::zero) {
+		move.y += AngleToRadian(mouseMove.x * cameraspeed);
+		move.x += AngleToRadian(mouseMove.y * cameraspeed);
 	}
 
 	if (input->GetPad()->GetPadConnect()) {

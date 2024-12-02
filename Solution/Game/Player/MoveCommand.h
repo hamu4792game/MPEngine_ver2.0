@@ -49,6 +49,10 @@ public:
 
 	// ウェブスイングの事後処理、離された後の座標移動
 	Vector3 UpPostWebSwing();
+
+	// 壁移動の更新処理
+	Vector3 UpWallMove(const Vector3& hitNormal, const Vector3& moveVec);
+
 public: // ゲッター
 	const MoveParam& GetParameter() const { return param_; }
 

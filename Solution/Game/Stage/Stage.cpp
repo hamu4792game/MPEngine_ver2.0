@@ -34,7 +34,7 @@ void Stage::initialize() {
 	planeGround_.model_ = std::make_shared<Model>();
 	planeGround_.model_->SetModel(ResourceManager::GetInstance()->FindObject3d("Plane"));
 	planeGround_.model_->SetTexture(ResourceManager::GetInstance()->FindTexture("ground1"));
-	planeGround_.transform_ = WorldTransform(Vector3(1000.0f, 1000.0f, 1.0f), Vector3(AngleToRadian(-90.0f), 0.0f, 0.0f), Vector3(0.0f, 0.01f, 0.0f));
+	planeGround_.transform_ = WorldTransform(Vector3(1000.0f, 1000.0f, 0.0f), Vector3(AngleToRadian(-90.0f), 0.0f, 0.0f), Vector3(0.0f, 0.01f, 0.0f));
 	planeGround_.transform_.UpdateMatrix();
 
 	planeGround_.model_->isActive_ = true;
@@ -207,17 +207,8 @@ void Stage::LevelLoad(LevelData* data) {
 		transform = objectData.transform;
 		// ここからはタイプ別に生成
 		if (objectData.typeName.find("Ground") != std::string::npos) {
-
-			if (objectData.typeName.find("15") != std::string::npos) {
-				auto size = boxes_.size();
-			}
-
 			// 見つかれば
 			boxes_.emplace_back(std::make_shared<Ground>())->Initialize(objectData);
-			// 絶対後で消す
-			if (boxes_.size() == 8 || boxes_.size() == 9) {
-				boxes_.back()->Set(0.6f);
-			}
 		}
 		else if (objectData.typeName.find("Player") != std::string::npos) {
 			playerRespawnpoint_ = objectData.transform;

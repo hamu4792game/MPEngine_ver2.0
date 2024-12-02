@@ -18,9 +18,14 @@ void LockOn::Initialize() {
 	framePos_ = Vector2(-150.0f, -150.0f);
 	frame_->SetColor(Vector4(0.0f, 0.0f, 0.0f, 0.5f));
 	frame_->SetIsActive(false);
+
+	collision_ = std::make_unique<Collider>();
+	collision_->Initialize(&collTrans_, Collider::Type::Line, "CameraRay");
+	collision_->SetLineColor(Vector4(0.0f, 0.0f, 1.0f, 1.0f));
 }
 
 void LockOn::Update(const std::list<std::shared_ptr<Target>>& targets) {
+	
 
 	Search(targets);
 
@@ -35,9 +40,21 @@ void LockOn::Update(const std::list<std::shared_ptr<Target>>& targets) {
 		static float rot = 0.0f;
 		lockOnMark_->SetRotate(rot += 0.05f);
 		lockOnMark_->SetIsActive(true);
+
+		collTrans_.translation_ = Camera3d::GetInstance()->GetTransform().GetPosition();
+		collTrans_.UpdateMatrix();
+		collision_->Update(target_->GetTransform());
 	}
 	else {
 		lockOnMark_->SetIsActive(false);
+	}
+}
+
+void LockOn::OnCollisionStageToRay(const Collider& coll) {
+	Vector3 pushbackVec;
+	if (collision_->OnCollision(coll, pushbackVec)) {
+		lockOnMark_->SetIsActive(false);
+		target_ = nullptr; 
 	}
 }
 

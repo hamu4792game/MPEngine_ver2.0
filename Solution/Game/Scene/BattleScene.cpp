@@ -25,7 +25,7 @@ void BattleScene::Initialize() {
 
 
 	gameUI_ = std::make_unique<GameUI>();
-	gameUI_->Initialize();
+	gameUI_->Initialize(stage_->GetCollectionNum());
 
 	skybox_ = std::make_unique<SkyBox>();
 	skybox_->SetTexture(ResourceManager::GetInstance()->FindTexture("Airport"));
@@ -66,19 +66,8 @@ void BattleScene::Update() {
 	std::list<std::shared_ptr<Target>> listData(stage_->GetTargets());
 	std::list<std::shared_ptr<Ground>> groundListData(stage_->GetGrounds());
 
-	// ターゲットの更新
-	lockOn_->Update(listData);
-	WorldTransform* handle = nullptr;
-	handle = lockOn_->GetTargetTrans();
-	//Vector3* target = pointOfGazeSearch_->Update(groundListData, player_->GetTransform().GetPosition(), cameraTransform_);
-	//if (target) {
-	//	WorldTransform tg = WorldTransform(Vector3::one, Vector3::zero, *target);
-	//	handle = &tg;
-	//}
+	static WorldTransform* handle = nullptr;
 	
-	player_->SetTargetTrans(handle);
-
-
 	time_ = std::min(time_, 300.0f);
 
 	player_->Update();
@@ -88,6 +77,10 @@ void BattleScene::Update() {
 	skybox_->SetTransform(trans);
 	skybox_->Update();
 
+	// ターゲットの更新
+	lockOn_->Update(listData);
+	handle = lockOn_->GetTargetTrans();
+
 	bool gameclear = false;
 	for (auto& coll : stage_->GetCollision()) {
 		gameclear = player_->OnCollisionStage(*coll);
@@ -95,10 +88,19 @@ void BattleScene::Update() {
 		if (player_->OnCollisionDownRayToStage(*coll, hitPoint)) {
 			
 		}
+
+		//if (handle) {
+		//	// ターゲットがnullじゃなければ
+		//	lockOn_->OnCollisionStageToRay(*coll);
+		//	handle = lockOn_->GetTargetTrans();
+		//}
 		if (gameclear) { break; }
 	}
+
+	player_->SetTargetTrans(handle);
+
 	stage_->OnCollition(*player_->GetCollision());
-	gameUI_->Update();
+	gameUI_->Update(stage_->GetCollectionNum());
 
 	uint32_t num = player_->GetEffectNumber();
 	if (num == 1u) {

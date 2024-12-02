@@ -4,6 +4,7 @@
 #include "Math/MathUtl.h"
 #include "Graphics/Sprite/Sprite.h"
 #include "Game/Target/Target.h"
+#include "Utils/Collider/Collider.h"
 
 class LockOn {
 public:
@@ -12,6 +13,7 @@ public:
 
 	void Initialize();
 	void Update(const std::list<std::shared_ptr<Target>>& targets);
+	void OnCollisionStageToRay(const Collider& coll);
 	
 	WorldTransform* GetTargetTrans() const;
 
@@ -26,5 +28,8 @@ private:
 	std::list<std::pair<float, const Target*>> targets_;
 	// ロックオン対象
 	const Target* target_ = nullptr;
+
+	std::unique_ptr<Collider> collision_;
+	WorldTransform collTrans_;
 
 };

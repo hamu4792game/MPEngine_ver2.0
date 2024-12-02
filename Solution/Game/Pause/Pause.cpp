@@ -2,6 +2,14 @@
 #include "Input/Input.h"
 #include "ImGuiManager/ImGuiManager.h"
 
+void Pause::Initialize() {
+	auto rsManager = ResourceManager::GetInstance();
+	backGround_ = std::make_shared<Sprite>();
+	backGround_->SetTexture(rsManager->FindTexture("while2x2"));
+	restart_ = std::make_shared<Sprite>();
+	end_ = std::make_shared<Sprite>();
+}
+
 Pause::Menu Pause::Update(bool& flag) {
 	InputKey(flag);
 #ifdef _DEBUG
@@ -10,9 +18,13 @@ Pause::Menu Pause::Update(bool& flag) {
 	
 	switch (nowMenu_) {
 	case Pause::Restart:
+		//restart_->SetColor(Vector4(1.0f, 0.0f, 0.0f, 1.0f));
+		//end_->SetColor(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
 		ImGui::Text("Restart");
 		break;
 	case Pause::End:
+		///restart_->SetColor(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+		///end_->SetColor(Vector4(1.0f, 0.0f, 0.0f, 1.0f));
 		ImGui::Text("End");
 		break;
 	}
