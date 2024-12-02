@@ -14,7 +14,7 @@ void LockOn::Initialize() {
 	frame_->SetTexture(ResourceManager::GetInstance()->FindTexture("ABCD"));
 
 	lockOnMark_->SetScale(Vector2(64.0f, 64.0f));
-	frame_->SetScale(Vector2(300.0f, 300.0f));
+	frame_->SetScale(Vector2(640.0f, 500.0f));
 	framePos_ = Vector2(-150.0f, -150.0f);
 	frame_->SetColor(Vector4(0.0f, 0.0f, 0.0f, 0.5f));
 	frame_->SetIsActive(false);
@@ -79,8 +79,8 @@ void LockOn::Search(const std::list<std::shared_ptr<Target>>& targets) {
 
 
 		// 最小範囲と最大範囲
-		Vector3 min = Vector3(-30.0f, -30.0f, 70.0f);
-		Vector3 max = Vector3(30.0f, 30.0f, 300.0f);
+		Vector3 min = Vector3(-30.0f, -30.0f, 50.0f);
+		Vector3 max = Vector3(30.0f, 30.0f, 200.0f);
 		// 距離条件チェック
 		if (min.x <= positionView.x && positionView.x <= max.x) {
 			if (min.y <= positionView.y && positionView.y <= max.y) {

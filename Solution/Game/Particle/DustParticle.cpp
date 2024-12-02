@@ -6,7 +6,7 @@ DustParticle::DustParticle() {
 	auto rsManager = ResourceManager::GetInstance();
 	particle_ = std::make_shared<Particle>();
 	particle_->SetModel(rsManager->FindObject3d("Plane"), kNumCount_);
-	particle_->SetTexture(rsManager->FindTexture("UVChecker"));
+	particle_->SetTexture(rsManager->FindTexture("Circle"));
 	particle_->SetBlendMode(BlendMode::Add);
 	particleparam_.resize(kNumCount_);
 	for (uint32_t index = 0u; index < kNumCount_; index++) {

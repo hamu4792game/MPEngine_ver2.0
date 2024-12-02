@@ -120,8 +120,8 @@ void PlayerManager::Update() {
 		bool isSwing; //= webswing_->Update(transform_.GetPosition(), result);
 		isSwing = moveCom_->UpWireTargetMove(transform_.GetPosition(), result);
 		if (isSwing) {
-			inputParam_.isJump = true;
 			fallParam_.JumpInitialize();
+			moveCom_->ExJump(fallParam_);
 			masterSpeed_ = 0.25f;
 			behaviorRequest_ = Behavior::kRoot;
 		}
