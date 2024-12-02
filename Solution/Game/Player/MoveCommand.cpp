@@ -37,7 +37,7 @@ bool MoveCommand::UpInputMove(Vector3 inputMove, WorldTransform& moveVolume, con
 		// y軸には移動しないため0を代入
 		move.y = 0.0f;
 
-		moveVolume.translation_ += move;
+		moveVolume.translation_ += move.Normalize() * speed;
 		moveVolume.rotationQuat_ = Quaternion::MakeFromTwoVector(Vector3::front,move.Normalize());
 
 		// 移動しているので
