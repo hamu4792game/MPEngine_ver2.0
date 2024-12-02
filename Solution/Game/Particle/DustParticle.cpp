@@ -6,7 +6,7 @@ DustParticle::DustParticle() {
 	auto rsManager = ResourceManager::GetInstance();
 	particle_ = std::make_shared<Particle>();
 	particle_->SetModel(rsManager->FindObject3d("Plane"), kNumCount_);
-	particle_->SetTexture(rsManager->FindTexture("Circle"));
+	particle_->SetTexture(rsManager->FindTexture("UVChecker"));
 	particle_->SetBlendMode(BlendMode::Add);
 	particleparam_.resize(kNumCount_);
 	for (uint32_t index = 0u; index < kNumCount_; index++) {
@@ -25,7 +25,7 @@ DustParticle::DustParticle() {
 	minParam_.velocity_ = Vector3(0.0f, 0.5f, 0.0f);
 	maxParam_.velocity_ = Vector3(0.0f, 2.0f, 0.0f);
 
-	minParam_.speed_ = 0.1f;
+	minParam_.speed_ = 0.01f;
 	maxParam_.speed_ = 1.0f;
 
 }
@@ -52,10 +52,11 @@ void DustParticle::Update(const Vector3& emitter) {
 			continue;
 		}
 		particleparam_.at(index).transform_.translation_ += particleparam_.at(index).velocity_ * particleparam_.at(index).speed_;
-		particleparam_.at(index).color_ -= Vector4(0.0f, 0.0f, 0.0f, 0.01f);
+		particleparam_.at(index).color_.w -= 0.01f;
 		if (particleparam_.at(index).color_.w <= 0.0f) {
 			particleparam_.at(index).isAlive_ = false;
 		}
+		particleparam_.at(index).transform_.UpdateMatrix();
 
 		// 入れ子
 		particle_->transform_.at(index) = particleparam_.at(index).transform_;
@@ -74,6 +75,8 @@ void DustParticle::StateInitialize(const Vector3& emitter, const uint32_t& num) 
 		particleparam_.at(num).transform_.translation_ = emitter + randTrans;
 		Vector3 randScale = RandNum(minParam_.transform_.scale_, maxParam_.transform_.scale_);
 		particleparam_.at(num).transform_.scale_ = randScale;
+		particleparam_.at(num).transform_.rotation_.y = AngleToRadian(180.0f);
+		particleparam_.at(num).transform_.UpdateMatrix();
 		particleparam_.at(num).velocity_ = Normalize(RandNum(minParam_.velocity_, maxParam_.velocity_));
 		particleparam_.at(num).speed_ = RandNum(minParam_.speed_, maxParam_.speed_);
 	}

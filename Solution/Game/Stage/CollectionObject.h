@@ -1,5 +1,6 @@
 #pragma once
 #include "ObjectFrame.h"
+#include "Game/Particle/DustParticle.h"
 
 class CollectionObject {
 public:
@@ -25,6 +26,7 @@ private:
 	WorldTransform transform_;
 	WorldTransform collTransform_;
 	std::unique_ptr<Collider> collision_;
+	std::shared_ptr<DustParticle> dustParticle_;
 private:
 	bool isAlive_ = true;
 	bool isAnimation_ = false;

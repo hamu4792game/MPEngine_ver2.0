@@ -28,6 +28,10 @@ void CollectionObject::Initialize(LevelData::ObjectData& objectdata) {
 	isAlive_ = true;
 	isAnimation_ = false;
 	time_ = 0.0f;
+
+	dustParticle_ = std::make_shared<DustParticle>();
+	dustParticle_->Initialize(transform_.GetPosition());
+
 }
 
 bool CollectionObject::Update() {
@@ -36,6 +40,7 @@ bool CollectionObject::Update() {
 	}
 	Animation();
 	UpdateTransform();
+	dustParticle_->Update(transform_.GetPosition());
 
 	return isAlive_;
 }

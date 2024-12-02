@@ -90,7 +90,7 @@ void Particle::UploadInstancingData(const Matrix4x4& viewProjectionMat, const Ma
 		Matrix4x4 wMat = MakeIdentity4x4();
 		if (transform) {
 			//wMat = transform[i].UpdateMatrix();
-			wMat = MakeScaleMatrix(transform[i].scale_) * billboardMat * MakeTranslateMatrix(transform[i].translation_);
+			wMat = MakeScaleMatrix(transform[i].scale_) * (MakeRotateMatrix(transform[i].rotation_) * billboardMat) * MakeTranslateMatrix(transform[i].translation_);
 		}
 		Matrix4x4 wvpMat = wMat * viewProjectionMat;
 		instancingData[i].wvp = wvpMat;
