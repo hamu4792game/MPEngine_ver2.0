@@ -260,13 +260,13 @@ bool PlayerManager::OnCollisionDownRayToStage(const Collider& coll, Vector3& hit
 
 	if (iscoll && coll.GetName() == "Ground") {
 		// 衝突点を返す
-		hitPoint.y = (coll.GetTransform().GetPosition().y + (MakeScale(coll.GetTransform().worldMatrix_).y)) + 0.11f;
+		hitPoint.y = (coll.GetTransform().GetPosition().y + (MakeScale(coll.GetTransform().worldMatrix_).y)) + 0.1f;
 
 		float distance = Length(FindVector(transform_.GetPosition(), hitPoint));
 		if (minDistance_ > distance) {
 			// 最小値の更新
 			minDistance_ = distance;
-			circleShadow_->Update(hitPoint);
+			circleShadow_->Update(hitPoint, distance);
 		}
 		
 	}
@@ -319,7 +319,7 @@ void PlayerManager::TransformUpdate() {
 }
 
 void PlayerManager::LimitMoving() {
-	transform_.translation_.y = std::clamp(transform_.translation_.y, 0.0f, 10000.0f);
+	transform_.translation_.y = std::clamp(transform_.translation_.y, 2.4f, 10000.0f);
 	
 }
 

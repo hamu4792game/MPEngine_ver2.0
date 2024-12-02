@@ -1,4 +1,5 @@
 #include "CircleShadow.h"
+#include <algorithm>
 
 CircleShadow::CircleShadow() {
 	
@@ -15,9 +16,12 @@ void CircleShadow::Initialize() {
 	transform_.rotation_.x = AngleToRadian(-90.0f);
 }
 
-void CircleShadow::Update(const Vector3& playerPos) {
-	
-	transform_.translation_ = playerPos;
+void CircleShadow::Update(const Vector3& hitpoint, const float& distance) {
+	float sc = distance * 0.25f;
+	sc = std::clamp(sc, 0.0f, 3.0f);
+
+	transform_.scale_ = Vector3(sc, sc, 1.0f);
+	transform_.translation_ = hitpoint;
 	transform_.UpdateMatrix();
 	model_->SetTransform(transform_);
 }

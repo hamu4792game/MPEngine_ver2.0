@@ -7,7 +7,7 @@ public:
 	CircleShadow();
 	~CircleShadow() = default;
 	void Initialize();
-	void Update(const Vector3& playerPos);
+	void Update(const Vector3& hitpoint, const float& distance);
 
 private:
 	std::shared_ptr<Model> model_;
