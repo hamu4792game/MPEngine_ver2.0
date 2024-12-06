@@ -57,10 +57,13 @@ void BattleScene::Update() {
 	// ポーズ状態の時
 	if (isPause_) {
 		PauseMenu();
-
+		Input::GetInstance()->GetMouse()->SetLockCursorToCenter(false);
+		Input::GetInstance()->GetMouse()->SetShowCursor(true);
 		//　早期リターン
 		return;
 	}
+	Input::GetInstance()->GetMouse()->SetLockCursorToCenter(true);
+	Input::GetInstance()->GetMouse()->SetShowCursor(false);
 
 	stage_->Update();
 	std::list<std::shared_ptr<Target>> listData(stage_->GetTargets());

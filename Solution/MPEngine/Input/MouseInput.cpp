@@ -1,5 +1,5 @@
 #include "MouseInput.h"
-#include <Base/WindowSupervisor/WindowSupervisor.h>
+#include "Base/WindowSupervisor/WindowSupervisor.h"
 #include <cassert>
 
 void MouseInput::Initialize() {
@@ -23,6 +23,13 @@ void MouseInput::Initialize() {
 }
 
 void MouseInput::Update() {
+	// マウスカーソルの固定 最初にやらなければ移動量が取れないため
+	if (isLockMouseCursorToCenter_) {
+		UpLockCursor();
+	}
+	// カーソル描画の更新 1フレーム遅れるが気にすることではないので突っ張る
+	UpShowCursor();
+
 	// マウスの情報を取得する
 	mouse->Acquire();
 	// 前情報の入力
@@ -35,6 +42,32 @@ void MouseInput::Update() {
 	GetCursorPos(&p);
 	ScreenToClient(WindowSupervisor::GetInstance()->GetHwnd(), &p);
 	mouseState.position = p;
+}
+
+void MouseInput::UpLockCursor(){
+	HWND lHwnd = WindowSupervisor::GetInstance()->GetHwnd();
+	// ウィンドウのクライアント領域を取得
+	RECT clientRect;
+	GetClientRect(lHwnd, &clientRect);
+
+	// クライアント領域の左上をスクリーン座標に変換
+	POINT clientTopLeft = { clientRect.left, clientRect.top };
+	ClientToScreen(lHwnd, &clientTopLeft);
+
+	// クライアント領域の中心を計算
+	int centerX = clientTopLeft.x + (clientRect.right - clientRect.left) / 2;
+	int centerY = clientTopLeft.y + (clientRect.bottom - clientRect.top) / 2;
+
+	// カーソルをウィンドウの中心に移動
+	SetCursorPos(centerX, centerY);
+}
+
+void MouseInput::UpShowCursor() const {
+	if (mouseState.isShowCursor_ == oldMouseState.isShowCursor_) {
+		// 前回と状況が同じなら早期リターン
+		return;
+	}
+	ShowCursor(mouseState.isShowCursor_);
 }
 
 bool MouseInput::PressMouse(MouseButton mousenumber) const {

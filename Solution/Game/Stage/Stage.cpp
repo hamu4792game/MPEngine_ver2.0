@@ -78,7 +78,7 @@ void Stage::Update() {
 			}
 		}
 		else {
-			auto& handle = collisionList_.emplace_back(collectionObject_.at(index)->GetCollision());
+			collisionList_.emplace_back(collectionObject_.at(index)->GetCollision());
 		}
 	}
 

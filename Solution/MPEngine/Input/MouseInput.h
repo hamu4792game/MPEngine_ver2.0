@@ -31,9 +31,17 @@ private:
 	struct MouseParam{
 		DIMOUSESTATE2 state;
 		POINT position;
+		bool isShowCursor_ = true; // マウスカーソルを表示させるか
 	};
 	MouseParam mouseState;
 	MouseParam oldMouseState;
+	bool isLockMouseCursorToCenter_ = false; // マウスカーソルをwindowの中心に固定させるか否か
+
+private:
+	// マウスカーソルのロック 固定というよりは初期化に近い
+	void UpLockCursor();
+	// マウスカーソルの表示更新
+	void UpShowCursor() const;
 
 public:
 	// マウスが押されているか
@@ -57,5 +65,9 @@ public:
 	// マウスのホイール量を取得
 	float GetMouseWheel() const;
 
-	//a
+	// マウスカーソルをwindowの中心に固定するか
+	void SetLockCursorToCenter(const bool& flag) { isLockMouseCursorToCenter_ = flag; }
+
+	void SetShowCursor(const bool& flag) { mouseState.isShowCursor_ = flag; }
+
 };
