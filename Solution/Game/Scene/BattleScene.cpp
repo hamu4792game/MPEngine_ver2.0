@@ -33,12 +33,13 @@ void BattleScene::Initialize() {
 	skybox_->SetTransform(trans);
 
 	pause_ = std::make_unique<Pause>();
+	pause_->Initialize();
 
 	// 音
 	auto rs = ResourceManager::GetInstance();
 	Audio* bgm = rs->FindAudio("Battle");
 	bgm->SoundPlayWave(true);
-	bgm->SetVolume(0.02f);
+	bgm->SetVolume(0.2f);
 
 }
 

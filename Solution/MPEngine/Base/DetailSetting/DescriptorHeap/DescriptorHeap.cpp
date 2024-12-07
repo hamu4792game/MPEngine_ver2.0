@@ -17,7 +17,7 @@ ID3D12DescriptorHeap* DescriptorHeap::CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP
 
 void DescriptorHeap::Release() {
 	if (descriptorHeap_) {
-		descriptorHeap_->Release();
+		//descriptorHeap_->Release();
 	}
 }
 

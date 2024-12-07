@@ -41,6 +41,8 @@ void GameScene::Initialize() {
 
 	rs->AddTexture("TitleText", "Resources/Texture/hud/titleText.png");
 	rs->AddTexture("PushText", "Resources/Texture/hud/pushText.png");
+	rs->AddTexture("Restart", "Resources/Texture/hud/Restart.png");
+	rs->AddTexture("End", "Resources/Texture/hud/Title.png");
 	rs->AddTexture("CollectionObject", "Resources/Texture/hud/collectionObject.png");
 	rs->AddTexture("ABCD", "Resources/Texture/uvChecker.png");
 	rs->AddTexture("Target", "Resources/Texture/hud/target.png");
@@ -64,7 +66,7 @@ void GameScene::Initialize() {
 	//rs->AddAudio("Title", "./Resources/Sound/w006.wav");
 	rs->AddAudio("Battle", "Resources/Audio/mLoop1.mp3");
 
-	sceneRequest_ = Scene::BATTLE;
+	sceneRequest_ = Scene::TITLE;
 	transition_ = std::make_unique<Transition>();
 }
 
@@ -106,6 +108,10 @@ void GameScene::TitleUpdate() {
 	}
 	else {
 		titleScene_->Update();
+	}
+
+	if (titleScene_->IsEndApp()) {
+		endRequest_ = true;
 	}
 
 	if (transition_->Update()) {

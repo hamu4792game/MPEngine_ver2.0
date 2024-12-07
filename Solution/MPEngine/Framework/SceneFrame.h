@@ -14,9 +14,12 @@ public:
 
 	// 終了チェック
 	virtual bool IsEndRequest() { return endRequest_; }
+	virtual bool IsEndApp() { return endApplication_; }
 
 protected:
 	// アニメーション等の事後更新用
 	virtual void SecondUpdate() = 0;
 	bool endRequest_ = false;
+	// アプリケーションを終了するためのフラグ
+	bool endApplication_ = false;
 };

@@ -29,7 +29,9 @@ void MPEngine::Run(GameFrame* game) {
 	while (!winSv_->ProcessMessage()) {
 		//	フレームの開始
 		TimeBaseLoopExecuter fpsManager(60);
-		Update();
+		if (Update()) {
+			break;
+		}
 		fpsManager.TimeAdjustment();
 		
 		if (Input::GetInstance()->GetKey()->TriggerKey(DIK_ESCAPE)) {
@@ -77,7 +79,7 @@ void MPEngine::Initialize(const char* title, int width, int height) {
 
 }
 
-void MPEngine::Update() {
+bool MPEngine::Update() {
 	graphics_->PreDraw();
 	graphics_->SetViewPort(windowWidth_, windowHeight_);
 	input_->Update();
@@ -91,6 +93,9 @@ void MPEngine::Update() {
 	
 	// ゲームシーン処理
 	game_->Update();
+	if (game_->IsEndRequest()) {
+		return true;
+	}
 
 	// 描画処理
 	render.Draw(graphics_->GetSwapChain());
@@ -100,7 +105,7 @@ void MPEngine::Update() {
 	render.PostDraw(graphics_->GetSwapChain());
 
 	graphics_->PostDraw();
-
+	return false;
 }
 
 void MPEngine::Finalize() {

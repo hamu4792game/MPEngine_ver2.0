@@ -43,6 +43,10 @@ void TitleScene::Update() {
 		endRequest_ = true;
 	}
 
+	if (input->GetKey()->TriggerKey(DIK_ESCAPE)) {
+		endApplication_ = true;
+	}
+
 	titleUI_->Update();
 	stage_->Update();
 	player_->PostUpdate();

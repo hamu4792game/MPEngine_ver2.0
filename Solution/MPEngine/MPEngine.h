@@ -21,7 +21,7 @@ public:
 	void Run(GameFrame* game = nullptr);
 private:
 	void Initialize(const char* title, int width, int height);
-	void Update();
+	bool Update();
 	void Finalize();
 public:
 	int windowWidth_ = 1280;

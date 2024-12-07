@@ -3,7 +3,7 @@
 
 class Pause {
 public:
-	Pause() = default;
+	Pause();
 	~Pause() = default;
 
 public:
@@ -21,7 +21,7 @@ public:
 private:
 	void InputKey(bool& flag);
 
-	Menu nowMenu_;
+	Menu nowMenu_ = Menu::Restart;
 
 	std::shared_ptr<Sprite> backGround_;
 	std::shared_ptr<Sprite> restart_;

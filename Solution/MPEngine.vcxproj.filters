@@ -278,6 +278,9 @@
     <ClCompile Include="Game\Shadow\CircleShadow.cpp">
       <Filter>Game\Shadow</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Tutorial\Tutorial.cpp">
+      <Filter>Game\Tutorial</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -578,6 +581,9 @@
     <ClInclude Include="Game\Shadow\CircleShadow.h">
       <Filter>Game\Shadow</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Tutorial\Tutorial.h">
+      <Filter>Game\Tutorial</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="MPEngine">
@@ -816,6 +822,9 @@
     </Filter>
     <Filter Include="Game\Shadow">
       <UniqueIdentifier>{ef482deb-c333-496c-9dac-5fbb91632f62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Tutorial">
+      <UniqueIdentifier>{40580194-215b-4a62-9f0e-c17a58b20439}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
