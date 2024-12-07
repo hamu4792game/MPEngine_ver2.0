@@ -41,9 +41,13 @@ void GameScene::Initialize() {
 
 	rs->AddTexture("TitleText", "Resources/Texture/hud/titleText.png");
 	rs->AddTexture("PushText", "Resources/Texture/hud/pushText.png");
-	rs->AddTexture("Restart", "Resources/Texture/hud/Restart.png");
-	rs->AddTexture("End", "Resources/Texture/hud/Title.png");
+	rs->AddTexture("Restart", "Resources/Texture/hud/restart.png");
+	rs->AddTexture("End", "Resources/Texture/hud/title.png");
+	rs->AddTexture("MoveKey", "Resources/Texture/hud/moveKey.png");
+	rs->AddTexture("Mouse", "Resources/Texture/hud/mouse.png");
+	rs->AddTexture("Escape", "Resources/Texture/hud/escape.png");
 	rs->AddTexture("CollectionObject", "Resources/Texture/hud/collectionObject.png");
+
 	rs->AddTexture("ABCD", "Resources/Texture/uvChecker.png");
 	rs->AddTexture("Target", "Resources/Texture/hud/target.png");
 	rs->AddTexture("Block", "Resources/Texture/ground.png");
