@@ -2,6 +2,7 @@
 #include "Base/Manager/ResourceManager/ResourceManager.h"
 #include "ImGuiManager/ImGuiManager.h"
 #include "Utils/GlobalVariables/GlobalVariables.h"
+#include "Input/Input.h"
 
 void GameUI::Initialize(const uint32_t& collectionNum) {
 	auto rsManager = ResourceManager::GetInstance();
@@ -33,7 +34,7 @@ void GameUI::Initialize(const uint32_t& collectionNum) {
 }
 
 void GameUI::Update(const uint32_t& collectionNum) {
-
+	ImGuiProc();
 	for (uint32_t index = 0; index < collectionObjects_.size(); index++) {
 		// 今残ってる収集物以上なら色変える
 		if (collectionNum <= index) {
@@ -44,6 +45,16 @@ void GameUI::Update(const uint32_t& collectionNum) {
 		}
 	}
 
+	if (Input::GetInstance()->GetMouse()->PressMouse(MouseInput::LEFT)) {
+		huds_.at(UniqueHud::Mouse)->SetUVPosition(Vector2(0.5f, 0.0f));
+	}
+	else {
+		huds_.at(UniqueHud::Mouse)->SetUVPosition(Vector2::zero);
+	}
+
+}
+
+void GameUI::ImGuiProc() {
 #ifdef _DEBUG
 	ImGui::Begin("UI");
 	int index = 0;

@@ -12,6 +12,9 @@ public:
 	void Update(const uint32_t& collectionNum);
 
 private:
+	void ImGuiProc();
+
+private:
 	enum UniqueHud {
 		MoveKey,
 		Mouse,
