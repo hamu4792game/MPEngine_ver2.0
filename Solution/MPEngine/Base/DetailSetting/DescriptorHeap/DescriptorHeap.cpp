@@ -15,6 +15,12 @@ ID3D12DescriptorHeap* DescriptorHeap::CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP
 	return descriptorHeap_.Get();
 }
 
+void DescriptorHeap::Release() {
+	if (descriptorHeap_) {
+		descriptorHeap_->Release();
+	}
+}
+
 D3D12_CPU_DESCRIPTOR_HANDLE DescriptorHeap::GetCPUDescriptorHandle(uint32_t index) {
 	unsigned long long size = ((DeviceManager::GetInstance()->GetDevice()->GetDescriptorHandleIncrementSize(heapType_)) * static_cast<unsigned long long>(index));
 	D3D12_CPU_DESCRIPTOR_HANDLE handleCPU = descriptorHeap_->GetCPUDescriptorHandleForHeapStart();

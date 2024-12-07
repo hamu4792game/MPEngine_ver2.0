@@ -18,7 +18,7 @@ public:
 	//	DescriptorHeap作成の関数
 	ID3D12DescriptorHeap* CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE heapType, uint32_t numDescriptors, bool shaderVisible);
 
-	void Release() { descriptorHeap_->Release(); }
+	void Release();
 
 private:
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap_ = nullptr;
