@@ -11,6 +11,7 @@ void TitleScene::Initialize() {
 	auto rs = ResourceManager::GetInstance();
 	Audio* titleAudio = rs->FindAudio("Battle");
 	titleAudio->SoundPlayWave(true);
+	titleAudio->SetVolume(0.25f);
 
 	stage_ = std::make_unique<Stage>();
 	LevelData data;
@@ -19,6 +20,11 @@ void TitleScene::Initialize() {
 
 	player_ = std::make_unique<PlayerManager>();
 	player_->Initialize(stage_->GetPlayerRespawnPoint());
+
+	tutorial_ = std::make_shared<Sprite>();
+	tutorial_->SetTexture(rs->FindTexture("tutorial"));
+	tutorial_->SetScale(Vector2(1280.0f, 720.0f));
+	tutorial_->SetIsActive(false);
 
 }
 
@@ -39,8 +45,14 @@ void TitleScene::Update() {
 			flag = true;
 		}
 	}
+	if (tutorialDraw_) {
+		if (flag) {
+			endRequest_ = true;
+		}
+	}
 	if (flag) {
-		endRequest_ = true;
+		tutorialDraw_ = true;
+		tutorial_->SetIsActive(true);
 	}
 
 	if (input->GetKey()->TriggerKey(DIK_ESCAPE)) {

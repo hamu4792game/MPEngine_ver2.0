@@ -22,6 +22,7 @@ void GameScene::Initialize() {
 	rs->AddTexture("white2x2", "Resources/Texture/white2x2.png");
 	rs->AddTexture("UVChecker","Resources/Texture/uvChecker.png");
 	rs->AddTexture("transparency","Resources/Texture/transparency.png");
+	rs->AddTexture("tutorial","Resources/Texture/tutorial.png");
 
 	rs->AddModel("Box", "Resources/Model/AnimatedCube/AnimatedCube.gltf");
 	rs->AddModel("Plane", "Resources/Model/plane/plane.obj");

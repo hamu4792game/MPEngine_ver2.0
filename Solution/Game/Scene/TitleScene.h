@@ -21,5 +21,7 @@ private:
 	std::unique_ptr<TitleUI> titleUI_;
 	std::unique_ptr<Stage> stage_;
 	std::unique_ptr<PlayerManager> player_;
+	std::shared_ptr<Sprite> tutorial_;
 
+	bool tutorialDraw_ = false;
 };
