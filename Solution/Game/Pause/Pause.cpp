@@ -40,7 +40,6 @@ Pause::Menu Pause::Update(bool& flag) {
 	static Pam restart;
 	static Pam end;
 
-
 	ImGui::DragFloat2("restartScale", &restart.scale.x, 1.0f);
 	ImGui::DragFloat2("restartTranslate", &restart.translate.x, 1.0f);
 	ImGui::DragFloat2("endScale", &end.scale.x, 1.0f);
@@ -51,21 +50,19 @@ Pause::Menu Pause::Update(bool& flag) {
 	end_->SetScale(end.scale);
 	end_->SetTranslate(end.translate);*/
 	
+	ImGui::End();
+#endif // _DEBUG
+
 	switch (nowMenu_) {
 	case Pause::Restart:
 		restart_->SetColor(Vector4(1.0f, 0.0f, 0.0f, 1.0f));
 		end_->SetColor(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
-		ImGui::Text("Restart");
 		break;
 	case Pause::End:
 		restart_->SetColor(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
 		end_->SetColor(Vector4(1.0f, 0.0f, 0.0f, 1.0f));
-		ImGui::Text("End");
 		break;
 	}
-
-	ImGui::End();
-#endif // _DEBUG
 
 	// 
 	return nowMenu_;

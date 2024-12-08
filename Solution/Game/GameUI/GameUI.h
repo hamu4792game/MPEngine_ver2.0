@@ -42,7 +42,7 @@ private:
 	std::array<Parameter, UniqueHud::kMaxNum> spriteParam{
 		Parameter{Vector2(170.0f,100.0f),Vector2(-490.0f,-250.0f),Vector2(1.0f / 2.0f,1.0f),Vector2::zero},
 		Parameter{Vector2(60.0f,90.0f),Vector2(490.0f,-250.0f),Vector2(1.0f / 2.0f,1.0f),Vector2::zero},
-		Parameter{Vector2(50.0f,50.0f),Vector2(-555.0f,300.0f),Vector2::one,Vector2::zero},
+		Parameter{Vector2(50.0f,50.0f),Vector2(-605.0f,325.0f),Vector2::one,Vector2::zero},
 	};
 
 };
