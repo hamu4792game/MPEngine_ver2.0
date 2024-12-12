@@ -160,7 +160,7 @@ float Quaternion::Dot(const Quaternion& q0, const Quaternion& q1) {
 Quaternion Quaternion::Slerp(const Quaternion& q0, const Quaternion& q1, const float& t) {
 	float dot = Quaternion::Dot(q0, q1);
 	Quaternion localQ0 = q0;
-	constexpr float ep = 1.0f - std::numeric_limits<float>::epsilon();
+	//constexpr float ep = 1.0f - std::numeric_limits<float>::epsilon();
 	if (dot < 0.0f) {
 		localQ0 = (-q0); // もう片方の回転を利用する
 		dot = -dot; // 内積も反転

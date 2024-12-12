@@ -251,12 +251,11 @@ void ModelRender::Initialize() {
 
 void ModelRender::DrawCommand(Camera3d* cameraPtr) {
 	auto list = ListManager::GetInstance()->GetList();
-	auto rsManager = ResourceManager::GetInstance();
 
 	list->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	directionalLight_->Update();
-	auto camera = Camera3d::GetInstance();
+	auto camera = cameraPtr;
 	Matrix4x4 viewProjectionMat = camera->GetViewProMat();
 	camera->cCamera->worldPosition = camera->GetTransform().GetPosition();
 

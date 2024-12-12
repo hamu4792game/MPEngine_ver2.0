@@ -325,9 +325,9 @@ std::vector<ModelData> ResourceManager::LoadModelFile(const std::string& filenam
 		// gltfだった場合は特殊なため、例外処理を入れる
 		handle = 0u;
 	}
-	for (uint32_t index = 0; index < scene->mNumMeshes; index++) {
-		aiMesh* mesh = scene->mMeshes[index];
-		modelDatas.at(static_cast<uint32_t>(index)).material.textureFilePath = texturesPath.at(mesh->mMaterialIndex - handle);
+	for (uint32_t i = 0; i < scene->mNumMeshes; i++) {
+		aiMesh* mesh = scene->mMeshes[i];
+		modelDatas.at(static_cast<uint32_t>(i)).material.textureFilePath = texturesPath.at(mesh->mMaterialIndex - handle);
 	}
 
 	return modelDatas;

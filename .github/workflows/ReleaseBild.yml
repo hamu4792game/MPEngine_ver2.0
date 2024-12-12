@@ -1,0 +1,50 @@
+name: DebugBuild
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+env:
+  SOLUTION_FILE_PATH: Solution/Engine.sln
+  CONFIGURATION: Release
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        configuration: [Release]
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4.1.1
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1.3.1
+      with: 
+        msbuild-architecture: x64
+
+    - name: Build
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: msbuild ${{env.SOLUTION_FILE_PATH}} /p:Platform=x64,Configuration=${{ matrix.configuration }}
+
+    - name : Missbuild
+      if: failure()
+      env:
+        DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+      run: |
+        $payload = @{
+          content = "@here Build failed in $env:GITHUB_REPOSITORY by $env:GITHUB_ACTOR"
+          username = "GitHub Actions"
+        }
+        $jsonPayload = $payload | ConvertTo-Json -Compress
+        Invoke-RestMethod -Uri $env:DISCORD_WEBHOOK_URL -Method Post -Body $jsonPayload -ContentType 'application/json'
+      shell: pwsh
+

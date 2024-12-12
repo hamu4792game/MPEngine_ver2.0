@@ -55,7 +55,6 @@ void ModelAnimation::Update(const WorldTransform& transform) {
 
 float ModelAnimation::ApplyAnimation(const float& animationTime) {
 	float result = std::fmod(animationTime, data_->duration);
-	int index = 0;
 	for (Joint& joint : skeleton_.joints) {
 		// 対象のJointのAnimationがあれば、相対の適応を行う。下のif文はC++17から可能になった初期化付きif文
 		if (auto it = data_->nodeAnimations.find(joint.name); it != data_->nodeAnimations.end()) {
@@ -75,7 +74,6 @@ void ModelAnimation::Draw(const WorldTransform& transform) {
 		int32_t handle = joint.parent.value();
 		line->SetLine(skeleton_.joints[handle].skeletonSpaceMatrix.GetPosition(), skeleton_.joints[joint.index].skeletonSpaceMatrix.GetPosition());
 	}*/
-	int index = 0;
 	for (Joint& joint : skeleton_.joints) {
 		if (!joint.parent.has_value()) { continue; }
 		int32_t handle = joint.parent.value();
@@ -182,6 +180,7 @@ SkinCluster ModelAnimation::CreateSkinCluster(const Skeleton& skeleton, const Mo
 }
 
 void ModelAnimation::Update(Skeleton& skeleton) {
+	skeleton;
 	// 全てのJointを更新、親が若いので通常ループで処理可能になっている
 	for (Joint& joint : skeleton_.joints) {
 		joint.transform.isQuaternion_ = true;

@@ -18,9 +18,7 @@ bool WireTargetMove::Update(const Vector3& player, Vector3& result) {
 	// 現在の距離がいくつ以下になったら速度を緩める
 	float distance = Distance(player, target_);
 
-	const float kDistanceLimit = 10.0f; // 距離制限
-	
-	float accRate = param_->accelerationRate;
+
 	if (distance > oldDistance_ || param_->acceleration <= 0.0f) {
 		flag = true;
 	}

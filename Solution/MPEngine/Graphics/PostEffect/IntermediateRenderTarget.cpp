@@ -64,7 +64,7 @@ void IntermediateRenderTarget::CreatePipelineState() {
 #pragma endregion
 }
 
-uint8_t IntermediateRenderTarget::PreProcess(ID3D12GraphicsCommandList* comList, uint8_t setHandleNumber, bool thisResource) {
+uint32_t IntermediateRenderTarget::PreProcess(ID3D12GraphicsCommandList* comList, uint32_t setHandleNumber, bool thisResource) {
 	if (thisResource) {
 		GraphicsManager::CreateBarrier(renderTextureResource_.Get(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
 	}
@@ -73,7 +73,7 @@ uint8_t IntermediateRenderTarget::PreProcess(ID3D12GraphicsCommandList* comList,
 	return srvHandleNum_;
 }
 
-uint8_t IntermediateRenderTarget::PostProcess() {
+uint32_t IntermediateRenderTarget::PostProcess() {
 	GraphicsManager::CreateBarrier(renderTextureResource_.Get(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 	return srvHandleNum_;
 }

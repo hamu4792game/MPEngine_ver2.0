@@ -40,8 +40,8 @@ LevelData* LevelData::Load(const std::string fileName) {
 	levelData->objects.reserve(kMaxObjectNum); // 先に場所だけ作っておく
 	
 	// "object"のオブジェクトを走査
-	for (nlohmann::json& object : deserialized["objects"]) {
-		ObjectScan(levelData, object);
+	for (nlohmann::json& obj : deserialized["objects"]) {
+		ObjectScan(levelData, obj);
 	}
 	return levelData;
 }
@@ -181,8 +181,8 @@ void LevelData::ObjectScan(LevelData* levelData, nlohmann::json& object, WorldTr
 
 	// オブジェクト走査を再帰関数にまとめ、再帰呼び出しで枝を走査する
 	if (object.contains("children")) {
-		for (nlohmann::json& object : object["children"]) {
-			ObjectScan(levelData, object, parent_ptr);
+		for (nlohmann::json& obj : object["children"]) {
+			ObjectScan(levelData, obj, parent_ptr);
 		}
 	}
 }

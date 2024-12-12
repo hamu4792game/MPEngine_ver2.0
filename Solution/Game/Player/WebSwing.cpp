@@ -21,7 +21,6 @@ void WebSwing::Initialize(const Vector3& anchor, const Vector3& playerPos, const
 void WebSwing::SetWeb(const Vector3& target, const Vector3& player) {
     target_ = target;
     Vector3 vec = FindVector(player, target_);
-	float distance = Length(vec);
     moveVec_ = vec.Normalize();
     maxLength_ = Length(vec); // ロープの長さ。最初にセットしたタイミングで決まる
 }
@@ -50,7 +49,7 @@ Vector3 WebSwing::Update(const Vector3& playerPos, bool& flag) {
 					isHanging = false;         // 滞空時間が終了したら滞空状態を解除
 					hangTimeCounter = 0.0f;    // カウンターをリセット
 					isSwing_ = false;
-					moveVec_ = ReleaseWeb(ball_, anchor_, direction);
+					moveVec_ = ReleaseWeb(ball_, direction);
 				}
 				return moveVec_; // 滞空中は物理演算を行わない
 			}
@@ -120,7 +119,7 @@ Vector3 WebSwing::Update(const Vector3& playerPos, bool& flag) {
     return moveVec_;
 }
 
-Vector3 WebSwing::ReleaseWeb(PlayerParam& ball, Vector3 anchor, Vector3& swingDirection) {
+Vector3 WebSwing::ReleaseWeb(PlayerParam& ball,Vector3& swingDirection) {
 	const float jumpStrength = 3.0f;  // ジャンプ初速の強さ
 	const float airDamping = 1.0f;    // 空中での減衰効果
 
@@ -133,7 +132,6 @@ Vector3 WebSwing::ReleaseWeb(PlayerParam& ball, Vector3 anchor, Vector3& swingDi
 }
 
 Vector3 WebSwing::ApplyAirMovement(PlayerParam& ball, float airDamping) {
-	const float deltaTime = 1.0f;
 
 	// 空中での減衰と重力の影響
 	ball.velocity *= airDamping;

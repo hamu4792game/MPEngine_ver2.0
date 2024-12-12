@@ -98,7 +98,7 @@ bool MPEngine::Update() {
 	}
 
 	// 描画処理
-	render.Draw(graphics_->GetSwapChain());
+	render.Draw();
 
 	graphics_->PostDrawProcess();
 

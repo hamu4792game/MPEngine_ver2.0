@@ -101,7 +101,6 @@ void LineRender::DrawCommand(const Matrix4x4& viewProjectionMat) {
 		UploadInstancingData(activeList, viewProjectionMat);
 
 		list->SetPipelineState(graphicsPipeline_->GetPipelineState());
-		auto rsManager = ResourceManager::GetInstance();
 		list->SetGraphicsRootDescriptorTable(0, instancingSrvHandle_.GetGPU()); // wvp・color
 
 		// 描画

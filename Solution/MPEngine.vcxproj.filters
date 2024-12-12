@@ -179,9 +179,6 @@
     <ClCompile Include="MPEngine\Utils\Collider\Collider.cpp">
       <Filter>MPEngine\Utils\Collider</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Camera\AttackCamera.cpp">
-      <Filter>Game\Camera\AttackCamera</Filter>
-    </ClCompile>
     <ClCompile Include="MPEngine\Input\MouseInput.cpp">
       <Filter>MPEngine\Input</Filter>
     </ClCompile>
@@ -479,9 +476,6 @@
     <ClInclude Include="MPEngine\Utils\Collider\Collider.h">
       <Filter>MPEngine\Utils\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Camera\AttackCamera.h">
-      <Filter>Game\Camera\AttackCamera</Filter>
-    </ClInclude>
     <ClInclude Include="MPEngine\Input\MouseInput.h">
       <Filter>MPEngine\Input</Filter>
     </ClInclude>
@@ -496,9 +490,6 @@
     </ClInclude>
     <ClInclude Include="MPEngine\Graphics\PostEffect\BaseEffect.h">
       <Filter>MPEngine\Graphics\PostEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Player\PlayerManager.h">
-      <Filter>Game\Player</Filter>
     </ClInclude>
     <ClInclude Include="Game\Player\PlayerAnimation.h">
       <Filter>Game\Player</Filter>
@@ -583,6 +574,9 @@
     </ClInclude>
     <ClInclude Include="Game\Tutorial\Tutorial.h">
       <Filter>Game\Tutorial</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Player\PlayerManager.h">
+      <Filter>Game\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -738,9 +732,6 @@
     </Filter>
     <Filter Include="MPEngine\Utils\Collider">
       <UniqueIdentifier>{b1c4d18d-1ea5-41f2-8ed6-205cb6096e7c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Camera\AttackCamera">
-      <UniqueIdentifier>{fe9aa31c-dcd6-4639-8bc2-bcce12cd4b74}</UniqueIdentifier>
     </Filter>
     <Filter Include="MPEngine\Math\Quaternion">
       <UniqueIdentifier>{121381fe-4a17-4543-a3e7-335d542d1272}</UniqueIdentifier>

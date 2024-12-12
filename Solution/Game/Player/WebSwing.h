@@ -39,7 +39,7 @@ private: /// 構造体
 private:
 
 	// 離した瞬間の処理
-	Vector3 ReleaseWeb(PlayerParam& ball, Vector3 anchor, Vector3& swingDirection);
+	Vector3 ReleaseWeb(PlayerParam& ball, Vector3& swingDirection);
 
 public:
 	// 離された後の移動処理

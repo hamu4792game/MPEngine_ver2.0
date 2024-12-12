@@ -5,6 +5,7 @@
 #include <xaudio2.h>
 #pragma comment(lib,"xaudio2.lib")
 
+// 1つしか必要ないものをまとめるためのデータ用クラス
 class MasterAudio {
 private:
 	MasterAudio() = default;
@@ -22,6 +23,7 @@ private:
 
 };
 
+// audio用の個々クラス
 class Audio {
 public:
 	Audio() = default;
@@ -52,8 +54,8 @@ private:
 		uint32_t bufferSize;// バッファのサイズ
 	};
 
-	SoundData soundData{};
-	IXAudio2SourceVoice* pSourceVoice = nullptr;
+	SoundData soundData_{};
+	IXAudio2SourceVoice* pSourceVoice_ = nullptr;
 
 public:
 	//	サウンドデータの読み込み関数

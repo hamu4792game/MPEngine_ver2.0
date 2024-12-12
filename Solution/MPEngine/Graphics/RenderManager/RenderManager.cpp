@@ -34,7 +34,7 @@ void RenderManager::Initialize(SwapChain* swapchain) {
 
 }
 
-void RenderManager::Draw(SwapChain* swapchain) {
+void RenderManager::Draw() {
 	auto list = ListManager::GetInstance()->GetList();
 	auto rsManager = ResourceManager::GetInstance();
 	auto srvHeap = rsManager->GetSRVHeap()->GetDescriptorHeap();
@@ -76,7 +76,7 @@ void RenderManager::PostDraw(SwapChain* swapchain) {
 	
 	// 0枚目をRenderとして使用
 	intermediateRenderTarget_.at(0)->PreProcess(list, intermediateRenderTarget_.at(0)->GetRTVHandle());
-	uint8_t handleNum = 10u; // 最初はRenderのSRV
+	uint32_t handleNum = 10u; // 最初はRenderのSRV
 	
 	grayscale_->DrawCommand(list, handleNum);
 	
@@ -92,7 +92,7 @@ void RenderManager::PostDraw(SwapChain* swapchain) {
 	// 1枚目をtextureとして使用
 	handleNum = intermediateRenderTarget_.at(1)->PostProcess();
 	// swapchainに書き込み
-	auto index = swapchain->GetSwapChain()->GetCurrentBackBufferIndex();
+	uint32_t index = swapchain->GetSwapChain()->GetCurrentBackBufferIndex();
 	intermediateRenderTarget_.at(1)->PreProcess(list, index, false);
 
 	hsvFilter_->DrawCommand(list, handleNum);

@@ -35,7 +35,7 @@ void MasterAudio::Intialize() {
 }
 
 Audio::~Audio() {
-	SoundUnload(&soundData);
+	SoundUnload(&soundData_);
 }
 
 void Audio::SoundLoadWave(const std::string fileName) {
@@ -99,9 +99,9 @@ void Audio::SoundLoadWave(const std::string fileName) {
 	file.close();
 	// 読み込んだ音声データをreturn
 	// returnする為の音声データ
-	soundData.wfex = format.fmt;
-	soundData.pBuffer = reinterpret_cast<BYTE*>(pBuffer);
-	soundData.bufferSize = data.size;
+	soundData_.wfex = format.fmt;
+	soundData_.pBuffer = reinterpret_cast<BYTE*>(pBuffer);
+	soundData_.bufferSize = data.size;
 }
 
 void Audio::SoundLoad(const std::string fileName) {
@@ -122,11 +122,11 @@ void Audio::SoundLoad(const std::string fileName) {
 	MFCreateMediaType(&pMFMediaType);
 	pMFMediaType->SetGUID(MF_MT_MAJOR_TYPE, MFMediaType_Audio);
 	pMFMediaType->SetGUID(MF_MT_SUBTYPE, MFAudioFormat_PCM);
-	pMFSourceReader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM, nullptr, pMFMediaType);
+	pMFSourceReader->SetCurrentMediaType(static_cast<DWORD>(MF_SOURCE_READER_FIRST_AUDIO_STREAM), nullptr, pMFMediaType);
 
 	pMFMediaType->Release();
 	pMFMediaType = nullptr;
-	pMFSourceReader->GetCurrentMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM, &pMFMediaType);
+	pMFSourceReader->GetCurrentMediaType(static_cast<DWORD>(MF_SOURCE_READER_FIRST_AUDIO_STREAM), &pMFMediaType);
 
 	// オーディオデータ形式の作成
 	WAVEFORMATEX* waveFormat{ nullptr };
@@ -137,7 +137,7 @@ void Audio::SoundLoad(const std::string fileName) {
 	while (true) {
 		IMFSample* pMFSample{ nullptr };
 		DWORD dwStreamFlags{ 0 };
-		pMFSourceReader->ReadSample(MF_SOURCE_READER_FIRST_AUDIO_STREAM, 0, nullptr, &dwStreamFlags, nullptr, &pMFSample);
+		pMFSourceReader->ReadSample(static_cast<DWORD>(MF_SOURCE_READER_FIRST_AUDIO_STREAM), 0, nullptr, &dwStreamFlags, nullptr, &pMFSample);
 
 		if (dwStreamFlags & MF_SOURCE_READERF_ENDOFSTREAM) {
 			break;
@@ -162,10 +162,10 @@ void Audio::SoundLoad(const std::string fileName) {
 	BYTE* pMemory = new BYTE[mediaData.size()];
 	memcpy(pMemory, mediaData.data(), mediaData.size());
 
-	// soundDataに代入
-	soundData.pBuffer = pMemory;
-	soundData.bufferSize = sizeof(BYTE) * static_cast<UINT32>(mediaData.size());
-	soundData.wfex = *waveFormat;
+	// soundData_に代入
+	soundData_.pBuffer = pMemory;
+	soundData_.bufferSize = sizeof(BYTE) * static_cast<UINT32>(mediaData.size());
+	soundData_.wfex = *waveFormat;
 
 	file.close();
 
@@ -193,39 +193,39 @@ void Audio::SoundPlayWave(bool loop) {
 
 	//	波形フォーマットを元にSourceVoiceの生成
 	//	既にあればスルー
-	if (!pSourceVoice) {
-		result = MasterAudio::GetInstance()->GetAudio()->CreateSourceVoice(&pSourceVoice, &soundData.wfex);
+	if (!pSourceVoice_) {
+		result = MasterAudio::GetInstance()->GetAudio()->CreateSourceVoice(&pSourceVoice_, &soundData_.wfex);
 		assert(SUCCEEDED(result));
 	}
 
 	//	再生する波形データの設定
 	XAUDIO2_BUFFER buf{};
-	buf.pAudioData = soundData.pBuffer;
-	buf.AudioBytes = soundData.bufferSize;
+	buf.pAudioData = soundData_.pBuffer;
+	buf.AudioBytes = soundData_.bufferSize;
 	buf.Flags = XAUDIO2_END_OF_STREAM;
 	//	ループしたい時
 	if (loop) { buf.LoopCount = XAUDIO2_LOOP_INFINITE; };
-	result = pSourceVoice->SubmitSourceBuffer(&buf);
+	result = pSourceVoice_->SubmitSourceBuffer(&buf);
 	//	波形データの再生
-	result = pSourceVoice->Start();
+	result = pSourceVoice_->Start();
 }
 
 void Audio::SoundStop() {
-	if (pSourceVoice) {
-		pSourceVoice->Stop();
-		pSourceVoice = nullptr;
+	if (pSourceVoice_) {
+		pSourceVoice_->Stop();
+		pSourceVoice_ = nullptr;
 	}
 }
 
 void Audio::Pose() {
-	pSourceVoice->Stop();
+	pSourceVoice_->Stop();
 }
 
 void Audio::ReStart() {
-	pSourceVoice->Start();
+	pSourceVoice_->Start();
 }
 
 void Audio::SetVolume(float volume) {
 	// ボリュームのセット
-	pSourceVoice->SetVolume(volume);
+	pSourceVoice_->SetVolume(volume);
 }

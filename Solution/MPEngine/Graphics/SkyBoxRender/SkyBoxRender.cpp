@@ -109,7 +109,6 @@ void SkyBoxRender::DrawCommand(const Matrix4x4& viewProjectionMat) {
 		list->SetPipelineState(graphicsPipeline_->GetPipelineState());
 		list->IASetVertexBuffers(0, 1, &skybox->vertexBufferView_);
 		list->IASetIndexBuffer(&skybox->indexBufferView_);
-		auto rsManager = ResourceManager::GetInstance();
 		list->SetGraphicsRootDescriptorTable(0, skybox->texture_->GetHandle().GetGPU()); // Texture
 		list->SetGraphicsRootConstantBufferView(1, skybox->cMat.GetGPUVirtualAddress()); // cMat
 		list->SetGraphicsRootConstantBufferView(2, skybox->cMaterial.GetGPUVirtualAddress()); // cMaterial
