@@ -52,7 +52,8 @@ bool WindowSupervisor::ProcessMessage() {
 
 void WindowSupervisor::CreateGameWindow(const wchar_t* title, int32_t clientWidth, int32_t clientHeight) {
 	//	COMの初期化を行う
-	HRESULT hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
+	HRESULT hr;
+	hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
 	assert(SUCCEEDED(hr));
 
 	//	ウィンドウプロシージャ

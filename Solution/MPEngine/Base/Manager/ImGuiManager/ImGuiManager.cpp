@@ -35,6 +35,7 @@ void ImGuiManager::Initialize(int bufferCount) {
 		srvHeap->GetGPUDescriptorHandle(0)
 	);
 #endif // _DEBUG
+	bufferCount;
 }
 
 void ImGuiManager::Finalize() {
@@ -69,6 +70,7 @@ void ImGuiManager::Draw(ID3D12GraphicsCommandList* list) {
 #ifdef _DEBUG
 	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), list);
 #endif // _DEBUG
+	list;
 }
 
 

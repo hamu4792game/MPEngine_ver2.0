@@ -1,6 +1,9 @@
 <img src="Solution/Resources/icon.ico" width="54" height="54" />
 
 # <span style="color:#ff0000">MPEngine</span>
+[![DebugBuild](https://github.com/hamu4792game/MPEngine_ver2.0/actions/workflows/DebugBild.yml/badge.svg)](https://github.com/hamu4792game/MPEngine_ver2.0/actions/workflows/DebugBild.yml)
+[![ReleaseBuild](https://github.com/hamu4792game/MPEngine_ver2.0/actions/workflows/ReleaseBuild.yml/badge.svg)](https://github.com/hamu4792game/MPEngine_ver2.0/actions/workflows/ReleaseBuild.yml)
+
 
 ## エンジンのこだわり
 ### アプリケーション特化

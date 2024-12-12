@@ -103,7 +103,8 @@ void GraphicsPipeline::CreatePipeline(PipelineDesc pipelineDesc, BlendMode type)
 #pragma endregion
 
 	auto device = DeviceManager::GetInstance();
-	HRESULT hr = device->GetDevice()->CreateGraphicsPipelineState(&graphicsPipelineStateDesc, IID_PPV_ARGS(pipelineState_.GetAddressOf()));
+	HRESULT hr;
+	hr = device->GetDevice()->CreateGraphicsPipelineState(&graphicsPipelineStateDesc, IID_PPV_ARGS(pipelineState_.GetAddressOf()));
 	assert(SUCCEEDED(hr));
 
 }

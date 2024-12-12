@@ -41,7 +41,7 @@ jobs:
         DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
       run: |
         $payload = @{
-          content = "@here Build failed in $env:GITHUB_REPOSITORY by $env:GITHUB_ACTOR"
+          content = "@here DebugBuild failed in $env:GITHUB_REPOSITORY by $env:GITHUB_ACTOR"
           username = "GitHub Actions"
         }
         $jsonPayload = $payload | ConvertTo-Json -Compress
