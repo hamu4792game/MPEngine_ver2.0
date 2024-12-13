@@ -23,6 +23,7 @@ public: // public変数
 		Wait,
 		Run,
 		Jump,
+		WireJump,
 		kMaxNum
 	};
 
@@ -34,6 +35,7 @@ public: // public変数
 		bool isLanded = false; // 着地したか
 		bool isReset = false; // animationTimeをリセットするか
 		bool isLoop = false;
+		bool isWireJump = false; // ワイヤー移動の最初
 		void Initialize() {
 			isWaiting = false;
 			isMoved = false;
@@ -41,6 +43,7 @@ public: // public変数
 			isFalled = false;
 			isLanded = false;
 			isReset = false;
+			isWireJump = false;
 		}
 	};
 public: // public関数

@@ -55,18 +55,14 @@ void GameScene::Initialize() {
 	rs->AddTexture("Airport", "Resources/Texture/output_image.dds");
 
 	rs->AddModel("Human", "Resources/Model/human/wait.gltf");
-	rs->AddModel("PlayerHead", "Resources/Model/Player/Head/head.obj");
-	rs->AddModel("PlayerBody", "Resources/Model/Player/Body/body.obj");
-	rs->AddModel("PlayerLeftArm", "Resources/Model/Player/LArm/LArm.obj");
-	rs->AddModel("PlayerRightArm", "Resources/Model/Player/RArm/RArm.obj");
-	rs->AddModel("PlayerLegs", "Resources/Model/Player/Legs/limbs.obj");
-	rs->AddModel("PlayerWeapon", "Resources/Model/Player/weapon/weapon.obj");
 	rs->AddModel("Goal", "Resources/Model/GoalWell/GoalWell.obj");
 
 	rs->AddAnimation("Rotate", "Resources/Model/AnimatedCube/AnimatedCube.gltf");
 	rs->AddAnimation("HumanWait", "Resources/Model/human/wait.gltf");
 	rs->AddAnimation("HumanWalk", "Resources/Model/human/run.gltf");
 	rs->AddAnimation("HumanJump", "Resources/Model/human/jump.gltf");
+	rs->AddAnimation("HumanWireJump", "Resources/Model/human/wirejump.gltf");
+
 
 	//rs->AddAudio("Title", "./Resources/Sound/w006.wav");
 	rs->AddAudio("Battle", "Resources/Audio/mLoop1.mp3");

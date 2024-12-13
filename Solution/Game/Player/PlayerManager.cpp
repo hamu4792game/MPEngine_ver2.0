@@ -98,7 +98,8 @@ void PlayerManager::Update() {
 			frameCount_.count = 0.0f;
 			followCamera_->SetParam(Vector3(0.0f, 2.0f, -20.0f), followCamera_->GetTransform().rotation_, 0.95f);
 			Vector3 targetVec = FindVector(transform_.GetPosition(), targetTransform_->GetPosition());
-			transform_.rotationQuat_ = Quaternion::MakeFromTwoVector(Vector3::front, targetVec);
+			transform_.rotationQuat_ = Quaternion::MakeFromTwoVector(Vector3::front, targetVec.Normalize());
+			behaviorFlag_.isWireJump = true;
 			break;
 		}
 		//	振る舞いリクエストをリセット
@@ -118,7 +119,7 @@ void PlayerManager::Update() {
 		break;
 	case Behavior::kWireMove:
 		Vector3 result;
-		bool isSwing; //= webswing_->Update(transform_.GetPosition(), result);
+		bool isSwing;
 		isSwing = moveCom_->UpWireTargetMove(transform_.GetPosition(), result);
 		if (isSwing) {
 			fallParam_.JumpInitialize();
@@ -131,10 +132,6 @@ void PlayerManager::Update() {
 		break;
 
 	}
-
-	// 事後処理----------------------------------------
-
-	// 最終的な移動ベクトルをplayerに加算 現状はmoveManagerから取得しているが、のちに攻撃が実装されればいろいろ変わるかも
 	
 	// 壁に横向きで当たっている場合
 	Quaternion qur;
@@ -144,6 +141,9 @@ void PlayerManager::Update() {
 	}
 	//animation_->SetQuaternion(qur);
 
+	// 事後処理----------------------------------------
+
+	// 最終的な移動ベクトルをplayerに加算 現状はmoveManagerから取得しているが、のちに攻撃が実装されればいろいろ変わるかも
 	oldMoveVector = moveVector_;
 	transform_.translation_ += moveVector_;
 
@@ -151,7 +151,7 @@ void PlayerManager::Update() {
 	followCamera_->CameraMove();
 	TransformUpdate();
 	animation_->SetColor(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
-	minDistance_ = 10000.0f;
+	minDistance_ = std::numeric_limits<float>::max();
 }
 
 WorldTransform PlayerManager::PostUpdate() {

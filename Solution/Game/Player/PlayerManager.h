@@ -113,6 +113,6 @@ private:
 	MoveParam debugMoveParam_;
 
 	std::unique_ptr<CircleShadow> circleShadow_;
-	float minDistance_ = 1000.0f;
+	float minDistance_ = 0.0f; // 最小の距離を記録するための変数
 
 };

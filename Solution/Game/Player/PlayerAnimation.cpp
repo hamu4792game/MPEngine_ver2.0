@@ -25,6 +25,7 @@ PlayerAnimation::PlayerAnimation(const WorldTransform* transform) {
 		"HumanWait",
 		"HumanWalk",
 		"HumanJump",
+		"HumanWireJump",
 	};
 	index = 0u;
 	for (auto& anime : animation_) {
@@ -124,6 +125,9 @@ void PlayerAnimation::AnimationControl(BehaviorFlag flag) {
 	}
 	if (flag.isJumped || flag.isFalled || flag.isLanded || isJumpFrag_) {
 		nowType_ = AnimationType::Jump;
+	}
+	if (flag.isWireJump) {
+		nowType_ = AnimationType::WireJump;
 	}
 
 	// ジャンプ中の特例処理
