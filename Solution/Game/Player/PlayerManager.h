@@ -95,7 +95,7 @@ private:
 		RadialBlur,
 		GrayScale,
 	};
-	PostEffectNum postEffectNum_;
+	PostEffectNum postEffectNum_ = PostEffectNum::None;
 
 	float masterSpeed_ = 1.0f;
 	struct FrameCount {

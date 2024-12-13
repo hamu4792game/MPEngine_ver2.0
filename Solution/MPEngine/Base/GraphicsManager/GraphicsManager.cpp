@@ -136,7 +136,8 @@ void GraphicsManager::CreateFactry() {
 	dxgiFactory_ = nullptr;
 	// HRESULTはWindows系のエラーコードであり、
 	// 関数が成功したかどうかをSUCCEEDEDマクロで判定できる
-	HRESULT hr = CreateDXGIFactory(IID_PPV_ARGS(dxgiFactory_.GetAddressOf()));
+	HRESULT hr;
+	hr = CreateDXGIFactory(IID_PPV_ARGS(dxgiFactory_.GetAddressOf()));
 	// 初期化の根本的な部分でエラーが出た場合はプログラムが間違っているか、
 	// どうにもできない場合が多いのでassertにしておく
 	assert(SUCCEEDED(hr));
@@ -151,7 +152,8 @@ void GraphicsManager::SelectAdapter() {
 	{
 		// アダプタの情報を取得する
 		DXGI_ADAPTER_DESC3 adapterDesc{};
-		HRESULT hr = useAdapter_->GetDesc3(&adapterDesc);
+		HRESULT hr;
+		hr = useAdapter_->GetDesc3(&adapterDesc);
 		assert(SUCCEEDED(hr));	//取得できないのは一大事
 		// ソフトウェアアダプタでなければ採用
 		if (!(adapterDesc.Flags & DXGI_ADAPTER_FLAG3_SOFTWARE))
@@ -171,7 +173,8 @@ void GraphicsManager::CreateCommandQueue() {
 	// コマンドキューを生成する
 	commandQueue_ = nullptr;
 	D3D12_COMMAND_QUEUE_DESC commandQueueDesc{};
-	HRESULT hr = device_->GetDevice()->CreateCommandQueue(&commandQueueDesc, IID_PPV_ARGS(commandQueue_.GetAddressOf()));
+	HRESULT hr;
+	hr = device_->GetDevice()->CreateCommandQueue(&commandQueueDesc, IID_PPV_ARGS(commandQueue_.GetAddressOf()));
 	// コマンドキューの生成がうまくいかないので起動できない
 	assert(SUCCEEDED(hr));
 }
@@ -180,7 +183,8 @@ void GraphicsManager::CreateFence() {
 	// 初期値0でFenceを作る
 	fence_ = nullptr;
 	fenceValue_ = 0u;
-	HRESULT hr = device_->GetDevice()->CreateFence(fenceValue_, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(fence_.GetAddressOf()));
+	HRESULT hr;
+	hr = device_->GetDevice()->CreateFence(fenceValue_, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(fence_.GetAddressOf()));
 	assert(SUCCEEDED(hr));
 
 	// FenceのSignalを持つためのイベントを作成する
@@ -210,7 +214,8 @@ void GraphicsManager::ImGuiFinalize() {
 void GraphicsManager::EndProcess() {
 
 	// コマンドリストの内容を確定させる。すべてのコマンドを積んでからCloseする
-	HRESULT hr = commandList_->GetList()->Close();
+	HRESULT hr;
+	hr = commandList_->GetList()->Close();
 	assert(SUCCEEDED(hr));
 
 	// GPUにコマンドリストの実行を行わせる

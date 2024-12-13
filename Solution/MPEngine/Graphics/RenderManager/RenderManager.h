@@ -18,7 +18,7 @@ public:
 	~RenderManager() = default;
 
 	void Initialize(class SwapChain* swapchain);
-	void Draw(SwapChain* swapchain);
+	void Draw();
 	void PostDraw(SwapChain* swapchain);
 	void HudDraw();
 

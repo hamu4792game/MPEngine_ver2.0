@@ -47,7 +47,8 @@ void DepthBuffer::CreateDepthStencilTexture(unsigned int width, unsigned int hei
 	//	Resourceの生成
 	depthStencilResource_ = nullptr;
 	auto device = DeviceManager::GetInstance();
-	HRESULT hr = device->GetDevice()->CreateCommittedResource(
+	HRESULT hr;
+	hr = device->GetDevice()->CreateCommittedResource(
 		&heapProperties,	//	Heapの設定
 		D3D12_HEAP_FLAG_NONE,	//	Heapの特殊な設定。特になし
 		&resourceDesc,	//	Resourceの設定

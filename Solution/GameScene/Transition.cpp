@@ -90,9 +90,9 @@ bool Transition::ScalingSpinChange() {
 }
 
 bool Transition::FadingInOut() {
-	const float fadeSpeed_ = 0.1f;
+	float fadeSpeed = 0.1f;
 	if (fadeInOutFlag_) {
-		color_.w += fadeSpeed_;
+		color_.w += fadeSpeed;
 		if (color_.w >= 1.0f) {
 			color_.w = 1.0f;
 			fadeInOutFlag_ = false;
@@ -101,7 +101,7 @@ bool Transition::FadingInOut() {
 		}
 	}
 	else {
-		color_.w -= fadeSpeed_;
+		color_.w -= fadeSpeed;
 		if (color_.w <= 0.0f) {
 			EndProcess();
 		}

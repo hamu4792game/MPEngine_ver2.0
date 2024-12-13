@@ -35,15 +35,15 @@ private:
 
 private:
 
-	Vector3 anchor; // アンカー、固定された橋の位置
-	float naturalLength = 0.0f; // 自然長
-	float stiffness = 0.0f; // 剛性、ばね定数k
-	float dampingCoefficient = 0.0f; // 減衰係数
+	Vector3 anchor_; // アンカー、固定された橋の位置
+	float naturalLength_ = 0.0f; // 自然長
+	float stiffness_ = 0.0f; // 剛性、ばね定数k
+	float dampingCoefficient_ = 0.0f; // 減衰係数
 
-	float hangTimeCounter = 0.0f;  // 滞空時間用のカウンター
-	bool isHanging = false;  // 滞空状態のフラグ
+	float hangTimeCounter_ = 0.0f;  // 滞空時間用のカウンター
+	bool isHanging_ = false;  // 滞空状態のフラグ
 
-	Ball ball;
+	Ball ball_;
 
 	// swing中か
 	bool isSwing_ = true;

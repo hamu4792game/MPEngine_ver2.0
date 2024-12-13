@@ -114,7 +114,8 @@ void ResourceManager::UploadTextureData(ID3D12Resource* texture, const DirectX::
 	for (size_t mipLevel = 0; mipLevel < metadata.mipLevels; mipLevel++)
 	{
 		const DirectX::Image* img = mipImages.GetImage(mipLevel, 0, 0);
-		HRESULT hr = texture->WriteToSubresource(
+		HRESULT hr;
+		hr = texture->WriteToSubresource(
 			UINT(mipLevel),
 			nullptr,
 			img->pixels,
@@ -164,7 +165,8 @@ ID3D12Resource* ResourceManager::CreateTextureResource(ID3D12Device* device, con
 	//heapProperties.MemoryPoolPreference = D3D12_MEMORY_POOL_L0; // プロセッサの近くに配置
 	// Resourceの設定する
 	ID3D12Resource* resource = nullptr;
-	HRESULT hr = device->CreateCommittedResource(
+	HRESULT hr;
+	hr = device->CreateCommittedResource(
 		&heapProperties, // Heapの設定
 		D3D12_HEAP_FLAG_NONE, // Heapの特殊な設定。特になし
 		&resourceDesc, // Resourceの設定
@@ -216,7 +218,8 @@ ID3D12Resource* ResourceManager::CreateRenderTextureResource(ID3D12Device* devic
 
 	// リソースの生成
 	ID3D12Resource* resource = nullptr;
-	HRESULT hr = device->CreateCommittedResource(&heapProperties, D3D12_HEAP_FLAG_NONE,
+	HRESULT hr;
+	hr = device->CreateCommittedResource(&heapProperties, D3D12_HEAP_FLAG_NONE,
 		&resourceDesc, D3D12_RESOURCE_STATE_RENDER_TARGET, &clearValue, IID_PPV_ARGS(&resource));
 	assert(SUCCEEDED(hr));
 	return resource;
@@ -325,9 +328,9 @@ std::vector<ModelData> ResourceManager::LoadModelFile(const std::string& filenam
 		// gltfだった場合は特殊なため、例外処理を入れる
 		handle = 0u;
 	}
-	for (uint32_t index = 0; index < scene->mNumMeshes; index++) {
-		aiMesh* mesh = scene->mMeshes[index];
-		modelDatas.at(static_cast<uint32_t>(index)).material.textureFilePath = texturesPath.at(mesh->mMaterialIndex - handle);
+	for (uint32_t i = 0; i < scene->mNumMeshes; i++) {
+		aiMesh* mesh = scene->mMeshes[i];
+		modelDatas.at(static_cast<uint32_t>(i)).material.textureFilePath = texturesPath.at(mesh->mMaterialIndex - handle);
 	}
 
 	return modelDatas;

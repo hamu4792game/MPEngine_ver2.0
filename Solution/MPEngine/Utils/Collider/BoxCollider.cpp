@@ -125,6 +125,7 @@ bool BoxCollider::IsCollision(const BoxCollider& coll, Vector3& minAxis, float& 
 }
 
 bool BoxCollider::IsCollision(const LineCollider& coll, Vector3& minAxis, float& minOverlap) const {
+	minOverlap;
 	bool flag = false;
 	switch (type_) {
 	case BoxCollider::Type::AABB:

@@ -21,7 +21,6 @@ Object3d::~Object3d() {
 void Object3d::Load(const std::string& name, const std::string& filePath) {
 	name_ = name;
 	auto rsManager = ResourceManager::GetInstance();
-	auto device = DeviceManager::GetInstance()->GetDevice();
 	// モデル読み込み
 	modelDatas_ = rsManager->LoadModelFile(filePath);
 

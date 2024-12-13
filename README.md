@@ -1,6 +1,9 @@
 <img src="Solution/Resources/icon.ico" width="54" height="54" />
 
 # <span style="color:#ff0000">MPEngine</span>
+[![DebugBuild](https://github.com/hamu4792game/MPEngine_ver2.0/actions/workflows/DebugBuild.yml/badge.svg)](https://github.com/hamu4792game/MPEngine_ver2.0/actions/workflows/DebugBuild.yml)
+[![ReleaseBuild](https://github.com/hamu4792game/MPEngine_ver2.0/actions/workflows/ReleaseBuild.yml/badge.svg)](https://github.com/hamu4792game/MPEngine_ver2.0/actions/workflows/ReleaseBuild.yml)
+
 
 ## エンジンのこだわり
 ### アプリケーション特化
@@ -36,7 +39,7 @@
 * ジャンル : 3Dアクション
 * プレイ人数 : 1人
 * 制作人数 : 1人
-* 制作環境 : DirectX12
+* 制作環境 : DirectX12 / Windows SDK ver_10.0.22621.0
 
 ### 紹介
 このゲームは「Marvel's Spider-Man」を参考にし、プレイヤーがワイヤーで、ターゲットの位置に移動したり、振り子挙動のようにスイングをしながら、起伏が激しいステージを自由に移動するゲームとなっています。

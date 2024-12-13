@@ -8,7 +8,6 @@ DebugCamera::DebugCamera() {
 }
 
 WorldTransform DebugCamera::Update() {
-	auto keyInput = Input::GetInstance()->GetKey();
 	auto mouseInput = Input::GetInstance()->GetMouse();
 
 	Vector2 mouseMove = mouseInput->GetMouseMove();

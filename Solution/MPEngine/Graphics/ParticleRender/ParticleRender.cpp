@@ -92,7 +92,6 @@ void ParticleRender::DrawCommand(const Matrix4x4& viewProjectionMat, const Matri
 
 		list->SetPipelineState(graphicsPipeline_[static_cast<uint32_t>(particle->blendType_)]->GetPipelineState());
 		list->IASetVertexBuffers(0, 1, &particle->vertexBufferView_);
-		auto rsManager = ResourceManager::GetInstance();
 		list->SetGraphicsRootDescriptorTable(0, particle->texture_->GetHandle().GetGPU());
 		list->SetGraphicsRootDescriptorTable(1, particle->instancingSrvHandle_.GetGPU());
 

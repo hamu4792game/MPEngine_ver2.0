@@ -31,7 +31,7 @@ DustParticle::DustParticle() {
 }
 
 void DustParticle::Initialize(const Vector3& emitter) {
-
+	emitter;
 }
 
 void DustParticle::Update(const Vector3& emitter) {

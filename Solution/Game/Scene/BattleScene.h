@@ -12,6 +12,7 @@
 #include "Game/Pause/Pause.h"
 #include "Game/LockOn/PointOfGazeSearch.h"
 
+// ゲームのメインシーン
 class BattleScene : public SceneFrame {
 public:
 	BattleScene() = default;

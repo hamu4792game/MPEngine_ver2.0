@@ -53,13 +53,13 @@ void Stage::Update() {
 		WorldTransform tra = box->GetTrans();
 		
 		if (box->GetTrans().parent_) {
-			bool is = true;
+			
 		}
 	}
 
 	const uint32_t maxCount = static_cast<uint32_t>(boxes_.size());
 	for (uint32_t index = 0u; index < maxCount; index++) {
-		auto& handle = collisionList_.emplace_back(boxes_.at(index)->GetCollision());
+		collisionList_.emplace_back(boxes_.at(index)->GetCollision());
 	}
 	
 	for (auto& i : targets_) {

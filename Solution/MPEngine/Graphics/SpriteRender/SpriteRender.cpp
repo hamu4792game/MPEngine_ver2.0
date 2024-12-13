@@ -113,7 +113,7 @@ void SpriteRender::DrawCommand(const Matrix4x4& viewProjectionMat) {
 		list->SetPipelineState(graphicsPipeline_[static_cast<uint32_t>(sprite->blendType_)]->GetPipelineState());
 		list->IASetVertexBuffers(0, 1, &sprite->vertexBufferView_);
 		list->IASetIndexBuffer(&sprite->indexBufferView_);
-		auto rsManager = ResourceManager::GetInstance();
+		
 		list->SetGraphicsRootDescriptorTable(0, sprite->texture_->GetHandle().GetGPU()); // Texture
 		//list->SetGraphicsRootDescriptorTable(1, sprite->cMat.GetHandle().GetGPU()); // cMat
 		list->SetGraphicsRootConstantBufferView(1, sprite->cMat.GetGPUVirtualAddress());

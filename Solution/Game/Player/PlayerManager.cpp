@@ -62,7 +62,6 @@ void PlayerManager::Update() {
 	if (behaviorRequest_) {
 		// 振る舞いを変更する
 		behavior_ = behaviorRequest_.value();
-		float angle = 0.0f;
 		// 振る舞いごとの初期化を実行
 		switch (behavior_) {
 		case Behavior::kRoot:
@@ -98,6 +97,8 @@ void PlayerManager::Update() {
 			masterSpeed_ = 1.0f;
 			frameCount_.count = 0.0f;
 			followCamera_->SetParam(Vector3(0.0f, 2.0f, -20.0f), followCamera_->GetTransform().rotation_, 0.95f);
+			Vector3 targetVec = FindVector(transform_.GetPosition(), targetTransform_->GetPosition());
+			transform_.rotationQuat_ = Quaternion::MakeFromTwoVector(Vector3::front, targetVec);
 			break;
 		}
 		//	振る舞いリクエストをリセット

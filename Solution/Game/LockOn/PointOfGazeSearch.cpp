@@ -18,7 +18,7 @@ void PointOfGazeSearch::Initialize() {
 }
 
 Vector3* PointOfGazeSearch::Update(const std::list<std::shared_ptr<Ground>>& targets, const Vector3& playerPos, const WorldTransform& cameraTrans) {
-	auto& camera = Camera3d::GetInstance()->GetTransform();
+	//auto& camera = Camera3d::GetInstance()->GetTransform();
     Quaternion qua = Quaternion::FromRotationMatrix4x4(MakeRotateMatrix(cameraTrans.rotation_));
     direction_ = FindVector(cameraTrans.GetPosition(), playerPos).Normalize();
     lockOnMark_->SetIsActive(false);
