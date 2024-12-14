@@ -65,26 +65,6 @@ void PlayerManager::Update() {
 		// 振る舞いごとの初期化を実行
 		switch (behavior_) {
 		case Behavior::kRoot:
-			// カメラからターゲットへの向きベクトルを算出
-			if (targetTransform_) {
-				// 角度を計算
-				Vector3 direction = targetTransform_->GetPosition() - transform_.GetPosition();
-				float dot = direction.Normalize() * Vector3::front;
-				float angleY = std::acosf(dot);
-				// 左側にターゲットがあるのであれば反転
-				if (direction.x < 0.0f) {
-					angleY = -angleY;
-				}
-
-				//direction = targetTransform_->GetPosition() - followCamera_->GetPostposition();
-				dot = direction.Normalize() * Vector3::up;
-				float angleX = std::acosf(dot);
-				if (direction.y > 0.0f) {
-					angleX = -angleX;
-				}
-				
-				//followCamera_->SetParam(Vector3(0.0f, 0.0f, -10.0f), Vector3(followCamera_->GetTransform().rotation_.x, angleY, followCamera_->GetTransform().rotation_.z), 0.05f);
-			}
 			oldMoveVector = Vector3::zero;
 			moveParameter_.AccelInit();
 			
@@ -97,8 +77,20 @@ void PlayerManager::Update() {
 			masterSpeed_ = 1.0f;
 			frameCount_.count = 0.0f;
 			followCamera_->SetParam(Vector3(0.0f, 2.0f, -20.0f), followCamera_->GetTransform().rotation_, 0.95f);
-			Vector3 targetVec = FindVector(transform_.GetPosition(), targetTransform_->GetPosition());
-			transform_.rotationQuat_ = Quaternion::MakeFromTwoVector(Vector3::front, targetVec.Normalize());
+
+			// 回転の適応
+			if (targetTransform_) {
+				// 角度を計算
+				Vector3 direction = targetTransform_->GetPosition() - transform_.GetPosition();
+				float dot = direction.Normalize() * Vector3::front;
+				float angleY = std::acosf(dot);
+				// 左側にターゲットがあるのであれば反転
+				if (direction.x < 0.0f) {
+					angleY = -angleY;
+				}
+
+				transform_.rotationQuat_ = Quaternion::MakeRotateAxisAngleQuaternion(Vector3::up, angleY);
+			}
 			behaviorFlag_.isWireJump = true;
 			break;
 		}
@@ -454,7 +446,6 @@ void PlayerManager::BehaviorRootUpdate() {
 			moveVector_ += moveCom_->UpPostWebSwing();
 		}
 	}
-
 }
 
 void PlayerManager::SetGlobalVariables(MoveParam& param) {

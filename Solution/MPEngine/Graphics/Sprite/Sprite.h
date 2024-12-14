@@ -35,6 +35,8 @@ public: // セッター
 	void SetLayerNum(const uint32_t& num) { layerNumber_ = num; }
 
 public: // ゲッター
+	Vector2 GetScale() const { return scale_; }
+	Vector2 GetTranslate() const { return translate_; }
 	uint32_t GetLayerNum() const { return layerNumber_; }
 
 private:
