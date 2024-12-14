@@ -65,7 +65,7 @@ void Ground::Initialize(LevelData::ObjectData& objectdata) {
 
 const WorldTransform& Ground::GetTrans() {
 	transform_.UpdateMatrix();
-	model_->SetUVMatrix(MakeAffineMatrix(transform_.scale_, Vector3::zero, Vector3::zero));
+	model_->SetUVMatrix(MakeAffineMatrix(Vector3::one, Vector3(0.0f, 0.0f, AngleToRadian(-90.0f)), Vector3::zero));
 	collTransform_.UpdateMatrix();
 	return transform_;
 }
