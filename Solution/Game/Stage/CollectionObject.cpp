@@ -7,9 +7,9 @@ CollectionObject::CollectionObject() {
 
 void CollectionObject::Initialize(LevelData::ObjectData& objectdata) {
 	model_ = std::make_shared<Model>();
-	std::string textureName = objectdata.textureName;
+	//std::string textureName = objectdata.textureName;
 	model_->SetModel(ResourceManager::GetInstance()->FindObject3d("Box"));
-	model_->SetTexture(ResourceManager::GetInstance()->FindTexture(textureName));
+	model_->SetTexture(ResourceManager::GetInstance()->FindTexture("Collection"));
 	transform_ = objectdata.transform;
 	transform_.UpdateMatrix();
 	model_->SetTransform(transform_);

@@ -54,6 +54,7 @@ void GameScene::Initialize() {
 	rs->AddTexture("Target", "Resources/Texture/hud/target.png");
 	rs->AddTexture("Block", "Resources/Texture/ground.png");
 	rs->AddTexture("Airport", "Resources/Texture/output_image.dds");
+	
 
 	rs->AddModel("Human", "Resources/Model/human/wait.gltf");
 	rs->AddModel("Goal", "Resources/Model/GoalWell/GoalWell.obj");
@@ -64,6 +65,8 @@ void GameScene::Initialize() {
 	rs->AddAnimation("HumanJump", "Resources/Model/human/jump.gltf");
 	rs->AddAnimation("HumanWireJump", "Resources/Model/human/wirejump.gltf");
 
+
+	rs->AddTexture("Collection", "Resources/Texture/collection.dds");
 
 	//rs->AddAudio("Title", "./Resources/Sound/w006.wav");
 	rs->AddAudio("Battle", "Resources/Audio/mLoop1.mp3");
