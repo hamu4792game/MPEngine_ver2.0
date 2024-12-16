@@ -26,6 +26,8 @@ void TitleScene::Initialize() {
 	tutorial_->SetScale(Vector2(1280.0f, 720.0f));
 	tutorial_->SetIsActive(false);
 
+	Input::GetInstance()->GetMouse()->SetLockCursorToCenter(false);
+	Input::GetInstance()->GetMouse()->SetShowCursor(true);
 }
 
 void TitleScene::Finalize() {
