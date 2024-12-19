@@ -37,8 +37,10 @@ private:
 
 	bool isFollowStop_ = false;
 	struct Timer {
-		float nowFrame; // 今の時間
-		float maxFrame; // 最大時間
+		float nowFrame = 0.0f; // 今の時間
+		float maxFrame = 0.0f; // 最大時間
+		void SetMaxFrame(const float& max) { maxFrame = max; }
+		void TimerReset() { nowFrame = 0.0f; }
 	};
 	Timer timer_;
 

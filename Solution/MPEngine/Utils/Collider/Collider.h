@@ -52,7 +52,7 @@ private:
 	std::string name_; // コライダーの名前
 	std::unique_ptr<BoxCollider> boxCollider_;
 	std::unique_ptr<LineCollider> lineCollider_;
-	Type colliderType_;
+	Type colliderType_ = Type::kMaxNum;
 	WorldTransform* transform_ = nullptr;
 	std::vector<std::shared_ptr<Line>> lines_;
 
