@@ -61,6 +61,8 @@ void Ground::Initialize(LevelData::ObjectData& objectdata) {
 		collision_->Initialize(&collTransform_, Collider::Type::Box, "Ground");
 	}
 	collision_->Update();
+
+	model_->SetUVMatrix(MakeAffineMatrix(transform_.scale_, Vector3::zero, Vector3(2.0f,2.0f,2.0f)));
 }
 
 const WorldTransform& Ground::GetTrans() {
