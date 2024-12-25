@@ -26,24 +26,24 @@ float4 main(VertexOutput input) : SV_TARGET {
         uint32_t index = 0;
         for (int i = 0; i < 3; i++) {
             if (input.normal[i] != 0.0f) { 
-                index = i;
-                break;
-            }
+            index = i;
+            break;
         }
-        // 二次元+1次元ベクトルを作る
-        float32_t3 sVec = float32_t3(gMaterial.uvMat[0][0],gMaterial.uvMat[1][1],gMaterial.uvMat[2][2]);
-        if (i != 2) {
-            sVec[i] = sVec.z;
+    }
+
+       float32_t3 sVec = float32_t3(gMaterial.uvMat[0][0], gMaterial.uvMat[1][1], gMaterial.uvMat[2][2]);
+        if (index != 2) {
+            sVec[index] = sVec.z;
         }
-        sVec.z = 1.0f;
-        sVec.x = sVec.x * 2.0f;
-        sVec.y = sVec.y * 2.0f;
-        sVec = 1.0f / sVec;
+        float32_t tilingSize = 2.0f;
+        sVec = 1.0f / (sVec * tilingSize);
+
+        // スケール行列の生成
         uvMatrix = float4x4(
-            sVec.x,       0.0f,         0.0f,         0.0f,
-            0.0f,         sVec.y,       0.0f,         0.0f,
-            0.0f,         0.0f,         sVec.z,       0.0f,
-            0.0f,         0.0f,         0.0f,         1.0f
+            sVec.x, 0.0f,   0.0f,   0.0f,
+            0.0f,   sVec.y, 0.0f,   0.0f,
+            0.0f,   0.0f,   1.0f,   0.0f,
+            0.0f,   0.0f,   0.0f,   1.0f
         );
         uv = mul(float4(input.texcoord,0.0f,1.0f),uvMatrix);
     }
@@ -80,7 +80,7 @@ float4 main(VertexOutput input) : SV_TARGET {
         float32_t4 environmentColor = gEnvironmentTexture.Sample(gSampler,reflectedVector);
         textureColor.rgb += environmentColor.rgb * gMaterial.environmentCoefficient;
     }
-
+    
     if (gMaterial.uvMat[3][0] >= 1.0f && gMaterial.uvMat[3][1] >= 1.0f && gMaterial.uvMat[3][2] >= 1.0f) {
         textureColor.rgb = float3(0.0f,0.0f,0.0f);
     }
