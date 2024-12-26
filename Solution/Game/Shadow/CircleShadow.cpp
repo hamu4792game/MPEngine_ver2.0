@@ -18,8 +18,8 @@ void CircleShadow::Initialize() {
 
 void CircleShadow::Update(const Vector3& hitpoint, const float& distance) {
 	float sc = (distance - 1.0f) / (8.0f - 1.0f);;
-	sc = Lerp(0.5f, 1.5f, sc);
-	sc = std::clamp(sc, 0.0f, 1.5f);
+	sc = Lerp(1.5f, 0.5f, sc);
+	sc = std::clamp(sc, 0.5f, 1.5f);
 
 	transform_.scale_ = Vector3(sc, sc, 1.0f);
 	transform_.translation_ = hitpoint;

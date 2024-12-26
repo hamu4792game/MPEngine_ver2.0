@@ -21,7 +21,7 @@ public:
 	void Initialize() override;
 	void Finalize() override;
 	void Update() override;
-	void SecondUpdate() override;
+	void SecondUpdate() override; // アニメーション等、衝突判定後に更新したいやつ
 	void DrawImGui();
 
 private:
@@ -37,8 +37,6 @@ private:
 
 	std::unique_ptr<SkyBox> skybox_;
 
-	float time_ = 0.0f;
-	const float kMaxTimer_ = 3.0f;
 
 	bool isPause_ = false;
 	std::unique_ptr<Pause> pause_;

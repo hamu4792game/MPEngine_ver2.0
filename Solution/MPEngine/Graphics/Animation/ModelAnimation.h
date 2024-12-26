@@ -29,7 +29,6 @@ struct SkinCluster {
 	std::span<VertexInfluence> mappedInfluence;
 	Microsoft::WRL::ComPtr<ID3D12Resource> paletteResource;
 	std::span<WellForGPU> mappedPalette;
-	//std::pair<D3D12_CPU_DESCRIPTOR_HANDLE, D3D12_GPU_DESCRIPTOR_HANDLE> paletteSrvHandle;
 	DescriptorHandle paletteSrvHandle;
 	~SkinCluster() {
 		if (influenceResource) {

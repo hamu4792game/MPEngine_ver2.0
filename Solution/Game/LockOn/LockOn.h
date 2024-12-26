@@ -6,6 +6,7 @@
 #include "Game/Target/Target.h"
 #include "Utils/Collider/Collider.h"
 
+// ターゲットロックオン用のクラス
 class LockOn {
 public:
 	LockOn();

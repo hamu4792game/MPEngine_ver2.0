@@ -51,6 +51,7 @@ void BattleScene::Update() {
 
 	DrawImGui();
 
+	// escキーを押された場合ポーズ画面にする
 	if (Input::GetInstance()->GetKey()->TriggerKey(DIK_ESCAPE)) {
 		isPause_ = !isPause_;
 	}
@@ -84,17 +85,14 @@ void BattleScene::Update() {
 		return;
 	}
 	
-
+	// stageを更新し必要なものをリストに格納
 	stage_->Update();
 	std::list<std::shared_ptr<Target>> listData(stage_->GetTargets());
 	std::list<std::shared_ptr<Ground>> groundListData(stage_->GetGrounds());
 
-	static WorldTransform* handle = nullptr;
-	
-	time_ = std::min(time_, 300.0f);
-
 	player_->Update();
-	
+
+	// 天球の更新
 	static Vector3 scale = Vector3(300.0f, 300.0f, 300.0f);
 	WorldTransform trans(scale, Vector3::zero, player_->GetTransform().GetPosition());
 	skybox_->SetTransform(trans);
@@ -102,29 +100,35 @@ void BattleScene::Update() {
 
 	// ターゲットの更新
 	lockOn_->Update(listData);
+	static WorldTransform* handle = nullptr;
 	handle = lockOn_->GetTargetTrans();
 
 	bool gameclear = false;
 	for (auto& coll : stage_->GetCollision()) {
+		// プレイヤーとステージとの衝突判定
 		gameclear = player_->OnCollisionStage(*coll);
+		// 床の影用の衝突判定
 		Vector3 hitPoint;
 		if (player_->OnCollisionDownRayToStage(*coll, hitPoint)) {
 			
 		}
 
-		//if (handle) {
-		//	// ターゲットがnullじゃなければ
-		//	lockOn_->OnCollisionStageToRay(*coll);
-		//	handle = lockOn_->GetTargetTrans();
-		//}
 		if (gameclear) { break; }
 	}
 
 	player_->SetTargetTrans(handle);
 
+	// playerとstageとの判定更新
 	stage_->OnCollition(*player_->GetCollision());
-	gameUI_->Update(stage_->GetCollectionNum());
 
+	// UIの更新、バグがあったためチュートリアルの際は最大数を渡すようにして修正
+	uint32_t collectNum = stage_->GetCollectionNum();
+	if (isTutorial_) {
+		collectNum = stage_->GetMaxCollectionNum();
+	}
+	gameUI_->Update(collectNum);
+
+	// ポストエフェクト
 	uint32_t num = player_->GetEffectNumber();
 	if (num == 1u) {
 		RadialBlur::GetInstance()->SetUsed(true);
