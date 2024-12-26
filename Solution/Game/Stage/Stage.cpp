@@ -50,11 +50,7 @@ void Stage::Update() {
 	collisionList_.clear();
 
 	for (auto& box : boxes_) {
-		WorldTransform tra = box->GetTrans();
-		
-		if (box->GetTrans().parent_) {
-			
-		}
+		box->GetTrans();
 	}
 
 	const uint32_t maxCount = static_cast<uint32_t>(boxes_.size());
@@ -71,8 +67,7 @@ void Stage::Update() {
 		if (!isAlive) {
 			// 要素の削除
 			collectionObject_.erase(collectionObject_.begin() + index);
-			maxCollectionNum_--;
-			if (maxCollectionNum_ <= 0u) {
+			if (collectionObject_.size() <= 0u) {
 				// 全てのオブジェクトを取ったらゴール可能に
 				isCanGoal_ = true;
 			}

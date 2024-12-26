@@ -73,6 +73,17 @@ void BattleScene::Update() {
 #endif // !_DEBUG
 	}
 	
+	// チュートリアルを行っていない状態で一つ目の収集物を取ったら通る
+	if (stage_->GetCollectionNum() < stage_->GetMaxCollectionNum() && isTutorial_) {
+		// 演出処理が終わったら
+		if (gameUI_->FirstUpdate(stage_->GetCollectionNum())) {
+			// フラグを折り通らないようにする
+			isTutorial_ = false;
+		}
+		// のちを更新しないため早期リターン
+		return;
+	}
+	
 
 	stage_->Update();
 	std::list<std::shared_ptr<Target>> listData(stage_->GetTargets());

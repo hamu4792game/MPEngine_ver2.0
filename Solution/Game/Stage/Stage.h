@@ -27,7 +27,8 @@ public:
 	std::list<std::shared_ptr<Target>> GetTargets() const;
 	const WorldTransform& GetPlayerRespawnPoint() const { return playerRespawnpoint_; }
 	const WorldTransform& GetCameraRespawnPoint() const { return cameraTransform_; }
-	const uint32_t& GetCollectionNum() const { return maxCollectionNum_; }
+	const uint32_t& GetMaxCollectionNum() const { return maxCollectionNum_; }
+	const uint32_t GetCollectionNum() const { return static_cast<uint32_t>(collectionObject_.size()); }
 
 	void LevelLoad(LevelData* data);
 
@@ -43,6 +44,7 @@ private:
 	std::list<Collider*> collisionList_;
 	WorldTransform playerRespawnpoint_;
 	WorldTransform cameraTransform_;
+
 
 	uint32_t maxCollectionNum_ = 0u;
 	bool isCanGoal_ = false; // ゴール可能かどうか

@@ -49,7 +49,7 @@ private:
 	Texture* texture_ = nullptr;
 	BlendMode blendType_ = BlendMode::Normal;
 	AnchorPoint anchor_ = AnchorPoint::Center;
-	uint32_t layerNumber_ = 0u; // 描画順。0から描画される
+	uint32_t layerNumber_ = 1u; // 描画順。0から描画される
 	bool isActive_ = true; // 描画するか否か
 
 	Vector2 scale_;

@@ -43,4 +43,7 @@ private:
 	bool isPause_ = false;
 	std::unique_ptr<Pause> pause_;
 	WorldTransform cameraTransform_;
+
+	// チュートリアル用のフラグ false = もう通らない
+	bool isTutorial_ = true;
 };

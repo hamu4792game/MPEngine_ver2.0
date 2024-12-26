@@ -4,6 +4,7 @@
 #include "MPEngine/Graphics/Object3d/Object3d.h"
 #include "MPEngine/Input/Audio.h"
 #include "ImGuiManager/ImGuiManager.h"
+#include "Utils/GlobalVariables/GlobalVariables.h"
 
 void (GameScene::* GameScene::SceneUpdateTable[])() = {
 	&GameScene::TitleUpdate,
@@ -67,6 +68,9 @@ void GameScene::Initialize() {
 
 	//rs->AddAudio("Title", "./Resources/Sound/w006.wav");
 	rs->AddAudio("Battle", "Resources/Audio/mLoop1.mp3");
+
+	// パラメーターの一括ロード
+	GlobalVariables::GetInstance()->LoadFiles();
 
 	sceneRequest_ = Scene::TITLE;
 	transition_ = std::make_unique<Transition>();

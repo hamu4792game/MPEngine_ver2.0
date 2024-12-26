@@ -275,9 +275,6 @@
     <ClCompile Include="Game\Shadow\CircleShadow.cpp">
       <Filter>Game\Shadow</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Tutorial\Tutorial.cpp">
-      <Filter>Game\Tutorial</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Camera\AnimationCamera.cpp">
       <Filter>Game\Camera\AnimationCamera</Filter>
     </ClCompile>
@@ -575,9 +572,6 @@
     <ClInclude Include="Game\Shadow\CircleShadow.h">
       <Filter>Game\Shadow</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Tutorial\Tutorial.h">
-      <Filter>Game\Tutorial</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Camera\AnimationCamera.h">
       <Filter>Game\Camera\AnimationCamera</Filter>
     </ClInclude>
@@ -819,9 +813,6 @@
     </Filter>
     <Filter Include="Game\Shadow">
       <UniqueIdentifier>{ef482deb-c333-496c-9dac-5fbb91632f62}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Tutorial">
-      <UniqueIdentifier>{40580194-215b-4a62-9f0e-c17a58b20439}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\Camera\AnimationCamera">
       <UniqueIdentifier>{07dfd849-5c44-437e-ac58-3ea9985074eb}</UniqueIdentifier>

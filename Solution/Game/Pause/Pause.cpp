@@ -12,6 +12,7 @@ Pause::Pause() {
 	backGround_->SetTexture(rsManager->FindTexture("white2x2"));
 	backGround_->SetScale(Vector2(1280.0f, 720.0f));
 	backGround_->SetColor(Vector4(0.0f, 0.0f, 0.0f, 0.7f));
+	backGround_->SetLayerNum(0u);
 
 	menus_.at(Restart)->SetTexture(rsManager->FindTexture("Restart"));
 	menus_.at(Restart)->SetScale(Vector2(480.0f, 90.0f));

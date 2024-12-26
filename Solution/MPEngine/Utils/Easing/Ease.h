@@ -51,7 +51,7 @@ public:
 	static float MakeEaseT(float t, EaseType easeType, int index = 2);
 	//返ってくるのはイージングに使うtの値
 
-	//使うのはここから下4つだと思う。
+	//実際に使うのはここから下4つだと思う
 
 	static float UseEase(float a, float b, int nowFrame, int maxFrame, EaseType easeType, int index = 2);
 

@@ -1,0 +1,69 @@
+{
+     "GameUI": {
+          "GameUI_0_Scale": [
+               170.0,
+               100.0
+          ],
+          "GameUI_0_Translate": [
+               -490.0,
+               -250.0
+          ],
+          "GameUI_0_UVScale": [
+               0.5,
+               1.0
+          ],
+          "GameUI_0_UVTranslate": [
+               0.0,
+               0.0
+          ],
+          "GameUI_1_Scale": [
+               60.0,
+               90.0
+          ],
+          "GameUI_1_Translate": [
+               490.0,
+               -250.0
+          ],
+          "GameUI_1_UVScale": [
+               0.5,
+               1.0
+          ],
+          "GameUI_1_UVTranslate": [
+               0.0,
+               0.0
+          ],
+          "GameUI_2_Scale": [
+               50.0,
+               50.0
+          ],
+          "GameUI_2_Translate": [
+               -605.0,
+               325.0
+          ],
+          "GameUI_2_UVScale": [
+               1.0,
+               1.0
+          ],
+          "GameUI_2_UVTranslate": [
+               0.0,
+               0.0
+          ],
+          "GameUI_CollectionObjectsParameter_Distance": 64.0,
+          "GameUI_CollectionObjectsParameter_Scale": [
+               64.0,
+               64.0
+          ],
+          "GameUI_CollectionObjectsParameter_Translate": [
+               -570.0,
+               300.0
+          ],
+          "GameUI_CollectionObjectsParameter_UVScale": [
+               1.0,
+               1.0
+          ],
+          "GameUI_CollectionObjectsParameter_UVTranslate": [
+               0.0,
+               0.0
+          ]
+     }
+}
