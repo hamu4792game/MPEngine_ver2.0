@@ -1629,9 +1629,9 @@
                     0.9238795638084412
                 ],
                 "scaling": [
-                    0.9999999403953552,
-                    1.0,
-                    0.9999999403953552
+                    3.0,
+                    3.0,
+                    3.0
                 ]
             },
             "collider": {
@@ -1647,7 +1647,7 @@
                     2.0
                 ]
             },
-            "texturepath": "ground.png"
+            "texturepath": "collectionObject.png"
         },
         {
             "type": "MESH",
@@ -1665,9 +1665,9 @@
                     0.9238795638084412
                 ],
                 "scaling": [
-                    0.9999999403953552,
-                    1.0,
-                    0.9999999403953552
+                    3.0,
+                    3.0,
+                    3.0
                 ]
             },
             "collider": {
@@ -1683,7 +1683,7 @@
                     2.0
                 ]
             },
-            "texturepath": "ground.png"
+            "texturepath": "collectionObject.png"
         },
         {
             "type": "MESH",
@@ -1701,9 +1701,9 @@
                     0.9238795638084412
                 ],
                 "scaling": [
-                    0.9999999403953552,
-                    1.0,
-                    0.9999999403953552
+                    3.0,
+                    3.0,
+                    3.0
                 ]
             },
             "collider": {
@@ -1719,7 +1719,7 @@
                     2.0
                 ]
             },
-            "texturepath": "ground.png"
+            "texturepath": "collectionObject.png"
         },
         {
             "type": "MESH",
@@ -1737,9 +1737,9 @@
                     0.9238795638084412
                 ],
                 "scaling": [
-                    0.9999999403953552,
-                    1.0,
-                    0.9999999403953552
+                    3.0,
+                    3.0,
+                    3.0
                 ]
             },
             "collider": {
@@ -1755,7 +1755,7 @@
                     2.0
                 ]
             },
-            "texturepath": "ground.png"
+            "texturepath": "collectionObject.png"
         }
     ]
 }

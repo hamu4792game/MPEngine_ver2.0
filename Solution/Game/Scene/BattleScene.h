@@ -25,7 +25,7 @@ public:
 	void DrawImGui();
 
 private:
-	void PauseMenu();
+	void PauseMenu(); // ポーズ中の処理
 
 private:
 	std::unique_ptr<PlayerManager> player_;

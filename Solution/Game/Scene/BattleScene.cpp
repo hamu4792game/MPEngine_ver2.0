@@ -44,7 +44,8 @@ void BattleScene::Initialize() {
 }
 
 void BattleScene::Finalize() {
-	
+	RadialBlur::GetInstance()->SetUsed(false);
+	Grayscale::GetInstance()->SetUsed(false);
 }
 
 void BattleScene::Update() {
@@ -149,6 +150,10 @@ void BattleScene::Update() {
 	}
 
 	SecondUpdate();
+
+	if (endRequest_) {
+		Finalize();
+	}
 }
 
 void BattleScene::SecondUpdate() {
@@ -180,6 +185,7 @@ void BattleScene::PauseMenu() {
 		}
 		else if (menu == Pause::Menu::End) {
 			endRequest_ = true;
+			Finalize();
 		}
 	}
 

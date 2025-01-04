@@ -28,7 +28,7 @@ void GameScene::Initialize() {
 	rs->AddModel("Box", "Resources/Model/AnimatedCube/AnimatedCube.gltf");
 	rs->AddModel("Plane", "Resources/Model/plane/plane.obj");
 	rs->AddModel("Sphere", "Resources/Model/sphere/sphere.obj");
-	rs->AddModel("Target", "Resources/Model/Test/test.obj");
+	rs->AddModel("Target", "Resources/Model/Target/target.obj");
 	
 	rs->AddTexture("ground", "Resources/Texture/ground.png");
 	rs->AddTexture("ground1", "Resources/Texture/ground1.png");
@@ -49,7 +49,8 @@ void GameScene::Initialize() {
 	rs->AddTexture("MoveKey", "Resources/Texture/hud/moveKey.png");
 	rs->AddTexture("Mouse", "Resources/Texture/hud/mouse.png");
 	rs->AddTexture("Escape", "Resources/Texture/hud/escape.png");
-	rs->AddTexture("CollectionObject", "Resources/Texture/hud/collectionObject.png");
+	rs->AddTexture("CollectionObjectUI", "Resources/Texture/hud/collectionObjectUI.png");
+	rs->AddTexture("collectionObject", "Resources/Texture/collectionObject.png");
 
 	rs->AddTexture("ABCD", "Resources/Texture/uvChecker.png");
 	rs->AddTexture("Target", "Resources/Texture/hud/target.png");

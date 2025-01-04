@@ -269,9 +269,6 @@
     <ClCompile Include="Game\Stage\CollectionObject.cpp">
       <Filter>Game\Stage</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Stage\ObjectFrame.cpp">
-      <Filter>Game\Stage</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Shadow\CircleShadow.cpp">
       <Filter>Game\Shadow</Filter>
     </ClCompile>
@@ -564,9 +561,6 @@
       <Filter>Game\LockOn</Filter>
     </ClInclude>
     <ClInclude Include="Game\Stage\CollectionObject.h">
-      <Filter>Game\Stage</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Stage\ObjectFrame.h">
       <Filter>Game\Stage</Filter>
     </ClInclude>
     <ClInclude Include="Game\Shadow\CircleShadow.h">

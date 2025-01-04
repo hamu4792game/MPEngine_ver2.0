@@ -1,6 +1,9 @@
 #pragma once
-#include "ObjectFrame.h"
 #include "Game/Particle/DustParticle.h"
+#include "Utils/Tool/LevelData.h"
+#include "Graphics/Model/Model.h"
+#include "Utils/Collider/Collider.h"
+#include <memory>
 
 class CollectionObject {
 public:

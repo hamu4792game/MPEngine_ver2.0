@@ -28,7 +28,7 @@ void GameUI::Initialize(const uint32_t& collectionNum) {
 	index = 0;
 	for (auto& object : collectionObjects_) {
 		object = std::make_unique<Sprite>();
-		object->SetTexture(rsManager->FindTexture("CollectionObject"));
+		object->SetTexture(rsManager->FindTexture("CollectionObjectUI"));
 		object->SetScale(collectionObjectsParameter_.hudParam.scale);
 		Vector2 translate = collectionObjectsParameter_.hudParam.translate + Vector2(collectionObjectsParameter_.hudParam.scale.x * index++, 0.0f);
 		object->SetTranslate(translate);
@@ -92,6 +92,15 @@ bool GameUI::FirstUpdate(const uint32_t& collectionNum) {
 	}
 
 	// ここから上はそのうち初期化にまとめる-------------------------------
+
+	// 入力があればスキップ
+	auto input = Input::GetInstance();
+	if (input->GetKey()->TriggerKey(DIK_SPACE)) {
+		nowFrame_ = kMaxFrame;
+	}
+	if (input->GetMouse()->TriggerMouse(input->GetMouse()->LEFT)) {
+		nowFrame_ = kMaxFrame;
+	}
 
 	// ease更新
 	Vector2 resultScale = Ease::UseEase(preScale, postScale, nowFrame_, kMaxFrame, Ease::EaseType::EaseInSine);
