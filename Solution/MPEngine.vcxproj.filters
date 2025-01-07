@@ -80,9 +80,6 @@
     <ClCompile Include="MPEngine\Graphics\RenderManager\RenderManager.cpp">
       <Filter>MPEngine\Graphics\Render\RenderManager</Filter>
     </ClCompile>
-    <ClCompile Include="GameScene\GameScene.cpp">
-      <Filter>GameScene</Filter>
-    </ClCompile>
     <ClCompile Include="MPEngine\Math\Matrix3x3.cpp">
       <Filter>MPEngine\Math\Matrix3x3</Filter>
     </ClCompile>
@@ -275,6 +272,9 @@
     <ClCompile Include="Game\Camera\AnimationCamera.cpp">
       <Filter>Game\Camera\AnimationCamera</Filter>
     </ClCompile>
+    <ClCompile Include="GameScene\MasterGame.cpp">
+      <Filter>GameScene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -361,9 +361,6 @@
     </ClInclude>
     <ClInclude Include="MPEngine\Graphics\RenderManager\RenderManager.h">
       <Filter>MPEngine\Graphics\Render\RenderManager</Filter>
-    </ClInclude>
-    <ClInclude Include="GameScene\GameScene.h">
-      <Filter>GameScene</Filter>
     </ClInclude>
     <ClInclude Include="MPEngine\Math\Matrix3x3.h">
       <Filter>MPEngine\Math\Matrix3x3</Filter>
@@ -571,6 +568,9 @@
     </ClInclude>
     <ClInclude Include="Game\Player\PlayerManager.h">
       <Filter>Game\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene\MasterGame.h">
+      <Filter>GameScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

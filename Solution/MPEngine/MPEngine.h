@@ -9,7 +9,6 @@ class WindowSupervisor;
 class Input;
 class ShaderManager;
 #include "MPEngine/Graphics/RenderManager/RenderManager.h"
-#include "GameScene/GameScene.h"
 #include "Framework/GameFrame.h"
 
 class MPEngine {

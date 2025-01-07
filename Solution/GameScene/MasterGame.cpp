@@ -1,4 +1,4 @@
-#include "GameScene.h"
+#include "MasterGame.h"
 #include "MPEngine/Base/Manager/ResourceManager/ResourceManager.h"
 #include "MPEngine/Graphics/Texture/Texture.h"
 #include "MPEngine/Graphics/Object3d/Object3d.h"
@@ -6,17 +6,17 @@
 #include "ImGuiManager/ImGuiManager.h"
 #include "Utils/GlobalVariables/GlobalVariables.h"
 
-void (GameScene::* GameScene::SceneUpdateTable[])() = {
-	&GameScene::TitleUpdate,
-	&GameScene::BattleUpdate,
+void (MasterGame::* MasterGame::SceneUpdateTable[])() = {
+	&MasterGame::TitleUpdate,
+	&MasterGame::BattleUpdate,
 };
 
-void (GameScene::* GameScene::SceneInitializeTable[])() = {
-	&GameScene::TitleInitialize,
-	&GameScene::BattleInitialize,
+void (MasterGame::* MasterGame::SceneInitializeTable[])() = {
+	&MasterGame::TitleInitialize,
+	&MasterGame::BattleInitialize,
 };
 
-void GameScene::Initialize() {
+void MasterGame::Initialize() {
 	// 必要なResourceのLoad
 	auto rs = ResourceManager::GetInstance();
 	std::string directryPath = "Resources/Model/";
@@ -77,7 +77,7 @@ void GameScene::Initialize() {
 	transition_ = std::make_unique<Transition>();
 }
 
-void GameScene::Finalize() {
+void MasterGame::Finalize() {
 	if (titleScene_) {
 		titleScene_->Finalize();
 	}
@@ -86,7 +86,7 @@ void GameScene::Finalize() {
 	}
 }
 
-void GameScene::Update() {
+void MasterGame::Update() {
 
 	//Scene初期化
 	if (sceneRequest_) {
@@ -99,17 +99,17 @@ void GameScene::Update() {
 
 }
 
-void GameScene::TitleInitialize() {
+void MasterGame::TitleInitialize() {
 	titleScene_.reset(new TitleScene);
 	titleScene_->Initialize();
 }
 
-void GameScene::BattleInitialize() {
+void MasterGame::BattleInitialize() {
 	battleScene_.reset(new BattleScene);
 	battleScene_->Initialize();
 }
 
-void GameScene::TitleUpdate() {
+void MasterGame::TitleUpdate() {
 	if (titleScene_->IsEndRequest()) {
 		transition_->StartTransition(Transition::Type::BlackOut);
 	}
@@ -128,7 +128,7 @@ void GameScene::TitleUpdate() {
 	}
 }
 
-void GameScene::BattleUpdate() {
+void MasterGame::BattleUpdate() {
 	if (battleScene_->IsEndRequest()) {
 		transition_->StartTransition(Transition::Type::Spin);
 	}

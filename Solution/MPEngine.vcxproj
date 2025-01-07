@@ -157,7 +157,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="GameScene\GameScene.cpp" />
+    <ClCompile Include="GameScene\MasterGame.cpp" />
     <ClCompile Include="GameScene\TestScene.cpp" />
     <ClCompile Include="GameScene\Transition.cpp" />
     <ClCompile Include="Game\BoxSky\BoxSky.cpp" />
@@ -251,7 +251,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="MPEngine\Utils\WorldTransform\WorldTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameScene\GameScene.h" />
+    <ClInclude Include="GameScene\MasterGame.h" />
     <ClInclude Include="GameScene\TestScene.h" />
     <ClInclude Include="GameScene\Transition.h" />
     <ClInclude Include="Game\BoxSky\BoxSky.h" />

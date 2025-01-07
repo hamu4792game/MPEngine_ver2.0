@@ -118,15 +118,18 @@ Vector3 MoveCommand::UpPostWebSwing() {
 	return Vector3(webswingDirection_.x, 0.0f, webswingDirection_.z);
 }
 
-Vector3 MoveCommand::UpWallMove(const Vector3& hitNormal, const Vector3& moveVec) {
+Vector3 MoveCommand::UpWallMove(const Vector3& hitNormal, WorldTransform& moveVolume, const Vector3& moveVec) {
 	Vector3 lNormalVec = hitNormal.Normalize();
 	// 角度の計算
-	float angle = std::acosf(Vector3::up * lNormalVec);
+	float angle = FindAngle(Vector3::up, lNormalVec);
 	// 回転軸の計算
 	Vector3 rotAxis = Cross(Vector3::up, lNormalVec).Normalize();
+
+	// 壁に垂直なQuaternionを取得
 	Quaternion qur = Quaternion::MakeRotateAxisAngleQuaternion(rotAxis, angle);
 	// 移動ベクトルを回転
 	Vector3 moveVector = qur * moveVec;
+	moveVolume.rotationQuat_ = qur;
 	return moveVector;
 }
 

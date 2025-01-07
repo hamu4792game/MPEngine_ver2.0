@@ -15,9 +15,10 @@ PlayerAnimation::PlayerAnimation(const WorldTransform* transform) {
 		Vector3 scale = gv->GetVector3Value(itemName_, ("PartsTrans : scale" + std::to_string(index)).c_str());
 		Vector3 rotation = gv->GetVector3Value(itemName_, ("PartsTrans : rotate" + std::to_string(index)).c_str());
 		Vector3 translation = gv->GetVector3Value(itemName_, ("PartsTrans : translate" + std::to_string(index)).c_str());
-		WorldTransform trans = WorldTransform(scale, rotation, translation);
-		trans.parent_ = transform;
-		model->SetTransform(trans);
+		modelTransforms_.at(index) = WorldTransform(scale, rotation, translation);
+		modelTransforms_.at(index).parent_ = transform;
+		modelTransforms_.at(index).isQuaternion_ = true;
+		model->SetTransform(modelTransforms_.at(index));
 		index++;
 	}
 	// animationの生成と読み込み
@@ -67,8 +68,13 @@ void PlayerAnimation::Update(BehaviorFlag flag) {
 		timeHandle += frameSpeed;
 	}
 	animationTime_ = timeHandle;
-		
-	models_.at(static_cast<uint32_t>(Parts::Body))->GetAnimation()->Update(models_.at(static_cast<uint32_t>(Parts::Body))->GetTransform());
+
+	// モデルの更新
+	for (uint8_t index = 0u; index < static_cast<uint8_t>(Parts::kMaxNum); index++) {
+		modelTransforms_.at(index).UpdateMatrix();
+		models_.at(index)->SetTransform(modelTransforms_.at(index));
+		models_.at(index)->GetAnimation()->Update(modelTransforms_.at(index));
+	}
 }
 
 void PlayerAnimation::SetAnimation() {
@@ -94,10 +100,9 @@ void PlayerAnimation::SetAnimation(AnimationType type, const bool flag) {
 }
 
 void PlayerAnimation::SetQuaternion(const Quaternion& qua) {
-	WorldTransform trans = models_.at(static_cast<uint32_t>(Parts::Body))->GetTransform();
-	trans.isQuaternion_ = true;
-	trans.rotationQuat_ = qua;
-	models_.at(static_cast<uint32_t>(Parts::Body))->SetTransform(trans);
+	WorldTransform& trans = modelTransforms_.at(static_cast<uint32_t>(Parts::Body));
+	// 親の回転を削除してセット
+	trans.rotationQuat_ = trans.parent_->rotationQuat_.Inverse() * qua;
 }
 
 float PlayerAnimation::AnimationUpdate(BehaviorFlag flag) {

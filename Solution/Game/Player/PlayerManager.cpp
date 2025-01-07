@@ -125,13 +125,7 @@ void PlayerManager::Update() {
 
 	}
 	
-	// 壁に横向きで当たっている場合
-	Quaternion qur;
-	if (hittingObjectNormal_ != Vector3::zero) {
-		//moveVector_ = moveCom_->UpWallMove(hittingObjectNormal_, moveVector_);
-		hittingObjectNormal_ = Vector3::zero;
-	}
-	//animation_->SetQuaternion(qur);
+	
 
 	// 事後処理----------------------------------------
 
@@ -216,11 +210,13 @@ bool PlayerManager::OnCollisionStage(const Collider& coll) {
 			// 横向きに当たったら
 			else if (nBigVec == nPushBackVec.x || nBigVec == nPushBackVec.z) {
 				// 地面と当たっているので初期化
-				/*if (!fallParam_.isJumpable) {
+				if (!fallParam_.isJumpable) {
 					behaviorFlag_.isLanded = true;
 				}
 				fallParam_.JumpInitialize();
-				hittingObjectNormal_ = nPushBackVec;*/
+				hittingObjectNormal_ = nPushBackVec;
+				// ちょっとだけめり込ませる
+				pushBackVec -= nPushBackVec * 0.01f;
 			}
 			
 			transform_.translation_ += pushBackVec;
@@ -415,6 +411,17 @@ void PlayerManager::BehaviorRootUpdate() {
 		behaviorFlag_.isWaiting = true;
 	}
 
+	// 壁に横向きで当たっている場合
+	//Quaternion qur;
+	if (hittingObjectNormal_ != Vector3::zero) {
+		moveVector_ = moveCom_->UpWallMove(hittingObjectNormal_, handle, moveVector_);
+		ImGui::DragFloat3("HitVec", &hittingObjectNormal_.x, 0.1f);
+		ImGui::DragFloat4("handleQUAT", &handle.rotationQuat_.x, 0.1f);
+		handle.rotationQuat_ = handle.rotationQuat_ /** Quaternion::MakeFromTwoVector(Vector3::back,inputParam_.move.Normalize())*/;
+		hittingObjectNormal_ = Vector3::zero;
+	}
+	animation_->SetQuaternion(handle.rotationQuat_);
+
 	// ジャンプを押した場合
 	if (inputParam_.isJump) {
 		moveCom_->ExJump(fallParam_);
@@ -435,6 +442,7 @@ void PlayerManager::BehaviorRootUpdate() {
 		moveVector_ += moveCom_->UpWebSwing(transform_.GetPosition(), isWebSwing_);
 	}
 	else {
+
 		// 重力落下処理 Y軸の座標移動
 		moveVector_ += moveCom_->UpFalling(fallParam_);
 		behaviorFlag_.isJumped = fallParam_.isJumped;

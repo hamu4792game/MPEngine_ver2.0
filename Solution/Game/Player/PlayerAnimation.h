@@ -66,6 +66,7 @@ private: // private関数
 
 private: // private変数
 	std::array<std::unique_ptr<Model>, static_cast<uint32_t>(Parts::kMaxNum)> models_;
+	std::array<WorldTransform, static_cast<uint32_t>(Parts::kMaxNum)> modelTransforms_;
 	std::array<std::unique_ptr<ModelAnimation>, static_cast<uint32_t>(AnimationType::kMaxNum)> animation_;
 	float animationTime_ = 0.0f;
 	AnimationType nowType_; // 今のタイプ

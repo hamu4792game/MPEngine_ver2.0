@@ -7,10 +7,10 @@
 #include "Transition.h"
 
 
-class GameScene : public GameFrame {
+class MasterGame : public GameFrame {
 public:
-	GameScene() = default;
-	~GameScene() override = default;
+	MasterGame() = default;
+	~MasterGame() override = default;
 
 	void Initialize() override;
 	void Finalize() override;
@@ -33,8 +33,8 @@ private:
 
 	Scene scene_ = Scene::TITLE;
 	Scene nextScene = Scene::BATTLE;
-	static void (GameScene::* SceneInitializeTable[])();
-	static void (GameScene::* SceneUpdateTable[])();
+	static void (MasterGame::* SceneInitializeTable[])();
+	static void (MasterGame::* SceneUpdateTable[])();
 	std::optional<Scene> sceneRequest_ = std::nullopt;
 
 	void TitleInitialize();
