@@ -59,9 +59,6 @@ void FollowCamera::Update(const float& speed) {
 
 		//transform_.rotationQuat_ = Quaternion::FromRotationMatrix4x4(MakeRotateMatrix(transform_.rotation_));
 	}
-	else {
-		transform_.UpdateMatrix();
-	}
 	transform_.UpdateMatrix();
 	if (target_) {
 		collision_->Update(*target_);
@@ -117,18 +114,19 @@ void FollowCamera::CameraMove() {
 	if (input->GetPad()->GetPadConnect()) {
 		Vector2 pMove(0.0f, 0.0f);
 		pMove = input->GetPad()->GetPadRStick();
+		const float kStickDeadZone = 0.5f;
 		//	移動があれば代入する
-		if (pMove.x < -0.5f) {
+		if (pMove.x < -kStickDeadZone) {
 			move.y -= AngleToRadian(speed);
 		}
-		else if (pMove.x > 0.5f) {
+		else if (pMove.x > kStickDeadZone) {
 			move.y += AngleToRadian(speed);
 		}
-		if (pMove.y < -0.5f) {
-			move.x -= AngleToRadian(speed);
-		}
-		else if (pMove.y > 0.5f) {
+		if (pMove.y < -kStickDeadZone) {
 			move.x += AngleToRadian(speed);
+		}
+		else if (pMove.y > kStickDeadZone) {
+			move.x -= AngleToRadian(speed);
 		}
 	}
 	//transform_.rotation_.x += move.x;
