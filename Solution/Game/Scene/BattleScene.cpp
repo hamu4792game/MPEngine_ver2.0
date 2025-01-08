@@ -39,7 +39,7 @@ void BattleScene::Initialize() {
 	auto rs = ResourceManager::GetInstance();
 	Audio* bgm = rs->FindAudio("Battle");
 	bgm->SoundPlayWave(true);
-	bgm->SetVolume(0.2f);
+	bgm->SetVolume(0.25f);
 
 }
 
