@@ -119,6 +119,8 @@ Vector3 MoveCommand::UpPostWebSwing() {
 }
 
 Vector3 MoveCommand::UpWallMove(const Vector3& hitNormal, WorldTransform& moveVolume, const Vector3& moveVec) {
+	// そもそも移動されていなかったら早期リターン
+	if (moveVec == Vector3::zero) { return Vector3::zero; }
 	Vector3 lNormalVec = hitNormal.Normalize();
 	// 角度の計算
 	float angle = FindAngle(Vector3::up, lNormalVec);
@@ -129,7 +131,13 @@ Vector3 MoveCommand::UpWallMove(const Vector3& hitNormal, WorldTransform& moveVo
 	Quaternion qur = Quaternion::MakeRotateAxisAngleQuaternion(rotAxis, angle);
 	// 移動ベクトルを回転
 	Vector3 moveVector = qur * moveVec;
+	
 	moveVolume.rotationQuat_ = qur;
+	// 回転した移動ベクトルをもとに正面方向のQuaternionを計算
+	Quaternion forward = Quaternion::MakeFromTwoVector(-lNormalVec, moveVector.Normalize());
+
+	moveVolume.rotationQuat_ = forward;
+
 	return moveVector;
 }
 

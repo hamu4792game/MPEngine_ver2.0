@@ -79,7 +79,7 @@ Quaternion Quaternion::Multiply(const Quaternion& quaternion) const {
 	return result;
 }
 
-Quaternion Quaternion::IdentityQuaternion() const {
+Quaternion Quaternion::IdentityQuaternion() {
 	return Quaternion(0.0f,0.0f,0.0f,1.0f);
 }
 
@@ -185,6 +185,23 @@ Quaternion Quaternion::Slerp(const Quaternion& q0, const Quaternion& q1, const f
 Quaternion Quaternion::MakeFromTwoVector(const Vector3& from, const Vector3& to) {
 	Vector3 axis = Cross(from, to);
 	float angle = FindAngle(from, to);
+	if (axis.Length() < 0.0001f) {
+		// 平行なので回転不要
+		if (from * to > 0.0f) {
+			return Quaternion::IdentityQuaternion();
+		}
+		// 逆平衡の場合
+		if (std::fabs(from.x) < 0.99f) {
+			axis = Vector3::right; // X軸方向
+		}
+		else if (std::fabs(from.y) < 0.99f) {
+			axis = Vector3::up;    // Y軸方向
+		}
+		else {
+			axis = Vector3::front; // Z軸方向
+		}
+	}
+
 	return MakeRotateAxisAngleQuaternion(axis, angle);
 }
 

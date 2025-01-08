@@ -417,7 +417,7 @@ void PlayerManager::BehaviorRootUpdate() {
 		moveVector_ = moveCom_->UpWallMove(hittingObjectNormal_, handle, moveVector_);
 		ImGui::DragFloat3("HitVec", &hittingObjectNormal_.x, 0.1f);
 		ImGui::DragFloat4("handleQUAT", &handle.rotationQuat_.x, 0.1f);
-		handle.rotationQuat_ = handle.rotationQuat_ /** Quaternion::MakeFromTwoVector(Vector3::back,inputParam_.move.Normalize())*/;
+		handle.rotationQuat_ = handle.rotationQuat_;
 		hittingObjectNormal_ = Vector3::zero;
 	}
 	animation_->SetQuaternion(handle.rotationQuat_);

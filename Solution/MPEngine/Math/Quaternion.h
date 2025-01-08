@@ -28,7 +28,7 @@ public:
 	// 積
 	Quaternion Multiply(const Quaternion& quaternion) const;
 	// 単位Quaternionを返す
-	Quaternion IdentityQuaternion() const;
+	static Quaternion IdentityQuaternion();
 	// 共役Quaternionを返す
 	Quaternion Conjugate() const;
 	// Quaternionのnormを返す
