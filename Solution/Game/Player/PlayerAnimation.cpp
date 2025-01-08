@@ -1,6 +1,6 @@
 #include "PlayerAnimation.h"
 #include "Utils/GlobalVariables/GlobalVariables.h"
-#include "PlayerManager.h"
+#include "Player.h"
 #include "ImGuiManager/ImGuiManager.h"
 
 PlayerAnimation::PlayerAnimation(const WorldTransform* transform) {
@@ -34,12 +34,14 @@ PlayerAnimation::PlayerAnimation(const WorldTransform* transform) {
 		anime->Load(rsManager->FindAnimation(animationNames[index]), models_.at(static_cast<uint32_t>(Parts::Body)).get());
 		index++;
 	}
+
+	// タイプの初期化
+	nowType_ = AnimationType::Wait;
+	oldType_ = AnimationType::kMaxNum;
 }
 
 void PlayerAnimation::Initialize() {
 	animationTime_ = 0.0f;
-	nowType_ = AnimationType::Wait;
-	oldType_ = AnimationType::kMaxNum;
 	models_.at(static_cast<uint32_t>(Parts::Body))->SetAnimation(animation_.at(static_cast<uint32_t>(nowType_)).get());
 	models_.at(static_cast<uint32_t>(Parts::Body))->materials.environmentCoefficient = 1.0f;
 }
@@ -101,7 +103,17 @@ void PlayerAnimation::SetAnimation(AnimationType type, const bool flag) {
 
 void PlayerAnimation::SetQuaternion(const Quaternion& qua) {
 	WorldTransform& trans = modelTransforms_.at(static_cast<uint32_t>(Parts::Body));
-	// 親の回転を削除してセット
+	// worldMatrixから姿勢を取得するため、回転行列を取得しQuaternionに変換している
+	
+	/* 正確にやりたかったけどなぜか値がおかしいので後回し
+	Matrix4x4 parentRotateMatrix = NormalizeMakeRotateMatrix(trans.parent_->worldMatrix_);
+	Quaternion parentQuaternion = Quaternion::FromRotationMatrix4x4(parentRotateMatrix);
+	Quaternion a = trans.parent_->rotationQuat_;
+	ImGui::DragFloat4("ParentRot", &a.x, 0.1f);
+	parentQuaternion = parentQuaternion.Inverse();
+	ImGui::DragFloat4("quaRot", &parentQuaternion.x, 0.1f);*/
+
+	// 親の回転を削除するために逆姿勢をかけてセット
 	trans.rotationQuat_ = trans.parent_->rotationQuat_.Inverse() * qua;
 }
 

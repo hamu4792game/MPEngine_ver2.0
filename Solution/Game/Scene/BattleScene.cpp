@@ -14,7 +14,7 @@ void BattleScene::Initialize() {
 	auto leveldata = data.Load("stage.json");
 	stage_->LevelLoad(leveldata);
 
-	player_ = std::make_unique<PlayerManager>();
+	player_ = std::make_unique<Player>();
 	player_->Initialize(stage_->GetPlayerRespawnPoint());
 
 	lockOn_ = std::make_unique<LockOn>();

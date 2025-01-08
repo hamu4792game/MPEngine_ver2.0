@@ -9,10 +9,10 @@
 #include "MoveCommand.h"
 #include "Game/Shadow/CircleShadow.h"
 
-class PlayerManager {
+class Player {
 public:
-	PlayerManager();
-	~PlayerManager() = default;
+	Player();
+	~Player() = default;
 
 	void Initialize(const WorldTransform& respawnpoint);
 	void Update();

@@ -464,6 +464,11 @@ Matrix4x4 NormalizeMakeRotateMatrix(const Matrix4x4& matrix) {
 	Vector3 xAxis = Normalize(GetXAxis(matrix)); // [0][?]
 	Vector3 yAxis = Normalize(GetYAxis(matrix)); // [1][?]
 	Vector3 zAxis = Normalize(GetZAxis(matrix)); // [2][?]
+
+	// 直交性を保証する (グラム・シュミット法)
+	yAxis = Normalize(Cross(zAxis, xAxis));
+	zAxis = Normalize(Cross(xAxis, yAxis));
+
 	Matrix4x4 result;
 	result.m[0][0] = xAxis.x;
 	result.m[0][1] = xAxis.y;

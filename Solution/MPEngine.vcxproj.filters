@@ -191,7 +191,7 @@
     <ClCompile Include="MPEngine\Graphics\PostEffect\BaseEffect.cpp">
       <Filter>MPEngine\Graphics\PostEffect</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Player\PlayerManager.cpp">
+    <ClCompile Include="Game\Player\Player.cpp">
       <Filter>Game\Player</Filter>
     </ClCompile>
     <ClCompile Include="Game\Player\PlayerAnimation.cpp">
@@ -566,7 +566,7 @@
     <ClInclude Include="Game\Camera\AnimationCamera.h">
       <Filter>Game\Camera\AnimationCamera</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Player\PlayerManager.h">
+    <ClInclude Include="Game\Player\Player.h">
       <Filter>Game\Player</Filter>
     </ClInclude>
     <ClInclude Include="GameScene\MasterGame.h">

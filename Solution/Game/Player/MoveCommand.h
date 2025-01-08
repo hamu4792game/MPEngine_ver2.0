@@ -54,10 +54,10 @@ public:
 	/// 壁移動の更新処理
 	/// </summary>
 	/// <param name="hitNormal">壁に当たっている正規化ベクトル</param>
-	/// <param name="moveVolume"></param>
+	/// <param name="playerRotate">Playerの回転Quaternionの参照渡し用変数</param>
 	/// <param name="moveVec">入力移動ベクトル</param>
 	/// <returns>移動ベクトルを返す</returns>
-	Vector3 UpWallMove(const Vector3& hitNormal, WorldTransform& moveVolume, const Vector3& moveVec);
+	Vector3 UpWallMove(const Vector3& hitNormal, Quaternion& playerRotate, const Vector3& moveVec);
 
 public: // ゲッター
 	const MoveParam& GetParameter() const { return param_; }

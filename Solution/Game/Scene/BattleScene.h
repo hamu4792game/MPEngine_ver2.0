@@ -1,7 +1,7 @@
 #pragma once
 #include "MPEngine/Framework/SceneFrame.h"
 #include "Utils/WorldTransform/WorldTransform.h"
-#include "Game/Player/PlayerManager.h"
+#include "Game/Player/Player.h"
 #include "Game/Stage/Stage.h"
 #include "Game/Target/Target.h"
 #include <vector>
@@ -28,7 +28,7 @@ private:
 	void PauseMenu(); // ポーズ中の処理
 
 private:
-	std::unique_ptr<PlayerManager> player_;
+	std::unique_ptr<Player> player_;
 	std::unique_ptr<Stage> stage_;
 	std::unique_ptr<LockOn> lockOn_;
 	std::unique_ptr<PointOfGazeSearch> pointOfGazeSearch_;

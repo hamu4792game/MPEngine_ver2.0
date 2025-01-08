@@ -172,7 +172,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Pause\Pause.cpp" />
     <ClCompile Include="Game\Player\MoveCommand.cpp" />
     <ClCompile Include="Game\Player\PlayerAnimation.cpp" />
-    <ClCompile Include="Game\Player\PlayerManager.cpp" />
+    <ClCompile Include="Game\Player\Player.cpp" />
     <ClCompile Include="Game\Player\WebSwing.cpp" />
     <ClCompile Include="Game\Player\WireTargetMove.cpp" />
     <ClCompile Include="Game\Scene\BattleScene.cpp" />
@@ -267,7 +267,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\Pause\Pause.h" />
     <ClInclude Include="Game\Player\MoveCommand.h" />
     <ClInclude Include="Game\Player\PlayerAnimation.h" />
-    <ClInclude Include="Game\Player\PlayerManager.h" />
+    <ClInclude Include="Game\Player\Player.h" />
     <ClInclude Include="Game\Player\WebSwing.h" />
     <ClInclude Include="Game\Player\WireTargetMove.h" />
     <ClInclude Include="Game\Scene\BattleScene.h" />

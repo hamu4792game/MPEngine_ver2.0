@@ -18,7 +18,7 @@ void TitleScene::Initialize() {
 	auto leveldata = data.Load("title.json");
 	stage_->LevelLoad(leveldata);
 
-	player_ = std::make_unique<PlayerManager>();
+	player_ = std::make_unique<Player>();
 	player_->Initialize(stage_->GetPlayerRespawnPoint());
 
 	tutorial_ = std::make_shared<Sprite>();

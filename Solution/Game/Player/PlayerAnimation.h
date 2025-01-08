@@ -55,6 +55,7 @@ public: // public関数
 
 	const bool& GetFinishedAnimation() const { return isFinishedAnimation_; }
 
+	// 回転軸のセット、親の回転は削除している
 	void SetQuaternion(const Quaternion& qua);
 	void SetColor(const Vector4& color) { models_.front()->SetColor(color); }
 
@@ -69,8 +70,8 @@ private: // private変数
 	std::array<WorldTransform, static_cast<uint32_t>(Parts::kMaxNum)> modelTransforms_;
 	std::array<std::unique_ptr<ModelAnimation>, static_cast<uint32_t>(AnimationType::kMaxNum)> animation_;
 	float animationTime_ = 0.0f;
-	AnimationType nowType_; // 今のタイプ
-	AnimationType oldType_; // 前のタイプ
+	AnimationType nowType_ = AnimationType::kMaxNum; // 今のタイプ
+	AnimationType oldType_ = AnimationType::kMaxNum; // 前のタイプ
 	bool isFinishedAnimation_ = false; // アニメーションが終わったか
 	bool isJumpFrag_ = false;
 };

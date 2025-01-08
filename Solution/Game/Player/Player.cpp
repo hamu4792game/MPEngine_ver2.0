@@ -1,4 +1,4 @@
-#include "PlayerManager.h"
+#include "Player.h"
 #include "Utils/GlobalVariables/GlobalVariables.h"
 #include "ImGuiManager/ImGuiManager.h"
 #include "Utils/Camera/Camera3d.h"
@@ -6,7 +6,7 @@
 #include <algorithm>
 #include "Graphics/PostEffect/RadialBlur.h"
 
-PlayerManager::PlayerManager() {
+Player::Player() {
 	animation_ = std::make_unique<PlayerAnimation>(&transform_);
 	collision_ = std::make_unique<Collider>();
 	downCollision_ = std::make_unique<Collider>();
@@ -16,7 +16,7 @@ PlayerManager::PlayerManager() {
 	circleShadow_ = std::make_unique<CircleShadow>();
 }
 
-void PlayerManager::Initialize(const WorldTransform& respawnpoint) {
+void Player::Initialize(const WorldTransform& respawnpoint) {
 	MoveParam moveparam;
 	SetGlobalVariables(moveparam);
 	moveCom_->Initialize(moveparam, &masterSpeed_);
@@ -48,7 +48,7 @@ void PlayerManager::Initialize(const WorldTransform& respawnpoint) {
 
 }
 
-void PlayerManager::Update() {
+void Player::Update() {
 	// 更新時の初期化処理
 	oldPosition_ = transform_.GetPosition();
 	behaviorFlag_.Initialize();
@@ -140,7 +140,7 @@ void PlayerManager::Update() {
 	minDistance_ = std::numeric_limits<float>::max();
 }
 
-WorldTransform PlayerManager::PostUpdate() {
+WorldTransform Player::PostUpdate() {
 	//アニメーションの更新
 	animation_->Update(behaviorFlag_);
 	postEffectNum_ = PostEffectNum::None;
@@ -184,7 +184,7 @@ WorldTransform PlayerManager::PostUpdate() {
 	return cameraTrans;
 }
 
-bool PlayerManager::OnCollisionStage(const Collider& coll) {
+bool Player::OnCollisionStage(const Collider& coll) {
 	Vector3 pushBackVec;
 	bool iscoll = collision_->OnCollision(coll, pushBackVec);
 	if (iscoll) {
@@ -232,7 +232,7 @@ bool PlayerManager::OnCollisionStage(const Collider& coll) {
 	return false;
 }
 
-bool PlayerManager::OnCollisionDownRayToStage(const Collider& coll, Vector3& hitPoint) {
+bool Player::OnCollisionDownRayToStage(const Collider& coll, Vector3& hitPoint) {
 	Vector3 pushBackVec = transform_.GetPosition();
 	hitPoint = transform_.GetPosition();
 	WorldTransform tra = WorldTransform(Vector3::one, Vector3::zero, transform_.GetPosition() + Vector3::down);
@@ -254,7 +254,7 @@ bool PlayerManager::OnCollisionDownRayToStage(const Collider& coll, Vector3& hit
 	return iscoll;
 }
 
-WorldTransform PlayerManager::OnCollisionCameraToStage(const Collider& coll) {
+WorldTransform Player::OnCollisionCameraToStage(const Collider& coll) {
 	if (followCamera_->OnCollision(coll)) {
 		float dis = Length(transform_.GetPosition() - followCamera_->GetTransform().GetPosition());
 		if (dis <= 40.0f) {
@@ -265,7 +265,7 @@ WorldTransform PlayerManager::OnCollisionCameraToStage(const Collider& coll) {
 	return followCamera_->GetTransform();
 }
 
-void PlayerManager::DrawImGui() {
+void Player::DrawImGui() {
 #ifdef _DEBUG
 	ImGui::Begin(itemName_.c_str(), nullptr, ImGuiWindowFlags_MenuBar);
 	if (ImGui::BeginMenuBar()) {
@@ -293,18 +293,18 @@ void PlayerManager::DrawImGui() {
 }
 
 
-void PlayerManager::TransformUpdate() {
+void Player::TransformUpdate() {
 	transform_.UpdateMatrix();
 	collTrans_.UpdateMatrix();
 	collision_->Update();
 }
 
-void PlayerManager::LimitMoving() {
+void Player::LimitMoving() {
 	transform_.translation_.y = std::clamp(transform_.translation_.y, 2.4f, 10000.0f);
 	
 }
 
-void PlayerManager::KeyInput() {
+void Player::KeyInput() {
 	auto input = Input::GetInstance();
 	inputParam_.Initialize();
 #pragma region Jump
@@ -390,7 +390,7 @@ void PlayerManager::KeyInput() {
 
 }
 
-void PlayerManager::BehaviorRootUpdate() {
+void Player::BehaviorRootUpdate() {
 	WorldTransform handle;
 	bool isLanded = false;
 	// 地面についているなら
@@ -400,6 +400,7 @@ void PlayerManager::BehaviorRootUpdate() {
 	// 通常移動処理
 	bool isMoving = moveCom_->UpInputMove(inputParam_.move, handle, isLanded);
 	if (isMoving) {
+		// 
 		transform_.rotationQuat_ = handle.rotationQuat_;
 		moveVector_ += handle.translation_;
 		// 地面についているなら
@@ -412,12 +413,8 @@ void PlayerManager::BehaviorRootUpdate() {
 	}
 
 	// 壁に横向きで当たっている場合
-	//Quaternion qur;
 	if (hittingObjectNormal_ != Vector3::zero) {
-		moveVector_ = moveCom_->UpWallMove(hittingObjectNormal_, handle, moveVector_);
-		ImGui::DragFloat3("HitVec", &hittingObjectNormal_.x, 0.1f);
-		ImGui::DragFloat4("handleQUAT", &handle.rotationQuat_.x, 0.1f);
-		handle.rotationQuat_ = handle.rotationQuat_;
+		moveVector_ = moveCom_->UpWallMove(hittingObjectNormal_, handle.rotationQuat_, moveVector_);
 		hittingObjectNormal_ = Vector3::zero;
 	}
 	animation_->SetQuaternion(handle.rotationQuat_);
@@ -456,7 +453,7 @@ void PlayerManager::BehaviorRootUpdate() {
 	}
 }
 
-void PlayerManager::SetGlobalVariables(MoveParam& param) {
+void Player::SetGlobalVariables(MoveParam& param) {
 	GlobalVariables* gv = GlobalVariables::GetInstance();
 	
 	param.inputMoveParam.accelerationRate = gv->GetFloatValue(itemName_,"InputMoveParam_accelerationRate");
@@ -475,7 +472,7 @@ void PlayerManager::SetGlobalVariables(MoveParam& param) {
 	param.jumpFirstVelocity = gv->GetFloatValue(itemName_, "JumpFirstVelocity");
 }
 
-void PlayerManager::AddGlobalVariables(const MoveParam& param) {
+void Player::AddGlobalVariables(const MoveParam& param) {
 	GlobalVariables* gv = GlobalVariables::GetInstance();
 
 	gv->SetValue(itemName_, "InputMoveParam_accelerationRate", param.inputMoveParam.accelerationRate);

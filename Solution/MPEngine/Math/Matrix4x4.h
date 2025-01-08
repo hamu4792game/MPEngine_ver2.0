@@ -78,6 +78,7 @@ Vector3 GetXAxis(Matrix4x4 m);
 Vector3 GetYAxis(Matrix4x4 m);
 Vector3 GetZAxis(Matrix4x4 m);
 
+// ワールド行列から回転行列を取得
 Matrix4x4 NormalizeMakeRotateMatrix(const Matrix4x4& matrix);
-
+// ワールド行列から拡縮行列を取得
 Vector3 MakeScale(const Matrix4x4& matrix);

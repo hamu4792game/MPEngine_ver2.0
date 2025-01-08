@@ -118,7 +118,7 @@ Vector3 MoveCommand::UpPostWebSwing() {
 	return Vector3(webswingDirection_.x, 0.0f, webswingDirection_.z);
 }
 
-Vector3 MoveCommand::UpWallMove(const Vector3& hitNormal, WorldTransform& moveVolume, const Vector3& moveVec) {
+Vector3 MoveCommand::UpWallMove(const Vector3& hitNormal, Quaternion& playerRotate, const Vector3& moveVec) {
 	// そもそも移動されていなかったら早期リターン
 	if (moveVec == Vector3::zero) { return Vector3::zero; }
 
@@ -136,7 +136,7 @@ Vector3 MoveCommand::UpWallMove(const Vector3& hitNormal, WorldTransform& moveVo
 	// 移動ベクトルを回転
 	Vector3 moveVector = qur * moveVec;
 	// 合成
-	moveVolume.rotationQuat_ = qur * forward;
+	playerRotate = qur * forward;
 
 	return moveVector;
 }
