@@ -104,6 +104,7 @@ private:
 
 	Vector3 hittingObjectNormal_; // 衝突している物体の法線ベクトル
 
+	Vector3 temporarySaveMoveVector_; // 一時保存用移動ベクトル、壁移動前の姿勢に戻すために使用
 
 	// ウェブスイング用
 	bool isWebSwing_ = false;

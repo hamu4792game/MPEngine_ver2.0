@@ -37,7 +37,7 @@ public:
 	bool UpWireTargetMove(const Vector3& player, Vector3& result);
 
 	// ジャンプ処理
-	bool ExJump(FallParam& param);
+	void ExJump(FallParam& param, const Vector3& direction = Vector3::zero);
 
 	// 落下処理
 	Vector3 UpFalling(FallParam& param);
@@ -59,6 +59,8 @@ public:
 	/// <returns>移動ベクトルを返す</returns>
 	Vector3 UpWallMove(const Vector3& hitNormal, Quaternion& playerRotate, const Vector3& moveVec);
 
+	Vector3 UpSkyDash();
+
 public: // ゲッター
 	const MoveParam& GetParameter() const { return param_; }
 
@@ -74,5 +76,6 @@ private:
 	const float* masterSpeed_ptr = nullptr;
 
 	Vector3 webswingDirection_;
+	Vector3 jumpDirection_; // ジャンプする際の方向ベクトル。現在はY軸が無関係で、速度も入ってるから実質Velocity
 
 };

@@ -58,7 +58,7 @@ bool MoveCommand::UpWireTargetMove(const Vector3& player, Vector3& result) {
 	return wireTargetMove_->Update(player, result);
 }
 
-bool MoveCommand::ExJump(FallParam& param) {
+void MoveCommand::ExJump(FallParam& param, const Vector3& direction) {
 	// ジャンプが可能で、なおかつ落ちていない時
 	if (param.isJumpable && !param.isFalled) {
 		// 初速度を与える
@@ -66,31 +66,41 @@ bool MoveCommand::ExJump(FallParam& param) {
 		param.isFalled = true;
 		param.fall.AccelInit(param_.jumpFirstVelocity);
 		webswingDirection_ = Vector3::zero;
+		jumpDirection_ = direction;
 	}
-	return false;
 }
 
 Vector3 MoveCommand::UpFalling(FallParam& param) {
-	Vector3 result;
+	Vector3 result = jumpDirection_;
 	// 落下更新処理
 	// 重力を足していく
 	param.fall.acceleration -= param_.fallParam.accelerationRate * *masterSpeed_ptr;
 	// 速度制限
 	param.fall.acceleration = std::clamp(param.fall.acceleration, param_.fallParam.kMinAcceleration, param_.fallParam.kMaxAcceleration);
-	result.y += param.fall.acceleration * *masterSpeed_ptr;
+	result.y = param.fall.acceleration * *masterSpeed_ptr;
 	if (param.isFalled) {
 		if (param.fall.acceleration < 0.0f) {
 			// 落下中
 			param.isFalled = true;
+
+			// 落下している間は真下にしか落ちない
+			jumpDirection_ = Vector3::zero;
 		}
 		else {
 			// 上昇中
 			param.isJumped = true;
+
+			// いったんなんも考えず代入。後で速度をかける
+			result.x = jumpDirection_.x * *masterSpeed_ptr;
+			result.z = jumpDirection_.z * *masterSpeed_ptr;
+
 		}
 	}
 	else {
 		param.isFalled = false;
 		param.isJumped = false;
+		// 落下している間は真下にしか落ちない
+		jumpDirection_ = Vector3::zero;
 	}
 	return result;
 }
@@ -136,8 +146,10 @@ Vector3 MoveCommand::UpWallMove(const Vector3& hitNormal, Quaternion& playerRota
 	// 移動ベクトルを回転
 	Vector3 moveVector = qur * moveVec;
 	// 疑似的な重力を使い壁に貼り付ける
-	moveVector += lNormalVec * -0.1f;
+	const float kSuctionPower = -0.2f; // 面に対しての吸引力
+	moveVector += lNormalVec * kSuctionPower;
 
+	// 下に移動しないよう制限
 	if (moveVector.y <= 0.0f) {
 		moveVector.y = 0.0f;
 	}

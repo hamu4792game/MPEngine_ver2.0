@@ -46,7 +46,7 @@ void FollowCamera::Update(const float& speed) {
 		preOffset_ = Lerp(preOffset_, lOffset, lerpSpeed_);
 		preRotate_ = Lerp(preRotate_, postRotate_, lerpSpeed_);
 
-		lOffset = TargetOffset(offset_, postRotate_);
+		lOffset = TargetOffset(preOffset_, postRotate_);
 		float T = Easing::EaseInSine(0.5f);
 
 		Vector3 end = MakeTranslateMatrix(target_->GetPosition()) * lOffset;
@@ -58,6 +58,9 @@ void FollowCamera::Update(const float& speed) {
 		transform_.rotation_ = postRotate_;
 
 		//transform_.rotationQuat_ = Quaternion::FromRotationMatrix4x4(MakeRotateMatrix(transform_.rotation_));
+	}
+	else {
+		transform_.UpdateMatrix();
 	}
 	transform_.UpdateMatrix();
 	if (target_) {

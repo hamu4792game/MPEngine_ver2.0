@@ -75,7 +75,7 @@ void Player::Update() {
 		case Behavior::kWireMove:
 			masterSpeed_ = 1.0f;
 			frameCount_.count = 0.0f;
-			followCamera_->SetParam(Vector3(0.0f, 2.0f, -20.0f), followCamera_->GetTransform().rotation_, 0.95f);
+			followCamera_->SetParam(Vector3(0.0f, 2.0f, -20.0f), followCamera_->GetTransform().rotation_, 0.25f);
 
 			// 回転の適応
 			if (targetTransform_) {
@@ -155,7 +155,7 @@ WorldTransform Player::PostUpdate() {
 	if (frameCount_.count >= frameCount_.maxFrame * 60.0f || finishFrag || (behavior_ == Behavior::kWireMove && behaviorFlag_.isLanded)) {
 		frameCount_.count = 0.0f;
 		masterSpeed_ = 1.0f;
-		followCamera_->SetParam(Vector3(0.0f, 2.0f, -20.0f), followCamera_->GetTransform().rotation_, 0.95f);
+		//followCamera_->SetParam(Vector3(0.0f, 2.0f, -20.0f), followCamera_->GetTransform().rotation_, 0.5f);
 	}
 
 	// followカメラの更新
@@ -165,9 +165,6 @@ WorldTransform Player::PostUpdate() {
 	float velocity = moveParameter_.acceleration;
 	if (behavior_ == Behavior::kWireMove) {
 		velocity = Length(transform_.GetPosition() - oldPosition_);
-		if (velocity >= 1.0f) {
-			velocity = 1.0f;
-		}
 	}
 	else {
 		velocity = 0.0f;
@@ -175,10 +172,13 @@ WorldTransform Player::PostUpdate() {
 	/// 仮で、速度が1以上ならエフェクトを
 	if (velocity > 0.5f) {
 		postEffectNum_ = PostEffectNum::RadialBlur;
-		RadialBlur::GetInstance()->cParam_->blurWidth = -(velocity * 0.01f);
+		// 0以上1以下になるよう制限
+		float power = std::clamp(velocity, 0.0f, 1.0f);
+		power = -(power * 0.01f);
+		RadialBlur::GetInstance()->cParam_->blurWidth = power;
 		
 	}
-	followCamera_->Update(velocity);
+	followCamera_->Update(velocity * 5.0f);
 	cameraTrans = followCamera_->GetTransform();
 	return cameraTrans;
 }
@@ -211,12 +211,12 @@ bool Player::OnCollisionStage(const Collider& coll) {
 				// 地面と当たっているので初期化
 				if (!fallParam_.isJumpable) {
 					behaviorFlag_.isLanded = true;
-					isWallRunning_ = true;
 				}
 				fallParam_.JumpInitialize();
 				hittingObjectNormal_ = nPushBackVec;
+				isWallRunning_ = true; // 壁移動しているフラグ
 				// ちょっとだけめり込ませる
-				pushBackVec -= nPushBackVec * 0.01f;
+				//pushBackVec -= nPushBackVec * 0.01f;
 			}
 			
 			transform_.translation_ += pushBackVec;
@@ -300,7 +300,7 @@ void Player::TransformUpdate() {
 }
 
 void Player::LimitMoving() {
-	transform_.translation_.y = std::clamp(transform_.translation_.y, 2.4f, 10000.0f);
+	transform_.translation_.y = std::clamp(transform_.translation_.y, 2.0f, 10000.0f);
 	
 }
 
@@ -407,31 +407,53 @@ void Player::BehaviorRootUpdate() {
 		if (isLanded) {
 			behaviorFlag_.isMoved = true;
 		}
+		// モデルに回転軸を設定
+		animation_->SetQuaternion(handle.rotationQuat_);
+		temporarySaveMoveVector_ = moveVector_; // 壁から離れた時用に保存
 	}
 	else {
 		behaviorFlag_.isWaiting = true;
 	}
 
+	Vector3 lJumpVector;
+
 	// 壁に横向きで当たっている場合
 	if (isWallRunning_) {
-		// 壁法線があれば
-		if (hittingObjectNormal_ != Vector3::zero) {
+		// 壁法線があれば かつ 移動があれば
+		if (hittingObjectNormal_ != Vector3::zero && moveVector_ != Vector3::zero) {
+			
 			// 壁移動
 			moveVector_ = moveCom_->UpWallMove(hittingObjectNormal_, handle.rotationQuat_, moveVector_);
-			hittingObjectNormal_ = Vector3::zero;
+			
 		}
 		// ない場合
 		else {
-
+			if (moveVector_ == Vector3::zero) {
+				inputParam_.isJump = true;
+			}
+			// 移動ベクトルをもとに正面方向のQuaternionを計算
+			handle.rotationQuat_ = Quaternion::MakeFromTwoVector(Vector3::front, temporarySaveMoveVector_.Normalize());
+			isWallRunning_ = false;
 		}
-
+		// モデルに回転軸を設定
+		animation_->SetQuaternion(handle.rotationQuat_);
+		// ジャンプさせる
+		lJumpVector = hittingObjectNormal_;
+		// 初期化
+		hittingObjectNormal_ = Vector3::zero;
 	}
-	animation_->SetQuaternion(handle.rotationQuat_);
-
+	
 	// ジャンプを押した場合
 	if (inputParam_.isJump) {
-		moveCom_->ExJump(fallParam_);
+		moveCom_->ExJump(fallParam_, lJumpVector);
+		isWallRunning_ = false;
+
+		// 移動ベクトルをもとに正面方向のQuaternionを計算
+		handle.rotationQuat_ = Quaternion::MakeFromTwoVector(Vector3::front, temporarySaveMoveVector_.Normalize());
+		// モデルに回転軸を設定
+		animation_->SetQuaternion(handle.rotationQuat_);
 	}
+	
 
 
 	// webswingが押された場合
@@ -448,6 +470,8 @@ void Player::BehaviorRootUpdate() {
 		moveVector_ += moveCom_->UpWebSwing(transform_.GetPosition(), isWebSwing_);
 	}
 	else {
+
+		if (isWallRunning_) { return; }
 
 		// 重力落下処理 Y軸の座標移動
 		moveVector_ += moveCom_->UpFalling(fallParam_);
