@@ -52,10 +52,7 @@ private:
 
 	Vector3 velocity_; // 現在の速度
 	Vector3 oldPosition_; // 1つ前のプレイヤーワールド座標
-	
-
-	
-	InputParam inputParam_;
+	InputParam inputParam_; // 入力パラメータ
 
 	// 移動関係速度
 	SpeedParam moveParameter_;
@@ -88,8 +85,9 @@ private:
 	// カメラ関係
 	std::shared_ptr<FollowCamera> followCamera_;
 
-	WorldTransform respawnpoint_;
+	WorldTransform respawnpoint_; // リス地
 
+	// ポストエフェクト用
 	enum PostEffectNum {
 		None,
 		RadialBlur,
@@ -110,9 +108,10 @@ private:
 	// ウェブスイング用
 	bool isWebSwing_ = false;
 
-	MoveParam debugMoveParam_;
-
-	std::unique_ptr<CircleShadow> circleShadow_;
+	std::unique_ptr<CircleShadow> circleShadow_; // 落ち影
 	float minDistance_ = 0.0f; // 最小の距離を記録するための変数
+
+	// 壁走り用
+	bool isWallRunning_ = false;
 
 };

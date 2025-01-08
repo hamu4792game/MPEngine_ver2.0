@@ -5,7 +5,7 @@
           "FallParam_kMinAcceleration": -3.0,
           "InputMoveParam_AirMoveVelocity": 0.4000000059604645,
           "InputMoveParam_accelerationRate": 0.10000000149011612,
-          "InputMoveParam_kMaxAcceleration": 0.4000000059604645,
+          "InputMoveParam_kMaxAcceleration": 0.8999999761581421,
           "InputMoveParam_kMinAcceleration": 0.0,
           "JumpFirstVelocity": 1.0,
           "PartsTrans : rotate0": [

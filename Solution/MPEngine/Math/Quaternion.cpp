@@ -194,15 +194,13 @@ Quaternion Quaternion::MakeFromTwoVector(const Vector3& from, const Vector3& to)
 		if (std::fabs(from.x) < 0.99f) {
 			axis = Vector3::right; // X軸方向
 		}
-		else if (std::fabs(from.y) < 0.99f) {
+		else {
 			axis = Vector3::up;    // Y軸方向
 		}
-		else {
-			axis = Vector3::front; // Z軸方向
-		}
+		// 真反対用の処理
+		axis = Cross(from, axis);
 	}
-
-	return MakeRotateAxisAngleQuaternion(axis, angle);
+	return MakeRotateAxisAngleQuaternion(axis.Normalize(), angle);
 }
 
 Vector3 Quaternion::QuaternionToEuler(const Quaternion& quaternion) {

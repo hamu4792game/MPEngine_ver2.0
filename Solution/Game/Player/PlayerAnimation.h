@@ -27,6 +27,7 @@ public: // public変数
 		kMaxNum
 	};
 
+	// playerの状態管理用 とりあえずでAnimationに入れている
 	struct BehaviorFlag {
 		bool isWaiting = false; // 待機中か
 		bool isMoved = false; // 移動中か

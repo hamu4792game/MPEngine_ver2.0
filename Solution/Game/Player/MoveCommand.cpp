@@ -135,6 +135,13 @@ Vector3 MoveCommand::UpWallMove(const Vector3& hitNormal, Quaternion& playerRota
 	Quaternion qur = Quaternion::MakeRotateAxisAngleQuaternion(rotAxis, angle);
 	// 移動ベクトルを回転
 	Vector3 moveVector = qur * moveVec;
+	// 疑似的な重力を使い壁に貼り付ける
+	moveVector += lNormalVec * -0.1f;
+
+	if (moveVector.y <= 0.0f) {
+		moveVector.y = 0.0f;
+	}
+
 	// 合成
 	playerRotate = qur * forward;
 

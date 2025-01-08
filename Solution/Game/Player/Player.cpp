@@ -20,7 +20,6 @@ void Player::Initialize(const WorldTransform& respawnpoint) {
 	MoveParam moveparam;
 	SetGlobalVariables(moveparam);
 	moveCom_->Initialize(moveparam, &masterSpeed_);
-	debugMoveParam_ = moveparam;
 
 	respawnpoint_ = respawnpoint;
 	
@@ -212,6 +211,7 @@ bool Player::OnCollisionStage(const Collider& coll) {
 				// 地面と当たっているので初期化
 				if (!fallParam_.isJumpable) {
 					behaviorFlag_.isLanded = true;
+					isWallRunning_ = true;
 				}
 				fallParam_.JumpInitialize();
 				hittingObjectNormal_ = nPushBackVec;
@@ -413,9 +413,18 @@ void Player::BehaviorRootUpdate() {
 	}
 
 	// 壁に横向きで当たっている場合
-	if (hittingObjectNormal_ != Vector3::zero) {
-		moveVector_ = moveCom_->UpWallMove(hittingObjectNormal_, handle.rotationQuat_, moveVector_);
-		hittingObjectNormal_ = Vector3::zero;
+	if (isWallRunning_) {
+		// 壁法線があれば
+		if (hittingObjectNormal_ != Vector3::zero) {
+			// 壁移動
+			moveVector_ = moveCom_->UpWallMove(hittingObjectNormal_, handle.rotationQuat_, moveVector_);
+			hittingObjectNormal_ = Vector3::zero;
+		}
+		// ない場合
+		else {
+
+		}
+
 	}
 	animation_->SetQuaternion(handle.rotationQuat_);
 
