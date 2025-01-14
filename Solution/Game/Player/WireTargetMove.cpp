@@ -1,6 +1,7 @@
 #include "WireTargetMove.h"
 #include <algorithm>
 #include <limits>
+#undef max
 
 void WireTargetMove::Execute(const Vector3& target, const Vector3& player) {
 	// playerからtargetのベクトルを求めて、

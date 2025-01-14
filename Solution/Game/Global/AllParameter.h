@@ -1,6 +1,10 @@
 #pragma once
 #include "Math/MathUtl.h"
 #include <algorithm>
+#include "ImGuiManager/ImGuiManager.h"
+#include "Utils/GlobalVariables/GlobalVariables.h"
+
+// パラメーターをまとめる用のhpp、基本publicで使用するためstructで記載
 
 // key入力用一時変数まとめ
 struct InputParam {
@@ -49,6 +53,31 @@ struct SpeedParam {
 		acceleration += accelerationRate;
 		acceleration = std::clamp(acceleration, kMinAcceleration, kMaxAcceleration);
 	}
+
+	// データの値を外部ファイルからセット
+	void SetGlobalVariables(const std::string& itemName, const std::string& keyName) {
+		GlobalVariables* gv = GlobalVariables::GetInstance();
+		accelerationRate = gv->GetFloatValue(itemName, keyName + "_accelerationRate");
+		kMinAcceleration = gv->GetFloatValue(itemName, keyName + "_kMinAcceleration");
+		kMaxAcceleration = gv->GetFloatValue(itemName, keyName + "_kMaxAcceleration");
+	}
+
+	// データを外部ファイルに出力
+	const void AddGlobalVariables(const std::string& itemName, const std::string& keyName) const {
+		GlobalVariables* gv = GlobalVariables::GetInstance();
+		gv->SetValue(itemName, keyName + "_accelerationRate", accelerationRate);
+		gv->SetValue(itemName, keyName + "_kMinAcceleration", kMinAcceleration);
+		gv->SetValue(itemName, keyName + "_kMaxAcceleration", kMaxAcceleration);
+	}
+	// imguiでの値編集
+	const void ImGuiProc() {
+#ifdef _DEBUG
+		ImGui::DragFloat("accelerationRate", &accelerationRate, 0.01f);
+		ImGui::DragFloat("kMinAcceleration", &kMinAcceleration, 0.01f);
+		ImGui::DragFloat("kMaxAcceleration", &kMaxAcceleration, 0.01f);
+#endif // _DEBUG
+	}
+
 };
 
 // 落下用ステータス ジャンプも含む
@@ -76,11 +105,20 @@ struct WebSwingParam {
 	float mass = 2.0f; // ボールの質量
 };
 
+// ダッシュ用のステータス
+struct DashParam {
+	SpeedParam speed; // 基本的な加速度情報
+	float accelerationTime = 0.0f; // 加速時間
+	float decelerationTime = 0.0f; // 減速時間
+};
+
+
 // 移動に必要なパラメーターを渡すための構造体
 struct MoveParam {
 	SpeedParam inputMoveParam; // 通常移動時のパラメーター
 	SpeedParam wireMoveParam; // ワイヤー移動のパラメーター
 	SpeedParam fallParam; // 重力系のパラメーター
+	DashParam dashParam; // ダッシュ用パラメーター
 	float jumpFirstVelocity = 0.0f; // ジャンプする際の初速度
 	float airMoveVelocity = 0.0f; // 滞空時にWASDで動かせる速度
 };

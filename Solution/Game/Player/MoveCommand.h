@@ -9,7 +9,6 @@ class MoveCommand {
 public:
 	MoveCommand() = default;
 	~MoveCommand() = default;
-	MoveCommand(const std::string& itemName);
 
 	// Ex = 実行処理、初期化と同義
 	// Up = 更新処理
@@ -29,7 +28,7 @@ public:
 	/// <param name="moveVolume">移動量やその他のパラメーターを参照渡しする</param>
 	/// <param name="isLanded">true:地面についている/false:滞空状態</param>
 	/// <returns>true:移動している/false:移動していない</returns>
-	bool UpInputMove(Vector3 inputMove, WorldTransform& moveVolume, const bool& isLanded);
+	bool UpInputMove(Vector3 inputMove, WorldTransform& moveVolume, const bool& isLanded, const WorldTransform& cameraTransform);
 
 	// 実行するための初期化用
 	void ExWireTargetMove(const Vector3& target, const Vector3& player);
@@ -59,7 +58,11 @@ public:
 	/// <returns>移動ベクトルを返す</returns>
 	Vector3 UpWallMove(const Vector3& hitNormal, Quaternion& playerRotate, const Vector3& moveVec);
 
+	// 空中スライド
 	Vector3 UpSkyDash();
+
+	// ダッシュ
+	Vector3 ExDashStart(const Vector3& direction);
 
 public: // ゲッター
 	const MoveParam& GetParameter() const { return param_; }
@@ -68,9 +71,7 @@ public: // ゲッター
 private: // ローカル関数
 
 private:
-	const std::string itemName_;
-	// 入れ子 基本const扱いする
-	MoveParam param_;
+	MoveParam param_; // 入れ子 基本const扱いする
 	std::unique_ptr<WireTargetMove> wireTargetMove_;
 	std::unique_ptr<WebSwing> webSwing_;
 	const float* masterSpeed_ptr = nullptr;

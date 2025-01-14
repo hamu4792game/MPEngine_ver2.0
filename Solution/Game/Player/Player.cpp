@@ -12,7 +12,7 @@ Player::Player() {
 	downCollision_ = std::make_unique<Collider>();
 	followCamera_ = std::make_shared<FollowCamera>();
 	webswing_ = std::make_unique<WebSwing>();
-	moveCom_ = std::make_unique<MoveCommand>(itemName_);
+	moveCom_ = std::make_unique<MoveCommand>();
 	circleShadow_ = std::make_unique<CircleShadow>();
 }
 
@@ -398,7 +398,7 @@ void Player::BehaviorRootUpdate() {
 		isLanded = true;
 	}
 	// 通常移動処理
-	bool isMoving = moveCom_->UpInputMove(inputParam_.move, handle, isLanded);
+	bool isMoving = moveCom_->UpInputMove(inputParam_.move, handle, isLanded, followCamera_->GetTransform());
 	if (isMoving) {
 		// 
 		transform_.rotationQuat_ = handle.rotationQuat_;
@@ -489,18 +489,12 @@ void Player::BehaviorRootUpdate() {
 void Player::SetGlobalVariables(MoveParam& param) {
 	GlobalVariables* gv = GlobalVariables::GetInstance();
 	
-	param.inputMoveParam.accelerationRate = gv->GetFloatValue(itemName_,"InputMoveParam_accelerationRate");
-	param.inputMoveParam.kMinAcceleration = gv->GetFloatValue(itemName_,"InputMoveParam_kMinAcceleration");
-	param.inputMoveParam.kMaxAcceleration = gv->GetFloatValue(itemName_,"InputMoveParam_kMaxAcceleration");
+	param.inputMoveParam.SetGlobalVariables(itemName_, "InputMoveParam");
 	param.airMoveVelocity = gv->GetFloatValue(itemName_, "InputMoveParam_AirMoveVelocity");
 	
-	param.wireMoveParam.accelerationRate = gv->GetFloatValue(itemName_,"WireMoveParam_accelerationRate");
-	param.wireMoveParam.kMinAcceleration = gv->GetFloatValue(itemName_,"WireMoveParam_kMinAcceleration");
-	param.wireMoveParam.kMaxAcceleration = gv->GetFloatValue(itemName_,"WireMoveParam_kMaxAcceleration");
+	param.wireMoveParam.SetGlobalVariables(itemName_, "WireMoveParam");
 	
-	param.fallParam.accelerationRate = gv->GetFloatValue(itemName_,"FallParam_accelerationRate");
-	param.fallParam.kMinAcceleration = gv->GetFloatValue(itemName_,"FallParam_kMinAcceleration");
-	param.fallParam.kMaxAcceleration = gv->GetFloatValue(itemName_,"FallParam_kMaxAcceleration");
+	param.fallParam.SetGlobalVariables(itemName_, "FallParam");
 
 	param.jumpFirstVelocity = gv->GetFloatValue(itemName_, "JumpFirstVelocity");
 }
@@ -508,18 +502,12 @@ void Player::SetGlobalVariables(MoveParam& param) {
 void Player::AddGlobalVariables(const MoveParam& param) {
 	GlobalVariables* gv = GlobalVariables::GetInstance();
 
-	gv->SetValue(itemName_, "InputMoveParam_accelerationRate", param.inputMoveParam.accelerationRate);
-	gv->SetValue(itemName_, "InputMoveParam_kMinAcceleration", param.inputMoveParam.kMinAcceleration);
-	gv->SetValue(itemName_, "InputMoveParam_kMaxAcceleration", param.inputMoveParam.kMaxAcceleration);
+	param.inputMoveParam.AddGlobalVariables(itemName_, "InputMoveParam");
 	gv->SetValue(itemName_, "InputMoveParam_AirMoveVelocity", param.airMoveVelocity);
 
-	gv->SetValue(itemName_, "WireMoveParam_accelerationRate", param.wireMoveParam.accelerationRate);
-	gv->SetValue(itemName_, "WireMoveParam_kMinAcceleration", param.wireMoveParam.kMinAcceleration);
-	gv->SetValue(itemName_, "WireMoveParam_kMaxAcceleration", param.wireMoveParam.kMaxAcceleration);
+	param.wireMoveParam.AddGlobalVariables(itemName_, "WireMoveParam");
 
-	gv->SetValue(itemName_, "FallParam_accelerationRate", param.fallParam.accelerationRate);
-	gv->SetValue(itemName_, "FallParam_kMinAcceleration", param.fallParam.kMinAcceleration);
-	gv->SetValue(itemName_, "FallParam_kMaxAcceleration", param.fallParam.kMaxAcceleration);
+	param.fallParam.AddGlobalVariables(itemName_, "FallParam");
 
 	gv->SetValue(itemName_, "JumpFirstVelocity", param.jumpFirstVelocity);
 
