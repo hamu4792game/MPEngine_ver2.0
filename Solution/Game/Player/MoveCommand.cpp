@@ -2,12 +2,9 @@
 #include "Utils/Camera/Camera3d.h"
 #include "ImGuiManager/ImGuiManager.h"
 #include <algorithm>
+#include "Utils/Easing/Ease.h"
 #undef min
 #undef max
-
-MoveCommand::MoveCommand(const std::string& itemName) : itemName_(itemName) {
-	
-}
 
 void MoveCommand::Initialize(MoveParam param, const float* masterSpeed) {
 	param_ = param;
@@ -16,7 +13,7 @@ void MoveCommand::Initialize(MoveParam param, const float* masterSpeed) {
 	webSwing_ = std::make_unique<WebSwing>();
 }
 
-bool MoveCommand::UpInputMove(Vector3 inputMove, WorldTransform& moveVolume, const bool& isLanded) {
+bool MoveCommand::UpInputMove(Vector3 inputMove, WorldTransform& moveVolume, const bool& isLanded, const WorldTransform& cameraTransform) {
 	// 移動入力している場合
 	if (inputMove != Vector3::zero) {
 		// 地に足ついてる時の処理
@@ -33,7 +30,7 @@ bool MoveCommand::UpInputMove(Vector3 inputMove, WorldTransform& moveVolume, con
 		Vector3 move = inputMove * speed;
 
 		// 移動ベクトルをカメラの角度だけ回転させる
-		move = TargetOffset(move, Camera3d::GetInstance()->GetTransform().rotation_);
+		move = TargetOffset(move, cameraTransform.rotation_);
 		// y軸には移動しないため0を代入
 		move.y = 0.0f;
 
@@ -160,13 +157,53 @@ Vector3 MoveCommand::UpWallMove(const Vector3& hitNormal, Quaternion& playerRota
 	return moveVector;
 }
 
+Vector3 MoveCommand::UpSkyDash() {
+	return Vector3();
+}
+
+Vector3 MoveCommand::ExDashStart(const Vector3& direction) {
+	float time = 0.0f;
+	float maxTime = 0.0f;
+	// 初速度を与える
+	if (true) {
+		param_.dashParam.speed.AccelInit();
+		
+	}
+
+	float maxAcc = 0.0f;
+	// 加速時間なら
+	if (time <= param_.dashParam.accelerationTime) {
+		maxAcc = param_.dashParam.speed.kMaxAcceleration;
+	}
+	// 減速時間なら
+	else if (time <= param_.dashParam.accelerationTime + param_.dashParam.decelerationTime) {
+		maxAcc = param_.dashParam.speed.kMinAcceleration;
+	}
+	// 安定したら
+	else {
+		time = maxTime;
+	}
+
+	// 初速度から最大加速度まで、0から加速
+	param_.dashParam.speed.acceleration = Ease::UseEase(param_.dashParam.speed.accelerationRate, maxAcc, time, maxTime, Ease::EaseType::EaseInCirc);
+
+	return direction * param_.dashParam.speed.acceleration;
+}
+
 void MoveCommand::ImGuiProc() {
 #ifdef _DEBUG
 	if (ImGui::TreeNode("Input")) {
-		if (ImGui::TreeNode("Ground")) {
-			ImGui::DragFloat("accelerationRate", &param_.inputMoveParam.accelerationRate, 0.01f);
-			ImGui::DragFloat("kMinAcceleration", &param_.inputMoveParam.kMinAcceleration, 0.01f);
-			ImGui::DragFloat("kMaxAcceleration", &param_.inputMoveParam.kMaxAcceleration, 0.01f);
+		if (ImGui::TreeNode("地面の基本速度")) {
+			param_.inputMoveParam.ImGuiProc();
+			ImGui::TreePop();
+		}
+		if (ImGui::TreeNode("空中スライド")) {
+			ImGui::TreePop();
+		}
+		if (ImGui::TreeNode("Dash")) {
+			param_.dashParam.speed.ImGuiProc();
+			ImGui::DragFloat("加速時間", &param_.dashParam.accelerationTime, 0.1f);
+			ImGui::DragFloat("減速時間", &param_.dashParam.decelerationTime, 0.1f);
 			ImGui::TreePop();
 		}
 		
@@ -174,15 +211,11 @@ void MoveCommand::ImGuiProc() {
 		ImGui::TreePop();
 	}
 	if (ImGui::TreeNode("Wire")) {
-		ImGui::DragFloat("accelerationRate", &param_.wireMoveParam.accelerationRate, 0.01f);
-		ImGui::DragFloat("kMinAcceleration", &param_.wireMoveParam.kMinAcceleration, 0.01f);
-		ImGui::DragFloat("kMaxAcceleration", &param_.wireMoveParam.kMaxAcceleration, 0.01f);
+		param_.wireMoveParam.ImGuiProc();
 		ImGui::TreePop();
 	}
 	if (ImGui::TreeNode("Fall")) {
-		ImGui::DragFloat("accelerationRate", &param_.fallParam.accelerationRate, 0.01f);
-		ImGui::DragFloat("kMinAcceleration", &param_.fallParam.kMinAcceleration, 0.01f);
-		ImGui::DragFloat("kMaxAcceleration", &param_.fallParam.kMaxAcceleration, 0.01f);
+		param_.fallParam.ImGuiProc();
 		ImGui::TreePop();
 	}
 	if (ImGui::TreeNode("Jump")) {
