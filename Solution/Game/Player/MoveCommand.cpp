@@ -165,7 +165,7 @@ Vector3 MoveCommand::ExDashStart(const Vector3& direction) {
 	float time = 0.0f;
 	float maxTime = 0.0f;
 	// 初速度を与える
-	if () {
+	if (true) {
 		param_.dashParam.speed.AccelInit();
 		
 	}
