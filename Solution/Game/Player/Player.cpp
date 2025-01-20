@@ -414,7 +414,8 @@ void Player::BehaviorRootUpdate() {
 		// ダッシュ用
 		if (isDashing_) {
 			isDashing_ = moveCom_->UpDash(moveVector_, dashCount_.count);
-			dashCount_.count += 0.1f;
+			// frame単位の加算
+			dashCount_.count++;
 		}
 
 		// 地面についているなら

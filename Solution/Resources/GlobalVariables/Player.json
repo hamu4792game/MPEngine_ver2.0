@@ -1,7 +1,7 @@
 {
      "Player": {
-          "DashParam_AccelerationTime": 0.699999988079071,
-          "DashParam_DecelerationTime": 0.5,
+          "DashParam_AccelerationTime": 10.0,
+          "DashParam_DecelerationTime": 5.0,
           "DashParam_accelerationRate": 4.0,
           "DashParam_kMaxAcceleration": 6.0,
           "DashParam_kMinAcceleration": 4.0,

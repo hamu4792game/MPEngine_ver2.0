@@ -187,6 +187,7 @@ bool MoveCommand::UpDash(Vector3& direction, const float& timer) {
 	param_.dashParam.speed.acceleration = Ease::UseEase(param_.dashParam.speed.accelerationRate, maxAcc, time, maxTime, Ease::EaseType::EaseInCirc);
 
 	direction = direction.Normalize() * param_.dashParam.speed.acceleration;
+	// ダッシュが安定(終了)したら
 	if (time == maxTime) {
 		return false;
 	}
