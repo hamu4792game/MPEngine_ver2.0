@@ -37,6 +37,7 @@ private:
 	Texture* texture_ = nullptr;
 	BlendMode blendType_ = BlendMode::Normal;
 
+	// const として扱う。SetModel以外では絶対に代入しない
 	uint32_t kNumInstance = 1u;
 	// Instancing用のリソースを作る
 	Microsoft::WRL::ComPtr<ID3D12Resource> instancingResource_ = nullptr;

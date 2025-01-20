@@ -275,6 +275,12 @@
     <ClCompile Include="GameScene\MasterGame.cpp">
       <Filter>GameScene</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Wire\Wire.cpp">
+      <Filter>Game\Wire</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Wire\WireTip.cpp">
+      <Filter>Game\Wire</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -572,6 +578,12 @@
     <ClInclude Include="GameScene\MasterGame.h">
       <Filter>GameScene</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Wire\Wire.h">
+      <Filter>Game\Wire</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Wire\WireTip.h">
+      <Filter>Game\Wire</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="MPEngine">
@@ -810,6 +822,9 @@
     </Filter>
     <Filter Include="Game\Camera\AnimationCamera">
       <UniqueIdentifier>{07dfd849-5c44-437e-ac58-3ea9985074eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Wire">
+      <UniqueIdentifier>{968907ac-0d63-438e-831e-4a363e88aada}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

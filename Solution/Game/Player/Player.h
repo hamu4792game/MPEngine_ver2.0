@@ -8,6 +8,7 @@
 #include "Game/Global/AllParameter.h"
 #include "MoveCommand.h"
 #include "Game/Shadow/CircleShadow.h"
+#include "Game/Wire/Wire.h"
 
 class Player {
 public:
@@ -115,6 +116,9 @@ private:
 
 	// 壁走り用
 	bool isWallRunning_ = false;
-	bool isDashing_ = true;
+	bool isDashing_ = false;
+
+	// ワイヤー描画用
+	std::unique_ptr<Wire> wire_;
 
 };

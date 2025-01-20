@@ -7,7 +7,6 @@ Particle::Particle() {
 }
 
 Particle::~Particle() {
-	particleLists_.remove(this);
 	if (vertexResource_) {
 		vertexResource_->Release();
 		vertexResource_.Reset();
@@ -16,11 +15,12 @@ Particle::~Particle() {
 		instancingResource_->Release();
 		instancingResource_.Reset();
 	}
+	particleLists_.remove(this);
 }
 
 void Particle::SetModel(Object3d* model, const uint32_t& count) {
 	model_ = model;
-	texture_ = model->GetTexture().front(); // textureの代入。基本的にはSetTexture()を使う
+	//texture_ = model->GetTexture().front(); // textureの代入。基本的にはSetTexture()を使う
 	kNumInstance = count;
 	transform_.resize(kNumInstance);
 	color_.resize(kNumInstance);
@@ -38,6 +38,11 @@ void Particle::Initialize() {
 void Particle::CreateVertexResource() {
 	auto rsManager = ResourceManager::GetInstance();
 	auto device = DeviceManager::GetInstance()->GetDevice();
+	// リソースがある場合解放
+	if (vertexResource_) {
+		vertexResource_->Release();
+		vertexResource_.Reset();
+	}
 	vertexResource_ = rsManager->CreateBufferResource(device, sizeof(VertexData) * model_->GetModel().vertices.size());
 
 	vertexBufferView_.BufferLocation = vertexResource_->GetGPUVirtualAddress();
@@ -48,6 +53,10 @@ void Particle::CreateVertexResource() {
 void Particle::CreateInstancingResource() {
 	auto rsManager = ResourceManager::GetInstance();
 	auto device = DeviceManager::GetInstance()->GetDevice();
+	if (instancingResource_) {
+		instancingResource_->Release();
+		instancingResource_.Reset();
+	}
 	instancingResource_ = rsManager->CreateBufferResource(device, sizeof(InstancingStruct) * kNumInstance);
 }
 

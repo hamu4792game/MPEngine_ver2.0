@@ -14,6 +14,7 @@ Player::Player() {
 	webswing_ = std::make_unique<WebSwing>();
 	moveCom_ = std::make_unique<MoveCommand>();
 	circleShadow_ = std::make_unique<CircleShadow>();
+	wire_ = std::make_unique<Wire>();
 }
 
 void Player::Initialize(const WorldTransform& respawnpoint) {
@@ -89,6 +90,9 @@ void Player::Update() {
 				}
 
 				transform_.rotationQuat_ = Quaternion::MakeRotateAxisAngleQuaternion(Vector3::up, angleY);
+
+				wire_->Initialize(transform_.GetPosition(), targetTransform_->GetPosition());
+
 			}
 			behaviorFlag_.isWireJump = true;
 			break;

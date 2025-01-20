@@ -186,6 +186,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Stage\Tower.cpp" />
     <ClCompile Include="Game\Target\Target.cpp" />
     <ClCompile Include="Game\TitleUI\TitleUI.cpp" />
+    <ClCompile Include="Game\Wire\Wire.cpp" />
+    <ClCompile Include="Game\Wire\WireTip.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MPEngine\Base\DetailSetting\DepthBuffer\DepthBuffer.cpp" />
     <ClCompile Include="MPEngine\Base\DetailSetting\DescriptorHandle\DescriptorHandle.cpp" />
@@ -281,6 +283,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\Stage\Tower.h" />
     <ClInclude Include="Game\Target\Target.h" />
     <ClInclude Include="Game\TitleUI\TitleUI.h" />
+    <ClInclude Include="Game\Wire\Wire.h" />
+    <ClInclude Include="Game\Wire\WireTip.h" />
     <ClInclude Include="MPEngine\Base\ConstantBuffer.h" />
     <ClInclude Include="MPEngine\Base\DetailSetting\DepthBuffer\DepthBuffer.h" />
     <ClInclude Include="MPEngine\Base\DetailSetting\DescriptorHandle\DescriptorHandle.h" />
