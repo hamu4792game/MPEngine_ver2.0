@@ -101,6 +101,7 @@ private:
 		float count = 0.0f;
 	};
 	FrameCount frameCount_;
+	FrameCount dashCount_;
 
 	Vector3 hittingObjectNormal_; // 衝突している物体の法線ベクトル
 
@@ -114,5 +115,6 @@ private:
 
 	// 壁走り用
 	bool isWallRunning_ = false;
+	bool isDashing_ = true;
 
 };

@@ -1,5 +1,10 @@
 {
      "Player": {
+          "DashParam_AccelerationTime": 0.699999988079071,
+          "DashParam_DecelerationTime": 0.5,
+          "DashParam_accelerationRate": 4.0,
+          "DashParam_kMaxAcceleration": 6.0,
+          "DashParam_kMinAcceleration": 4.0,
           "FallParam_accelerationRate": 0.05000000074505806,
           "FallParam_kMaxAcceleration": 10.0,
           "FallParam_kMinAcceleration": -3.0,
@@ -20,7 +25,7 @@
           ],
           "PartsTrans : translate0": [
                0.0,
-               -2.4,
+               -2.4000000953674316,
                0.0
           ],
           "WireMoveParam_accelerationRate": 0.10000000149011612,

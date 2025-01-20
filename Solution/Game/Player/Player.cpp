@@ -335,7 +335,7 @@ void Player::KeyInput() {
 	if (input->GetKey()->PressKey(DIK_D)) {
 		inputParam_.move.x += speed;
 	}
-	if (input->GetKey()->PressKey(DIK_LSHIFT)) {
+	if (input->GetKey()->TriggerKey(DIK_LSHIFT)) {
 		inputParam_.isDashMove = true;
 	}
 
@@ -397,12 +397,26 @@ void Player::BehaviorRootUpdate() {
 	if (!fallParam_.isFalled) {
 		isLanded = true;
 	}
+	
+	if (inputParam_.isDashMove) {
+		dashCount_.count = 0.0f;
+		moveCom_->ExDashStart();
+		isDashing_ = true;
+	}
+
 	// 通常移動処理
 	bool isMoving = moveCom_->UpInputMove(inputParam_.move, handle, isLanded, followCamera_->GetTransform());
 	if (isMoving) {
 		// 
 		transform_.rotationQuat_ = handle.rotationQuat_;
 		moveVector_ += handle.translation_;
+		
+		// ダッシュ用
+		if (isDashing_) {
+			isDashing_ = moveCom_->UpDash(moveVector_, dashCount_.count);
+			dashCount_.count += 0.1f;
+		}
+
 		// 地面についているなら
 		if (isLanded) {
 			behaviorFlag_.isMoved = true;
@@ -497,6 +511,11 @@ void Player::SetGlobalVariables(MoveParam& param) {
 	param.fallParam.SetGlobalVariables(itemName_, "FallParam");
 
 	param.jumpFirstVelocity = gv->GetFloatValue(itemName_, "JumpFirstVelocity");
+
+	param.dashParam.speed.SetGlobalVariables(itemName_, "DashParam");
+	param.dashParam.accelerationTime = gv->GetFloatValue(itemName_, "DashParam_AccelerationTime");
+	param.dashParam.decelerationTime = gv->GetFloatValue(itemName_, "DashParam_DecelerationTime");
+
 }
 
 void Player::AddGlobalVariables(const MoveParam& param) {
@@ -510,6 +529,11 @@ void Player::AddGlobalVariables(const MoveParam& param) {
 	param.fallParam.AddGlobalVariables(itemName_, "FallParam");
 
 	gv->SetValue(itemName_, "JumpFirstVelocity", param.jumpFirstVelocity);
+
+	param.dashParam.speed.AddGlobalVariables(itemName_, "DashParam");
+	
+	gv->SetValue(itemName_, "DashParam_AccelerationTime", param.dashParam.accelerationTime);
+	gv->SetValue(itemName_, "DashParam_DecelerationTime", param.dashParam.decelerationTime);
 
 	gv->SaveFile(itemName_);
 }

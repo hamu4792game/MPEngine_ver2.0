@@ -62,7 +62,9 @@ public:
 	Vector3 UpSkyDash();
 
 	// ダッシュ
-	Vector3 ExDashStart(const Vector3& direction);
+	void ExDashStart();
+
+	bool UpDash(Vector3& direction, const float& timer);
 
 public: // ゲッター
 	const MoveParam& GetParameter() const { return param_; }

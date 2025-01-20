@@ -161,15 +161,14 @@ Vector3 MoveCommand::UpSkyDash() {
 	return Vector3();
 }
 
-Vector3 MoveCommand::ExDashStart(const Vector3& direction) {
-	float time = 0.0f;
-	float maxTime = 0.0f;
+void MoveCommand::ExDashStart() {
 	// 初速度を与える
-	if (true) {
-		param_.dashParam.speed.AccelInit();
-		
-	}
+	param_.dashParam.speed.AccelInit(param_.dashParam.speed.accelerationRate);
+}
 
+bool MoveCommand::UpDash(Vector3& direction, const float& timer) {
+	float time = timer;
+	float maxTime = param_.dashParam.accelerationTime + param_.dashParam.decelerationTime;
 	float maxAcc = 0.0f;
 	// 加速時間なら
 	if (time <= param_.dashParam.accelerationTime) {
@@ -187,7 +186,11 @@ Vector3 MoveCommand::ExDashStart(const Vector3& direction) {
 	// 初速度から最大加速度まで、0から加速
 	param_.dashParam.speed.acceleration = Ease::UseEase(param_.dashParam.speed.accelerationRate, maxAcc, time, maxTime, Ease::EaseType::EaseInCirc);
 
-	return direction * param_.dashParam.speed.acceleration;
+	direction = direction.Normalize() * param_.dashParam.speed.acceleration;
+	if (time == maxTime) {
+		return false;
+	}
+	return true;
 }
 
 void MoveCommand::ImGuiProc() {
