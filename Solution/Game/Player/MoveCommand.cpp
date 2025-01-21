@@ -16,6 +16,7 @@ void MoveCommand::Initialize(MoveParam param, const float* masterSpeed) {
 bool MoveCommand::UpInputMove(Vector3 inputMove, WorldTransform& moveVolume, const bool& isLanded, const WorldTransform& cameraTransform) {
 	// 移動入力している場合
 	if (inputMove != Vector3::zero) {
+
 		// 地に足ついてる時の処理
 		if (isLanded) {
 			param_.inputMoveParam.AddUpdate();
@@ -30,7 +31,7 @@ bool MoveCommand::UpInputMove(Vector3 inputMove, WorldTransform& moveVolume, con
 		Vector3 move = inputMove * speed;
 
 		// 移動ベクトルをカメラの角度だけ回転させる
-		move = TargetOffset(move, cameraTransform.rotation_);
+		move = UpInputDirection(inputMove, cameraTransform);
 		// y軸には移動しないため0を代入
 		move.y = 0.0f;
 
@@ -45,6 +46,15 @@ bool MoveCommand::UpInputMove(Vector3 inputMove, WorldTransform& moveVolume, con
 		param_.inputMoveParam.AccelInit();
 		return false;
 	}
+}
+
+Vector3 MoveCommand::UpInputDirection(const Vector3& input, const WorldTransform& cameraTransform) {
+	Vector3 result = input;
+	if (input != Vector3::zero) {
+		// 移動ベクトルをカメラの角度だけ回転させる
+		result = Quaternion::RotateVector(input, cameraTransform.GetQuaternion());
+	}
+	return result;
 }
 
 void MoveCommand::ExWireTargetMove(const Vector3& target, const Vector3& player) {

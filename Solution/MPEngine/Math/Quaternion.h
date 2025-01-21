@@ -61,4 +61,8 @@ public:
 	// 回転行列からクオータニオンへ変換
 	static Quaternion FromRotationMatrix4x4(const Matrix4x4& matrix);
 
+	// オイラー角からQuaternionへ変換
+	static Quaternion EulerToQuaternion(const Vector3& euler);
+
+
 };

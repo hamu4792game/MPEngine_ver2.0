@@ -4,6 +4,7 @@
 #include "Vector3.h"
 #include "Matrix4x4.h"
 #include <numbers>
+#include "DirectXMath.h"
 
 Quaternion::Quaternion() {
 	*this = IdentityQuaternion();
@@ -265,6 +266,18 @@ Quaternion Quaternion::FromRotationMatrix4x4(const Matrix4x4& matrix) {
 		result.y = (matrix.m[1][2] + matrix.m[2][1]) / S;
 		result.z = 0.25f * S;
 	}
+
+	return result;
+}
+
+Quaternion Quaternion::EulerToQuaternion(const Vector3& euler) {
+	// DirectXMathからQuaternionに変換
+	DirectX::XMVECTOR xmQuaternion = DirectX::XMQuaternionRotationRollPitchYaw(euler.x, euler.y, euler.z);
+	Quaternion result;
+	result.x = DirectX::XMVectorGetX(xmQuaternion);
+	result.y = DirectX::XMVectorGetY(xmQuaternion);
+	result.z = DirectX::XMVectorGetZ(xmQuaternion);
+	result.w = DirectX::XMVectorGetW(xmQuaternion);
 
 	return result;
 }

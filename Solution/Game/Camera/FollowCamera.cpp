@@ -16,6 +16,8 @@ FollowCamera::FollowCamera() : kMaxOffset_(Vector3(0.0f, 2.0f, -30.0f)) {
 
 void FollowCamera::Initialize(const WorldTransform& transform) {
 	transform_ = transform;
+	transform_.isQuaternion_ = true;
+
 	preTranslate_ = target_->worldMatrix_ * TargetOffset(offset_, transform_.rotation_);
 	lerpSpeed_ = 0.2f;
 
@@ -56,6 +58,7 @@ void FollowCamera::Update(const float& speed) {
 
 		transform_.translation_ = lOffset + end;
 		transform_.rotation_ = postRotate_;
+		transform_.rotationQuat_ = Quaternion::EulerToQuaternion(postRotate_);
 
 		//transform_.rotationQuat_ = Quaternion::FromRotationMatrix4x4(MakeRotateMatrix(transform_.rotation_));
 	}

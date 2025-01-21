@@ -29,7 +29,10 @@ public:
 	Matrix4x4 UpdateMatrix();
 	// リセット
 	void Reset();
-
+	// world行列の平行移動を取得
 	Vector3 GetPosition() const { return Vector3(worldMatrix_.m[3][0], worldMatrix_.m[3][1], worldMatrix_.m[3][2]); }
+
+	// world行列の回転を取得(親回転を含む)
+	Quaternion GetQuaternion() const;
 
 };

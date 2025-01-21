@@ -30,6 +30,14 @@ public:
 	/// <returns>true:移動している/false:移動していない</returns>
 	bool UpInputMove(Vector3 inputMove, WorldTransform& moveVolume, const bool& isLanded, const WorldTransform& cameraTransform);
 
+	/// <summary>
+	/// 移動方向を求める
+	/// </summary>
+	/// <param name="input">入力ベクトル</param>
+	/// <param name="cameraTransform">カメラ情報</param>
+	/// <returns>移動方向</returns>
+	Vector3 UpInputDirection(const Vector3& input, const WorldTransform& cameraTransform);
+
 	// 実行するための初期化用
 	void ExWireTargetMove(const Vector3& target, const Vector3& player);
 	// ターゲットまでワイヤー移動を行う更新
