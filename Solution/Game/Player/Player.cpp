@@ -401,7 +401,7 @@ void Player::BehaviorRootUpdate() {
 	if (!fallParam_.isFalled) {
 		isLanded = true;
 	}
-	
+
 	if (inputParam_.isDashMove) {
 		dashCount_.count = 0.0f;
 		moveCom_->ExDashStart();

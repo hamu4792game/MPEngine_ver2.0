@@ -89,4 +89,6 @@ private:
 	Vector3 webswingDirection_;
 	Vector3 jumpDirection_; // ジャンプする際の方向ベクトル。現在はY軸が無関係で、速度も入ってるから実質Velocity
 
+	Quaternion oldMoveQuat_; // 過去の移動ベクトル
+
 };

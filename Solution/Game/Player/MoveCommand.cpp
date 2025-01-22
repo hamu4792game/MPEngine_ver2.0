@@ -31,12 +31,19 @@ bool MoveCommand::UpInputMove(Vector3 inputMove, WorldTransform& moveVolume, con
 		Vector3 move = inputMove * speed;
 
 		// 移動ベクトルをカメラの角度だけ回転させる
-		move = UpInputDirection(inputMove, cameraTransform);
+		move = UpInputDirection(inputMove, cameraTransform).Normalize();
 		// y軸には移動しないため0を代入
 		move.y = 0.0f;
 
+		Quaternion quat = Quaternion::MakeFromTwoVector(Vector3::front, move);
+
+		quat = Quaternion::Slerp(oldMoveQuat_, quat, 0.1f);
+
+		move = Quaternion::RotateVector(Vector3::front, quat);
+
 		moveVolume.translation_ += move.Normalize() * speed;
-		moveVolume.rotationQuat_ = Quaternion::MakeFromTwoVector(Vector3::front,move.Normalize());
+		moveVolume.rotationQuat_ = quat;
+		oldMoveQuat_ = quat;
 
 		// 移動しているので
 		return true;
