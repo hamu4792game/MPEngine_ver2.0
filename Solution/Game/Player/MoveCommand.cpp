@@ -35,10 +35,12 @@ bool MoveCommand::UpInputMove(Vector3 inputMove, WorldTransform& moveVolume, con
 		// y軸には移動しないため0を代入
 		move.y = 0.0f;
 
+		// 回転姿勢を求める
 		Quaternion quat = Quaternion::MakeFromTwoVector(Vector3::front, move);
 
-		quat = Quaternion::Slerp(oldMoveQuat_, quat, 0.1f);
-
+		// 移動に球面補間をかける
+		const float kDelayConstant = 0.25f;
+		quat = Quaternion::Slerp(oldMoveQuat_, quat, kDelayConstant);
 		move = Quaternion::RotateVector(Vector3::front, quat);
 
 		moveVolume.translation_ += move.Normalize() * speed;

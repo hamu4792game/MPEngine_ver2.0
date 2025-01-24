@@ -67,6 +67,7 @@ void Player::Update() {
 		case Behavior::kRoot:
 			oldMoveVector = Vector3::zero;
 			moveParameter_.AccelInit();
+			wire_->FadeOutStart();
 			
 			break;
 		case Behavior::kWebSwing:
@@ -503,6 +504,10 @@ void Player::BehaviorRootUpdate() {
 			moveVector_ += moveCom_->UpPostWebSwing();
 		}
 	}
+
+	// wireの更新
+	wire_->FadeOutUpdate();
+
 }
 
 void Player::SetGlobalVariables(MoveParam& param) {

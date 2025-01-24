@@ -15,6 +15,12 @@ public:
 	/// <param name="anchor">アンカー ターゲットの座標</param>
 	void Initialize(const Vector3& playerPos, const Vector3& anchor);
 
+	void FadeOutUpdate();
+
+	void FadeOutStart() {
+		isFadeOut_ = true;
+	}
+
 private:
 	void SetWireTipModel();
 
@@ -22,5 +28,7 @@ private:
 	// ワイヤーの個々のモデル。particleとして扱っている
 	std::unique_ptr<Particle> wireTipModels_;
 	uint32_t wireTipNum_ = 0u;
+
+	bool isFadeOut_ = false;
 
 };
