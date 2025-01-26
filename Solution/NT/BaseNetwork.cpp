@@ -2,26 +2,46 @@
 #include "Base/WindowSupervisor/WindowSupervisor.h"
 #include <cassert>
 
-DWORD WINAPI ThreadFunc(LPVOID lpParam) {
-	Initialize();
-
-	while (true) {
-		Update();
-	}
-
-	Finalize();
-	return 0;
-}
 
 void BaseNetwork::SetThread() {
-	static DWORD dwID;
-	static HANDLE hThread;
-	struct Circle {
-		float x;
-	};
-	Circle a;
+	// 既にはしっていたら早期リターン
+	if (datas_.isRunning.load()) {
+		return;
+	}
 
-	hThread = (HANDLE)CreateThread(NULL, 0, &ThreadFunc, (LPVOID)&a, 0, &dwID);
+	datas_.isRunning.store(true);
+
+	// unique_ptr に新しいスレッドを作成
+	thread_ = std::make_unique<std::thread>([this]() {
+		this->Initialize();
+
+		while (datas_.isRunning.load()) {
+			if (this->Update()) {
+				break;
+			}
+		}
+
+		this->Finalize();
+		});
+}
+
+void BaseNetwork::Finalize() {
+	if (datas_.isRunning.load()) {
+		datas_.isRunning.store(false); // 実行フラグをリセット
+		if (thread_ && thread_->joinable()) {
+			thread_->join(); // スレッド終了を待機
+		}
+		thread_.reset(); // スレッドリソースを解放
+	}
+}
+
+const NetworkData::Data& BaseNetwork::GetData() const {
+	// TODO: return ステートメントをここに挿入します
+	return recvDatas_;
+}
+
+void BaseNetwork::SetData(const NetworkData::Data& data) {
+	datas_.data = data;
 }
 
 void BaseNetwork::InitializeWinSock() {
@@ -31,7 +51,7 @@ void BaseNetwork::InitializeWinSock() {
 	if (WSAStartup(MAKEWORD(2, 0), &wsaData) == SOCKET_ERROR) {
 		// 初期化エラー
 		SetWindowText(hwMain, L"WinSockの初期化に失敗しました");
-		assert(true);
+		assert(false);
 	}
 }
 
@@ -43,7 +63,7 @@ void BaseNetwork::CreateSocket() {
 		// 初期化エラー
 		closesocket(socket_);
 		SetWindowText(hwMain, L"Soketの作成に失敗しました");
-		assert(true);
+		assert(false);
 	}
 }
 

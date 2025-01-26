@@ -7,10 +7,8 @@ public:
 	~Client() = default;
 
 	void Initialize() override;
-	void ThreadFunc() override;
 	void Finalize() override;
-
-	void Update();
+	bool Update() override;
 private:
 
 

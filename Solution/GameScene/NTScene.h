@@ -1,7 +1,7 @@
 #pragma once
 #include "Framework/GameFrame.h"
 #include <memory>
-#include "NT/BaseNetwork.h"
+#include "Framework/SceneFrame.h"
 
 class NTScene : public GameFrame {
 public:
@@ -14,7 +14,9 @@ public:
 
 
 private:
+
+	std::unique_ptr<SceneFrame> gameScene_;
+
 	
-	std::unique_ptr<BaseNetwork> network_;
 
 };

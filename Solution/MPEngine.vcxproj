@@ -254,6 +254,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="MPEngine\Utils\WorldTransform\WorldTransform.cpp" />
     <ClCompile Include="NT\BaseNetwork.cpp" />
     <ClCompile Include="NT\Client.cpp" />
+    <ClCompile Include="NT\Scene\GameScene.cpp" />
+    <ClCompile Include="NT\Scene\NetTitleScene.cpp" />
     <ClCompile Include="NT\Server.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -360,6 +362,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="MPEngine\Utils\WorldTransform\WorldTransform.h" />
     <ClInclude Include="NT\BaseNetwork.h" />
     <ClInclude Include="NT\Client.h" />
+    <ClInclude Include="NT\NetworkData.h" />
+    <ClInclude Include="NT\Scene\GameScene.h" />
+    <ClInclude Include="NT\Scene\NetTitleScene.h" />
     <ClInclude Include="NT\Server.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>

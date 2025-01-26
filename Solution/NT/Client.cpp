@@ -10,7 +10,7 @@ void Client::Initialize() {
 
 	// ここから別処理
 	// ホスト名からIPアドレスを取得
-	char szServer[256]{ "192.168.0.12" };
+	char szServer[256]{ "119.242.41.196" };
 	hostent* lpHost = gethostbyname(szServer);
 
 	// クライアントソケットをサーバーに接続
@@ -24,13 +24,8 @@ void Client::Initialize() {
 		// エラー
 		closesocket(socket_);
 		SetWindowText(hwMain, L"サーバーと接続できませんでした");
-		assert(true);
+		assert(false);
 	}
-
-	CreateThread();
-}
-
-void Client::ThreadFunc() {
 
 }
 
@@ -38,25 +33,16 @@ void Client::Finalize() {
 	FinalizeWinSock(socket_);
 }
 
-void Client::Update() {
-	// accept関数の帰り値はSOCKET変数「s」に格納
-
+bool Client::Update() {
 	int nRcv = 0;
-	char szBuf[1024]{};
+	NetworkData::Data buf = datas_.data;
 
-	// send関数でデータを送信
-	std::cout << "送信 --> " << std::endl;
-	scanf_s("%s", szBuf, 1024);
-	fflush(stdin);
+	// send関数でデータを送信 クライアント側を送信
+	send(socket_, (const char*)&buf, sizeof(NetworkData::Data), 0);
 
-	send(socket_, szBuf, (int)strlen(szBuf), 0);
-
-	// recv関数でデータを受信
-	nRcv = recv(socket_, szBuf, sizeof(szBuf) - 1, 0);
-	szBuf[nRcv] = '\0';
-	std::cout << "受信 --> " << szBuf << std::endl;
-
-	if (strcmp(szBuf, "end") == 0) {
-		return;
-	}
+	// recv関数でデータを受信 
+	nRcv = recv(socket_, (char*)&recvDatas_, sizeof(NetworkData::Data), 0);
+	
+	if (nRcv == SOCKET_ERROR) { return true; }
+	return false;
 }

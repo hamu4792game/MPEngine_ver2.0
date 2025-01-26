@@ -6,12 +6,9 @@ public:
 	Server() = default;
 	~Server() = default;
 
-	void ThreadFunc() override;
-
-
 	void Initialize() override;
 	void Finalize() override;
-	void Update() override;
+	bool Update() override;
 
 private:
 

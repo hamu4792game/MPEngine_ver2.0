@@ -4,6 +4,7 @@
 #include "Base/Manager/ResourceManager/ResourceManager.h"
 #include "Input/Audio.h"
 #include "ImGuiManager/ImGuiManager.h"
+#include "TitleScene.h"
 
 void TitleScene::Initialize() {
 	titleUI_ = std::make_unique<TitleUI>();
@@ -77,4 +78,3 @@ void TitleScene::DrawImGui() {
 	
 #endif // _DEBUG
 }
-

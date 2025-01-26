@@ -285,12 +285,20 @@
       <Filter>GameScene</Filter>
     </ClCompile>
     <ClCompile Include="NT\Server.cpp">
-      <Filter>NT</Filter>
+      <Filter>NT\Network</Filter>
     </ClCompile>
     <ClCompile Include="NT\Client.cpp">
-      <Filter>NT</Filter>
+      <Filter>NT\Network</Filter>
     </ClCompile>
-    <ClCompile Include="NT\BaseNetwork.cpp" />
+    <ClCompile Include="NT\BaseNetwork.cpp">
+      <Filter>NT\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="NT\Scene\GameScene.cpp">
+      <Filter>NT\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="NT\Scene\NetTitleScene.cpp">
+      <Filter>NT\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -598,13 +606,22 @@
       <Filter>GameScene</Filter>
     </ClInclude>
     <ClInclude Include="NT\Server.h">
-      <Filter>NT</Filter>
+      <Filter>NT\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NT\NetworkData.h">
+      <Filter>NT\Network</Filter>
     </ClInclude>
     <ClInclude Include="NT\Client.h">
-      <Filter>NT</Filter>
+      <Filter>NT\Network</Filter>
     </ClInclude>
     <ClInclude Include="NT\BaseNetwork.h">
-      <Filter>NT</Filter>
+      <Filter>NT\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NT\Scene\GameScene.h">
+      <Filter>NT\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="NT\Scene\NetTitleScene.h">
+      <Filter>NT\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -850,6 +867,15 @@
     </Filter>
     <Filter Include="NT">
       <UniqueIdentifier>{d9138b7a-071d-47c6-b0e1-210831c14c90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NT\Scene">
+      <UniqueIdentifier>{eb474bf9-4ce2-41f4-aec4-5b16842f05fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NT\Game">
+      <UniqueIdentifier>{4e946595-42d6-4892-86bb-08fbd943bcb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NT\Network">
+      <UniqueIdentifier>{a6ad125f-7c06-4165-bbcc-097ed2a570ef}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
