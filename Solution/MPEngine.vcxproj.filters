@@ -281,6 +281,16 @@
     <ClCompile Include="Game\Wire\WireTip.cpp">
       <Filter>Game\Wire</Filter>
     </ClCompile>
+    <ClCompile Include="GameScene\NTScene.cpp">
+      <Filter>GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="NT\Server.cpp">
+      <Filter>NT</Filter>
+    </ClCompile>
+    <ClCompile Include="NT\Client.cpp">
+      <Filter>NT</Filter>
+    </ClCompile>
+    <ClCompile Include="NT\BaseNetwork.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -584,6 +594,18 @@
     <ClInclude Include="Game\Wire\WireTip.h">
       <Filter>Game\Wire</Filter>
     </ClInclude>
+    <ClInclude Include="GameScene\NTScene.h">
+      <Filter>GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="NT\Server.h">
+      <Filter>NT</Filter>
+    </ClInclude>
+    <ClInclude Include="NT\Client.h">
+      <Filter>NT</Filter>
+    </ClInclude>
+    <ClInclude Include="NT\BaseNetwork.h">
+      <Filter>NT</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="MPEngine">
@@ -825,6 +847,9 @@
     </Filter>
     <Filter Include="Game\Wire">
       <UniqueIdentifier>{968907ac-0d63-438e-831e-4a363e88aada}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NT">
+      <UniqueIdentifier>{d9138b7a-071d-47c6-b0e1-210831c14c90}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

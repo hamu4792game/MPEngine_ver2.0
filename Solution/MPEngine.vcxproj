@@ -158,6 +158,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GameScene\MasterGame.cpp" />
+    <ClCompile Include="GameScene\NTScene.cpp" />
     <ClCompile Include="GameScene\TestScene.cpp" />
     <ClCompile Include="GameScene\Transition.cpp" />
     <ClCompile Include="Game\BoxSky\BoxSky.cpp" />
@@ -251,9 +252,13 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="MPEngine\Utils\Template\GameObject.cpp" />
     <ClCompile Include="MPEngine\Utils\Tool\LevelData.cpp" />
     <ClCompile Include="MPEngine\Utils\WorldTransform\WorldTransform.cpp" />
+    <ClCompile Include="NT\BaseNetwork.cpp" />
+    <ClCompile Include="NT\Client.cpp" />
+    <ClCompile Include="NT\Server.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameScene\MasterGame.h" />
+    <ClInclude Include="GameScene\NTScene.h" />
     <ClInclude Include="GameScene\TestScene.h" />
     <ClInclude Include="GameScene\Transition.h" />
     <ClInclude Include="Game\BoxSky\BoxSky.h" />
@@ -353,6 +358,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="MPEngine\Utils\Template\GameObject.h" />
     <ClInclude Include="MPEngine\Utils\Tool\LevelData.h" />
     <ClInclude Include="MPEngine\Utils\WorldTransform\WorldTransform.h" />
+    <ClInclude Include="NT\BaseNetwork.h" />
+    <ClInclude Include="NT\Client.h" />
+    <ClInclude Include="NT\Server.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
