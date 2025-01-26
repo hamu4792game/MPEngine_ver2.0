@@ -3,6 +3,10 @@
 #include <cassert>
 
 
+BaseNetwork::~BaseNetwork() {
+	Finalize();
+}
+
 void BaseNetwork::SetThread() {
 	// 既にはしっていたら早期リターン
 	if (datas_.isRunning.load()) {

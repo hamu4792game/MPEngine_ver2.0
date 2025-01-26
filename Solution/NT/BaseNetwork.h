@@ -10,7 +10,7 @@
 class BaseNetwork {
 public:
 	BaseNetwork() = default;
-	virtual ~BaseNetwork() = default;
+	virtual ~BaseNetwork();
 
 
 	void SetThread();

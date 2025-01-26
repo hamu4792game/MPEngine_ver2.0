@@ -80,11 +80,9 @@ void GameScene::Update() {
 		enemy->count_ = data.A;
 	}
 
-	if (player->GetFinish()) {
+	if (player->GetFinish() || enemy->count_ <= 0) {
 		endRequest_ = true;
 		// 勝利者を取得
-		// 自分が選択している側の色を赤に
-		players_.at(static_cast<int>(isServer_))->texture_->SetColor(Vector4(0.0f, 1.0f, 0.0f, 1.0f));
 	}
 	SecondUpdate();
 }
