@@ -64,5 +64,4 @@ public:
 	// オイラー角からQuaternionへ変換
 	static Quaternion EulerToQuaternion(const Vector3& euler);
 
-
 };

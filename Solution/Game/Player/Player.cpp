@@ -40,7 +40,7 @@ void Player::Initialize(const WorldTransform& respawnpoint) {
 
 	followCamera_->SetTarget(&transform_);
 	followCamera_->Initialize();
-	followCamera_->SetParam(Vector3(0.0f, 2.0f, -20.0f), followCamera_->GetTransform().rotation_, 0.95f);
+	followCamera_->SetParam(Vector3(0.0f, 2.0f, -40.0f), followCamera_->GetTransform().rotation_, 0.95f);
 
 	moveParameter_.Initialize(0.0f, 0.01f, 0.0f, 0.5f);
 	
@@ -77,7 +77,7 @@ void Player::Update() {
 		case Behavior::kWireMove:
 			masterSpeed_ = 1.0f;
 			frameCount_.count = 0.0f;
-			followCamera_->SetParam(Vector3(0.0f, 2.0f, -20.0f), followCamera_->GetTransform().rotation_, 0.25f);
+			followCamera_->SetParam(Vector3(0.0f, 2.0f, -40.0f), followCamera_->GetTransform().rotation_, 0.25f);
 
 			// 回転の適応
 			if (targetTransform_) {
@@ -138,7 +138,8 @@ void Player::Update() {
 	transform_.translation_ += moveVector_;
 
 	LimitMoving();
-	followCamera_->CameraMove();
+	bool ismove = followCamera_->CameraMove();
+	CameraLerpUpdate(ismove);
 	TransformUpdate();
 	animation_->SetColor(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
 	minDistance_ = std::numeric_limits<float>::max();
@@ -507,6 +508,64 @@ void Player::BehaviorRootUpdate() {
 
 	// wireの更新
 	wire_->FadeOutUpdate();
+
+}
+
+void Player::CameraLerpUpdate(const bool& isMove) {
+	// カメラ移動がされていたら早期リターン
+	if (followCamera_->GetIsCameraMove()) { 
+		cameraState_ = Player::CameraState::Idle;
+		return;
+	}
+
+	float length = 0.0f;
+	const float kMaxLerpLength = 100.0f; // ラープする際の最大の長さ
+	const float kMaxLength = 50.0f;
+
+	switch (cameraState_) {
+	case Player::CameraState::Idle:
+		// カメラ操作がなくなったとき
+		if (isMove) {
+			// 基準座標を取得
+			basePosition_ = transform_.GetPosition();
+			cameraState_ = Player::CameraState::Tracking;
+		}
+		break;
+	case Player::CameraState::Tracking:
+		// そこからカメラ操作がない場合、移動量の長さを求め続ける。ある程度の長さになったらSlerpの処理に入る
+		length = Length(basePosition_ - transform_.GetPosition());
+		
+		if (length >= kMaxLength) {
+			// ある程度の長さになったら、基準座標を更新して、次のstateへ
+			basePosition_ = transform_.GetPosition();
+			fistQuat_ = followCamera_->GetTransform().GetQuaternion();
+			cameraState_ = Player::CameraState::Slerping;
+		}
+		break;
+	case Player::CameraState::Slerping:
+		// ある程度になったslerpの処理
+		// 長さを求める
+		length = Length(basePosition_ - transform_.GetPosition());
+
+		
+		// Tを求める
+		float lerpSpeed = length / kMaxLerpLength;
+		lerpSpeed = std::clamp(lerpSpeed, 0.0f, 1.0f); // 制限
+
+		Vector3 lmovevec = moveVector_;
+		lmovevec.y = 0.0f;
+		if (lmovevec == Vector3::zero) {
+			return;
+		}
+		// 移動ベクトルと正面ベクトルから向きベクトルを求める
+		Quaternion qur = Quaternion::MakeFromTwoVector(Vector3::front, lmovevec);
+
+		// 補間を入れる
+ 		Quaternion result = Quaternion::Slerp(fistQuat_, qur, lerpSpeed);
+		followCamera_->SetCameraStateRotate(result);
+		
+		break;
+	}
 
 }
 

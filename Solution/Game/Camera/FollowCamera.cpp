@@ -18,7 +18,6 @@ void FollowCamera::Initialize(const WorldTransform& transform) {
 	transform_ = transform;
 	transform_.isQuaternion_ = true;
 
-	preTranslate_ = target_->worldMatrix_ * TargetOffset(offset_, transform_.rotation_);
 	lerpSpeed_ = 0.2f;
 
 	collision_->GetLine().at(0)->SetLine(target_->GetPosition(), transform_.GetPosition());
@@ -41,26 +40,34 @@ void FollowCamera::Update(const float& speed) {
 	}
 
 	if (target_ && !isFollowStop_) {
-		Vector3 lOffset = offset_;
+		Vector3 lOffset = offset_ * 2.0f;
 		
 		lOffset.z = offset_.z - speed;
 
 		preOffset_ = Lerp(preOffset_, lOffset, lerpSpeed_);
-		preRotate_ = Lerp(preRotate_, postRotate_, lerpSpeed_);
 
-		lOffset = TargetOffset(preOffset_, postRotate_);
-		float T = Easing::EaseInSine(0.5f);
+		//lOffset = TargetOffset(preOffset_, postRotate_);
 
-		Vector3 end = MakeTranslateMatrix(target_->GetPosition()) * lOffset;
+		// 回転姿勢を計算
+		cameraStateRotate_ = cameraStateRotate_ * moveRotateQuaternion_;
 
-		preTranslate_ = Lerp(preTranslate_, end, T);
-		postTranslate_ = lOffset + end;
+		
+		// 【重要】ターゲット位置を原点としてオフセットを回転
+		Vector3 rotatedOffset = cameraStateRotate_ * preOffset_;
+		ImGui::DragFloat3("Rot", &rotatedOffset.x, 0.1f);
 
-		transform_.translation_ = lOffset + end;
-		transform_.rotation_ = postRotate_;
-		transform_.rotationQuat_ = Quaternion::EulerToQuaternion(postRotate_);
+		// カメラの最終位置 = ターゲット位置 + 回転オフセット
+		transform_.translation_ = target_->GetPosition() + rotatedOffset;
 
-		//transform_.rotationQuat_ = Quaternion::FromRotationMatrix4x4(MakeRotateMatrix(transform_.rotation_));
+		//// 制限
+		//static Vector2 limit = Vector2(-50.0f, 75.0f);
+		//Vector3 qurVec = Quaternion::QuaternionToEuler(cameraStateRotate_);
+		//qurVec.x = std::clamp(qurVec.x, AngleToRadian(limit.x), AngleToRadian(limit.y));
+		//qurVec.z = 0.0f;
+		//cameraStateRotate_ = Quaternion::EulerToQuaternion(qurVec);
+
+		transform_.rotationQuat_ = cameraStateRotate_.Normalize();
+
 	}
 	transform_.UpdateMatrix();
 	if (target_) {
@@ -86,11 +93,16 @@ void FollowCamera::LastUpdate() {
 	
 }
 
-void FollowCamera::CameraMove() {
+bool FollowCamera::CameraMove() {
+	// 前情報の入力
+	isOldCameraMove_ = isCameraMove_;
+	isCameraMove_ = true;
+
 	DrawImGui();
 	auto input = Input::GetInstance();
 	Vector2 move;
 	float speed = 2.0f;
+	// キーボード
 	if (input->GetKey()->PressKey(DIK_LEFT)) {
 		move.y -= AngleToRadian(speed);
 	}
@@ -104,6 +116,7 @@ void FollowCamera::CameraMove() {
 		move.x -= AngleToRadian(speed);
 	}
 
+	// マウス
 	Vector2 mouseMove = input->GetMouse()->GetMouseMove();
 	static float cameraspeed = 0.2f;
 #ifdef _DEBUG
@@ -114,6 +127,7 @@ void FollowCamera::CameraMove() {
 		move.x += AngleToRadian(mouseMove.y * cameraspeed);
 	}
 
+	// pad
 	if (input->GetPad()->GetPadConnect()) {
 		Vector2 pMove(0.0f, 0.0f);
 		pMove = input->GetPad()->GetPadRStick();
@@ -132,16 +146,31 @@ void FollowCamera::CameraMove() {
 			move.x -= AngleToRadian(speed);
 		}
 	}
-	//transform_.rotation_.x += move.x;
-	//transform_.rotation_.y += move.y;
-	postRotate_.x += move.x;
-	postRotate_.y += move.y;
 
-	static Vector2 limit = Vector2(-50.0f, 75.0f);
-#ifdef _DEBUG
-	ImGui::DragFloat2("Limit", &limit.x, 0.1f);
-#endif // _DEBUG
-	postRotate_.x = std::clamp(postRotate_.x, AngleToRadian(limit.x), AngleToRadian(limit.y));
+	
+	float limitHandle = AngleToRadian(0.5f);
+	// 移動量が閾値を超えない場合 カメラ操作がない
+	if ((std::fabsf(move.x) < limitHandle || std::fabsf(move.y) < limitHandle)) {
+		isCameraMove_ = false;
+	}
+	else {
+		postRotate_.x += move.x;
+		postRotate_.y += move.y;
+	}
+
+	// 保存
+	oldCameraRotateMove_ = move;
+
+	// 上下左右の任意軸開店
+	moveRotateQuaternion_ = Quaternion::MakeRotateAxisAngleQuaternion(Vector3::right, move.x) * Quaternion::MakeRotateAxisAngleQuaternion(Vector3::up, move.y)* Quaternion::MakeRotateAxisAngleQuaternion(Vector3::front, 0.0f);
+
+
+	// カメラ操作をやめた瞬間
+	if (!isCameraMove_ && isOldCameraMove_) {
+		return true;
+	}
+	return false;
+
 }
 
 void FollowCamera::StopFollow(const float& frame) {

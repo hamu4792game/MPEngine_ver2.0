@@ -41,6 +41,8 @@ private:
 
 	void BehaviorRootUpdate();
 
+	void CameraLerpUpdate(const bool& isMove);
+
 	void SetGlobalVariables(MoveParam& param); // データの値を外部ファイルからセット
 	void AddGlobalVariables(const MoveParam& param); // データを外部ファイルに出力
 
@@ -120,5 +122,14 @@ private:
 
 	// ワイヤー描画用
 	std::unique_ptr<Wire> wire_;
+
+	enum class CameraState {
+		Idle, // カメラ操作がない状態
+		Tracking, // 移動量を測定
+		Slerping, // 球面保管中の処理
+	};
+	CameraState cameraState_ = CameraState::Idle;
+	Vector3 basePosition_;
+	Quaternion fistQuat_;
 
 };
