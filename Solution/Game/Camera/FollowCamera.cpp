@@ -54,7 +54,7 @@ void FollowCamera::Update(const float& speed) {
 		
 		// 【重要】ターゲット位置を原点としてオフセットを回転
 		Vector3 rotatedOffset = cameraStateRotate_ * preOffset_;
-		ImGui::DragFloat3("Rot", &rotatedOffset.x, 0.1f);
+		//ImGui::DragFloat3("Rot", &rotatedOffset.x, 0.1f);
 
 		// カメラの最終位置 = ターゲット位置 + 回転オフセット
 		transform_.translation_ = target_->GetPosition() + rotatedOffset;
@@ -193,7 +193,7 @@ bool FollowCamera::OnCollision(const Collider& coll) {
 				ImGui::DragFloat3("IsHIT:PushBackVec", &pushBackVec.x, 0.1f);
 				ImGui::Text("IsHIT");
 #endif // DEBUG
-				transform_.translation_ += pushBackVec;
+				transform_.translation_ += (pushBackVec.Normalize() * (Length(pushBackVec) + 0.5f));
 				transform_.UpdateMatrix();
 				collision_->Update(*target_);
 			}

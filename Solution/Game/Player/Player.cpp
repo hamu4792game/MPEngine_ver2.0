@@ -550,6 +550,7 @@ void Player::CameraLerpUpdate(const bool& isMove) {
 		
 		// Tを求める
 		float lerpSpeed = length / kMaxLerpLength;
+		lerpSpeed = 0.02f;
 		lerpSpeed = std::clamp(lerpSpeed, 0.0f, 1.0f); // 制限
 
 		Vector3 lmovevec = moveVector_;
@@ -561,7 +562,7 @@ void Player::CameraLerpUpdate(const bool& isMove) {
 		Quaternion qur = Quaternion::MakeFromTwoVector(Vector3::front, lmovevec);
 
 		// 補間を入れる
- 		Quaternion result = Quaternion::Slerp(fistQuat_, qur, lerpSpeed);
+ 		Quaternion result = Quaternion::Slerp(followCamera_->GetTransform().GetQuaternion(), qur, lerpSpeed);
 		followCamera_->SetCameraStateRotate(result);
 		
 		break;
