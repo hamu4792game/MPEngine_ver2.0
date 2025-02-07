@@ -13,7 +13,7 @@
 #include "Game/LockOn/PointOfGazeSearch.h"
 
 // ゲームのメインシーン
-class BattleScene : public SceneFrame {
+class BattleScene : public MPE::SceneFrame {
 public:
 	BattleScene() = default;
 	~BattleScene() override = default;

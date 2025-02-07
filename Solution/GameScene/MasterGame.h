@@ -7,7 +7,7 @@
 #include "Transition.h"
 
 
-class MasterGame : public GameFrame {
+class MasterGame : public MPE::GameFrame {
 public:
 	MasterGame() = default;
 	~MasterGame() override = default;
@@ -18,8 +18,8 @@ public:
 
 
 private:
-	std::unique_ptr<TitleScene> titleScene_;
-	std::unique_ptr<BattleScene> battleScene_;
+	std::unique_ptr<MPE::SceneFrame> titleScene_;
+	std::unique_ptr<MPE::SceneFrame> battleScene_;
 	std::unique_ptr<Transition> transition_;
 
 	//Scene

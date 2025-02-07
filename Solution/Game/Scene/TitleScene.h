@@ -6,7 +6,7 @@
 #include "Game/Player/Player.h"
 #include "Game/Target/Target.h"
 
-class TitleScene : public SceneFrame {
+class TitleScene : public MPE::SceneFrame {
 public:
 	TitleScene() = default;
 	~TitleScene() override = default;
