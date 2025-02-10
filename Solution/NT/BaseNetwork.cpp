@@ -62,7 +62,7 @@ void BaseNetwork::InitializeWinSock() {
 void BaseNetwork::CreateSocket() {
 	auto hwMain = WindowSupervisor::GetInstance()->GetHwnd();
 	// socket関数でソケットを作成する
-	socket_ = socket(AF_INET, SOCK_STREAM, 0);
+	socket_ = socket(AF_INET, SOCK_DGRAM, 0);
 	if (socket_ == INVALID_SOCKET) {
 		// 初期化エラー
 		closesocket(socket_);

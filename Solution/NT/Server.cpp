@@ -9,57 +9,38 @@ void Server::Initialize() {
 	CreateSocket();
 
 	// bind関数でソケットに名前をつける
-	sockaddr_in saddr{};
-	memset(&saddr, 0, sizeof(SOCKADDR_IN));
-	saddr.sin_family = AF_INET;
-	saddr.sin_port = htons(wPort);
-	saddr.sin_addr.s_addr = INADDR_ANY;
+	memset(&saddr_, 0, sizeof(SOCKADDR_IN));
+	saddr_.sin_family = AF_INET;
+	saddr_.sin_port = htons(wPort);
+	saddr_.sin_addr.s_addr = INADDR_ANY;
 
-	int bind_ = bind(socket_, &(sockaddr&)saddr, sizeof(saddr));
+	int bind_ = bind(socket_, (struct sockaddr*)&saddr_, sizeof(saddr_));
 	if (bind_ == SOCKET_ERROR) {
 		// エラー
 		closesocket(socket_);
 		SetWindowText(hwMain, L"Bindの初期化に失敗しました");
 		assert(false);
 	}
-
-	// listen関数で接続の待機状態にする
-	int listen_ = listen(socket_, 2);
-	if (listen_ == SOCKET_ERROR) {
-		// エラー
-		closesocket(socket_);
-		SetWindowText(hwMain, L"Listenの初期化に失敗しました");
-		assert(false);
-	}
-
-	// assept関数で接続を受け入れる
-	sockaddr_in sockaddr_string{}; // 接続した相手のIPアドレス等の情報を格納するポインタ
-	int size = sizeof(sockaddr_in); // 上のサイズを格納するためのもの
-	socket_acc = accept(socket_, &(sockaddr&)sockaddr_string, &size);
-	if (socket_acc == INVALID_SOCKET) {
-		// エラー
-		closesocket(socket_);
-		SetWindowText(hwMain, L"Acceptの初期化に失敗しました");
-		assert(false);
-	}
-	closesocket(socket_);
+	
 }
 
 void Server::Finalize() {
-	shutdown(socket_acc, 0);
-	closesocket(socket_acc);
+	shutdown(socket_, 0);
+	closesocket(socket_);
 }
 
 bool Server::Update() {
 	int nRcv = 0;
 	NetworkData::Data buf = datas_.data;
+	int fromlen = sizeof(saddr_);
+	sockaddr_in saddr{};
 
 	// recv関数でデータを受信
-	nRcv = recv(socket_acc, (char*)&recvDatas_, sizeof(NetworkData::Data), 0);
+	nRcv = recvfrom(socket_, (char*)&recvDatas_, sizeof(NetworkData::Data), 0, (struct sockaddr*)&saddr, &fromlen);
 
 	if (nRcv == SOCKET_ERROR) { return true; }
 
 	// send関数でデータを送信
-	send(socket_acc, (const char*)&buf, sizeof(NetworkData::Data), 0);
+	sendto(socket_, (const char*)&buf, sizeof(NetworkData::Data), 0, (struct sockaddr*)&saddr, sizeof(saddr));
 	return false;
 }

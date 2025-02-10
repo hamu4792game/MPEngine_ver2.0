@@ -40,4 +40,5 @@ protected:
 	NetworkData datas_; // 送信データ 
 	NetworkData::Data recvDatas_; // 受信データ
 
+	sockaddr_in saddr_{};
 };
