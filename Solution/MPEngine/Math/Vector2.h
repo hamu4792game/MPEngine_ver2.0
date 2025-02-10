@@ -26,4 +26,9 @@ public:
 
 	bool operator==(const Vector2& num) const;
 	bool operator!=(const Vector2& num) const;
+
+public:
+	// 距離を求める
+	friend float Distance(const Vector2& vecA, const Vector2& vecB);
+
 };

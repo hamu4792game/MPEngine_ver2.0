@@ -21,9 +21,10 @@ void NTScene::Initialize() {
 	rs->AddTexture("white2x2", "Resources/Texture/white2x2.png");
 	rs->AddTexture("number", "Resources/Texture/number.png");
 	rs->AddTexture("PushText", "Resources/Texture/hud/pushText.png");
+	rs->AddTexture("Circle", "Resources/Texture/circle.png");
 
 	transition_ = std::make_unique<Transition>();
-	sceneRequest_ = TITLE;
+	sceneRequest_ = GAME;
 }
 
 void NTScene::Finalize() {

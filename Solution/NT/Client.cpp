@@ -16,7 +16,6 @@ void Client::Initialize() {
 	gv->CreateGroup("ip");
 	std::string szServer = gv->GetStringValue("ip", "Address");
 
-	//char szServer[256]{ "119.242.41.196" };
 	hostent* lpHost = gethostbyname(szServer.c_str());
 
 	// クライアントソケットをサーバーに接続

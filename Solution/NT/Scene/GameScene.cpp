@@ -30,27 +30,14 @@ void GameScene::Initialize() {
 	for (auto& play : players_) {
 		play = std::make_unique<Player>();
 		play->texture_ = std::make_unique<Sprite>();
-		play->texture_->SetTexture(rs->FindTexture("white2x2"));
-		play->texture_->SetScale(Vector2(100.0f, 100.0f));
-		play->texture_->SetTranslate(Vector2(pos[index], 0.0f));
+		play->texture_->SetTexture(rs->FindTexture("Circle"));
+		play->radius_ = 100.0f;
+		play->pos_ = Vector2(pos[index], 0.0f);
 		index++;
 	}
 
 	// 自分が選択している側の色を赤に
-	players_.at(static_cast<int>(isServer_))->texture_->SetColor(Vector4(1.0f, 0.0f, 0.0f, 1.0f));
-
-	index = 0;
-	float numPos[4]{
-		-150.0f,-100.0f,100.0f,150.0f,
-	};
-	for (auto& num : numbers_) {
-		num = std::make_unique<Sprite>();
-		num->SetTexture(rs->FindTexture("number"));
-		num->SetTranslate(Vector2(numPos[index], 100.0f));
-		num->SetScale(Vector2(50.0f, 50.0f));
-		num->SetUVSize(Vector2(1.0f / 10.0f, 1.0f));
-		index++;
-	}
+	//players_.at(static_cast<int>(isServer_))->texture_->SetColor(Vector4(1.0f, 0.0f, 0.0f, 1.0f));
 
 }
 
@@ -67,56 +54,34 @@ void GameScene::Update() {
 		// サーバー側なら
 		NetworkData::Data data;
 		data = network_->GetData();
-		data.A = player->count_;
+		data.posA = player->pos_;
 		network_->SetData(data);
-		enemy->count_ = data.B;
+		enemy->pos_ = data.posB;
 	}
 	else {
-		// クライアントp側なら
+		// クライアント側なら
 		NetworkData::Data data;
 		data = network_->GetData();
-		data.B = player->count_;
+		data.posB = player->pos_;
 		network_->SetData(data);
-		enemy->count_ = data.A;
+		enemy->pos_ = data.posA;
 	}
 
-	if (player->GetFinish() || enemy->count_ <= 0) {
-		endRequest_ = true;
-		// 勝利者を取得
-	}
 	SecondUpdate();
 }
 
 void GameScene::SecondUpdate() {
-	// 通信先の更新
-	auto& player = players_.at(static_cast<int>(!isServer_));
+	// 通信先の更新 // サーバー側
+	auto& player = players_.at(1u);
+	auto& enemy = players_.at(0u);
 	
-	if (player->count_ % 2 == 0) {
-		player->texture_->SetColor(Vector4(0.0f, 0.0f, 0.0f, 1.0f));
+	// 衝突判定
+	player->IsCollition(enemy->pos_, enemy->radius_);
+	for (auto& pl : players_) {
+		// 描画更新
+		pl->texture_->SetTranslate(pl->pos_);
+		pl->texture_->SetScale(Vector2(pl->radius_, pl->radius_));
 	}
-	else {
-		player->texture_->SetColor(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
-	}
-	SetNumber();
-}
-
-void GameScene::SetNumber() {
-
-	static const float size = 1.0f / 10.0f;
-	int index = 0;
-	// ナンバーの0,1がplayer0　・ 2,3がplayer1
-	for (auto& player : players_) {
-		int num = player->count_;
-		// 10の位
-		int tens_place = (num / 10) & 0xf;
-		numbers_.at(index)->SetUVPosition(Vector2(size * tens_place, 0.0f));
-		index++;
-		// 1の位
-		int ones_place = (num % 10);
-		numbers_.at(index)->SetUVPosition(Vector2(size * ones_place, 0.0f));
-		index++;
-	}
-
 }
 
 GameScene::Player::Player() {
@@ -129,7 +94,34 @@ void GameScene::Player::Update() {
 	if (input->TriggerKey(DIK_SPACE)) {
 		count_ -= 1;
 	}
-	if (count_ <= 0) {
-		isFinished_ = true;
+	const float speed = 1.0f;
+	// キー入力
+	if (input->PressKey(DIK_LEFTARROW)) {
+		pos_.x -= speed;
+	}
+	if (input->PressKey(DIK_RIGHTARROW)) {
+		pos_.x += speed;
+	}
+	if (input->PressKey(DIK_UPARROW)) {
+		pos_.y += speed;
+	}
+	if (input->PressKey(DIK_DOWNARROW)) {
+		pos_.y -= speed;
+	}
+	
+}
+
+void GameScene::Player::IsCollition(const Vector2& position, const float& rad) {
+	texture_->SetColor(Vector4(1.0f, 0.0f, 0.0f, 1.0f));
+
+	float diffA = position.x - this->pos_.x;              // Xの差
+	float diffB = position.y - this->pos_.y;              // Yの差
+	float c = (float)sqrt(diffA * diffA + diffB * diffB); // 平方根
+	float sumRadius = this->radius_ + rad;              // 半径の和
+
+	// cが半径の和以下なら当たっている
+	if (c <= sumRadius * 0.5f) {
+		// 当たってる
+		texture_->SetColor(Vector4(0.0f, 1.0f, 0.0f, 1.0f));
 	}
 }

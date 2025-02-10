@@ -1,4 +1,5 @@
 #include "Vector2.h"
+#include <cmath>
 
 decltype(Vector2::zero) Vector2::zero = Vector2(0.0f, 0.0f);
 decltype(Vector2::one) Vector2::one = Vector2(1.0f, 1.0f);
@@ -67,4 +68,10 @@ bool Vector2::operator==(const Vector2& num) const {
 
 bool Vector2::operator!=(const Vector2& num) const {
 	return !(*this == num);
+}
+
+float Distance(const Vector2& vecA, const Vector2& vecB) {
+	Vector2 vec = vecB - vecA;
+	float result = (vec.x * vec.x) + (vec.y * vec.y);
+	return std::sqrtf(result);
 }

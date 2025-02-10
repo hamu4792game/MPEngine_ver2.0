@@ -17,8 +17,6 @@ private:
 	// アニメーション等の事後更新用
 	void SecondUpdate() override;
 
-	void SetNumber();
-
 private:
 
 	std::unique_ptr<BaseNetwork> network_;
@@ -28,14 +26,15 @@ private:
 	public:
 		Player();
 		int count_ = 30;
+		Vector2 pos_;
+		float radius_ = 100.0f;
 		bool isFinished_ = false;
 		bool GetFinish() const { return isFinished_; }
 		void Update();
+		void IsCollition(const Vector2& position, const float& rad);
 		std::unique_ptr<Sprite> texture_;
 
 	};
 	std::array<std::unique_ptr<Player>, 2u> players_;
-	// 数字
-	std::array<std::unique_ptr<Sprite>, 4u> numbers_;
 
 };
