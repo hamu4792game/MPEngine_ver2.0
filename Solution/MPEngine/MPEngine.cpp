@@ -20,7 +20,7 @@ MPEngine* MPEngine::GetInstance() {
 	return &instance;
 }
 
-void MPEngine::Run(GameFrame* game) {
+void MPEngine::Run(MPE::GameFrame* game) {
 	game_ = game;
 	int32_t windowWidth = 1280; int32_t windowHeight = 720;
 	Initialize("疾走", windowWidth, windowHeight);

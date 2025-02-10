@@ -17,7 +17,7 @@ private:
 	~MPEngine() = default;
 public:
 	static MPEngine* GetInstance();
-	void Run(GameFrame* game = nullptr);
+	void Run(MPE::GameFrame* game = nullptr);
 private:
 	void Initialize(const char* title, int width, int height);
 	bool Update();
@@ -37,7 +37,7 @@ private: // メンバ変数
 
 
 	// ゲームシーン
-	GameFrame* game_ = nullptr;
+	MPE::GameFrame* game_ = nullptr;
 
 
 #ifdef _DEBUG

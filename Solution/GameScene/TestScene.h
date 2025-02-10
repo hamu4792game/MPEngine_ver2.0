@@ -7,7 +7,7 @@
 #include "Transition.h"
 #include "Game/Spring/Spring.h"
 
-class TestScene : public GameFrame {
+class TestScene : public MPE::GameFrame {
 public:
 	TestScene() = default;
 	~TestScene() override = default;
