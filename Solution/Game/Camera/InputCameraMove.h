@@ -4,11 +4,11 @@
 // カメラ移動用クラス
 class inputCameraMove : public MPE::CameraFrame {
 public:
-	inputCameraMove();
+	inputCameraMove() = default;
 	~inputCameraMove() = default;
 
 	void Initialize(const WorldTransform& transform = WorldTransform()) override;
 
-	void Update();
+	void Update() override;
 
 };
