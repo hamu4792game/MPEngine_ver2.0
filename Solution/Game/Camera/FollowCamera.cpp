@@ -48,9 +48,8 @@ void FollowCamera::Update(const float& speed) {
 
 		//lOffset = TargetOffset(preOffset_, postRotate_);
 
-		// 回転姿勢を計算
-		cameraStateRotate_ = cameraStateRotate_ * moveRotateQuaternion_;
-
+		// 回転姿勢を計算 元の回転 * 移動量分の回転
+		//cameraStateRotate_ = cameraStateRotate_ * moveRotateQuaternion_;
 		
 		// 【重要】ターゲット位置を原点としてオフセットを回転
 		Vector3 rotatedOffset = cameraStateRotate_ * preOffset_;
@@ -161,9 +160,20 @@ bool FollowCamera::CameraMove() {
 	// 保存
 	oldCameraRotateMove_ = move;
 
-	// 上下左右の任意軸開店
-	moveRotateQuaternion_ = Quaternion::MakeRotateAxisAngleQuaternion(Vector3::right, move.x) * Quaternion::MakeRotateAxisAngleQuaternion(Vector3::up, move.y)* Quaternion::MakeRotateAxisAngleQuaternion(Vector3::front, 0.0f);
+	cameraRotation_ += move;
 
+	// 上下左右の任意軸開店
+	moveRotateQuaternion_ = Quaternion::MakeRotateAxisAngleQuaternion(Vector3::up, move.y) * Quaternion::MakeRotateAxisAngleQuaternion(Vector3::right, move.x);
+
+	cameraRotation_.x = std::clamp(cameraRotation_.x, -AngleToRadian(20.0f), AngleToRadian(80.0f));
+
+	Quaternion y = Quaternion::MakeRotateAxisAngleQuaternion(Vector3::up, cameraRotation_.y);
+	Quaternion x = Quaternion::MakeRotateAxisAngleQuaternion(Vector3::right, cameraRotation_.x);
+
+	cameraStateRotate_ = y * x;
+
+	Vector3 v = Quaternion::QuaternionToEuler(moveRotateQuaternion_);
+	ImGui::DragFloat3("Quat", &v.x, 0.1f);
 
 	// カメラ操作をやめた瞬間
 	if (!isCameraMove_ && isOldCameraMove_) {

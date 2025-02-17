@@ -281,6 +281,9 @@
     <ClCompile Include="Game\Wire\WireTip.cpp">
       <Filter>Game\Wire</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Camera\InputCameraMove.cpp">
+      <Filter>Game\Camera\InputCameraMove</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -584,6 +587,12 @@
     <ClInclude Include="Game\Wire\WireTip.h">
       <Filter>Game\Wire</Filter>
     </ClInclude>
+    <ClInclude Include="MPEngine\Framework\CameraFrame.h">
+      <Filter>MPEngine\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Camera\InputCameraMove.h">
+      <Filter>Game\Camera\InputCameraMove</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="MPEngine">
@@ -825,6 +834,9 @@
     </Filter>
     <Filter Include="Game\Wire">
       <UniqueIdentifier>{968907ac-0d63-438e-831e-4a363e88aada}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Camera\InputCameraMove">
+      <UniqueIdentifier>{4a00d38d-9936-4913-808f-e07220bb216c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
