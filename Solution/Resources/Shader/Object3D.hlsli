@@ -3,6 +3,7 @@ struct VertexOutput {
     float2 texcoord : TEXCOORD0;
     float3 normal : NORMAL0;
     float3 worldPosition : POSITION0;
+    float32_t4 scale : SCALE0;
 };
 
 struct TransformationMatrix {

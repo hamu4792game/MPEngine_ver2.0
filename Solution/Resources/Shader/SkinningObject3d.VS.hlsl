@@ -47,5 +47,6 @@ VertexOutput main(VertexShaderInput input) {
     output.worldPosition = mul(skinned.position, gTransformationMatrix.WVP).xyz;
     output.texcoord = input.texcoord;
     output.normal = normalize(mul(skinned.normal,(float3x3)gTransformationMatrix.WorldInverseTranspose));
+    output.scale = float32_t4(gTransformationMatrix.World[0][0],gTransformationMatrix.World[1][1],gTransformationMatrix.World[2][2],1.0f);
 	return output;
 }
