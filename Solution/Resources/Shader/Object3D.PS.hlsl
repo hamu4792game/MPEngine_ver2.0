@@ -23,9 +23,6 @@ float4 main(VertexOutput input) : SV_TARGET {
     float4 uv = mul(float4(input.texcoord,0.0f,1.0f),gMaterial.uvMat);
     float4x4 uvMatrix;
 
-    float32_t3 lInputNormal = mul(input.normal,(float32_t3x3)gTransformationMatrix.World);
-    lInputNormal = normalize(lInputNormal);
-
     // タイリングを行う場合
     if (gMaterial.tiling != 0) {
         // 長い成分探し
@@ -67,7 +64,7 @@ float4 main(VertexOutput input) : SV_TARGET {
     float3 diffuse;
 
     if (gMaterial.enableLighting != 0) {
-        float NdotL = dot(normalize(lInputNormal),-gDirectionalLight.direction);
+        float NdotL = dot((input.normal),-gDirectionalLight.direction);
         float cos = pow(NdotL * 0.5f + 0.5f,2.0f);
         diffuse = 
         textureColor.rgb * gDirectionalLight.color.rgb * cos * gDirectionalLight.intensity;
@@ -76,7 +73,7 @@ float4 main(VertexOutput input) : SV_TARGET {
         if (gMaterial.phongLighing != 0) {
             float3 toEye = normalize(gCamera.worldPosition - input.worldPosition);
             //float3 halfVector = normalize(-gDirectionalLight.direction + toEye);
-            float3 reflectLight = reflect(gDirectionalLight.direction,normalize(lInputNormal));
+            float3 reflectLight = reflect(gDirectionalLight.direction,(input.normal));
             //float NDotH = dot(normalize(input.normal),halfVector);
             float RdotE = dot(reflectLight,toEye);
             float specularPow = pow(saturate(RdotE),gMaterial.shininess); // 反射強度
@@ -89,7 +86,7 @@ float4 main(VertexOutput input) : SV_TARGET {
     // 環境マップ
     {
         float32_t3 cameraToPosition = normalize(input.worldPosition - gCamera.worldPosition);
-        float32_t3 reflectedVector = reflect(cameraToPosition,normalize(lInputNormal));
+        float32_t3 reflectedVector = reflect(cameraToPosition,(input.normal));
         float32_t4 environmentColor = gEnvironmentTexture.Sample(gSampler,reflectedVector);
         textureColor.rgb += environmentColor.rgb * gMaterial.environmentCoefficient;
     }
