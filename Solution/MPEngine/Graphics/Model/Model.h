@@ -58,6 +58,19 @@ private:
 		int phongLighing = false;
 		float environmentCoefficient = 0.0f; // 環境マップ
 		Matrix4x4 uvMatrix = Matrix4x4(Vector3::one, Vector3::zero, Vector3::zero);
+		int tiling = false;
+		float tilingSize = 5.0f;
+
+		void Assignment(const Material& material) {
+			color = material.color;
+			enableLighting = material.enableLighting;
+			shininess = material.shininess;
+			phongLighing = material.phongLighing;
+			environmentCoefficient = material.environmentCoefficient;
+			uvMatrix = material.uvMatrix;
+			tiling = material.tiling;
+			tilingSize = material.tilingSize;
+		}
 	};
 public:
 	Material materials;

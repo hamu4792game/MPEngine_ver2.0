@@ -1,7 +1,5 @@
 #include "Object3D.hlsli"
 
-ConstantBuffer<TransformationMatrix> gTransformationMatrix : register(b0);
-
 struct Well {
     float4x4 skeletonSpaceMatrix;
     float4x4 skeletonSpaceInverseTransposeMatrix;

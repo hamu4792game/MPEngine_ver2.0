@@ -34,13 +34,14 @@ void Stage::initialize() {
 	planeGround_.model_ = std::make_shared<Model>();
 	planeGround_.model_->SetModel(ResourceManager::GetInstance()->FindObject3d("Plane"));
 	planeGround_.model_->SetTexture(ResourceManager::GetInstance()->FindTexture("ground1"));
-	planeGround_.transform_ = WorldTransform(Vector3(1000.0f, 1000.0f, 0.1f), Vector3(AngleToRadian(-90.0f), 0.0f, 0.0f), Vector3(0.0f, -0.01f, 0.0f));
+	planeGround_.transform_ = WorldTransform(Vector3(1000.0f, 1000.0f, 1.0f), Vector3(AngleToRadian(-90.0f), 0.0f, 0.0f), Vector3(0.0f, -0.01f, 0.0f));
 	planeGround_.transform_.UpdateMatrix();
 
 	planeGround_.model_->isActive_ = true;
 	planeGround_.model_->SetTransform(planeGround_.transform_);
 	planeGround_.model_->materials.enableLighting = false;
 	planeGround_.model_->materials.phongLighing = false;
+	//planeGround_.model_->materials.tiling = true;
 }
 
 void Stage::Update() {
@@ -81,6 +82,12 @@ void Stage::Update() {
 		collisionList_.emplace_back(goal_->GetCollision());
 	}
 
+	/*if (planeGround_.model_) {
+		ImGui::DragFloat("PlaneRotateX", &planeGround_.transform_.rotation_.x, AngleToRadian(1.0f));
+		planeGround_.transform_.UpdateMatrix();
+		planeGround_.model_->SetTransform(planeGround_.transform_);
+	}*/
+	
 }
 
 void Stage::DrawImGui() {

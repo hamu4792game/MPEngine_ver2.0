@@ -41,7 +41,7 @@ void ModelRender::Initialize() {
 
 		// WVP
 		rootParameter[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
-		rootParameter[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+		rootParameter[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 		rootParameter[1].Descriptor.ShaderRegister = 0;
 
 		// 色などのマテリアル系
@@ -150,7 +150,7 @@ void ModelRender::Initialize() {
 
 		// WVP
 		rootParameter[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
-		rootParameter[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+		rootParameter[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 		rootParameter[1].Descriptor.ShaderRegister = 0;
 
 		// 色などのマテリアル系
@@ -272,12 +272,7 @@ void ModelRender::DrawCommand(Camera3d* cameraPtr) {
 		model->cMat->worldInverseTranspose = Inverse(model->cMat->world);
 		model->cMat->wvp = model->cMat->world * viewProjectionMat;
 
-		model->cMaterial->environmentCoefficient = model->materials.environmentCoefficient;
-
-		model->cMaterial->color = model->materials.color;
-		model->cMaterial->enableLighting = model->materials.enableLighting;
-		model->cMaterial->shininess = model->materials.shininess;
-		model->cMaterial->phongLighing = model->materials.phongLighing;
+		model->cMaterial->Assignment(model->materials);
 
 		if (model->animation_) {
 			list->SetGraphicsRootSignature(skinningRootSignature_->GetRootSignature().Get());

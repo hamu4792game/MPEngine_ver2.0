@@ -50,6 +50,7 @@ void Ground::Initialize(LevelData::ObjectData& objectdata) {
 	transform_ = objectdata.transform;
 	transform_.UpdateMatrix();
 	model_->SetTransform(transform_);
+	model_->materials.tiling = true;
 
 	// コライダー
 	collision_ = std::make_unique<Collider>();

@@ -138,7 +138,7 @@ void Player::Update() {
 	transform_.translation_ += moveVector_;
 
 	LimitMoving();
-	followCamera_->CameraMove();
+	//followCamera_->CameraMove();
 	TransformUpdate();
 	animation_->SetColor(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
 	minDistance_ = std::numeric_limits<float>::max();

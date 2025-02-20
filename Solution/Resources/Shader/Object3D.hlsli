@@ -12,6 +12,8 @@ struct TransformationMatrix {
     float4x4 WorldInverseTranspose;
 };
 
+ConstantBuffer<TransformationMatrix> gTransformationMatrix : register(b0);
+
 struct DirectionalLight {
 	float4 color;
 	float3 direction;
