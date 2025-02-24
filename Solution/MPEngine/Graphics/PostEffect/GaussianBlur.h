@@ -2,22 +2,21 @@
 #include "BaseEffect.h"
 #include "MPEngine/Base/ConstantBuffer.h"
 
-class Grayscale : public BaseEffect {
+class GaussianBlur : public BaseEffect {
 public:
-	Grayscale() = default;
-	~Grayscale() = default;
+	GaussianBlur() = default;
+	~GaussianBlur() = default;
 
-	static Grayscale* GetInstance();
+	static GaussianBlur* GetInstance();
 
 	void DrawCommand(ID3D12GraphicsCommandList* comList, const uint32_t& handleNum) override;
 private:
 	void CreatePipelineState() override;
-	
+
 public:
-	struct GrayParameter {
-		float grayscalevalue;
+	struct GaussianBlurParameter {
+		int32_t value;
 	};
 
-	ConstantBuffer<GrayParameter> cParam_;
-
+	ConstantBuffer<GaussianBlurParameter> cParam_;
 };

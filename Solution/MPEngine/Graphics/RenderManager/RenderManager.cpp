@@ -18,15 +18,23 @@ void RenderManager::Initialize(SwapChain* swapchain) {
 	camera3d_ = Camera3d::GetInstance();
 	camera3d_->Initialize(2000.0f);
 
+	auto device = DeviceManager::GetInstance();
+	auto rs = ResourceManager::GetInstance();
+
 	radialBlur_ = RadialBlur::GetInstance();
-	radialBlur_->CreateRenderTexture(DeviceManager::GetInstance(), swapchain, ResourceManager::GetInstance());
+	radialBlur_->CreateRenderTexture(device, swapchain, rs);
 	
 	grayscale_ = Grayscale::GetInstance();
-	grayscale_->CreateRenderTexture(DeviceManager::GetInstance(), swapchain, ResourceManager::GetInstance());
+	grayscale_->CreateRenderTexture(device, swapchain, rs);
 
 	hsvFilter_ = HSVFilter::GetInstance();
-	hsvFilter_->CreateRenderTexture(DeviceManager::GetInstance(), swapchain, ResourceManager::GetInstance());
+	hsvFilter_->CreateRenderTexture(device, swapchain, rs);
 
+	gaussianBlur_ = GaussianBlur::GetInstance();
+	gaussianBlur_->CreateRenderTexture(device, swapchain, rs);
+
+	highLumi_ = HighLumi::GetInstance();
+	highLumi_->CreateRenderTexture(device, swapchain, rs);
 
 	for (auto& handle : intermediateRenderTarget_) {
 		handle = std::make_unique<IntermediateRenderTarget>(DeviceManager::GetInstance(), swapchain, ResourceManager::GetInstance());
@@ -57,6 +65,8 @@ void RenderManager::Draw() {
 	grayscale_->PreProcess();
 	radialBlur_->PreProcess();
 	hsvFilter_->PreProcess();
+	gaussianBlur_->PreProcess();
+	highLumi_->PreProcess();
 
 #ifdef _DEBUG
 	ImGui::Begin("HSV");
@@ -74,35 +84,38 @@ void RenderManager::PostDraw(SwapChain* swapchain) {
 
 	auto list = ListManager::GetInstance()->GetList();
 	
-	// 0枚目をRenderとして使用
-	intermediateRenderTarget_.at(0)->PreProcess(list, intermediateRenderTarget_.at(0)->GetRTVHandle());
-	uint32_t handleNum = 10u; // 最初はRenderのSRV
-	
-	grayscale_->DrawCommand(list, handleNum);
-	
-	// 0枚目をテクスチャとして使用し、1枚目に書き込み
-	// 状態をテクスチャに
-	handleNum = intermediateRenderTarget_.at(0)->PostProcess();
-	// 描画先を1枚目に変更
-	// handleNumは0番目を取得しなきゃいけない
-	intermediateRenderTarget_.at(1)->PreProcess(list, intermediateRenderTarget_.at(1)->GetRTVHandle());
+	// 2枚管理面倒だからつくったやつ
+	struct FlontNumber {
+		int num = 0;
+		int Count() {
+			num++;
+			if (num > 1) {
+				num = 0;
+			}
+			return num;
+		}
+	};
+	FlontNumber flontNum;
 
-	radialBlur_->DrawCommand(list, handleNum);
+	uint32_t handleNum = 10u; // 最初はRenderのSRV さすがに危険なのでどこかで取得できるよう修正必須
+	// 以降ポストエフェクト
 
-	// 1枚目をtextureとして使用
-	handleNum = intermediateRenderTarget_.at(1)->PostProcess();
-	// swapchainに書き込み
+	// swapchainのrenderをテクスチャにし、中間レンダーの0番に書き込む
+	handleNum = ChangeProc(handleNum, highLumi_, flontNum.num);
+	// 中間レンダーの0番をテクスチャにし、中間レンダーの1へ書き込む。
+	handleNum = ChangeProc(handleNum, gaussianBlur_, flontNum.Count());
+	
+
+	handleNum = ChangeProc(handleNum, grayscale_, flontNum.Count());
+	handleNum = ChangeProc(handleNum, radialBlur_, flontNum.Count());
+
+	// 最後だけswapchainに書き込み
 	uint32_t index = swapchain->GetSwapChain()->GetCurrentBackBufferIndex();
-	intermediateRenderTarget_.at(1)->PreProcess(list, index, false);
+	intermediateRenderTarget_.at(flontNum.num)->PreProcess(list, index, false);
 
 	hsvFilter_->DrawCommand(list, handleNum);
-	
-	//intermediateRenderTarget_.at(0)->PostProcess();
-	//intermediateRenderTarget_.at(1)->PostProcess();
 
-	// 1枚目をテクスチャとして使用し、SwapChainに書き込み
-	//handleNum = intermediateRenderTarget_.at(1)->PreProcess(list, intermediateRenderTarget_.at(0)->GetRTVHandle());
-	
+	// hud用描画。後で奥にtextureが描画できるようにもする
 	HudDraw();
 
 }
@@ -112,4 +125,16 @@ void RenderManager::HudDraw() {
 	projectionMatrix2D = camera->GetViewProMat();
 	spriteRender.DrawCommand(projectionMatrix2D);
 
+}
+
+uint32_t RenderManager::ChangeProc(const int& texhandle, BaseEffect* effect, const int& frontNum) {
+	auto list = ListManager::GetInstance()->GetList();
+	// n枚目をRenderとして使用
+	intermediateRenderTarget_.at(frontNum)->PreProcess(list, intermediateRenderTarget_.at(frontNum)->GetRTVHandle());
+
+	// n枚目をテクスチャとして使用し、m枚目に書き込み
+	effect->DrawCommand(list, texhandle);
+
+	// 状態をテクスチャに
+	return intermediateRenderTarget_.at(frontNum)->PostProcess();
 }

@@ -5,9 +5,12 @@ void Target::Initialize(const Vector3& translate) {
 	auto rsManager = ResourceManager::GetInstance();
 	model_ = std::make_unique<Model>();
 	model_->SetModel(rsManager->FindObject3d("Target"));
+	model_->SetTexture(rsManager->FindTexture("white2x2"));
 	transform_.translation_ = translate;
 	transform_.UpdateMatrix();
 	model_->SetTransform(transform_);
+	model_->materials.color = Vector4(1.0f, 1.0f, 0.0f, 1.0f);
+	model_->materials.environmentCoefficient = 0.21f;
 }
 
 void Target::DrawImGui() {
@@ -16,6 +19,7 @@ void Target::DrawImGui() {
 	ImGui::DragFloat3("rotate", &transform_.rotation_.x, AngleToRadian(1.0f));
 	ImGui::DragFloat3("position", &transform_.translation_.x, 0.1f);
 	ImGui::DragFloat("明るさ", &model_->materials.environmentCoefficient, 0.01f, 0.0f, 1.0f);
+	ImGui::DragFloat4("color", &model_->materials.color.x, 0.01f, 0.0f, 1.0f);
 	transform_.UpdateMatrix();
 	model_->SetTransform(transform_);
 #endif // _DEBUG

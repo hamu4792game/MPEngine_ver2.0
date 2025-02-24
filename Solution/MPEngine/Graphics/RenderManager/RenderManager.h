@@ -10,6 +10,9 @@
 #include "MPEngine/Graphics/PostEffect/Grayscale.h"
 #include "MPEngine/Graphics/PostEffect/HSVFilter.h"
 #include "MPEngine/Graphics/PostEffect/IntermediateRenderTarget.h"
+#include "MPEngine/Graphics/PostEffect/GaussianBlur.h"
+#include "MPEngine/Graphics/PostEffect/HighLumi.h"
+#include "MPEngine/Base/DetailSetting/RenderTarget/RenderTarget.h"
 
 // MPEngineクラスでのみ実体化
 class RenderManager {
@@ -34,6 +37,15 @@ public:
 	static PostEffect nowEffect;
 private:
 
+	/// <summary>
+	/// ポストエフェクト用
+	/// </summary>
+	/// <param name="texhandle">読み込むテクスチャのhandle</param>
+	/// <param name="effect">エフェクト</param>
+	/// <param name="frontNum">書き込む中間ファイル</param>
+	/// <returns></returns>
+	uint32_t ChangeProc(const int& texhandle, BaseEffect* effect,const int& frontNum);
+
 	SpriteRender spriteRender;
 	ModelRender modelRender;
 	ParticleRender particleRender;
@@ -46,7 +58,11 @@ private:
 	RadialBlur* radialBlur_ = nullptr;
 	Grayscale* grayscale_ = nullptr;
 	HSVFilter* hsvFilter_ = nullptr;
+	GaussianBlur* gaussianBlur_ = nullptr;
+	HighLumi* highLumi_ = nullptr;
 	std::array<std::unique_ptr<IntermediateRenderTarget>, 2u> intermediateRenderTarget_;
+
+	// 一時避難用のPostEffectRender
 
 };
 

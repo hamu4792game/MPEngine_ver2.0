@@ -75,6 +75,19 @@ void BaseEffect::DrawCommand(ID3D12GraphicsCommandList* comList) {
 	comList->DrawInstanced(3, 1, 0, 0);
 }
 
+void BaseEffect::DrawCommand(ID3D12GraphicsCommandList* comList, const uint32_t& handleNum) {
+	GraphicsManager::CreateBarrier(renderTextureResource_.Get(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+
+	BaseEffect::PreDraw(comList, handleNum);
+	if (isUsed) {
+		assert(false);
+		// ここでパラメータをセットする。オーバーロード必須
+		//comList->SetGraphicsRootConstantBufferView(1, cParam_.GetGPUVirtualAddress());
+	}
+	// 描画コマンド
+	BaseEffect::DrawCommand(comList);
+}
+
 void BaseEffect::CreateCopyPipelineState() {
 	if (copyRootSignature_) {
 		return;

@@ -9,7 +9,7 @@ public:
 
 	static HSVFilter* GetInstance();
 
-	void DrawCommand(ID3D12GraphicsCommandList* comList, const uint32_t& handleNum);
+	void DrawCommand(ID3D12GraphicsCommandList* comList, const uint32_t& handleNum) override;
 private:
 	void CreatePipelineState() override;
 	

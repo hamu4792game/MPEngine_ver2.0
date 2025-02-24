@@ -215,7 +215,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="MPEngine\Graphics\ParticleRender\ParticleRender.cpp" />
     <ClCompile Include="MPEngine\Graphics\Particle\Particle.cpp" />
     <ClCompile Include="MPEngine\Graphics\PostEffect\BaseEffect.cpp" />
+    <ClCompile Include="MPEngine\Graphics\PostEffect\Bloom.cpp" />
+    <ClCompile Include="MPEngine\Graphics\PostEffect\GaussianBlur.cpp" />
     <ClCompile Include="MPEngine\Graphics\PostEffect\Grayscale.cpp" />
+    <ClCompile Include="MPEngine\Graphics\PostEffect\HighLumi.cpp" />
     <ClCompile Include="MPEngine\Graphics\PostEffect\HSVFilter.cpp" />
     <ClCompile Include="MPEngine\Graphics\PostEffect\IntermediateRenderTarget.cpp" />
     <ClCompile Include="MPEngine\Graphics\PostEffect\PostEffectManager.cpp" />
@@ -315,7 +318,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="MPEngine\Graphics\ParticleRender\ParticleRender.h" />
     <ClInclude Include="MPEngine\Graphics\Particle\Particle.h" />
     <ClInclude Include="MPEngine\Graphics\PostEffect\BaseEffect.h" />
+    <ClInclude Include="MPEngine\Graphics\PostEffect\Bloom.h" />
+    <ClInclude Include="MPEngine\Graphics\PostEffect\GaussianBlur.h" />
     <ClInclude Include="MPEngine\Graphics\PostEffect\Grayscale.h" />
+    <ClInclude Include="MPEngine\Graphics\PostEffect\HighLumi.h" />
     <ClInclude Include="MPEngine\Graphics\PostEffect\HSVFilter.h" />
     <ClInclude Include="MPEngine\Graphics\PostEffect\IntermediateRenderTarget.h" />
     <ClInclude Include="MPEngine\Graphics\PostEffect\PostEffectManager.h" />

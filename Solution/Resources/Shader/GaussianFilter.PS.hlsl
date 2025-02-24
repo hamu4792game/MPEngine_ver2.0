@@ -6,6 +6,11 @@ struct PixelShaderOutput {
     float4 color : SV_TARGET0;
 };
 
+struct Parameter {
+    int32_t maxSize;
+};
+ConstantBuffer<Parameter> gParameter : register(b0);
+
 static const float32_t PI = 3.14159265f;
 
 float gauss(float x, float y, float sigma) {

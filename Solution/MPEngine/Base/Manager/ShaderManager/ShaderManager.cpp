@@ -73,11 +73,11 @@ Microsoft::WRL::ComPtr<IDxcBlob> ShaderManager::CompileShader(const std::wstring
 
 	//	警告、エラーが出てたらログに出して止める
 	IDxcBlobUtf8* shaderError = nullptr;
-	shaderResult->GetOutput(DXC_OUT_ERRORS, IID_PPV_ARGS(&shaderError), nullptr);
+	hr = shaderResult->GetOutput(DXC_OUT_ERRORS, IID_PPV_ARGS(&shaderError), nullptr);
 	if (shaderError != nullptr && shaderError->GetStringLength() != 0) {
 		Log(shaderError->GetStringPointer());
 		//	警告、エラーダメ絶対
-		assert(false);
+		assert(SUCCEEDED(hr));
 	}
 	shaderError->Release();
 

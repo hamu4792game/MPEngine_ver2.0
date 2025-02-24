@@ -13,6 +13,7 @@ public:
 	void PreProcess();
 	void PreDraw(ID3D12GraphicsCommandList* comList, const uint32_t& handleNum);
 	void DrawCommand(ID3D12GraphicsCommandList* comList);
+	virtual void DrawCommand(ID3D12GraphicsCommandList* comList, const uint32_t& handleNum);
 
 	const uint32_t GetRTVHandle() const { return rtvHandleNum_; }
 	const uint32_t GetSRVHandle() const { return srvHandleNum_; }
