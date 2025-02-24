@@ -52,6 +52,11 @@ void Ground::Initialize(LevelData::ObjectData& objectdata) {
 	model_->SetTransform(transform_);
 	model_->materials.tiling = true;
 
+	// ゴール用のテクスチャだった場合の例外処理 後で対策する
+	if (textureName == "arrow") {
+		model_->materials.tiling = false;
+	}
+
 	// コライダー
 	collision_ = std::make_unique<Collider>();
 	collTransform_.parent_ = &transform_;

@@ -81,12 +81,6 @@ void Stage::Update() {
 		goal_->Update();
 		collisionList_.emplace_back(goal_->GetCollision());
 	}
-
-	/*if (planeGround_.model_) {
-		ImGui::DragFloat("PlaneRotateX", &planeGround_.transform_.rotation_.x, AngleToRadian(1.0f));
-		planeGround_.transform_.UpdateMatrix();
-		planeGround_.model_->SetTransform(planeGround_.transform_);
-	}*/
 	
 }
 

@@ -5,6 +5,9 @@
 #include "MPEngine/Input/Audio.h"
 #include "ImGuiManager/ImGuiManager.h"
 #include "Utils/GlobalVariables/GlobalVariables.h"
+#include "Game/Scene/TitleScene.h"
+#include "Game/Scene/BattleScene.h"
+
 
 void (MasterGame::* MasterGame::SceneUpdateTable[])() = {
 	&MasterGame::TitleUpdate,
