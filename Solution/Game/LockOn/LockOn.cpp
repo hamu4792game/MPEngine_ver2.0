@@ -14,6 +14,7 @@ void LockOn::Initialize() {
 	frame_->SetTexture(ResourceManager::GetInstance()->FindTexture("ABCD"));
 
 	lockOnMark_->SetScale(Vector2(64.0f, 64.0f));
+	lockOnMark_->SetColor(Vector4(1.0f, 0.2f, 0.2f, 1.0f));
 	frame_->SetScale(Vector2(640.0f, 500.0f));
 	framePos_ = Vector2(-150.0f, -150.0f);
 	frame_->SetColor(Vector4(0.0f, 0.0f, 0.0f, 0.5f));

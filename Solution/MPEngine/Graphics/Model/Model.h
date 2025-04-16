@@ -28,6 +28,7 @@ public: // setter
 	void SetAnimation(ModelAnimation* animation) { animation_ = animation; }
 	void SetBlendType(BlendMode type) { blendType_ = type; }
 	void SetUVMatrix(const Matrix4x4& uvMat) { cMaterial->uvMatrix = uvMat; }
+	void IsUseBillboard(const bool& isBillboard) { isBillboard_ = isBillboard; }
 
 	const WorldTransform& GetTransform() const { return transform_; }
 	ModelAnimation* GetAnimation() const { return animation_; }
@@ -77,7 +78,7 @@ public:
 
 private:
 	ConstantBuffer<Material> cMaterial;
-
 	ModelAnimation* animation_ = nullptr;
+	bool isBillboard_ = false;
 
 };

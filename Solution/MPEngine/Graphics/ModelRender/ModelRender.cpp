@@ -269,6 +269,11 @@ void ModelRender::DrawCommand(Camera3d* cameraPtr) {
 		}*/
 		// 定数バッファ用の計算
 		model->cMat->world = model->transform_.UpdateMatrix();
+		// ビルボードを使用する場合
+		if (model->isBillboard_) {
+			model->cMat->world = camera->GetBillboardMat() * model->cMat->world;
+		}
+
 		model->cMat->worldInverseTranspose = Inverse(model->cMat->world);
 		model->cMat->wvp = model->cMat->world * viewProjectionMat;
 
