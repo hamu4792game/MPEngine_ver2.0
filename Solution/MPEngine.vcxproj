@@ -157,6 +157,13 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BEGame\Game\Ranking.cpp" />
+    <ClCompile Include="BEGame\Game\Result.cpp" />
+    <ClCompile Include="BEGame\Game\Running.cpp" />
+    <ClCompile Include="BEGame\Game\StopWatch\StopWatch.cpp" />
+    <ClCompile Include="BEGame\Game\WaitStart.cpp" />
+    <ClCompile Include="BEGame\Scene\GameScene.cpp" />
+    <ClCompile Include="GameScene\BEGameScene.cpp" />
     <ClCompile Include="GameScene\MasterGame.cpp" />
     <ClCompile Include="GameScene\TestScene.cpp" />
     <ClCompile Include="GameScene\Transition.cpp" />
@@ -256,6 +263,14 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="MPEngine\Utils\WorldTransform\WorldTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BEGame\Game\IStateFrame.h" />
+    <ClInclude Include="BEGame\Game\Ranking.h" />
+    <ClInclude Include="BEGame\Game\Result.h" />
+    <ClInclude Include="BEGame\Game\Running.h" />
+    <ClInclude Include="BEGame\Game\StopWatch\StopWatch.h" />
+    <ClInclude Include="BEGame\Game\WaitStart.h" />
+    <ClInclude Include="BEGame\Scene\GameScene.h" />
+    <ClInclude Include="GameScene\BEGameScene.h" />
     <ClInclude Include="GameScene\MasterGame.h" />
     <ClInclude Include="GameScene\TestScene.h" />
     <ClInclude Include="GameScene\Transition.h" />

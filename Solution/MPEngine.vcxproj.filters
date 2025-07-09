@@ -290,6 +290,25 @@
     <ClCompile Include="MPEngine\Graphics\PostEffect\GaussianBlur.cpp">
       <Filter>MPEngine\Graphics\PostEffect</Filter>
     </ClCompile>
+    <ClCompile Include="GameScene\BEGameScene.cpp">
+      <Filter>GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="BEGame\Game\Running.cpp">
+      <Filter>BEGame\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="BEGame\Game\WaitStart.cpp">
+      <Filter>BEGame\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="BEGame\Game\Ranking.cpp">
+      <Filter>BEGame\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="BEGame\Game\Result.cpp">
+      <Filter>BEGame\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="BEGame\Scene\GameScene.cpp">
+      <Filter>BEGame\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="BEGame\Game\StopWatch\StopWatch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -602,6 +621,30 @@
     <ClInclude Include="MPEngine\Graphics\PostEffect\GaussianBlur.h">
       <Filter>MPEngine\Graphics\PostEffect</Filter>
     </ClInclude>
+    <ClInclude Include="GameScene\BEGameScene.h">
+      <Filter>GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="BEGame\Game\Running.h">
+      <Filter>BEGame\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="BEGame\Game\WaitStart.h">
+      <Filter>BEGame\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="BEGame\Game\IStateFrame.h">
+      <Filter>BEGame\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="BEGame\Game\Ranking.h">
+      <Filter>BEGame\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="BEGame\Game\Result.h">
+      <Filter>BEGame\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="BEGame\Scene\GameScene.h">
+      <Filter>BEGame\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="BEGame\Game\StopWatch\StopWatch.h">
+      <Filter>BEGame\Game\StopWatch</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="MPEngine">
@@ -843,6 +886,18 @@
     </Filter>
     <Filter Include="Game\Wire">
       <UniqueIdentifier>{968907ac-0d63-438e-831e-4a363e88aada}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BEGame">
+      <UniqueIdentifier>{9f39e5c8-2da3-4617-9018-cc7d08705f95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BEGame\Scene">
+      <UniqueIdentifier>{0e215e14-ad25-4e57-9b0d-781c69b79aa2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BEGame\Game">
+      <UniqueIdentifier>{a33d363e-f382-4bf1-8596-d86b88d5ef7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BEGame\Game\StopWatch">
+      <UniqueIdentifier>{640f9c70-db64-423b-8582-cb58b8f752f0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

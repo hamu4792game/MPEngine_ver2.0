@@ -7,6 +7,7 @@
 #include "Utils/GlobalVariables/GlobalVariables.h"
 #include "Game/Scene/TitleScene.h"
 #include "Game/Scene/BattleScene.h"
+#include "BEGame/Scene/GameScene.h"
 
 
 void (MasterGame::* MasterGame::SceneUpdateTable[])() = {
@@ -103,7 +104,7 @@ void MasterGame::Update() {
 }
 
 void MasterGame::TitleInitialize() {
-	titleScene_.reset(new TitleScene);
+	titleScene_.reset(new GameScene);
 	titleScene_->Initialize();
 }
 
