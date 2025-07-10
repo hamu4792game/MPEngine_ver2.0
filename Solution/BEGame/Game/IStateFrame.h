@@ -3,6 +3,7 @@
 
 struct GameData {
 	double time = 0.0;
+	int score = 0;
 };
 
 enum GameState {

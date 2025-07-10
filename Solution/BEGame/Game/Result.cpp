@@ -12,6 +12,7 @@ void Result::Initialize() {
 		score = static_cast<int>(ratio * 1000.0);
 	}
 	score_ = std::clamp<int>(score, 0, 1000); // 念のため
+	pdata_->score = score_;
 }
 
 void Result::Update() {

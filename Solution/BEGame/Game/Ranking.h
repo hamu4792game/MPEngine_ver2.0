@@ -1,5 +1,6 @@
 #pragma once
 #include "IStateFrame.h"
+#include <string>
 
 class Ranking : public IStateFrame {
 public:
@@ -7,11 +8,13 @@ public:
 	Ranking(GameData* data) : IStateFrame(data) {}
 	~Ranking() = default;
 
-	void Initialize() override {};
+	void Initialize() override;
 	void Finalize() override {};
 	void Update() override;
 
 private:
 	void ImGuiProc() override;
+
+	std::string rankingText_;
 
 };

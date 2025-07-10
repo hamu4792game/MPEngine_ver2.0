@@ -18,7 +18,11 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Finalize() {
-
+    if (pStateUpdate_) {
+        pStateUpdate_->Finalize();
+        pStateUpdate_.reset();
+    }
+    pdata_.reset();
 }
 
 void GameScene::Update() {

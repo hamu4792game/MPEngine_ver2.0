@@ -308,7 +308,12 @@
     <ClCompile Include="BEGame\Scene\GameScene.cpp">
       <Filter>BEGame\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="BEGame\Game\StopWatch\StopWatch.cpp" />
+    <ClCompile Include="BEGame\Game\StopWatch\StopWatch.cpp">
+      <Filter>BEGame\Game\StopWatch</Filter>
+    </ClCompile>
+    <ClCompile Include="BEGame\Game\Communication\httpClient.cpp">
+      <Filter>BEGame\Game\Communication</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -645,6 +650,9 @@
     <ClInclude Include="BEGame\Game\StopWatch\StopWatch.h">
       <Filter>BEGame\Game\StopWatch</Filter>
     </ClInclude>
+    <ClInclude Include="BEGame\Game\Communication\httpClient.h">
+      <Filter>BEGame\Game\Communication</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="MPEngine">
@@ -898,6 +906,9 @@
     </Filter>
     <Filter Include="BEGame\Game\StopWatch">
       <UniqueIdentifier>{640f9c70-db64-423b-8582-cb58b8f752f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BEGame\Game\Communication">
+      <UniqueIdentifier>{9ce7257f-fa72-4552-9d5b-afdd5a972f02}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
