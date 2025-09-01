@@ -11,5 +11,16 @@ std::future<std::string> PostFacultyAsync(const std::string& name);
 std::future<std::string> PatchFacultyAsync(int id, const std::string& newName);
 std::future<std::string> DeleteFacultyAsync(int id);
 
-std::future<std::string> PostScoreAsync(int score);
-std::future<std::string> GetAllScoresAsync();
+std::future<std::string> RegisterUserAsync(const std::string& name, const std::string& password);
+std::future<std::string> LoginAsync(const std::string& name, const std::string& password);
+
+std::future<std::string> PostScoreAsync(int score, const std::string& token);
+std::future<std::string> GetAllScoresAsync(const std::string& token);
+
+class TokenManager {
+public:
+    static std::string& GetToken() {
+        static std::string token;
+        return token;
+    }
+};

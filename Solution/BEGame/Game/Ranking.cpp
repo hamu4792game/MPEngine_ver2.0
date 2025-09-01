@@ -4,11 +4,13 @@
 #include "BEGame/Game/Communication/httpClient.h"
 #include "externals/nlohmann/json.hpp"
 
+
 void Ranking::Initialize() {
 	rankingText_.clear();
 
-	std::string postRes = PostScoreAsync(pdata_->score).get();
-	std::string allScoresJson = GetAllScoresAsync().get();
+	std::string postRes = PostScoreAsync(pdata_->score, TokenManager::GetToken()).get();
+	std::string allScoresJson = GetAllScoresAsync(TokenManager::GetToken()).get();
+
 
 	try {
 		nlohmann::json j = nlohmann::json::parse(allScoresJson);
@@ -16,7 +18,8 @@ void Ranking::Initialize() {
 		int i = 0;
 		for (const auto& entry : j) {
 			int rankScore = entry["score"];
-			rankingText_ += std::to_string(i + 1) + ". " + std::to_string(rankScore) + "\n";
+			std::string userName = entry["user"]["name"];
+			rankingText_ += std::to_string(i + 1) + ". " + userName + " : " + std::to_string(rankScore) + "\n";
 			++i;
 		}
 	}

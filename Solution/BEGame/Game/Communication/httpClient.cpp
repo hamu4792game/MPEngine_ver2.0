@@ -17,7 +17,7 @@ std::future<std::string> GetAllFacultiesAsync() {
 		if (!curl) return "CURL初期化エラー";
 
 		std::string response;
-		curl_easy_setopt(curl, CURLOPT_URL, "http://localhost:3000/faculties");
+		curl_easy_setopt(curl, CURLOPT_URL, "https://swgame-83u3aeo1i-hamus-projects-531e648e.vercel.app");
 		curl_easy_setopt(curl, CURLOPT_HTTPGET, 1L);
 		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
@@ -39,7 +39,7 @@ std::future<std::string> GetFacultyByIdAsync(int id) {
 
 		std::string response;
 		std::stringstream url;
-		url << "http://localhost:3000/faculties/" << id;
+		url << "https://swgame-83u3aeo1i-hamus-projects-531e648e.vercel.app/" << id;
 
 		curl_easy_setopt(curl, CURLOPT_URL, url.str().c_str());
 		curl_easy_setopt(curl, CURLOPT_HTTPGET, 1L);
@@ -72,7 +72,7 @@ std::future<std::string> PostFacultyAsync(const std::string& name) {
 		headers = curl_slist_append(headers, "Content-Type: application/json");
 
 		std::string response;
-		curl_easy_setopt(curl, CURLOPT_URL, "http://localhost:3000/faculties");
+		curl_easy_setopt(curl, CURLOPT_URL, "https://swgame-83u3aeo1i-hamus-projects-531e648e.vercel.app");
 		curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 		curl_easy_setopt(curl, CURLOPT_POST, 1L);
 		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, bodyStr.c_str());
@@ -98,7 +98,7 @@ std::future<std::string> PatchFacultyAsync(int id, const std::string& newName) {
 		
 		std::string response;
 		std::stringstream url;
-		url << "http://localhost:3000/faculties/" << id;
+		url << "https://swgame-83u3aeo1i-hamus-projects-531e648e.vercel.app/" << id;
 		
 		// JSONデータ構築
 		nlohmann::json requestBody = {
@@ -136,7 +136,7 @@ std::future<std::string> DeleteFacultyAsync(int id) {
 
 		std::string response;
 		std::stringstream url;
-		url << "http://localhost:3000/faculties/" << id;
+		url << "https://swgame-83u3aeo1i-hamus-projects-531e648e.vercel.app/" << id;
 
 		curl_easy_setopt(curl, CURLOPT_URL, url.str().c_str());
 		curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "DELETE");
@@ -153,8 +153,81 @@ std::future<std::string> DeleteFacultyAsync(int id) {
 		});
 }
 
-std::future<std::string> PostScoreAsync(int score) {
-	return std::async(std::launch::async, [score]() -> std::string {
+
+// 共通: ヘッダにトークンをつけるためのヘルパー
+struct curl_slist* MakeAuthHeaders(const std::string& token, bool isJson = true) {
+	struct curl_slist* headers = nullptr;
+	if (isJson) {
+		headers = curl_slist_append(headers, "Content-Type: application/json");
+		headers = curl_slist_append(headers, "Accept: application/json");
+	}
+	if (!token.empty()) {
+		std::string authHeader = "Authorization: Bearer " + token;
+		headers = curl_slist_append(headers, authHeader.c_str());
+	}
+	return headers;
+}
+
+std::future<std::string> RegisterUserAsync(const std::string& name, const std::string& password) {
+	return std::async(std::launch::async, [name, password]() -> std::string {
+		CURL* curl = curl_easy_init();
+		if (!curl) return "CURL初期化エラー";
+
+		nlohmann::json body = { {"name", name}, {"password", password} };
+		std::string bodyStr = body.dump();
+
+		std::string response;
+		struct curl_slist* headers = MakeAuthHeaders("", true);
+
+		curl_easy_setopt(curl, CURLOPT_URL, "https://swgame-83u3aeo1i-hamus-projects-531e648e.vercel.app/users/new");
+		curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+		curl_easy_setopt(curl, CURLOPT_POST, 1L);
+		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, bodyStr.c_str());
+		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+
+		CURLcode res = curl_easy_perform(curl);
+		curl_slist_free_all(headers);
+		curl_easy_cleanup(curl);
+
+		if (res != CURLE_OK) {
+			return std::string("登録エラー: ") + curl_easy_strerror(res);
+		}
+		return response;
+		});
+}
+
+std::future<std::string> LoginAsync(const std::string& name, const std::string& password) {
+	return std::async(std::launch::async, [name, password]() -> std::string {
+		CURL* curl = curl_easy_init();
+		if (!curl) return "CURL初期化エラー";
+
+		nlohmann::json body = { {"name", name}, {"password", password} };
+		std::string bodyStr = body.dump();
+
+		std::string response;
+		struct curl_slist* headers = MakeAuthHeaders("", true);
+
+		curl_easy_setopt(curl, CURLOPT_URL, "https://swgame-83u3aeo1i-hamus-projects-531e648e.vercel.app/users/login");
+		curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+		curl_easy_setopt(curl, CURLOPT_POST, 1L);
+		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, bodyStr.c_str());
+		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+
+		CURLcode res = curl_easy_perform(curl);
+		curl_slist_free_all(headers);
+		curl_easy_cleanup(curl);
+
+		if (res != CURLE_OK) {
+			return std::string("ログインエラー: ") + curl_easy_strerror(res);
+		}
+		return response;
+		});
+}
+
+std::future<std::string> PostScoreAsync(int score, const std::string& token) {
+	return std::async(std::launch::async, [score, token]() -> std::string {
 		CURL* curl = curl_easy_init();
 		if (!curl) return "CURL初期化エラー";
 
@@ -165,11 +238,13 @@ std::future<std::string> PostScoreAsync(int score) {
 #pragma warning(pop)
 		std::string bodyStr = body.dump();
 
+		std::string authHeader = "Authorization: Bearer " + token;
 		struct curl_slist* headers = nullptr;
-		headers = curl_slist_append(headers, "Content-Type:application/json");
+		headers = curl_slist_append(headers, "Content-Type: application/json");
+		headers = curl_slist_append(headers, authHeader.c_str());
 		
 		std::string response;
-		curl_easy_setopt(curl, CURLOPT_URL, "http://localhost:3000/scores");
+		curl_easy_setopt(curl, CURLOPT_URL, "https://swgame-83u3aeo1i-hamus-projects-531e648e.vercel.app/scores");
 		curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 		curl_easy_setopt(curl, CURLOPT_POST, 1L);
 		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, bodyStr.c_str());
@@ -195,18 +270,29 @@ std::future<std::string> PostScoreAsync(int score) {
 		});
 }
 
-std::future<std::string> GetAllScoresAsync() {
-	return std::async(std::launch::async, []() -> std::string {
+std::future<std::string> GetAllScoresAsync(const std::string& token) {
+	return std::async(std::launch::async, [token]() -> std::string {
 		CURL* curl = curl_easy_init();
 		if (!curl) return "初期化エラー";
 
+		// ヘッダ作成
+		struct curl_slist* headers = nullptr;
+		headers = curl_slist_append(headers, "Content-Type: application/json");
+		headers = curl_slist_append(headers, "Accept: application/json");
+		if (!token.empty()) {
+			std::string authHeader = "Authorization: Bearer " + token;
+			headers = curl_slist_append(headers, authHeader.c_str());
+		}
+
 		std::string response;
-		curl_easy_setopt(curl, CURLOPT_URL, "http://localhost:3000/scores");
+		curl_easy_setopt(curl, CURLOPT_URL, "https://swgame-83u3aeo1i-hamus-projects-531e648e.vercel.app/scores");
+		curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 		curl_easy_setopt(curl, CURLOPT_HTTPGET, 1L);
 		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
 
 		CURLcode res = curl_easy_perform(curl);
+		curl_slist_free_all(headers);
 		curl_easy_cleanup(curl);
 
 		if (res != CURLE_OK) {
